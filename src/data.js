@@ -19,14 +19,14 @@ export const schedule = [
     status: true,
     start: true,
     end: false,
-    value: 0,
+    value: 4,
     id: uuidv4(),
   },
   {
     status: true,
     start: false,
     end: false,
-    value: 0,
+    value: 4,
     id: uuidv4(),
   },
   {
