@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { schedule } from "../data";
 import GanttBlock from "./ganttBlock";
 
-function GanttRow() {
+function GanttBlocks() {
   const [gantt, setGantt] = useState(schedule);
   const activeColor = "skyBlue";
   const copiedMonths = Array.from(gantt);
@@ -120,7 +120,7 @@ function GanttRow() {
 
   return (
     <Container>
-      <button onClick={evenlySpreadWorkedMonths}>spread hours</button>
+      <button onClick={evenlySpreadWorkedMonths}>...hours</button>
       <DragDropContext onDragEnd={handleMovingMonth}>
         <Droppable droppableId="calendar" direction="horizontal">
           {(provided) => (
@@ -167,8 +167,9 @@ const Container = styled.div`
     display: flex;
   }
   button {
-    margin: 0px 5px;
+    margin: 4px 5px;
+    cursor: pointer;
   }
 `;
 
-export default GanttRow;
+export default GanttBlocks;

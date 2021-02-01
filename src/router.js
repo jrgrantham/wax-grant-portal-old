@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 // import HomePage from "./pages/HomePage";
-import GanttPage from "./components/ganttRow";
+import GanttChart from "./pages/ganttChart";
 
 function protectedRoute(Component, props) {
   // Not really secure. Any token would pass the test.
@@ -15,7 +15,7 @@ function protectedRoute(Component, props) {
 const Router = () => (
   <Switch>
     {/* <Route exact path="/" component={HomePage} /> */}
-    <Route path="/gantt" component={GanttPage} />
+    <Route path="/gantt" component={GanttChart} />
     {/* <Route
       path="/gantt"
       render={(props) => protectedRoute(GanttPage, props)}
