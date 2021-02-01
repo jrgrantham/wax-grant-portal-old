@@ -2,183 +2,143 @@ import { v4 as uuidv4 } from "uuid";
 
 export const schedule = [
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: true, // first, last, middle, closed
-    color: "skyblue",
+    status: true,
     start: true,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: true, // first, last, middle, closed
-    color: "skyblue",
+    status: true,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: true, // first, last, middle, closed
-    color: "skyblue",
+    status: true,
     start: false,
-    middle: false,
     end: true,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
   {
-    status: false, // first, last, middle, closed
-    color: "white",
+    status: false,
     start: false,
-    middle: false,
     end: false,
-    content: "",
+    value: 0,
     id: uuidv4(),
   },
 ];

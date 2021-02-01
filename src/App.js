@@ -7,6 +7,8 @@ import { schedule } from "./data";
 
 function App() {
   const [gantt, setGantt] = useState(schedule);
+  const activeColor = "skyBlue";
+  const copiedDays = Array.from(gantt);
 
   let startDateIndex = gantt
     .map(function (day) {
@@ -28,40 +30,37 @@ function App() {
 
     if (!startOrEnd(draggedDayObject)) return;
 
-    const copiedDays = Array.from(gantt);
-
     if (draggedDayObject.start && draggedDayObject.end) {
-      splitSingleDay(newDate, copiedDays);
+      splitSingleDay(newDate);
     } else if (draggedDayObject.end && newDate <= startDateIndex) {
-      createSingleEvent(newDate, copiedDays);
+      createSingleEvent(newDate);
     } else if (draggedDayObject.start && newDate >= endDateIndex) {
-      createSingleEvent(newDate, copiedDays);
+      createSingleEvent(newDate);
     } else {
       const [movedDay] = copiedDays.splice(originalDate, 1);
       copiedDays.splice(newDate, 0, movedDay);
-      setDaysByFirstAndLast(copiedDays);
+      setDaysByFirstAndLast();
     }
     setGantt(copiedDays);
   }
 
   function startOrEnd(day) {
-    // console.log(day);
     if (day.start || day.end) {
       return true;
     }
     return false;
   }
 
-  function setDaysByFirstAndLast(copiedDays) {
+  function setDaysByFirstAndLast() {
     let workingDay = false;
     for (let i = 0; i < copiedDays.length; i++) {
-      copiedDays[i].color = "white";
+      copiedDays[i].color = "transparent";
 
       if (copiedDays[i].start) {
-        copiedDays[i].color = "skyblue";
+        copiedDays[i].color = activeColor;
         workingDay = true;
       }
-      copiedDays[i].color = workingDay ? "skyblue" : "white";
+      copiedDays[i].color = workingDay ? activeColor : "transparent";
       copiedDays[i].status = workingDay;
       if (copiedDays[i].end) {
         workingDay = false;
@@ -69,33 +68,50 @@ function App() {
     }
   }
 
-  function splitSingleDay(date, copiedDays) {
+  function splitSingleDay(date) {
     const first = Math.min(date, startDateIndex); // startDate = endDate
-    const last = Math.max(date, startDateIndex); // startDate = endDat
+    const last = Math.max(date, startDateIndex); // startDate = endDate
     copiedDays[first].start = true;
     copiedDays[first].end = false;
     copiedDays[last].end = true;
     copiedDays[last].start = false;
-    setDaysByFirstAndLast(copiedDays);
+    setDaysByFirstAndLast();
   }
 
   function createSingleEvent(index, copiedDays) {
     console.log(index);
     for (let i = 0; i < copiedDays.length; i++) {
-      copiedDays[i].color = "white";
+      copiedDays[i].color = "transparent";
       copiedDays[i].start = false;
-      copiedDays[i].middle = false;
       copiedDays[i].end = false;
       copiedDays[i].status = false;
+      copiedDays[i].value = 0;
       if (i === index) {
-        copiedDays[i].color = "skyblue";
+        copiedDays[i].color = activeColor;
         copiedDays[i].start = true;
-        copiedDays[i].middle = true;
         copiedDays[i].end = true;
         copiedDays[i].status = true;
       }
     }
   }
+
+  const totalWorkedDays = 10;
+  function evenlySpreadWorkedDays() {
+    const duration = endDateIndex - startDateIndex + 1;
+    const days = Math.floor(totalWorkedDays / duration)
+    const remainderDays = totalWorkedDays % duration
+    console.log('days', days);
+    console.log('remainder days',remainderDays);
+    let j = 0;
+    for (let i = startDateIndex; i < endDateIndex + 1; i++) {
+      if (j < remainderDays) {
+        copiedDays[i].value = days +1;
+        j++
+      } else copiedDays[i].value = days
+    }
+  }
+
+  evenlySpreadWorkedDays()
 
   return (
     <Container className="App">
@@ -107,27 +123,29 @@ function App() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {gantt.map(
-                ({ color, id, content, status, start, end }, index) => {
-                  return (
-                    <Draggable key={id} draggableId={id} index={index}>
-                      {(provided) => (
-                        <Day
-                          start={start}
-                          end={end}
-                          status={status}
-                          color={color}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          {status ? <div className="active"></div> : null}
-                        </Day>
-                      )}
-                    </Draggable>
-                  );
-                }
-              )}
+              {gantt.map(({ id, value, status, start, end }, index) => {
+                return (
+                  <Draggable key={id} draggableId={id} index={index}>
+                    {(provided) => (
+                      <Day
+                        start={start ? 1 : 0}
+                        end={end ? 1 : 0}
+                        status={status}
+                        color={activeColor}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        {status ? (
+                          <div className="active">
+                            <p>{value}</p>
+                          </div>
+                        ) : null}
+                      </Day>
+                    )}
+                  </Draggable>
+                );
+              })}
               {provided.placeholder}
             </ul>
           )}
@@ -160,14 +178,19 @@ const Day = styled.div`
     width: 100%;
     height: 70%;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+
     background-color: ${(props) => props.color};
     margin-left: ${(props) => (props.start ? "15%" : 0)};
     margin-right: ${(props) => (props.end ? "15%" : 0)};
 
-    border-left:  ${(props) => (props.start ? '1px solid black' : 0)};
-    border-top:  ${(props) => (props.status ? '1px solid black' : 0)};
-    border-bottom:  ${(props) => (props.status ? '1px solid black' : 0)};
-    border-right:  ${(props) => (props.end ? '1px solid black' : 0)};
+    border-left: ${(props) => (props.start ? "1px solid black" : 0)};
+    border-top: ${(props) => (props.status ? "1px solid black" : 0)};
+    border-bottom: ${(props) => (props.status ? "1px solid black" : 0)};
+    border-right: ${(props) => (props.end ? "1px solid black" : 0)};
 
     border-top-left-radius: ${(props) => (props.start ? "25%" : 0)};
     border-top-right-radius: ${(props) => (props.end ? "25%" : 0)};
