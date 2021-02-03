@@ -11,7 +11,9 @@ function GanttChart(props) {
     if (!result.destination) return;
     props.reorderGanttRow(result);
   }
-console.log(props);
+
+  const ganttEntries = props.ganttEntries.data
+
   return (
     <Container>
       Gantt Chart
@@ -26,9 +28,9 @@ console.log(props);
                   ref={provided.innerRef}
                 >
                   {props.ganttEntries.data.map(
-                    ({ id, description, resources, days }, index) => {
+                    ({ rowId, description, resources, days }, index) => {
                       return (
-                        <Draggable key={id} draggableId={id} index={index}>
+                        <Draggable key={rowId} draggableId={rowId} index={index}>
                           {(provided) => (
                             <div
                               className="MonthContainer"
@@ -55,10 +57,10 @@ console.log(props);
           </DragDropContext>
         </div>
         <div className="scheduleContainer">
-          {props.ganttEntries.data.map((row, index) => {  // row might not be required
+          {ganttEntries.map((row, index) => {  // row might not be required
             return (
               <div key={index} className="ganttRow">
-                <GanttSchedule ganttEntryIndex={index} row={row}/>
+                <GanttSchedule ganttRowIndex={index} row={row}/>
               </div>
             );
           })}

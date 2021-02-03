@@ -30,14 +30,24 @@ import * as actionType from "./actionTypes";
 //     }),
 //   };
 
-
 export function ganttReducer(state = ganttEntries, action) {
   switch (action.type) {
     case actionType.MOVE_GANTT_ROWS:
+      console.log("moving rows");
+      return {
+        ...ganttEntries,
+        data: action.payload,
+      };
+    case actionType.REASSIGN_GANTT_BLOCKS:
       console.log(action.payload);
       return {
         ...ganttEntries,
-        data: action.payload
+        data: ganttEntries.data.map((entry) => {
+          if (entry.rowId === action.payload.id) {
+            return action.payload;
+          }
+          return entry;
+        }),
       };
     default:
       return state;

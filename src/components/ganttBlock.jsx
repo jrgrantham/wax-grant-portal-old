@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 function GanttBlock(props) {
-  const { id, value, status, start, end, color } = props;
+  const { value, status, start, end, color } = props;
   return (
     <Container
-      id={id}
       value={value}
       status={status}
       start={start}
@@ -14,7 +13,8 @@ function GanttBlock(props) {
     >
       {props.status ? (
         <div className="active">
-          {value ? <p>{value}</p> : null}
+          {/* {value ? <p>{value}</p> : null} */}
+          <p>{status ? 'T' : null}</p>
         </div>
       ) : null}
     </Container>

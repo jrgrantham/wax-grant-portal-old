@@ -2,5 +2,5 @@
 export const GET_USER = "GET_USER";
 export const USERS_ERROR = "USERS_ERROR";
 
-export const MOVE_GANTT_ROWS = 'MOVE_GANTT_ROWS';
-export const MOVE_GANTT_BLOCKS = 'MOVE_GANTT_BLOCKS';
+export const MOVE_GANTT_ROWS = "MOVE_GANTT_ROWS";
+export const REASSIGN_GANTT_BLOCKS = "REASSIGN_GANTT_BLOCKS";
