@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-function GanttBlock(props) {
+function GanttDetails(props) {
+  console.log(props.status);
   const { id, value, status, start, end, color } = props;
   return (
     <Container
@@ -13,9 +14,7 @@ function GanttBlock(props) {
       color={color}
     >
       {props.status ? (
-        <div className="active">
-          {value ? <p>{value}</p> : null}
-        </div>
+        <div className="active">{value ? <p>{props.value}</p> : null}</div>
       ) : null}
     </Container>
   );
@@ -59,4 +58,4 @@ const Container = styled.div`
   }
 `;
 
-export default GanttBlock;
+export default GanttDetails;

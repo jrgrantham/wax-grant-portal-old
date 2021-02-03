@@ -24,7 +24,6 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
         <Navigation />
-        <div className="App"></div>
         <Router />
       </BrowserRouter>
     </Provider>

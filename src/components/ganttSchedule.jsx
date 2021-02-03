@@ -1,11 +1,22 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { connect } from "react-redux";
 import styled from "styled-components";
 
-import { schedule } from "../data";
+// import { schedule } from "../data/data";
 import GanttBlock from "./ganttBlock";
 
-function GanttBlocks() {
+function GanttSchedule(props) {
+  const ganttEntryIndex = props.ganttEntryIndex;
+  const {
+    schedule,
+    id,
+    section,
+    resources,
+    days,
+    description,
+  } = props.ganttEntries.data[ganttEntryIndex];
+
   const [gantt, setGantt] = useState(schedule);
   const activeColor = "skyBlue";
   const copiedMonths = Array.from(gantt);
@@ -28,13 +39,12 @@ function GanttBlocks() {
     const newDate = result.destination.index;
     const draggedMonthObject = gantt[originalDate];
 
-    if (!startOrEnd(draggedMonthObject)) return;
-
     if (draggedMonthObject.start && draggedMonthObject.end) {
       splitSingleMonth(newDate);
-    } else if (draggedMonthObject.end && newDate <= startDateIndex) {
-      createSingleEvent(newDate);
-    } else if (draggedMonthObject.start && newDate >= endDateIndex) {
+    } else if (
+      (draggedMonthObject.end && newDate <= startDateIndex) ||
+      (draggedMonthObject.start && newDate >= endDateIndex)
+    ) {
       createSingleEvent(newDate);
     } else {
       const [movedMonth] = copiedMonths.splice(originalDate, 1);
@@ -43,13 +53,6 @@ function GanttBlocks() {
     }
     clearUnworkedMonthValues();
     setGantt(copiedMonths);
-  }
-
-  function startOrEnd(Month) {
-    if (Month.start || Month.end) {
-      return true;
-    }
-    return false;
   }
 
   function setMonthsByFirstAndLast() {
@@ -122,7 +125,7 @@ function GanttBlocks() {
     <Container>
       <button onClick={evenlySpreadWorkedMonths}>...hours</button>
       <DragDropContext onDragEnd={handleMovingMonth}>
-        <Droppable droppableId="calendar" direction="horizontal">
+        <Droppable droppableId={id} direction="horizontal">
           {(provided) => (
             <div
               className="chartArea"
@@ -160,6 +163,8 @@ function GanttBlocks() {
   );
 }
 
+export default connect((state) => state, {})(GanttSchedule);
+
 const Container = styled.div`
   display: flex;
 
@@ -171,5 +176,3 @@ const Container = styled.div`
     cursor: pointer;
   }
 `;
-
-export default GanttBlocks;
