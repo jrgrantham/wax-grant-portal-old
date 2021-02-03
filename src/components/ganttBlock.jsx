@@ -13,10 +13,9 @@ function GanttBlock(props) {
     >
       {props.status ? (
         <div className="active">
-          {/* {value ? <p>{value}</p> : null} */}
-          <p>{status ? 'T' : null}</p>
+          {value ? <p>{value}</p> : null}
         </div>
-      ) : null}
+      ) : <p>-</p>}
     </Container>
   );
 }

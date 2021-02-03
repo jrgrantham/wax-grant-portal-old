@@ -14,10 +14,10 @@ function GanttSchedule(props) {
   const { rowId, schedule } = props.row;
 
   function handleSpreadingWork() {
-    props.evenlySpreadWork(rowId);
+    props.evenlySpreadWork(row);
   }
 
-  function handleMovingMonth(result) {
+  function handleMovingDateBlock(result) {
     if (!result.destination) return;
     props.reorderGanttBlocks(result, row);
   }
@@ -25,7 +25,7 @@ function GanttSchedule(props) {
   return (
     <Container>
       <button onClick={handleSpreadingWork}>...hours</button>
-      <DragDropContext onDragEnd={handleMovingMonth}>
+      <DragDropContext onDragEnd={handleMovingDateBlock}>
         <Droppable droppableId={rowId} direction="horizontal">
           {(provided) => (
             <div

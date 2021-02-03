@@ -4,15 +4,15 @@ import styled from "styled-components";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import GanttSchedule from "../components/ganttSchedule";
-import { reorderGanttRow } from "../state/ganttActionCreators";
+import { reorderGanttRows } from "../state/ganttActionCreators";
 
 function GanttChart(props) {
+  const ganttEntries = props.ganttEntries.data
+
   function handleDragRow(result) {
     if (!result.destination) return;
-    props.reorderGanttRow(result);
+    props.reorderGanttRows(result, ganttEntries);
   }
-
-  const ganttEntries = props.ganttEntries.data
 
   return (
     <Container>
@@ -70,7 +70,7 @@ function GanttChart(props) {
   );
 }
 
-export default connect((state) => state, { reorderGanttRow })(GanttChart);
+export default connect((state) => state, { reorderGanttRows })(GanttChart);
 
 const Container = styled.div`
   display: flex;

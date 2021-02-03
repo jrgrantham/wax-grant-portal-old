@@ -8,7 +8,7 @@ export const ganttEntries = {
       section: 'Project Management',
       description: '1',
       resources: '',
-      days: '',
+      days: 11,
       schedule: [
         {
           status: false,
@@ -157,7 +157,7 @@ export const ganttEntries = {
       section: "Project Management",
       description: '2',
       resources: '',
-      days: '',
+      days: 10,
       schedule: [
         {
           status: false,
@@ -306,7 +306,7 @@ export const ganttEntries = {
       section: 'Project Management',
       description: '3',
       resources: '',
-      days: '',
+      days: 6,
       schedule: [
         {
           status: false,
