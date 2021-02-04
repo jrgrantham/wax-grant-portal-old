@@ -32,6 +32,24 @@ import * as actionType from "./actionTypes";
 
 export function ganttReducer(state = ganttEntries, action) {
   switch (action.type) {
+    case actionType.FETCH_GANTT_REQUEST:
+      return {
+        ...ganttEntries,
+        loading: true
+      };
+    case actionType.FETCH_GANTT_SUCCESS:
+      return {
+        ...ganttEntries,
+        loading: false,
+        data: action.payload,
+        error: ''
+      };
+    case actionType.FETCH_GANTT_FAILURE:
+      return {
+        data: [],
+        loading: false,
+        error: 'failed to fetch gantt'
+      };
     case actionType.MOVE_GANTT_ROWS:
       console.log("moving rows");
       return {
@@ -39,7 +57,7 @@ export function ganttReducer(state = ganttEntries, action) {
         data: action.payload,
       };
     case actionType.REASSIGN_GANTT_BLOCKS:
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...ganttEntries,
         data: ganttEntries.data.map((entry) => {

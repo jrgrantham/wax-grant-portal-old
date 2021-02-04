@@ -6,16 +6,11 @@ import styled from "styled-components";
 import GanttBlock from "./ganttBlock";
 import {
   reorderGanttBlocks,
-  evenlySpreadWork,
 } from "../state/ganttActionCreators";
 
 function GanttSchedule(props) {
   const row = props.row
   const { rowId, schedule } = props.row;
-
-  function handleSpreadingWork() {
-    props.evenlySpreadWork(row);
-  }
 
   function handleMovingDateBlock(result) {
     if (!result.destination) return;
@@ -24,7 +19,6 @@ function GanttSchedule(props) {
 
   return (
     <Container>
-      <button onClick={handleSpreadingWork}>...hours</button>
       <DragDropContext onDragEnd={handleMovingDateBlock}>
         <Droppable droppableId={rowId} direction="horizontal">
           {(provided) => (
@@ -68,7 +62,6 @@ function GanttSchedule(props) {
 
 export default connect((state) => state, {
   reorderGanttBlocks,
-  evenlySpreadWork,
 })(GanttSchedule);
 
 const Container = styled.div`

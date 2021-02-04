@@ -4,14 +4,21 @@ import styled from "styled-components";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import GanttSchedule from "../components/ganttSchedule";
-import { reorderGanttRows } from "../state/ganttActionCreators";
+import {
+  reorderGanttRows,
+  evenlySpreadWork,
+} from "../state/ganttActionCreators";
 
 function GanttChart(props) {
-  const ganttEntries = props.ganttEntries.data
+  const ganttEntries = props.ganttEntries.data;
 
   function handleDragRow(result) {
     if (!result.destination) return;
     props.reorderGanttRows(result, ganttEntries);
+  }
+
+  function handleSpreadingWork(schedule) {
+    props.evenlySpreadWork(schedule);
   }
 
   return (
@@ -27,29 +34,38 @@ function GanttChart(props) {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {props.ganttEntries.data.map(
-                    ({ rowId, description, resources, days }, index) => {
-                      return (
-                        <Draggable key={rowId} draggableId={rowId} index={index}>
-                          {(provided) => (
-                            <div
-                              className="MonthContainer"
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <div className="ganttRow">
-                                <h2>X</h2>
-                                <h5>{description}</h5>
-                                <h5>{resources}</h5>
-                                <h5>{days}</h5>
-                              </div>
+                  {props.ganttEntries.data.map((row, index) => {
+                    const {
+                      rowId,
+                      description,
+                      resources,
+                      days,
+                    } = row;
+                    return (
+                      <Draggable key={rowId} draggableId={rowId} index={index}>
+                        {(provided) => (
+                          <div
+                            className="MonthContainer"
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <div className="ganttRow">
+                              <h2>X</h2>
+                              <h5>{description}</h5>
+                              <h5>{resources}</h5>
+                              <h5>{days}</h5>
+                              <button
+                                onClick={() => handleSpreadingWork(row)}
+                              >
+                                ...hours
+                              </button>
                             </div>
-                          )}
-                        </Draggable>
-                      );
-                    }
-                  )}
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  })}
                   {provided.placeholder}
                 </div>
               )}
@@ -57,10 +73,11 @@ function GanttChart(props) {
           </DragDropContext>
         </div>
         <div className="scheduleContainer">
-          {ganttEntries.map((row, index) => {  // row might not be required
+          {ganttEntries.map((row, index) => {
+            // row might not be required
             return (
               <div key={index} className="ganttRow">
-                <GanttSchedule ganttRowIndex={index} row={row}/>
+                <GanttSchedule ganttRowIndex={index} row={row} />
               </div>
             );
           })}
@@ -70,7 +87,10 @@ function GanttChart(props) {
   );
 }
 
-export default connect((state) => state, { reorderGanttRows })(GanttChart);
+export default connect((state) => state, {
+  reorderGanttRows,
+  evenlySpreadWork,
+})(GanttChart);
 
 const Container = styled.div`
   display: flex;

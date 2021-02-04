@@ -1,3 +1,4 @@
+import axios from "axios";
 import * as actionType from "./actionTypes";
 
 // helpers
@@ -15,24 +16,18 @@ function handleReorderGanttBlocks(schedule, result) {
   const newBlockDate = result.destination.index;
   const blockContents = schedule[originalBlockDate];
 
-  const startActivityDate = schedule
-    .map(function (block) {
-      return block.start;
-    })
-    .indexOf(true);
+  const [barStart, barEnd] = getFirstAndLastDateOfBar(
+    blockContents.barNumber,
+    schedule
+  );
 
-  const endActivityDate = schedule
-    .map(function (block) {
-      return block.end;
-    })
-    .indexOf(true);
-
+  console.log('start', barStart,', end ', barEnd);
+  
   if (blockContents.start && blockContents.end) {
     splitSingleDate(originalBlockDate, newBlockDate, schedule);
-  } else if (
-    (blockContents.end && newBlockDate <= startActivityDate) ||
-    (blockContents.start && newBlockDate >= endActivityDate)
-  ) {
+  } else if (blockContents.start && newBlockDate >= barEnd) {
+    createSingleDate(newBlockDate, schedule);
+  } else if (blockContents.end && newBlockDate <= barStart) {
     createSingleDate(newBlockDate, schedule);
   } else {
     reorderItems(schedule, result);
@@ -41,7 +36,25 @@ function handleReorderGanttBlocks(schedule, result) {
   }
 }
 
-function createSingleDate(newBlockDate, schedule) {
+function checkForBarOverlap() {}
+
+function getFirstAndLastDateOfBar(barNumber, schedule) {
+  const startDate = schedule
+    .map(function (block) {
+      return block.barNumber;
+    })
+    .indexOf(barNumber);
+  let endDate = 0;
+  for (let i = startDate; i < schedule.length; i++) {
+    if (schedule[i].end) {
+      endDate = i;
+      break;
+    }
+  }
+  return [startDate, endDate];
+}
+
+function createSingleDate(newBlockDate, schedule, barNumber) {
   console.log("createSingleDate", schedule, newBlockDate);
 
   for (let i = 0; i < schedule.length; i++) {
@@ -96,6 +109,7 @@ function clearUnworkedMonthValues(schedule) {
 function spreadWork(row) {
   const days = row.days;
   const schedule = row.schedule;
+  console.log(row);
   const startActivityDate = schedule
     .map(function (block) {
       return block.start;
@@ -118,10 +132,48 @@ function spreadWork(row) {
   }
 }
 
+// getFirstAndLastDate()
+
 // action creators
 
+export const fetchUser = () => {
+  return function (dispatch) {
+    dispatch(fetchGanttRequest());
+    axios
+      .get("url")
+      .then((response) => {
+        // const gantt = response.data
+        // dispatch(fetchGanttSuccess(gantt))
+      })
+      .catch((error) => {
+        //error.message
+      });
+  };
+};
+
+export const fetchGanttRequest = () => {
+  return {
+    type: actionType.FETCH_GANTT_REQUEST,
+  };
+};
+
+export const fetchGanttSuccess = (data) => {
+  return {
+    type: actionType.FETCH_GANTT_SUCCESS,
+    payload: data,
+  };
+};
+
+export const fetchGanttFailure = (error) => {
+  return {
+    type: actionType.FETCH_GANTT_FAILURE,
+    payload: error,
+  };
+};
+
 export function reorderGanttRows(result, column) {
-  const reorderedGantt = reorderItems(column, result);
+  const copiedGantt = Array.from(column);
+  const reorderedGantt = reorderItems(copiedGantt, result);
   return {
     type: actionType.MOVE_GANTT_ROWS,
     payload: reorderedGantt,

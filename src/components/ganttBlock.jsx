@@ -15,7 +15,8 @@ function GanttBlock(props) {
         <div className="active">
           {value ? <p>{value}</p> : null}
         </div>
-      ) : <p>-</p>}
+      // ) : <p>-</p>}
+      ) : null}
     </Container>
   );
 }
