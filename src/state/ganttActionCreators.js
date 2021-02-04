@@ -16,19 +16,20 @@ function handleReorderGanttBlocks(schedule, result) {
   const newBlockDate = result.destination.index;
   const blockContents = schedule[originalBlockDate];
 
+  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
+  // exit function here when bars overlap... or place in an if...
+
   const [barStart, barEnd] = getFirstAndLastDateOfBar(
     blockContents.barNumber,
     schedule
   );
 
-  console.log('start', barStart,', end ', barEnd);
-  
   if (blockContents.start && blockContents.end) {
     splitSingleDate(originalBlockDate, newBlockDate, schedule);
   } else if (blockContents.start && newBlockDate >= barEnd) {
-    createSingleDate(newBlockDate, schedule);
+    createSingleDate(barEnd, barStart, schedule);
   } else if (blockContents.end && newBlockDate <= barStart) {
-    createSingleDate(newBlockDate, schedule);
+    createSingleDate(barStart, barEnd, schedule);
   } else {
     reorderItems(schedule, result);
     setMonthsByFirstAndLast(schedule);
@@ -36,7 +37,27 @@ function handleReorderGanttBlocks(schedule, result) {
   }
 }
 
-function checkForBarOverlap() {}
+function barsOverlap(originalBlockDate, newBlockDate, schedule) {
+  const barNumber = schedule[originalBlockDate].barNumber;
+  const firstDate = Math.min(originalBlockDate, newBlockDate);
+  const lastDate = Math.max(originalBlockDate, newBlockDate);
+  // console.log("checking overlap on (", barNumber, ")", firstDate, lastDate);
+
+  for (let i = firstDate; i < lastDate; i++) {
+    let j = i;
+    if (newBlockDate > originalBlockDate) {
+      j = i + 1;
+    }
+    // return schedule[j].status;
+    if (schedule[j].barNumber !== barNumber && schedule[j].barNumber !== 0) {
+      // console.log("collision");
+      return true;
+    }
+    // add a check here when overlapping self from reducing size
+  }
+  // console.log('loops complete, no collision');
+  return false;
+}
 
 function getFirstAndLastDateOfBar(barNumber, schedule) {
   const startDate = schedule
@@ -54,15 +75,21 @@ function getFirstAndLastDateOfBar(barNumber, schedule) {
   return [startDate, endDate];
 }
 
-function createSingleDate(newBlockDate, schedule, barNumber) {
-  console.log("createSingleDate", schedule, newBlockDate);
+function createSingleDate(dateForNewBlock, otherDate, schedule) {
+  // console.log("createSingleDate");
+  const firstDate = Math.min(dateForNewBlock, otherDate);
+  const lastDate = Math.max(dateForNewBlock, otherDate);
 
-  for (let i = 0; i < schedule.length; i++) {
+  console.log(firstDate, lastDate);
+
+  for (let i = firstDate; i < lastDate + 1; i++) {
+    // console.log("index", i, "false");
     schedule[i].start = false;
     schedule[i].end = false;
     schedule[i].status = false;
     schedule[i].value = 0;
-    if (i === newBlockDate) {
+    if (i === dateForNewBlock) {
+      // console.log("index", i, "true");
       schedule[i].start = true;
       schedule[i].end = true;
       schedule[i].status = true;
@@ -71,12 +98,14 @@ function createSingleDate(newBlockDate, schedule, barNumber) {
 }
 
 function splitSingleDate(originalBlockDate, newBlockDate, schedule) {
-  console.log("splitSingleDate", schedule, originalBlockDate, newBlockDate);
+  // console.log("splitSingleDate");
 
+  const barNumber = schedule[originalBlockDate].barNumber;
   const first = Math.min(originalBlockDate, newBlockDate); // startDate = endDate
   const last = Math.max(originalBlockDate, newBlockDate); // startDate = endDate
   schedule[first].start = true;
   schedule[first].end = false;
+  schedule[first].barNumber = barNumber;
   schedule[last].end = true;
   schedule[last].start = false;
   setMonthsByFirstAndLast(schedule);
@@ -84,21 +113,24 @@ function splitSingleDate(originalBlockDate, newBlockDate, schedule) {
 
 function setMonthsByFirstAndLast(schedule) {
   // console.log("setMonthsByFirstAndLast");
-
   let workingMonth = false;
+  let barNumber = 0;
   for (let i = 0; i < schedule.length; i++) {
     if (schedule[i].start) {
       workingMonth = true;
+      barNumber = schedule[i].barNumber;
     }
     schedule[i].status = workingMonth;
+    schedule[i].barNumber = barNumber;
     if (schedule[i].end) {
       workingMonth = false;
+      barNumber = 0;
     }
   }
 }
 
 function clearUnworkedMonthValues(schedule) {
-  // console.log("clearUnworkedMonthValues", schedule);
+  // console.log("clearUnworkedMonthValues");
   for (let i = 0; i < schedule.length; i++) {
     if (schedule[i].status === false) {
       schedule[i].value = 0;

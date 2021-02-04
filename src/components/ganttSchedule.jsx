@@ -4,16 +4,15 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 
 import GanttBlock from "./ganttBlock";
-import {
-  reorderGanttBlocks,
-} from "../state/ganttActionCreators";
+import { reorderGanttBlocks } from "../state/ganttActionCreators";
 
 function GanttSchedule(props) {
-  const row = props.row
+  const row = props.row;
   const { rowId, schedule } = props.row;
 
   function handleMovingDateBlock(result) {
-    if (!result.destination) return;
+    if (!result.destination || result.destination.index === result.source.index)
+      return;
     props.reorderGanttBlocks(result, row);
   }
 
@@ -28,9 +27,16 @@ function GanttSchedule(props) {
               ref={provided.innerRef}
             >
               {schedule.map(
-                ({ blockId, value, status, start, end, color }, index) => {
+                (
+                  { blockId, value, status, start, end, color, barNumber },
+                  index
+                ) => {
                   return (
-                    <Draggable key={blockId} draggableId={blockId} index={index}>
+                    <Draggable
+                      key={blockId}
+                      draggableId={blockId}
+                      index={index}
+                    >
                       {(provided) => (
                         <div
                           className="MonthContainer"
@@ -39,8 +45,10 @@ function GanttSchedule(props) {
                           {...provided.dragHandleProps}
                         >
                           <GanttBlock
+                            index={index}
                             value={value}
                             status={status}
+                            barNumber={barNumber}
                             start={start ? 1 : 0}
                             end={end ? 1 : 0}
                             color={color}

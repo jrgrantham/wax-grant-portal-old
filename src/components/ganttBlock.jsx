@@ -2,21 +2,26 @@ import React from "react";
 import styled from "styled-components";
 
 function GanttBlock(props) {
-  const { value, status, start, end, color } = props;
+  const { value, status, start, end, barNumber } = props;
+  const content = start ? "S" : end ? "E" : status ? "M" : "-";
+  // const content = start ? "S" : end ? "E" : status ? "M" : "-";
   return (
     <Container
       value={value}
       status={status}
       start={start}
       end={end}
-      color={color}
+      barNumber={barNumber}
+      // color={color}
     >
       {props.status ? (
         <div className="active">
-          {value ? <p>{value}</p> : null}
+          {value ? <p>{barNumber}</p> : <p>{barNumber}</p>}
         </div>
-      // ) : <p>-</p>}
-      ) : null}
+      ) : (
+        <p>{content}</p>
+      )}
+      {/* ) : null} */}
     </Container>
   );
 }
@@ -43,7 +48,7 @@ const Container = styled.div`
     align-items: center;
     font-size: 12px;
 
-    background-color: ${(props) => props.color};
+    /* background-color: ${(props) => props.color}; */
     margin-left: ${(props) => (props.start ? "15%" : 0)};
     margin-right: ${(props) => (props.end ? "15%" : 0)};
 
