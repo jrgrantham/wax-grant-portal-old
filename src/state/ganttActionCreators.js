@@ -16,7 +16,10 @@ function handleReorderGanttBlocks(schedule, result) {
   const newBlockDate = result.destination.index;
   const blockContents = schedule[originalBlockDate];
 
-  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
+  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) {
+    console.log("collision");
+    return;
+  }
   // exit function here when bars overlap... or place in an if...
 
   const [barStart, barEnd] = getFirstAndLastDateOfBar(
@@ -80,19 +83,21 @@ function createSingleDate(dateForNewBlock, otherDate, schedule) {
   const firstDate = Math.min(dateForNewBlock, otherDate);
   const lastDate = Math.max(dateForNewBlock, otherDate);
 
-  console.log(firstDate, lastDate);
+  // console.log(firstDate, lastDate);
 
   for (let i = firstDate; i < lastDate + 1; i++) {
-    // console.log("index", i, "false");
-    schedule[i].start = false;
-    schedule[i].end = false;
-    schedule[i].status = false;
-    schedule[i].value = 0;
     if (i === dateForNewBlock) {
-      // console.log("index", i, "true");
+      console.log('singe, index', i);
       schedule[i].start = true;
       schedule[i].end = true;
       schedule[i].status = true;
+    } else {
+      console.log('removed, index', i);
+      schedule[i].start = false;
+      schedule[i].end = false;
+      schedule[i].status = false;
+      schedule[i].barNumber = 0;
+      schedule[i].value = 0;
     }
   }
 }

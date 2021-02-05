@@ -19,7 +19,7 @@ function GanttBlock(props) {
           {value ? <p>{barNumber}</p> : <p>{barNumber}</p>}
         </div>
       ) : (
-        <p>{content}</p>
+        <p>{barNumber}</p>
       )}
       {/* ) : null} */}
     </Container>
