@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import GanttSchedule from "../components/ganttSchedule";
 import {
@@ -12,10 +12,10 @@ import {
 function GanttChart(props) {
   const ganttEntries = props.ganttEntries.data;
 
-  function handleDragRow(result) {
-    if (!result.destination) return;
-    props.reorderGanttRows(result, ganttEntries);
-  }
+  // function handleDragRow(result) {
+  //   if (!result.destination) return;
+  //   props.reorderGanttRows(result, ganttEntries);
+  // }
 
   function handleSpreadingWork(schedule) {
     props.evenlySpreadWork(schedule);
@@ -26,51 +26,24 @@ function GanttChart(props) {
       Gantt Chart
       <div className="chartArea">
         <div className="descriptionContainer">
-          <DragDropContext onDragEnd={handleDragRow}>
-            <Droppable droppableId={"sectionId"} direction="vertical">
-              {(provided) => (
-                <div
-                  className="descriptionContainer"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {props.ganttEntries.data.map((row, index) => {
-                    const {
-                      rowId,
-                      description,
-                      resources,
-                      days,
-                    } = row;
-                    return (
-                      <Draggable key={rowId} draggableId={rowId} index={index}>
-                        {(provided) => (
-                          <div
-                            className="MonthContainer"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <div className="ganttRow">
-                              <h2>X</h2>
-                              <h5>{description}</h5>
-                              <h5>{resources}</h5>
-                              <h5>{days}</h5>
-                              <button
-                                onClick={() => handleSpreadingWork(row)}
-                              >
-                                ...hours
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
+          <div className="descriptionContainer">
+            {props.ganttEntries.data.map((row, index) => {
+              const { description, resources, days } = row;
+              return (
+                <div className="MonthContainer" key={index}>
+                  <div className="ganttRow">
+                    <h2>X</h2>
+                    <h5>{description}</h5>
+                    <h5>{resources}</h5>
+                    <h5>{days}</h5>
+                    <button onClick={() => handleSpreadingWork(row)}>
+                      ...hours
+                    </button>
+                  </div>
                 </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+              );
+            })}
+          </div>
         </div>
         <div className="scheduleContainer">
           {ganttEntries.map((row, index) => {

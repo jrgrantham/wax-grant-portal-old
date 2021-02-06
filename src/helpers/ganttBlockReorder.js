@@ -5,32 +5,6 @@ export function reorderItems(array, result) {
   return array;
 }
 
-export function spreadWork(row) {
-  const days = row.days;
-  const schedule = row.schedule;
-  console.log(row);
-  const startActivityDate = schedule
-    .map(function (block) {
-      return block.start;
-    })
-    .indexOf(true);
-  const endActivityDate = schedule
-    .map(function (block) {
-      return block.end;
-    })
-    .indexOf(true);
-  const duration = endActivityDate - startActivityDate + 1;
-  const Months = Math.floor(days / duration);
-  const remainderMonths = days % duration;
-  let j = 0;
-  for (let i = startActivityDate; i < endActivityDate + 1; i++) {
-    if (j < remainderMonths) {
-      schedule[i].value = Months + 1;
-      j++;
-    } else schedule[i].value = Months;
-  }
-}
-
 export function handleReorderGanttBlocks(schedule, result) {
   // console.log("handleReorderGanttBlocks", schedule, result);
   const originalBlockDate = result.source.index;
@@ -41,7 +15,6 @@ export function handleReorderGanttBlocks(schedule, result) {
     console.log("collision");
     return;
   }
-  // exit function here when bars overlap... or place in an if...
 
   const [barStart, barEnd] = getFirstAndLastDateOfBar(
     blockContents.barNumber,
@@ -57,7 +30,7 @@ export function handleReorderGanttBlocks(schedule, result) {
   } else {
     reorderItems(schedule, result);
     setPropertiesByFirstAndLast(schedule);
-    clearUnworkedMonthValues(schedule);
+    combinedLengthOfBars(schedule)
   }
 }
 
@@ -72,15 +45,26 @@ function barsOverlap(originalBlockDate, newBlockDate, schedule) {
     if (newBlockDate > originalBlockDate) {
       j = i + 1;
     }
-    // return schedule[j].status;
     if (schedule[j].barNumber !== barNumber && schedule[j].barNumber !== 0) {
       // console.log("collision");
       return true;
     }
-    // add a check here when overlapping self from reducing size
   }
   // console.log('loops complete, no collision');
   return false;
+}
+
+function checkBarLongerThanDays(schedule, ) {}
+
+function combinedLengthOfBars(schedule) {
+  let length = 0;
+  for (let i = 0; i < schedule.length; i++) {
+    if (schedule[i].status) {
+      length++
+    }
+  }
+  console.log(length);
+  return length
 }
 
 function getFirstAndLastDateOfBar(barNumber, schedule) {
@@ -107,18 +91,18 @@ function createSingleEntry(dateForNewBlock, otherDate, schedule) {
   // console.log(firstDate, lastDate);
 
   for (let i = firstDate; i < lastDate + 1; i++) {
+    schedule[i].value = 0;
     if (i === dateForNewBlock) {
-      console.log('singe, index', i);
+      console.log("singe, index", i);
       schedule[i].start = true;
       schedule[i].end = true;
       schedule[i].status = true;
     } else {
-      console.log('removed, index', i);
+      console.log("removed, index", i);
       schedule[i].start = false;
       schedule[i].end = false;
       schedule[i].status = false;
       schedule[i].barNumber = 0;
-      schedule[i].value = 0;
     }
   }
 }
@@ -138,7 +122,6 @@ function splitSingleEntry(originalBlockDate, newBlockDate, schedule) {
 }
 
 function setPropertiesByFirstAndLast(schedule) {
-  // console.log("setPropertiesByFirstAndLast");
   let workingMonth = false;
   let barNumber = 0;
   for (let i = 0; i < schedule.length; i++) {
@@ -152,12 +135,6 @@ function setPropertiesByFirstAndLast(schedule) {
       workingMonth = false;
       barNumber = 0;
     }
-  }
-}
-
-function clearUnworkedMonthValues(schedule) {
-  // console.log("clearUnworkedMonthValues");
-  for (let i = 0; i < schedule.length; i++) {
     if (schedule[i].status === false) {
       schedule[i].value = 0;
     }

@@ -1,15 +1,26 @@
 import { v4 as uuidv4 } from "uuid";
 
+export const emptyBlock = {
+  status: false,
+  start: false,
+  end: false,
+  barNumber: 0,
+  value: 0,
+  blockId: uuidv4(),
+  scheduleIndex: 0,
+};
+
 export const ganttEntries = {
   loading: false,
   data: [
     {
-      rowId: 'ganttRow1',
-      section: 'Project Management',
-      description: '',
-      days: 11,
+      rowId: "ganttRow1",
+      section: "Project Management",
+      description: "",
+      days: 30,
       bars: 2,
       resources: [],
+      scheduleLength: 20,
       schedule: [
         {
           status: false,
@@ -18,6 +29,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -26,6 +38,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -34,6 +47,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -42,6 +56,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -50,6 +65,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -58,6 +74,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -66,6 +83,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -74,6 +92,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -82,6 +101,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -90,6 +110,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -98,6 +119,7 @@ export const ganttEntries = {
           barNumber: 2,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -106,6 +128,7 @@ export const ganttEntries = {
           barNumber: 2,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -114,6 +137,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -122,6 +146,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -130,6 +155,7 @@ export const ganttEntries = {
           barNumber: 3,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -138,6 +164,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -146,6 +173,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -154,6 +182,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -162,6 +191,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -170,16 +200,18 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
-      ]
+      ],
     },
     {
-      rowId: 'ganttRow2',
+      rowId: "ganttRow2",
       section: "Project Management",
-      description: '',
+      description: "",
       days: 10,
       bars: 2,
       resources: [],
+      scheduleLength: 20,
       schedule: [
         {
           status: false,
@@ -188,6 +220,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -196,6 +229,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -204,6 +238,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -212,6 +247,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -220,6 +256,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -228,6 +265,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -236,6 +274,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -244,6 +283,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -252,6 +292,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -260,6 +301,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -268,6 +310,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -276,6 +319,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -284,6 +328,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -292,6 +337,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -300,6 +346,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -308,6 +355,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -316,6 +364,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -324,6 +373,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -332,6 +382,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -340,16 +391,18 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
-      ]
+      ],
     },
     {
-      rowId: 'ganttRow3',
-      section: 'Project Management',
-      description: '',
+      rowId: "ganttRow3",
+      section: "Project Management",
+      description: "",
       days: 6,
       bars: 2,
       resources: [],
+      scheduleLength: 20,
       schedule: [
         {
           status: false,
@@ -358,6 +411,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -366,6 +420,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -374,6 +429,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -382,6 +438,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: true,
@@ -390,6 +447,7 @@ export const ganttEntries = {
           barNumber: 1,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -398,6 +456,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -406,6 +465,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -414,6 +474,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -422,6 +483,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -430,6 +492,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -438,6 +501,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -446,6 +510,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -454,6 +519,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -462,6 +528,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -470,6 +537,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -478,6 +546,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -486,6 +555,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -494,6 +564,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -502,6 +573,7 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
         {
           status: false,
@@ -510,9 +582,10 @@ export const ganttEntries = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
+          scheduleIndex: 0,
         },
-      ]
+      ],
     },
   ],
-  error: ''
-}
+  error: "",
+};

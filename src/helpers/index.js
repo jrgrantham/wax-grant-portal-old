@@ -1,1 +1,2 @@
-export * from './reorderGanttBlockHelpers'
+export * from './ganttBlockReorder'
+export * from './ganttRowSetup'
