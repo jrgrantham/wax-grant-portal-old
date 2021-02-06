@@ -47,8 +47,8 @@ export function reorderGanttRows(result, column) {
 }
 
 export function reorderGanttBlocks(result, row) {
-  const schedule = row.schedule;
-  helpers.handleReorderGanttBlocks(schedule, result);
+  const {schedule, days} = row;
+  helpers.handleReorderGanttBlocks(schedule, result, days);
   return {
     type: actionType.REASSIGN_GANTT_BLOCKS,
     payload: row,
@@ -56,7 +56,7 @@ export function reorderGanttBlocks(result, row) {
 }
 
 export function evenlySpreadWork(row) {
-  console.log("action creator - evenlySpreadWorkedMonths");
+  // console.log("action creator - evenlySpreadWorkedMonths");
   helpers.spreadWork(row);
   return {
     type: actionType.REASSIGN_GANTT_BLOCKS,

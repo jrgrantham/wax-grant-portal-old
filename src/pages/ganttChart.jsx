@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import { FiClock } from "react-icons/fi";
 import GanttSchedule from "../components/ganttSchedule";
 import {
   reorderGanttRows,
@@ -10,46 +9,30 @@ import {
 } from "../state/ganttActionCreators";
 
 function GanttChart(props) {
-  const ganttEntries = props.ganttEntries.data;
-
-  // function handleDragRow(result) {
-  //   if (!result.destination) return;
-  //   props.reorderGanttRows(result, ganttEntries);
-  // }
-
-  function handleSpreadingWork(schedule) {
-    props.evenlySpreadWork(schedule);
-  }
-
   return (
     <Container>
       Gantt Chart
-      <div className="chartArea">
-        <div className="descriptionContainer">
-          <div className="descriptionContainer">
-            {props.ganttEntries.data.map((row, index) => {
-              const { description, resources, days } = row;
-              return (
-                <div className="MonthContainer" key={index}>
-                  <div className="ganttRow">
-                    <h2>X</h2>
-                    <h5>{description}</h5>
-                    <h5>{resources}</h5>
-                    <h5>{days}</h5>
-                    <button onClick={() => handleSpreadingWork(row)}>
-                      ...hours
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="scheduleContainer">
-          {ganttEntries.map((row, index) => {
-            // row might not be required
+      <div className="entireChart">
+        <div className="detailsSection">
+          {props.ganttEntries.data.map((row, index) => {
+            const { description, resources, days } = row;
             return (
-              <div key={index} className="ganttRow">
+              <div className="ganttRow details" key={index}>
+                <h2>X</h2>
+                <h5>{description}</h5>
+                <h5>{resources}</h5>
+                <h5>{days}</h5>
+                <button onClick={() => props.evenlySpreadWork(row)}>
+                  <FiClock />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+        <div className="scheduleSection">
+          {props.ganttEntries.data.map((row, index) => {
+            return (
+              <div key={index} className="ganttRow schedule">
                 <GanttSchedule ganttRowIndex={index} row={row} />
               </div>
             );
@@ -72,29 +55,36 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 
-  .chartArea {
+  .entireChart {
     display: flex;
     flex-direction: row;
     width: 100%;
+  }
+  .detailsSection {
+    display: flex;
+    flex-direction: column;
+  }
+  .scheduleSection {
+    display: flex;
+    flex-direction: column;
+    overflow-x: scroll;
+    margin-right: 20px;
   }
   .ganttRow {
     display: flex;
     align-items: center;
     height: 50px;
   }
-  .descriptionContainer {
+  .details {
+    width: 100px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
   }
-  .scheduleContainer {
-    display: flex;
-    flex-direction: column;
-    overflow-x: scroll;
-    margin-right: 20px;
-  }
+.schedule {
 
+}
   button {
-    margin: 4px 5px;
+    padding: 4px 5px;
     cursor: pointer;
   }
 `;

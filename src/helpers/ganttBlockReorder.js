@@ -1,3 +1,5 @@
+import { currentCombinedLengthOfBars, getFirstAndLastDateOfBar } from "./index";
+
 export function reorderItems(array, result) {
   // const items = Array.from(array);
   const [item] = array.splice(result.source.index, 1);
@@ -5,7 +7,7 @@ export function reorderItems(array, result) {
   return array;
 }
 
-export function handleReorderGanttBlocks(schedule, result) {
+export function handleReorderGanttBlocks(schedule, result, days) {
   // console.log("handleReorderGanttBlocks", schedule, result);
   const originalBlockDate = result.source.index;
   const newBlockDate = result.destination.index;
@@ -14,6 +16,9 @@ export function handleReorderGanttBlocks(schedule, result) {
   if (barsOverlap(originalBlockDate, newBlockDate, schedule)) {
     console.log("collision");
     return;
+  }
+  if (barIsIncreasing(originalBlockDate, newBlockDate, blockContents)) {
+    console.log("true");
   }
 
   const [barStart, barEnd] = getFirstAndLastDateOfBar(
@@ -30,7 +35,7 @@ export function handleReorderGanttBlocks(schedule, result) {
   } else {
     reorderItems(schedule, result);
     setPropertiesByFirstAndLast(schedule);
-    combinedLengthOfBars(schedule)
+    currentCombinedLengthOfBars(schedule);
   }
 }
 
@@ -54,34 +59,18 @@ function barsOverlap(originalBlockDate, newBlockDate, schedule) {
   return false;
 }
 
-function checkBarLongerThanDays(schedule, ) {}
-
-function combinedLengthOfBars(schedule) {
-  let length = 0;
-  for (let i = 0; i < schedule.length; i++) {
-    if (schedule[i].status) {
-      length++
-    }
-  }
-  console.log(length);
-  return length
+function barIsIncreasing(originalBlockDate, newBlockDate, blockContents) {
+  return (
+    (blockContents.start && newBlockDate < originalBlockDate) ||
+      (blockContents.end && newBlockDate > originalBlockDate)
+  );
 }
 
-function getFirstAndLastDateOfBar(barNumber, schedule) {
-  const startDate = schedule
-    .map(function (block) {
-      return block.barNumber;
-    })
-    .indexOf(barNumber);
-  let endDate = 0;
-  for (let i = startDate; i < schedule.length; i++) {
-    if (schedule[i].end) {
-      endDate = i;
-      break;
-    }
-  }
-  return [startDate, endDate];
+function checkBarLongerThanDays(days) {
+  console.log(days);
 }
+
+function newLengthOfCombinedBars() {}
 
 function createSingleEntry(dateForNewBlock, otherDate, schedule) {
   // console.log("createSingleEntry");

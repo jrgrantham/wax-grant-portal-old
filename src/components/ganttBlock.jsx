@@ -20,7 +20,7 @@ function GanttBlock(props) {
           {value}
           {end ? pointerRight : null}
         </div>
-      ) : <p>{value}</p>}
+      ) : null}
       {/* ) : null} */}
     </Container>
   );
