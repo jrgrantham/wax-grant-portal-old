@@ -6,6 +6,7 @@ import GanttSchedule from "../components/ganttSchedule";
 import {
   reorderGanttRows,
   evenlySpreadWork,
+  setNumberOfBars,
 } from "../state/ganttActionCreators";
 
 function GanttChart(props) {
@@ -22,6 +23,9 @@ function GanttChart(props) {
                 <h5>{description}</h5>
                 <h5>{resources}</h5>
                 <h5>{days}</h5>
+                <button onClick={() => props.setNumberOfBars(row.schedule)}>
+                  bars
+                </button>
                 <button onClick={() => props.evenlySpreadWork(row)}>
                   <FiClock />
                 </button>
@@ -46,6 +50,7 @@ function GanttChart(props) {
 export default connect((state) => state, {
   reorderGanttRows,
   evenlySpreadWork,
+  setNumberOfBars,
 })(GanttChart);
 
 const Container = styled.div`

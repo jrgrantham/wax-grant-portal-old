@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionType from "./actionTypes";
-import * as helpers from '../helpers'
+import * as helpers from "../helpers";
 
 export const fetchUser = () => {
   return function (dispatch) {
@@ -47,7 +47,7 @@ export function reorderGanttRows(result, column) {
 }
 
 export function reorderGanttBlocks(result, row) {
-  const {schedule, days} = row;
+  const { schedule, days } = row;
   helpers.handleReorderGanttBlocks(schedule, result, days);
   return {
     type: actionType.REASSIGN_GANTT_BLOCKS,
@@ -58,6 +58,15 @@ export function reorderGanttBlocks(result, row) {
 export function evenlySpreadWork(row) {
   // console.log("action creator - evenlySpreadWorkedMonths");
   helpers.spreadWork(row);
+  return {
+    type: actionType.REASSIGN_GANTT_BLOCKS,
+    payload: row,
+  };
+}
+
+export function setNumberOfBars(row) {
+  console.log("setNumberOfBars");
+  helpers.updateNumberOfBars(row);
   return {
     type: actionType.REASSIGN_GANTT_BLOCKS,
     payload: row,

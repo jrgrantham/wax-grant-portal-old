@@ -39,7 +39,7 @@ export function handleReorderGanttBlocks(schedule, result, days) {
   } else {
     reorderItems(schedule, result);
     setPropertiesByFirstAndLast(schedule);
-    currentCombinedLengthOfBars(schedule);
+    // currentCombinedLengthOfBars(schedule);
   } return schedule
 }
 
@@ -129,6 +129,7 @@ function setPropertiesByFirstAndLast(schedule) {
   let workingMonth = false;
   let barNumber = 0;
   for (let i = 0; i < schedule.length; i++) {
+    schedule[i].scheduleIndex = i
     if (schedule[i].start) {
       workingMonth = true;
       barNumber = schedule[i].barNumber;
