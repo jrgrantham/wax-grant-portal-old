@@ -64,11 +64,11 @@ export function evenlySpreadWork(row) {
   };
 }
 
-export function setNumberOfBars(row) {
-  console.log("setNumberOfBars");
-  helpers.updateNumberOfBars(row);
+export function setNumberOfBars(schedule, numberOfBars) {
+  // console.log("setNumberOfBars");
+  helpers.updateNumberOfBars(schedule, numberOfBars);
   return {
     type: actionType.REASSIGN_GANTT_BLOCKS,
-    payload: row,
+    payload: schedule,
   };
 }

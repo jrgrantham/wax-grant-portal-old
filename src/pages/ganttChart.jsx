@@ -81,7 +81,7 @@ const Container = styled.div`
     height: 50px;
   }
   .details {
-    width: 100px;
+    width: 150px;
     display: flex;
     justify-content: space-between;
   }

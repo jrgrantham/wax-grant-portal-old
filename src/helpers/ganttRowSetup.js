@@ -30,18 +30,18 @@ export function spreadWork(row) {
   }
 }
 
-export function updateNumberOfBars(schedule, numberOfBars = 3) {
+export function updateNumberOfBars(schedule, numberOfBars = 1) {
   console.log('updateNumberOfBars');
   for (let i = 0; i < schedule.length; i++) {
     schedule[i].value = 0;
     if (i < numberOfBars) {
-      console.log("singe, index", i);
+      // console.log("singe, index", i);
       schedule[i].start = true;
       schedule[i].end = true;
       schedule[i].status = true;
       schedule[i].barNumber = i + 1;
     } else {
-      console.log("removed, index", i);
+      // console.log("removed, index", i);
       schedule[i].start = false;
       schedule[i].end = false;
       schedule[i].status = false;
