@@ -13,13 +13,17 @@ export function handleReorderGanttBlocks(schedule, result, days) {
   const newBlockDate = result.destination.index;
   const blockContents = schedule[originalBlockDate];
 
-  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) {
-    console.log("collision");
+  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
+  if (
+    barsExceedTotalDays(
+      originalBlockDate,
+      newBlockDate,
+      blockContents,
+      schedule,
+      days
+    )
+  )
     return;
-  }
-  if (barIsIncreasing(originalBlockDate, newBlockDate, blockContents)) {
-    console.log("true");
-  }
 
   const [barStart, barEnd] = getFirstAndLastDateOfBar(
     blockContents.barNumber,
@@ -36,48 +40,59 @@ export function handleReorderGanttBlocks(schedule, result, days) {
     reorderItems(schedule, result);
     setPropertiesByFirstAndLast(schedule);
     currentCombinedLengthOfBars(schedule);
-  }
+  } return schedule
 }
 
 function barsOverlap(originalBlockDate, newBlockDate, schedule) {
   const barNumber = schedule[originalBlockDate].barNumber;
   const firstDate = Math.min(originalBlockDate, newBlockDate);
   const lastDate = Math.max(originalBlockDate, newBlockDate);
-  // console.log("checking overlap on (", barNumber, ")", firstDate, lastDate);
-
+  let j = 0;
   for (let i = firstDate; i < lastDate; i++) {
-    let j = i;
+    j = i;
     if (newBlockDate > originalBlockDate) {
       j = i + 1;
     }
     if (schedule[j].barNumber !== barNumber && schedule[j].barNumber !== 0) {
-      // console.log("collision");
       return true;
     }
   }
-  // console.log('loops complete, no collision');
   return false;
 }
 
-function barIsIncreasing(originalBlockDate, newBlockDate, blockContents) {
+function barsExceedTotalDays(
+  originalBlockDate,
+  newBlockDate,
+  blockContents,
+  schedule,
+  days
+) {
+  if (
+    barLengthIncreasing(
+      originalBlockDate,
+      newBlockDate,
+      blockContents,
+      schedule
+    )
+  ) {
+    let change = originalBlockDate - newBlockDate;
+    if (change < 0) change *= -1;
+    if (change + currentCombinedLengthOfBars(schedule) > days) return true;
+  }
+  return false;
+}
+
+function barLengthIncreasing(originalBlockDate, newBlockDate, blockContents) {
   return (
     (blockContents.start && newBlockDate < originalBlockDate) ||
-      (blockContents.end && newBlockDate > originalBlockDate)
+    (blockContents.end && newBlockDate > originalBlockDate)
   );
 }
-
-function checkBarLongerThanDays(days) {
-  console.log(days);
-}
-
-function newLengthOfCombinedBars() {}
 
 function createSingleEntry(dateForNewBlock, otherDate, schedule) {
   // console.log("createSingleEntry");
   const firstDate = Math.min(dateForNewBlock, otherDate);
   const lastDate = Math.max(dateForNewBlock, otherDate);
-
-  // console.log(firstDate, lastDate);
 
   for (let i = firstDate; i < lastDate + 1; i++) {
     schedule[i].value = 0;
@@ -93,12 +108,11 @@ function createSingleEntry(dateForNewBlock, otherDate, schedule) {
       schedule[i].status = false;
       schedule[i].barNumber = 0;
     }
-  }
+  } return schedule
 }
 
 function splitSingleEntry(originalBlockDate, newBlockDate, schedule) {
   // console.log("splitSingleEntry");
-
   const barNumber = schedule[originalBlockDate].barNumber;
   const first = Math.min(originalBlockDate, newBlockDate); // startDate = endDate
   const last = Math.max(originalBlockDate, newBlockDate); // startDate = endDate
@@ -108,6 +122,7 @@ function splitSingleEntry(originalBlockDate, newBlockDate, schedule) {
   schedule[last].end = true;
   schedule[last].start = false;
   setPropertiesByFirstAndLast(schedule);
+  return schedule
 }
 
 function setPropertiesByFirstAndLast(schedule) {
@@ -127,5 +142,5 @@ function setPropertiesByFirstAndLast(schedule) {
     if (schedule[i].status === false) {
       schedule[i].value = 0;
     }
-  }
+  } return schedule
 }

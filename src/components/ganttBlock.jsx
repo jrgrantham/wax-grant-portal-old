@@ -20,8 +20,8 @@ function GanttBlock(props) {
           {value}
           {end ? pointerRight : null}
         </div>
+      // ) : <p>{end}</p>}
       ) : null}
-      {/* ) : null} */}
     </Container>
   );
 }
@@ -93,10 +93,10 @@ const Container = styled.div`
     padding: 4px 4px 3px 4px;
   }
   .left {
-    margin-left: ${(props) => (props.start ? "-35px" : 0)};
+    margin-right: ${(props) => (props.start ? "35px" : 0)};
   }
   .right {
-    margin-right: ${(props) => (props.end ? "-35px" : 0)};
+    margin-left: ${(props) => (props.end ? "35px" : 0)};
   }
 `
 export default GanttBlock;
