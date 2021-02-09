@@ -1,4 +1,4 @@
-import { emptyBlock } from "../data/data";
+import { emptyBlock } from "../data/workPackages";
 import { currentCombinedLengthOfBars } from "./index";
 
 export function createNewRow() {
@@ -30,7 +30,7 @@ export function spreadWork(row) {
   }
 }
 
-export function updateNumberOfBars(schedule, numberOfBars = 1) {
+export function updateNumberOfBars(schedule, numberOfBars = 3) {
   console.log('updateNumberOfBars');
   for (let i = 0; i < schedule.length; i++) {
     schedule[i].value = 0;

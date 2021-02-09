@@ -4,8 +4,6 @@ import { TiCode } from "react-icons/ti";
 
 function GanttBlock(props) {
   const { value, status, start, end, barNumber } = props;
-  const movement = 21;
-  // const content = start ? "S" : end ? "E" : status ? "M" : "-";
   return (
     <Container
       value={value}
@@ -13,11 +11,9 @@ function GanttBlock(props) {
       start={start}
       end={end}
       barNumber={barNumber}
-      movement={movement}
-      // color={color}
     >
       {props.status ? (
-        <div className="active" start>
+        <div className="active">
           {start ? pointerLeft : null}
           <div
             className={
@@ -53,22 +49,18 @@ const pointerRight = (
 );
 
 const Container = styled.div`
-  /* position: absolute; */
   margin: 0;
-  border: 1px solid #e5e5e5;
-  border-left: 0.5px solid #e5e5e5;
-  border-right: 0.5px solid #e5e5e5;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
+  height: 50px;
   width: 40px;
+  border-bottom: 1px solid grey;
   &:first-child {
-    /* border-left: 0.5px solid lightgrey; */
+    border-left: 0.5px solid lightgrey;
   }
 
   .active {
-    /* position: static; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,8 +74,6 @@ const Container = styled.div`
     align-items: center;
     font-size: 12px;
 
-    /* background-color: ${(props) => props.color}; */
-    /* use rgb and set opacity for background, not for border */
     margin-left: ${(props) => (props.start ? "2px" : 0)};
     margin-right: ${(props) => (props.end ? "2px" : 0)};
 
@@ -98,10 +88,10 @@ const Container = styled.div`
     border-bottom-right-radius: ${(props) => (props.end ? "25%" : 0)};
 
     .start {
-      margin-right: 35px;
+      margin-right: 25px;
     }
     .end {
-      margin-left: 35px;
+      margin-left: 25px;
     }
 
     &:hover .pointer {
@@ -113,20 +103,20 @@ const Container = styled.div`
   }
 
   .pointer {
-    /* position: absolute; */
     opacity: 0;
     transition: opacity 0.3s;
     border: 1px solid black;
     border-radius: 50%;
     background-color: white;
     padding: 4px 4px 3px 4px;
+    z-index: 1;
   }
-  .left {
-    margin-right: 12px;
+  .pointer.left {
+    margin-right: 4px;
   }
 
-  .right {
-    margin-left: 12px;
+  .pointer.right {
+    margin-left: 4px;
   }
 `;
 export default GanttBlock;

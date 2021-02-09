@@ -6,7 +6,7 @@ import styled from "styled-components";
 import GanttBlock from "./ganttBlock";
 import { reorderGanttBlocks } from "../state/ganttActionCreators";
 
-function GanttSchedule(props) {
+function GanttRowSchedule(props) {
   const row = props.row;
   const { rowId, schedule } = props.row;
 
@@ -70,10 +70,11 @@ function GanttSchedule(props) {
 
 export default connect((state) => state, {
   reorderGanttBlocks,
-})(GanttSchedule);
+})(GanttRowSchedule);
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
 
   .chartArea {
     display: flex;

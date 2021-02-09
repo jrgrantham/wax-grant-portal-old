@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { FiClock } from "react-icons/fi";
-import GanttSchedule from "../components/ganttSchedule";
+
+import GanttWorkPackageDetails from "../components/ganttWorkPackageDetails";
+import GanttWorkPackageSchedule from "../components/ganttWorkPackageSchedule";
 import {
   reorderGanttRows,
   evenlySpreadWork,
@@ -10,37 +11,18 @@ import {
 } from "../state/ganttActionCreators";
 
 function GanttChart(props) {
+  // const [modalOpen, setModalOpen] = useState(false);
   return (
     <Container>
-      Gantt Chart
-      <div className="entireChart">
-        <div className="detailsSection">
-          {props.ganttEntries.data.map((row, index) => {
-            const { description, resources, days } = row;
-            return (
-              <div className="ganttRow details" key={index}>
-                <h2>X</h2>
-                <h5>{description}</h5>
-                <h5>{resources}</h5>
-                <h5>{days}</h5>
-                <button onClick={() => props.setNumberOfBars(row.schedule)}>
-                  bars
-                </button>
-                <button onClick={() => props.evenlySpreadWork(row)}>
-                  <FiClock />
-                </button>
-              </div>
-            );
-          })}
+      <h1>Gantt Chart</h1>
+      <div className="chartArea">
+        <div className="left">
+          <GanttWorkPackageDetails />
+          <GanttWorkPackageDetails />
         </div>
-        <div className="scheduleSection">
-          {props.ganttEntries.data.map((row, index) => {
-            return (
-              <div key={index} className="ganttRow schedule">
-                <GanttSchedule ganttRowIndex={index} row={row} />
-              </div>
-            );
-          })}
+        <div className="right">
+          <GanttWorkPackageSchedule />
+          <GanttWorkPackageSchedule />
         </div>
       </div>
     </Container>
@@ -60,36 +42,13 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 
-  .entireChart {
+  .chartArea {
     display: flex;
-    flex-direction: row;
     width: 100%;
   }
-  .detailsSection {
-    display: flex;
-    flex-direction: column;
+  .left {
   }
-  .scheduleSection {
-    display: flex;
-    flex-direction: column;
+  .right {
     overflow-x: scroll;
-    margin-right: 20px;
-  }
-  .ganttRow {
-    display: flex;
-    align-items: center;
-    height: 50px;
-  }
-  .details {
-    width: 150px;
-    display: flex;
-    justify-content: space-between;
-  }
-.schedule {
-
-}
-  button {
-    padding: 4px 5px;
-    cursor: pointer;
   }
 `;

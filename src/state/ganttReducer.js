@@ -1,4 +1,4 @@
-import { ganttEntries } from "../data/data";
+import { workPackages } from "../data";
 import * as actionType from "./actionTypes";
 
 // const initialGanttState = [
@@ -30,37 +30,37 @@ import * as actionType from "./actionTypes";
 //     }),
 //   };
 
-export function ganttReducer(state = ganttEntries, action) {
+export function ganttReducer(state = workPackages, action) {
   switch (action.type) {
     case actionType.FETCH_GANTT_REQUEST:
       return {
-        ...ganttEntries,
-        loading: true
+        ...workPackages,
+        loading: true,
       };
     case actionType.FETCH_GANTT_SUCCESS:
       return {
-        ...ganttEntries,
+        ...workPackages,
         loading: false,
         data: action.payload,
-        error: ''
+        error: "",
       };
     case actionType.FETCH_GANTT_FAILURE:
       return {
         data: [],
         loading: false,
-        error: 'failed to fetch gantt'
+        error: "failed to fetch gantt",
       };
     case actionType.MOVE_GANTT_ROWS:
       console.log("moving rows");
       return {
-        ...ganttEntries,
+        ...workPackages,
         data: action.payload,
       };
     case actionType.REASSIGN_GANTT_BLOCKS:
       // console.log(action.payload);
       return {
-        ...ganttEntries,
-        data: ganttEntries.data.map((entry) => {
+        ...workPackages,
+        data: workPackages.data.map((entry) => {
           if (entry.rowId === action.payload.id) {
             return action.payload;
           }

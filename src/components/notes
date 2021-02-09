@@ -1,5 +1,5 @@
 const ganttRowIndex = props.ganttRowIndex;
-  const { schedule, id } = props.ganttEntries.data[ganttRowIndex];
+  const { schedule, id } = props.workPackages.data[ganttRowIndex];
 
   // const [gantt, setGantt] = useState(schedule);
   const activeColor = "skyBlue";
