@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import Modal from "react-modal";
 
-// import { FiClock } from "react-icons/fi";
-import GanttRowSchedule from "./ganttRowSchedule";
 import GanttDetails from "./ganttDetails";
 import {
   reorderGanttRows,
@@ -12,16 +9,15 @@ import {
   setNumberOfBars,
 } from "../state/ganttActionCreators";
 
-Modal.setAppElement("#root");
 
 function GanttWorkPackage(props) {
-  // const [modalOpen, setModalOpen] = useState(false);
+  console.log(props.workPackData);
   return (
     <Container>
       <div className="title">
         <h3>workpack title</h3>
       </div>
-      {props.workPackages.data.map((row, index) => {
+      {props.workPackData.map((row, index) => {
         return <GanttDetails key={index} row={row} />;
       })}
     </Container>
@@ -40,25 +36,4 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-
-  .right {
-    overflow-x: scroll;
-  }
-
-  .entireChart {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
-  .section {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid black;
-  }
-  .schedule {
-    margin: 0 20px;
-  }
-  .display {
-    margin: 0 20px;
-  }
 `;

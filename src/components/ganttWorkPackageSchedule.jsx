@@ -6,8 +6,6 @@ import Modal from "react-modal";
 // import { FiClock } from "react-icons/fi";
 // import GanttRowSchedule from "../components/GanttRowSchedule";
 import GanttRowSchedule from "./ganttRowSchedule";
-import GanttDetails from "./ganttDetails";
-import GanttWorkPackage from "./ganttWorkPackageDetails";
 import {
   reorderGanttRows,
   evenlySpreadWork,
@@ -17,13 +15,13 @@ import {
 Modal.setAppElement("#root");
 
 function GanttWorkPackageSchedule(props) {
-  // const [modalOpen, setModalOpen] = useState(false);
+  console.log(props.workPackData);
   return (
     <Container>
       <div className="title">
         <h3>workpack title</h3>
       </div>
-      {props.workPackages.data.map((row, index) => {
+      {props.workPackData.map((row, index) => {
         return <GanttRowSchedule key={index} ganttRowIndex={index} row={row} />;
       })}
     </Container>
@@ -42,5 +40,4 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-
 `;

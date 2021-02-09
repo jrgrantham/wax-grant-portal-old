@@ -14,7 +14,7 @@ function GanttBlock(props) {
     >
       {props.status ? (
         <div className="active">
-          {start ? pointerLeft : null}
+          {/* {start ? pointerLeft : null} */}
           <div
             className={
               start && end
@@ -28,7 +28,7 @@ function GanttBlock(props) {
           >
             {value}
           </div>
-          {end ? pointerRight : null}
+          {/* {end ? pointerRight : null} */}
         </div>
       ) : // ) : <p>{end}</p>}
       null}
@@ -88,18 +88,15 @@ const Container = styled.div`
     border-bottom-right-radius: ${(props) => (props.end ? "25%" : 0)};
 
     .start {
-      margin-right: 25px;
+      /* margin-right: 25px; */
     }
     .end {
-      margin-left: 25px;
+      /* margin-left: 25px; */
     }
 
     &:hover .pointer {
       opacity: 1;
     }
-  }
-  .contents {
-    position: static;
   }
 
   .pointer {
@@ -109,12 +106,15 @@ const Container = styled.div`
     border-radius: 50%;
     background-color: white;
     padding: 4px 4px 3px 4px;
-    z-index: 1;
+    z-index: 2;
+    width: 25px;
+    height: 25px;
+    background: black
   }
   .pointer.left {
     margin-right: 4px;
   }
-
+  
   .pointer.right {
     margin-left: 4px;
   }

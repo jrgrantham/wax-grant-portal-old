@@ -10,18 +10,16 @@ export const emptyBlock = {
   scheduleIndex: 0,
 };
 
-
-
 export const workPackages = {
   loading: false,
   data: [
     {
       rowId: "ganttRow1",
-      section: "Project Management",
+      workPackageTitle: "Project Management",
       description: "Description of task",
       days: 30,
       dayLoading: "front",
-      bars: 2, // might not be needed... the array is the array
+      // bars: 2, // might not be needed... the array is the array
       longBars: true,
       resources: ["JG", "DJ", "CG"],
       scheduleLength: 20, // project settings
@@ -210,11 +208,11 @@ export const workPackages = {
     },
     {
       rowId: "ganttRow2",
-      section: "Project Management",
+      workPackageTitle: "Project Management",
       description: "",
       days: 10,
       dayLoading: "front",
-      bars: 2,
+      // bars: 2,
       resources: [],
       scheduleLength: 20,
       schedule: [
@@ -402,11 +400,11 @@ export const workPackages = {
     },
     {
       rowId: "ganttRow3",
-      section: "Project Management",
+      workPackageTitle: "Different WP",
       description: "",
       days: 6,
       dayLoading: "front",
-      bars: 2,
+      // bars: 2,
       resources: [],
       scheduleLength: 20,
       schedule: [

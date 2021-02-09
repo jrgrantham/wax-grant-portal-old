@@ -4,36 +4,49 @@ import styled from "styled-components";
 
 import GanttWorkPackageDetails from "../components/ganttWorkPackageDetails";
 import GanttWorkPackageSchedule from "../components/ganttWorkPackageSchedule";
-import {
-  reorderGanttRows,
-  evenlySpreadWork,
-  setNumberOfBars,
-} from "../state/ganttActionCreators";
 
 function GanttChart(props) {
-  // const [modalOpen, setModalOpen] = useState(false);
+  const workPackages = props.workPackages.data;
+  const workPackageTitles = [
+    ...new Set(workPackages.map((workPackage) => workPackage.workPackageTitle)),
+  ];
+
+  function createSubArraysForTitles(uniqueTitlesArray, dataArray) {
+    const groupedWork = [];
+    uniqueTitlesArray.forEach((title) => {
+      const group = dataArray.filter(
+        (entry) => entry.workPackageTitle === title
+      );
+      groupedWork.push(group);
+    });
+    return groupedWork;
+  }
+
+  const group = createSubArraysForTitles(workPackageTitles, workPackages);
+  console.log(group);
+
   return (
     <Container>
       <h1>Gantt Chart</h1>
       <div className="chartArea">
         <div className="left">
-          <GanttWorkPackageDetails />
-          <GanttWorkPackageDetails />
+          {group.map((item, index) => {
+            return <GanttWorkPackageDetails key={index} workPackData={item} />;
+          })}
+          {/* <GanttWorkPackageDetails workPackData={props.workPackages.data} /> */}
         </div>
         <div className="right">
-          <GanttWorkPackageSchedule />
-          <GanttWorkPackageSchedule />
+          {group.map((item, index) => {
+            return <GanttWorkPackageSchedule key={index} workPackData={item} />;
+          })}
+          {/* <GanttWorkPackageSchedule workPackData={props.workPackages.data} /> */}
         </div>
       </div>
     </Container>
   );
 }
 
-export default connect((state) => state, {
-  reorderGanttRows,
-  evenlySpreadWork,
-  setNumberOfBars,
-})(GanttChart);
+export default connect((state) => state, {})(GanttChart);
 
 const Container = styled.div`
   display: flex;
