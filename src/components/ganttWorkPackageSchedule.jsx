@@ -1,43 +1,43 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import Modal from "react-modal";
 
-// import { FiClock } from "react-icons/fi";
-// import GanttRowSchedule from "../components/GanttRowSchedule";
 import GanttRowSchedule from "./ganttRowSchedule";
-import {
-  reorderGanttRows,
-  evenlySpreadWork,
-  setNumberOfBars,
-} from "../state/ganttActionCreators";
-
-Modal.setAppElement("#root");
-
 function GanttWorkPackageSchedule(props) {
-  console.log(props.workPackData);
   return (
-    <Container>
-      <div className="title">
-        <h3>workpack title</h3>
-      </div>
+    <Container backgroundColor={props.backgroundColor}>
+      <div className="title" />
       {props.workPackData.map((row, index) => {
         return <GanttRowSchedule key={index} ganttRowIndex={index} row={row} />;
       })}
+      <div className="footer" />
     </Container>
   );
 }
 
-export default connect((state) => state, {
-  reorderGanttRows,
-  evenlySpreadWork,
-  setNumberOfBars,
-})(GanttWorkPackageSchedule);
+export default connect((state) => state, {})(GanttWorkPackageSchedule);
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
   width: 100%;
+  margin-bottom: 10px;
+  /* background-color: white; */
+  /* border: 1px solid red; */
+  
+  .title {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    background-color: transparent;
+
+  }
+  .footer {
+    height: 40px;
+  }
 `;

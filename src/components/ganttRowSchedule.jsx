@@ -12,8 +12,9 @@ function GanttRowSchedule(props) {
 
   function handleMovingDateBlock(result) {
     if (!result.destination || result.destination.index === result.source.index)
-      return;
-    props.reorderGanttBlocks(result, row);
+    return;
+    const isWP = (row.workPackageTitle !== undefined);
+    props.reorderGanttBlocks(result, row, isWP);
   }
 
   return (

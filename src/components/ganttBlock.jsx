@@ -56,6 +56,7 @@ const Container = styled.div`
   height: 50px;
   width: 40px;
   border-bottom: 1px solid grey;
+  background-color: white;
   &:first-child {
     border-left: 0.5px solid lightgrey;
   }

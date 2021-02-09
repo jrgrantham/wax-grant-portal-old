@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { FiClock } from "react-icons/fi";
 import {
-  reorderGanttRows,
   evenlySpreadWork,
   setNumberOfBars,
 } from "../state/ganttActionCreators";
@@ -26,6 +25,11 @@ function GanttDetails(props) {
   );
 }
 
+export default connect((state) => state, {
+  evenlySpreadWork,
+  setNumberOfBars,
+})(GanttDetails);
+
 const Container = styled.div`
   margin: 0;
   border: 1px solid lightgrey;
@@ -35,9 +39,3 @@ const Container = styled.div`
   width: 400px;
   height: 50px;
 `;
-
-export default connect((state) => state, {
-  reorderGanttRows,
-  evenlySpreadWork,
-  setNumberOfBars,
-})(GanttDetails);

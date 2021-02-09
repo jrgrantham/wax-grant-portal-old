@@ -5,6 +5,9 @@ import styled from "styled-components";
 import GanttWorkPackageDetails from "../components/ganttWorkPackageDetails";
 import GanttWorkPackageSchedule from "../components/ganttWorkPackageSchedule";
 
+// needs adding to state
+import {deliverables} from '../data/index'
+
 function GanttChart(props) {
   const workPackages = props.workPackages.data;
   const workPackageTitles = [
@@ -23,7 +26,7 @@ function GanttChart(props) {
   }
 
   const group = createSubArraysForTitles(workPackageTitles, workPackages);
-  console.log(group);
+  // console.log(deliverables);
 
   return (
     <Container>
@@ -31,15 +34,19 @@ function GanttChart(props) {
       <div className="chartArea">
         <div className="left">
           {group.map((item, index) => {
-            return <GanttWorkPackageDetails key={index} workPackData={item} />;
+            return <GanttWorkPackageDetails key={index} workPackData={item} backgroundColor={'blue'}/>;
           })}
-          {/* <GanttWorkPackageDetails workPackData={props.workPackages.data} /> */}
+          <div className="space">add WP</div>
+          <GanttWorkPackageDetails workPackData={deliverables.data} backgroundColor={'red'} />
+          <GanttWorkPackageDetails workPackData={deliverables.data} backgroundColor={'red'} />
         </div>
         <div className="right">
           {group.map((item, index) => {
-            return <GanttWorkPackageSchedule key={index} workPackData={item} />;
+            return <GanttWorkPackageSchedule key={index} workPackData={item} backgroundColor={'blue'} />;
           })}
-          {/* <GanttWorkPackageSchedule workPackData={props.workPackages.data} /> */}
+          <div className="space"></div>
+          <GanttWorkPackageSchedule workPackData={deliverables.data} backgroundColor={'red'} />
+          <GanttWorkPackageSchedule workPackData={deliverables.data} backgroundColor={'red'} />
         </div>
       </div>
     </Container>
@@ -53,7 +60,11 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 95%;
+  margin: 20px auto;
+  border-radius: 10px;
+  background-color: #e8e8e8;
+  padding: 10px;
 
   .chartArea {
     display: flex;
@@ -63,5 +74,8 @@ const Container = styled.div`
   }
   .right {
     overflow-x: scroll;
+  }
+  .space {
+    height: 25px
   }
 `;
