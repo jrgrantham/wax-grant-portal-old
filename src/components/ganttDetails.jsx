@@ -1,26 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { FiClock } from "react-icons/fi";
+import { BiMenu, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
 import {
   evenlySpreadWork,
   setNumberOfBars,
 } from "../state/ganttActionCreators";
 
 function GanttDetails(props) {
+  const [showOptions, setShowOptions] = useState(true);
   const row = props.row;
+  const isWP = props.isWP;
   const { description, resources, days, schedule } = row;
-  return (
-    <Container>
+
+  const expandedResources = resources
+    ? resources.map((person, index) => <span key={index}>{person} </span>)
+    : null;
+  console.log(expandedResources);
+
+  const rowDescription = (
+    <div className="rowDescription">
+      <BiMenu />
+      <p>{description}</p>
+    </div>
+  );
+
+  const rowDataForWP = (
+    <div className="rowData WP">
+      <p>{expandedResources}</p>
+      <p>{days}</p>
+      <button onClick={() => setShowOptions(!showOptions)}>
+        <BiDotsHorizontalRounded />
+      </button>
+    </div>
+  );
+
+  const rowDataForOther = (
+    <div className="rowData other">
+      <p>Jul 2021</p>
+      <BiTrash />
+    </div>
+  );
+
+  const optionsForWP = (
+    <div className="options">
       <button onClick={() => props.setNumberOfBars(schedule)}>bars</button>
       <button onClick={() => props.evenlySpreadWork(row)}>
         <FiClock />
       </button>
-      <button onClick={() => console.log(row)}>test</button>
-      <h2>X</h2>
-      <h5>{description}</h5>
-      <h5>{resources}</h5>
-      <h5>{days}</h5>
+    </div>
+  );
+
+  return (
+    <Container>
+      {showOptions ? (
+        <>
+          {rowDescription}
+          {isWP ? rowDataForWP : rowDataForOther}
+        </>
+      ) : (
+        { optionsForWP }
+      )}
     </Container>
   );
 }
@@ -31,11 +72,40 @@ export default connect((state) => state, {
 })(GanttDetails);
 
 const Container = styled.div`
-  margin: 0;
-  border: 1px solid lightgrey;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 400px;
+  padding: 0 5px;
+  width: 500px;
   height: 50px;
+  border-bottom: 1px solid lightgrey;
+
+  .rowDescription {
+    display: flex;
+    align-items: center;
+    p {
+      margin-left: 10px;
+    }
+  }
+
+  .rowData {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      margin-right: 10px;
+    }
+  }
+
+  .options {
+    width: 100%;
+    height: 80px;
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #d1d1d1;
+    border: 2px solid #a1a1a1;
+    border-radius: 10px;
+    z-index: 1;
+  }
 `;

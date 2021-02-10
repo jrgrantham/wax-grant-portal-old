@@ -9,12 +9,12 @@ export const emptyBlock = {
   scheduleIndex: 0,
 };
 
-export const deliverables = {
+export const milestones = {
   loading: false,
   data: [
     {
       rowId: "ganttRow1",
-      description: "Description of deliverable 1",
+      description: "Description of milestone 1",
       schedule: [
         {
           status: false,
@@ -180,7 +180,7 @@ export const deliverables = {
     },
     {
       rowId: "ganttRow2",
-      description: "Description of deliverable 2",
+      description: "Description of milestone 2",
       schedule: [
         {
           status: false,

@@ -14,6 +14,7 @@ function GanttRowSchedule(props) {
     if (!result.destination || result.destination.index === result.source.index)
     return;
     const isWP = (row.workPackageTitle !== undefined);
+    // console.log(result, row, isWP);
     props.reorderGanttBlocks(result, row, isWP);
   }
 
@@ -75,13 +76,10 @@ export default connect((state) => state, {
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
+  justify-content: flex-start;
+  /* width: 100%; */
 
   .chartArea {
     display: flex;
-  }
-  button {
-    margin: 4px 5px;
-    cursor: pointer;
   }
 `;

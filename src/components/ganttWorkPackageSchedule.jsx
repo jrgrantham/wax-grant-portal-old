@@ -20,22 +20,17 @@ export default connect((state) => state, {})(GanttWorkPackageSchedule);
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
-  width: 100%;
+  /* width: 100%; */
   margin-bottom: 10px;
-  /* background-color: white; */
   /* border: 1px solid red; */
   
   .title {
-    color: white;
+    /* width: 100%; */
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px;
-    width: 100%;
-    background-color: transparent;
-
+    color: white;
   }
   .footer {
     height: 40px;

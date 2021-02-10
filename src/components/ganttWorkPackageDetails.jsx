@@ -5,13 +5,14 @@ import styled from "styled-components";
 import GanttDetails from "./ganttDetails";
 
 function GanttWorkPackage(props) {
+  const isWP = !(props.title === 'Deliverables' || props.title === 'Milestones')
   return (
     <Container backgroundColor={props.backgroundColor}>
       <div className="title">
-        <h3>workpack title</h3>
+        <h3>{props.title}</h3>
       </div>
       {props.workPackData.map((row, index) => {
-        return <GanttDetails key={index} row={row} />;
+        return <GanttDetails key={index} row={row} isWP={isWP}/>;
       })}
       <div className="footer">
         <button>add row</button>
@@ -25,12 +26,8 @@ export default connect((state) => state, {})(GanttWorkPackage);
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* width: 100%; */
   margin-bottom: 10px;
   background-color: white;
-  /* border: 1px solid red; */
   border-radius: 6px;
   overflow: hidden;
 
@@ -42,9 +39,11 @@ const Container = styled.div`
     height: 40px;
     width: 100%;
     background-color: ${(props) => props.backgroundColor};
-
   }
   .footer {
+    display: flex;
+    align-items: center;
     height: 40px;
+    padding-left: 5px;
   }
-`
+`;

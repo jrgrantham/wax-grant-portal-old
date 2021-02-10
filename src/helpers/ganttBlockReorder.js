@@ -1,7 +1,6 @@
 import { currentCombinedLengthOfBars, getFirstAndLastDateOfBar, getLastDateOfSchedule } from "./index";
 
 export function reorderItems(array, result) {
-  // const items = Array.from(array);
   const [item] = array.splice(result.source.index, 1);
   array.splice(result.destination.index, 0, item);
   return array;
@@ -13,8 +12,8 @@ export function handleReorderGanttBlocks(schedule, result, days) {
   const newBlockDate = result.destination.index;
   const blockContents = schedule[originalBlockDate];
 
-  console.log(schedule);
-  console.log(getLastDateOfSchedule(schedule));
+  // console.log(schedule);
+  // console.log(getLastDateOfSchedule(schedule));
 
   if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
   if (
@@ -80,7 +79,10 @@ function barsExceedTotalDays(
   ) {
     let change = originalBlockDate - newBlockDate;
     if (change < 0) change *= -1;
-    if (change + currentCombinedLengthOfBars(schedule) > days) return true;
+    if (change + currentCombinedLengthOfBars(schedule) > days) {
+      alert('exceeded number of days');
+      return true
+    };
   }
   return false;
 }
@@ -90,10 +92,6 @@ function barLengthIncreasing(originalBlockDate, newBlockDate, blockContents) {
     (blockContents.start && newBlockDate < originalBlockDate) ||
     (blockContents.end && newBlockDate > originalBlockDate)
   );
-}
-
-function moveSingle() {
-
 }
 
 function createSingleEntry(dateForNewBlock, otherDate, schedule) {

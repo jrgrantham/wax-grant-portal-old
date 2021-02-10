@@ -38,8 +38,9 @@ export const fetchGanttFailure = (error) => {
 };
 
 export function reorderGanttRows(result, column) {
-  const copiedGantt = Array.from(column); // this here!!!
-  const reorderedGantt = helpers.reorderItems(copiedGantt, result);
+  // const copiedGantt = Array.from(column); // this here!!!
+  // const reorderedGantt = helpers.reorderItems(copiedGantt, result);
+  const reorderedGantt = helpers.reorderItems(column, result);
   return {
     type: actionType.MOVE_GANTT_ROWS,
     payload: reorderedGantt,
@@ -53,6 +54,7 @@ export function reorderGanttBlocks(result, row, isWP) {
   } else {
     helpers.reorderItems(schedule, result);
   }
+  // console.log('last step before reducer');
   return {
     type: actionType.REASSIGN_GANTT_BLOCKS,
     payload: row,
