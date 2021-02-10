@@ -4,11 +4,21 @@ import styled from "styled-components";
 
 import GanttRowSchedule from "./ganttRowSchedule";
 function GanttWorkPackageSchedule(props) {
+  const nonWPPrefix = props.prefix;
+
   return (
     <Container backgroundColor={props.backgroundColor}>
       <div className="title" />
       {props.workPackData.map((row, index) => {
-        return <GanttRowSchedule key={index} ganttRowIndex={index} row={row} />;
+        return (
+          <GanttRowSchedule
+            key={index}
+            ganttRowIndex={index}
+            row={row}
+            nonWPPrefix={nonWPPrefix}
+            rowIndex={index}
+          />
+        );
       })}
       <div className="footer" />
     </Container>
@@ -23,7 +33,7 @@ const Container = styled.div`
   /* width: 100%; */
   margin-bottom: 10px;
   /* border: 1px solid red; */
-  
+
   .title {
     /* width: 100%; */
     height: 40px;

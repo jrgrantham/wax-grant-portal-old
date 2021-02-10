@@ -3,7 +3,10 @@ import styled from "styled-components";
 import { TiCode } from "react-icons/ti";
 
 function GanttBlock(props) {
-  const { value, status, start, end, barNumber } = props;
+  const { value, status, start, end, barNumber, nonWPPrefix, rowIndex } = props;
+  const rowNumber = rowIndex + 1;
+  const blockContent = nonWPPrefix ? nonWPPrefix + rowNumber : value;
+
   return (
     <Container
       value={value}
@@ -26,7 +29,7 @@ function GanttBlock(props) {
                 : "value"
             }
           >
-            {value}
+            <p>{blockContent}</p>
           </div>
           {/* {end ? pointerRight : null} */}
         </div>
@@ -60,7 +63,9 @@ const Container = styled.div`
   &:first-child {
     border-left: 0.5px solid lightgrey;
   }
-
+  p {
+    font-size: 16;
+  }
   .active {
     display: flex;
     justify-content: center;
@@ -110,12 +115,12 @@ const Container = styled.div`
     z-index: 2;
     width: 25px;
     height: 25px;
-    background: black
+    background: black;
   }
   .pointer.left {
     margin-right: 4px;
   }
-  
+
   .pointer.right {
     margin-left: 4px;
   }

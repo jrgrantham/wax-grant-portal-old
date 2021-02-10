@@ -17,7 +17,6 @@ function GanttDetails(props) {
   const expandedResources = resources
     ? resources.map((person, index) => <span key={index}>{person} </span>)
     : null;
-  console.log(expandedResources);
 
   const rowDescription = (
     <div className="rowDescription">
@@ -35,20 +34,25 @@ function GanttDetails(props) {
       </button>
     </div>
   );
-
+  
   const rowDataForOther = (
     <div className="rowData other">
       <p>Jul 2021</p>
       <BiTrash />
     </div>
   );
-
+  
   const optionsForWP = (
     <div className="options">
+    <BiTrash />
       <button onClick={() => props.setNumberOfBars(schedule)}>bars</button>
       <button onClick={() => props.evenlySpreadWork(row)}>
         <FiClock />
       </button>
+      <button onClick={() => console.log(row.rowId)}>
+        log rowId
+      </button>
+      <button onClick={() => setShowOptions(!showOptions)}>x</button>
     </div>
   );
 
@@ -60,7 +64,7 @@ function GanttDetails(props) {
           {isWP ? rowDataForWP : rowDataForOther}
         </>
       ) : (
-        { optionsForWP }
+        <div>{optionsForWP}</div>
       )}
     </Container>
   );
@@ -98,7 +102,7 @@ const Container = styled.div`
   }
 
   .options {
-    width: 100%;
+    width: 400px;
     height: 80px;
     padding: 20px 10px;
     display: flex;

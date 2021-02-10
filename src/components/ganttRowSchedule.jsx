@@ -8,6 +8,8 @@ import { reorderGanttBlocks } from "../state/ganttActionCreators";
 
 function GanttRowSchedule(props) {
   const row = props.row;
+  const nonWPPrefix = props.nonWPPrefix;
+  const rowIndex = props.rowIndex;
   const { rowId, schedule } = props.row;
 
   function handleMovingDateBlock(result) {
@@ -54,6 +56,8 @@ function GanttRowSchedule(props) {
                             start={start ? 1 : 0}
                             end={end ? 1 : 0}
                             color={color}
+                            nonWPPrefix={nonWPPrefix}
+                            rowIndex={rowIndex}
                           />
                         </div>
                       )}

@@ -16,7 +16,7 @@ export const workPackages = {
     {
       rowId: "ganttRow1",
       workPackageTitle: "Project Management",
-      description: "Description of task",
+      description: "Description of task 1",
       days: 30,
       dayLoading: "front",
       // bars: 2, // might not be needed... the array is the array
@@ -209,11 +209,11 @@ export const workPackages = {
     {
       rowId: "ganttRow2",
       workPackageTitle: "Project Management",
-      description: "",
+      description: "Description of task 2",
       days: 10,
       dayLoading: "front",
       // bars: 2,
-      resources: [],
+      resources: ["DJ", "CG"],
       scheduleLength: 20,
       schedule: [
         {
@@ -401,11 +401,11 @@ export const workPackages = {
     {
       rowId: "ganttRow3",
       workPackageTitle: "Different WP",
-      description: "",
+      description: "Description of task 3",
       days: 6,
       dayLoading: "front",
       // bars: 2,
-      resources: [],
+      resources: ["CG"],
       scheduleLength: 20,
       schedule: [
         {

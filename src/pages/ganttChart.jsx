@@ -80,10 +80,12 @@ function GanttChart(props) {
           <div className="space"></div>
           <GanttWorkPackageSchedule
             workPackData={deliverables.data}
+            prefix={'D'}
             backgroundColor={"red"}
           />
           <GanttWorkPackageSchedule
             workPackData={milestones.data}
+            prefix={'M'}
             backgroundColor={"green"}
           />
         </div>
