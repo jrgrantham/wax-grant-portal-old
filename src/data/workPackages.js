@@ -19,14 +19,12 @@ export const workPackages = {
       description: "Description of task 1",
       days: 30,
       dayLoading: "front",
-      // bars: 2, // might not be needed... the array is the array
       longBars: true,
       resources: [
         { name: "JG", workLoad: 0.1 },
         { name: "DJ", workLoad: 0.2 },
         { name: "CG", workLoad: 0.2 },
       ],
-      scheduleLength: 20, // project settings
       schedule: [
         {
           status: false,
@@ -216,13 +214,11 @@ export const workPackages = {
       description: "Description of task 2",
       days: 10,
       dayLoading: "front",
-      // bars: 2,
       resources: [
         { name: "JG", workLoad: 0.1 },
         { name: "DJ", workLoad: 0.2 },
         { name: "CG", workLoad: 0.2 },
       ],
-      scheduleLength: 20,
       schedule: [
         {
           status: false,
@@ -412,13 +408,11 @@ export const workPackages = {
       description: "Description of task 3",
       days: 6,
       dayLoading: "front",
-      // bars: 2,
       resources: [
         { name: "JG", workLoad: 0.1 },
         { name: "DJ", workLoad: 0.2 },
         { name: "CG", workLoad: 0.2 },
       ],
-      scheduleLength: 20,
       schedule: [
         {
           status: false,

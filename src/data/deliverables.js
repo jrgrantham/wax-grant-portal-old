@@ -13,7 +13,7 @@ export const deliverables = {
   loading: false,
   data: [
     {
-      rowId: "ganttRow1",
+      rowId: "del1",
       description: "Description of deliverable 1",
       schedule: [
         {
@@ -179,7 +179,7 @@ export const deliverables = {
       ],
     },
     {
-      rowId: "ganttRow2",
+      rowId: "del2",
       description: "Description of deliverable 2",
       schedule: [
         {

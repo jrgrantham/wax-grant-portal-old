@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 
 // needs adding to state
-import { projectSettings } from "../data/index";
+import { project } from "../data/index";
 
 function GanttScheduleBackground(props) {
   const classNames = [
@@ -12,7 +12,7 @@ function GanttScheduleBackground(props) {
     "backgroundColumn columnRight",
   ];
   const columns = [];
-  for (let i = 0; i < projectSettings.scheduleLength; i++) {
+  for (let i = 0; i < project.data.projectLength; i++) {
     columns.push(<div key={i} className={classNames[i % 3]}></div>);
   }
   return <Container>{columns}</Container>;

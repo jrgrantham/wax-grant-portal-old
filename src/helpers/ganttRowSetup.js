@@ -1,9 +1,7 @@
 import { emptyBlock } from "../data/workPackages";
 import { currentCombinedLengthOfBars } from "./index";
 
-export function createNewRow() {
-
-}
+export function createNewRow() {}
 
 export function setScheduleLength(row) {
   const newSchedule = []; // of length determined by settings
@@ -28,12 +26,12 @@ export function spreadWork(row) {
       } else schedule[i].value = Months;
     }
   }
-  return row
+  return row;
 }
 
 export function updateNumberOfBars(row, numberOfBars = 3) {
-  const schedule = row.schedule
-  console.log('updateNumberOfBars');
+  const schedule = row.schedule;
+  console.log("updateNumberOfBars");
   for (let i = 0; i < schedule.length; i++) {
     schedule[i].value = 0;
     if (i < numberOfBars) {
@@ -49,7 +47,7 @@ export function updateNumberOfBars(row, numberOfBars = 3) {
       schedule[i].status = false;
       schedule[i].barNumber = 0;
     }
-  } 
-  spreadWork(row)
-  return row
+  }
+  spreadWork(row);
+  return row;
 }
