@@ -61,7 +61,7 @@ export function ganttReducer(state = workPackages, action) {
       return {
         ...workPackages,
         data: workPackages.data.map((entry) => {
-          if (entry.rowId === action.payload.id) {
+          if (entry.rowId === action.payload.rowId) {
             return action.payload;
           }
           return entry;

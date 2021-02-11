@@ -28,9 +28,11 @@ export function spreadWork(row) {
       } else schedule[i].value = Months;
     }
   }
+  return row
 }
 
-export function updateNumberOfBars(schedule, numberOfBars = 3) {
+export function updateNumberOfBars(row, numberOfBars = 3) {
+  const schedule = row.schedule
   console.log('updateNumberOfBars');
   for (let i = 0; i < schedule.length; i++) {
     schedule[i].value = 0;
@@ -47,5 +49,7 @@ export function updateNumberOfBars(schedule, numberOfBars = 3) {
       schedule[i].status = false;
       schedule[i].barNumber = 0;
     }
-  } return schedule
+  } 
+  spreadWork(row)
+  return row
 }

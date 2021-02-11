@@ -48,13 +48,14 @@ export function reorderGanttRows(result, column) {
 }
 
 export function reorderGanttBlocks(result, row, isWP) {
-  const { schedule, days } = row;
+  // const rowCopy = {...row}
+  const schedule = row.schedule;
   if (isWP) {
-    helpers.handleReorderGanttBlocks(schedule, result, days);
+    helpers.handleReorderGanttBlocks(row, result);
   } else {
     helpers.reorderItems(schedule, result);
   }
-  // console.log('last step before reducer');
+  // console.log('last step before reducer', row);
   return {
     type: actionType.REASSIGN_GANTT_BLOCKS,
     payload: row,
@@ -70,11 +71,11 @@ export function evenlySpreadWork(row) {
   };
 }
 
-export function setNumberOfBars(schedule, numberOfBars) {
+export function setNumberOfBars(row, numberOfBars) {
   // console.log("setNumberOfBars");
-  helpers.updateNumberOfBars(schedule, numberOfBars);
+  helpers.updateNumberOfBars(row, numberOfBars);
   return {
     type: actionType.REASSIGN_GANTT_BLOCKS,
-    payload: schedule,
+    payload: row,
   };
 }

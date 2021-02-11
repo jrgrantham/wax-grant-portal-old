@@ -46,7 +46,7 @@ function GanttDetails(props) {
   const optionsForWP = (
     <div className="options">
     <BiTrash />
-      <button onClick={() => props.setNumberOfBars(schedule)}>bars</button>
+      <button onClick={() => props.setNumberOfBars(row)}>bars</button>
       <button onClick={() => props.evenlySpreadWork(row)}>
         <FiClock />
       </button>
