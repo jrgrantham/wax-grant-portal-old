@@ -3,7 +3,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import GanttBlock from "./ganttBlock";
+// import GanttBlock from "./ganttBlock";
+import {MemoisedBlock} from "./ganttBlock";
 import { reorderGanttBlocks } from "../state/ganttActionCreators";
 
 function GanttRowSchedule(props) {
@@ -16,7 +17,6 @@ function GanttRowSchedule(props) {
     if (!result.destination || result.destination.index === result.source.index)
     return;
     const isWP = (row.workPackageTitle !== undefined);
-    // console.log(result, row, isWP);
     props.reorderGanttBlocks(result, row, isWP);
   }
 
@@ -48,7 +48,8 @@ function GanttRowSchedule(props) {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <GanttBlock
+                          <MemoisedBlock
+                          // <GanttBlock
                             index={index}
                             value={value}
                             status={status}

@@ -1,4 +1,9 @@
-import { currentCombinedLengthOfBars, getFirstAndLastDateOfBar, getLastDateOfSchedule } from "./index";
+import {
+  currentCombinedLengthOfBars,
+  getFirstAndLastDateOfBar,
+  getLastDateOfSchedule,
+  spreadWork,
+} from "./index";
 
 export function reorderItems(array, result) {
   const [item] = array.splice(result.source.index, 1);
@@ -41,8 +46,9 @@ export function handleReorderGanttBlocks(schedule, result, days) {
   } else {
     reorderItems(schedule, result);
     setPropertiesByFirstAndLast(schedule);
-    // currentCombinedLengthOfBars(schedule);
-  } return schedule
+    // spreadWork(schedule);
+  }
+  return schedule;
 }
 
 function barsOverlap(originalBlockDate, newBlockDate, schedule) {
@@ -70,7 +76,7 @@ function barsExceedTotalDays(
   days
 ) {
   if (
-  barLengthIncreasing(
+    barLengthIncreasing(
       originalBlockDate,
       newBlockDate,
       blockContents,
@@ -80,9 +86,10 @@ function barsExceedTotalDays(
     let change = originalBlockDate - newBlockDate;
     if (change < 0) change *= -1;
     if (change + currentCombinedLengthOfBars(schedule) > days) {
-      alert('exceeded number of days');
-      return true
-    };
+      alert("exceeded number of days - function here to set the number of days to bar length");
+      
+      return true;
+    }
   }
   return false;
 }
@@ -113,7 +120,8 @@ function createSingleEntry(dateForNewBlock, otherDate, schedule) {
       schedule[i].status = false;
       schedule[i].barNumber = 0;
     }
-  } return schedule
+  }
+  return schedule;
 }
 
 function splitSingleEntry(originalBlockDate, newBlockDate, schedule) {
@@ -127,14 +135,14 @@ function splitSingleEntry(originalBlockDate, newBlockDate, schedule) {
   schedule[last].end = true;
   schedule[last].start = false;
   setPropertiesByFirstAndLast(schedule);
-  return schedule
+  return schedule;
 }
 
 function setPropertiesByFirstAndLast(schedule) {
   let workingMonth = false;
   let barNumber = 0;
   for (let i = 0; i < schedule.length; i++) {
-    schedule[i].scheduleIndex = i
+    schedule[i].scheduleIndex = i;
     if (schedule[i].start) {
       workingMonth = true;
       barNumber = schedule[i].barNumber;
@@ -148,5 +156,6 @@ function setPropertiesByFirstAndLast(schedule) {
     if (schedule[i].status === false) {
       schedule[i].value = 0;
     }
-  } return schedule
+  }
+  return schedule;
 }

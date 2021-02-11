@@ -21,7 +21,7 @@ function GanttWorkPackage(props) {
   );
 }
 
-export default connect((state) => state, {})(GanttWorkPackage);
+export default (GanttWorkPackage);
 
 const Container = styled.div`
   display: flex;

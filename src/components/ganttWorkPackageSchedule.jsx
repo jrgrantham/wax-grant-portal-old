@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import styled from "styled-components";
 
 import GanttRowSchedule from "./ganttRowSchedule";
@@ -25,17 +25,14 @@ function GanttWorkPackageSchedule(props) {
   );
 }
 
-export default connect((state) => state, {})(GanttWorkPackageSchedule);
+export default GanttWorkPackageSchedule;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
   margin-bottom: 10px;
-  /* border: 1px solid red; */
 
   .title {
-    /* width: 100%; */
     height: 40px;
     display: flex;
     justify-content: center;

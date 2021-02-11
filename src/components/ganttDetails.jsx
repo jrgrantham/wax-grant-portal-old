@@ -9,13 +9,14 @@ import {
 } from "../state/ganttActionCreators";
 
 function GanttDetails(props) {
+  // console.log('gantt details');
   const [showOptions, setShowOptions] = useState(true);
   const row = props.row;
   const isWP = props.isWP;
   const { description, resources, days, schedule } = row;
 
   const expandedResources = resources
-    ? resources.map((person, index) => <span key={index}>{person} </span>)
+    ? resources.map((person, index) => <span key={index}>{person.name} </span>)
     : null;
 
   const rowDescription = (
@@ -49,7 +50,7 @@ function GanttDetails(props) {
       <button onClick={() => props.evenlySpreadWork(row)}>
         <FiClock />
       </button>
-      <button onClick={() => console.log(row.rowId)}>
+      <button onClick={(e) => console.log(e.target)}>
         log rowId
       </button>
       <button onClick={() => setShowOptions(!showOptions)}>x</button>

@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import GanttScheduleBackground from "../components/ganttScheduleBackground";
 
 import GanttWorkPackageDetails from "../components/ganttWorkPackageDetails";
 import GanttWorkPackageSchedule from "../components/ganttWorkPackageSchedule";
@@ -11,7 +12,9 @@ import { milestones } from "../data/index";
 
 function GanttChart(props) {
   const workPackageTitles = [
-    ...new Set(props.workPackages.data.map((workPackage) => workPackage.workPackageTitle)),
+    ...new Set(
+      props.workPackages.data.map((workPackage) => workPackage.workPackageTitle)
+    ),
   ];
 
   function createSubArraysByTitle(titles, data) {
@@ -25,15 +28,14 @@ function GanttChart(props) {
     return groupedWork;
   }
 
-  const group = createSubArraysByTitle(workPackageTitles, props.workPackages.data);
-
-  useEffect(() => {
-    
-  })
+  const group = createSubArraysByTitle(
+    workPackageTitles,
+    props.workPackages.data
+  );
 
   return (
     <Container>
-      <h1>Gantt Chart</h1>
+      <h4>Gantt Chart</h4>
       <div className="chartArea">
         <div className="left">
           <div className="months"></div>
@@ -48,46 +50,44 @@ function GanttChart(props) {
             );
           })}
           <div className="space">
-            <button>
-              New WP
-            </button>
+            <button>New WP</button>
           </div>
           <GanttWorkPackageDetails
             workPackData={deliverables.data}
             backgroundColor={"red"}
-            title={'Deliverables'}
-
+            title={"Deliverables"}
           />
           <GanttWorkPackageDetails
             workPackData={milestones.data}
             backgroundColor={"green"}
-            title={'Milestones'}
-            />
+            title={"Milestones"}
+          />
         </div>
         <div className="right">
-          <div className="months">
-
+          <div className="inner">
+            <GanttScheduleBackground />
+            <div className="months"></div>
+            {group.map((item, index) => {
+              return (
+                <GanttWorkPackageSchedule
+                  key={index}
+                  workPackData={item}
+                  backgroundColor={"blue"}
+                />
+              );
+            })}
+            <div className="space"></div>
+            <GanttWorkPackageSchedule
+              workPackData={deliverables.data}
+              prefix={"D"}
+              backgroundColor={"red"}
+            />
+            <GanttWorkPackageSchedule
+              workPackData={milestones.data}
+              prefix={"M"}
+              backgroundColor={"green"}
+            />
           </div>
-          {group.map((item, index) => {
-            return (
-              <GanttWorkPackageSchedule
-                key={index}
-                workPackData={item}
-                backgroundColor={"blue"}
-              />
-            );
-          })}
-          <div className="space"></div>
-          <GanttWorkPackageSchedule
-            workPackData={deliverables.data}
-            prefix={'D'}
-            backgroundColor={"red"}
-          />
-          <GanttWorkPackageSchedule
-            workPackData={milestones.data}
-            prefix={'M'}
-            backgroundColor={"green"}
-          />
         </div>
       </div>
     </Container>
@@ -106,6 +106,10 @@ const Container = styled.div`
   border-radius: 10px;
   background-color: #e8e8e8;
   padding: 10px;
+
+  h4 {
+    margin: 10px 0 17px 0;
+  }
 
   .chartArea {
     display: flex;
@@ -128,7 +132,9 @@ const Container = styled.div`
     justify-content: flex-start;
     overflow-x: scroll;
     width: 100%;
-    /* border: 1px solid red; */
+    .inner {
+      position: relative;
+    }
   }
   .space {
     height: 50px;

@@ -21,7 +21,11 @@ export const workPackages = {
       dayLoading: "front",
       // bars: 2, // might not be needed... the array is the array
       longBars: true,
-      resources: ["JG", "DJ", "CG"],
+      resources: [
+        { name: "JG", workLoad: 0.1 },
+        { name: "DJ", workLoad: 0.2 },
+        { name: "CG", workLoad: 0.2 },
+      ],
       scheduleLength: 20, // project settings
       schedule: [
         {
@@ -213,7 +217,11 @@ export const workPackages = {
       days: 10,
       dayLoading: "front",
       // bars: 2,
-      resources: ["DJ", "CG"],
+      resources: [
+        { name: "JG", workLoad: 0.1 },
+        { name: "DJ", workLoad: 0.2 },
+        { name: "CG", workLoad: 0.2 },
+      ],
       scheduleLength: 20,
       schedule: [
         {
@@ -405,7 +413,11 @@ export const workPackages = {
       days: 6,
       dayLoading: "front",
       // bars: 2,
-      resources: ["CG"],
+      resources: [
+        { name: "JG", workLoad: 0.1 },
+        { name: "DJ", workLoad: 0.2 },
+        { name: "CG", workLoad: 0.2 },
+      ],
       scheduleLength: 20,
       schedule: [
         {
