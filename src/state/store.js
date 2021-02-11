@@ -1,13 +1,13 @@
 import { combineReducers, createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
-import { ganttReducer } from "./ganttReducer";
+import { workPackageReducer } from "./workPackageReducer";
 import { userReducer } from "./userReducer";
 
 const middleware = [thunk];
 const rootReducer = combineReducers({
   // add imported reducers here
-  workPackages: ganttReducer,
+  workPackages: workPackageReducer,
   user: userReducer,
 });
 

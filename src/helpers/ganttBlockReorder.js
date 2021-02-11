@@ -10,7 +10,7 @@ export function reorderItems(array, result) {
   return array;
 }
 
-export function handleReorderGanttBlocks(row, result) {
+export function handleReorderWorkPackageBlocks(row, result) {
   const schedule = row.schedule;
   const originalBlockDate = result.source.index;
   const newBlockDate = result.destination.index;

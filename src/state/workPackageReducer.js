@@ -30,33 +30,33 @@ import * as actionType from "./actionTypes";
 //     }),
 //   };
 
-export function ganttReducer(state = workPackages, action) {
+export function workPackageReducer(state = workPackages, action) {
   switch (action.type) {
-    case actionType.FETCH_GANTT_REQUEST:
+    case actionType.FETCH_WORK_PACKAGE_REQUEST:
       return {
         ...workPackages,
         loading: true,
       };
-    case actionType.FETCH_GANTT_SUCCESS:
+    case actionType.FETCH_WORK_PACKAGE_SUCCESS:
       return {
         ...workPackages,
         loading: false,
         data: action.payload,
         error: "",
       };
-    case actionType.FETCH_GANTT_FAILURE:
+    case actionType.FETCH_WORK_PACKAGE_FAILURE:
       return {
         data: [],
         loading: false,
         error: "failed to fetch gantt",
       };
-    case actionType.MOVE_GANTT_ROWS:
+    case actionType.MOVE_WORK_PACKAGE_ROWS:
       console.log("moving rows");
       return {
         ...workPackages,
         data: action.payload,
       };
-    case actionType.REASSIGN_GANTT_BLOCKS:
+    case actionType.UPDATE_WORK_PACKAGE_ROW:
       // console.log(action.payload);
       return {
         ...workPackages,

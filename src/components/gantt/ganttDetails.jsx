@@ -6,7 +6,7 @@ import { BiMenu, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
 import {
   evenlySpreadWork,
   setNumberOfBars,
-} from "../state/ganttActionCreators";
+} from "../../state/workPackageActionCreators";
 
 function GanttDetails(props) {
   // console.log('gantt details');

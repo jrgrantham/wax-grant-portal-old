@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import GanttScheduleBackground from "../components/ganttScheduleBackground";
+import GanttScheduleBackground from "../components/gantt/ganttScheduleBackground";
 
-import GanttWorkPackageDetails from "../components/ganttWorkPackageDetails";
-import GanttWorkPackageSchedule from "../components/ganttWorkPackageSchedule";
+import GanttWorkPackageDetails from "../components/gantt/ganttWorkPackageDetails";
+import GanttWorkPackageSchedule from "../components/gantt/ganttWorkPackageSchedule";
 
 // needs adding to state
 import { deliverables } from "../data/index";

@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 
 // import GanttBlock from "./ganttBlock";
-import {MemoisedBlock} from "./ganttBlock";
-import { reorderGanttBlocks } from "../state/ganttActionCreators";
+import { MemoisedBlock } from "./ganttBlock";
+import { reorderWorkPackageBlocks } from "../../state/workPackageActionCreators";
 
 function GanttRowSchedule(props) {
   const row = props.row;
@@ -15,9 +15,9 @@ function GanttRowSchedule(props) {
 
   function handleMovingDateBlock(result) {
     if (!result.destination || result.destination.index === result.source.index)
-    return;
-    const isWP = (row.workPackageTitle !== undefined);
-    props.reorderGanttBlocks(result, row, isWP);
+      return;
+    const isWP = row.workPackageTitle !== undefined;
+    props.reorderWorkPackageBlocks(result, row, isWP);
   }
 
   return (
@@ -49,7 +49,7 @@ function GanttRowSchedule(props) {
                           {...provided.dragHandleProps}
                         >
                           <MemoisedBlock
-                          // <GanttBlock
+                            // <GanttBlock
                             index={index}
                             value={value}
                             status={status}
@@ -76,7 +76,7 @@ function GanttRowSchedule(props) {
 }
 
 export default connect((state) => state, {
-  reorderGanttBlocks,
+  reorderWorkPackageBlocks,
 })(GanttRowSchedule);
 
 const Container = styled.div`

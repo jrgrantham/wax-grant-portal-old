@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 
 // needs adding to state
-import { project } from "../data/index";
+import { project } from "../../data/index";
 
 function GanttScheduleBackground(props) {
   const classNames = [
