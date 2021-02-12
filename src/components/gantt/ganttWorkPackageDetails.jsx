@@ -15,8 +15,8 @@ function GanttWorkPackage(props) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     // check is wp here and call the correct action
-    const movement = result.destination.index - result.source.index
-    const row = props.workPackData[result.source.index]
+    const movement = result.destination.index - result.source.index;
+    const row = props.workPackData[result.source.index];
     // console.log(movement);
     // console.log(row);
     props.reorderWorkPackageRows(row, movement);
@@ -33,8 +33,9 @@ function GanttWorkPackage(props) {
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {props.workPackData.map((row, index) => {
+                console.log(row.rowId);
                 return (
-                  <Draggable key={index} draggableId={row.rowId} index={index}>
+                  <Draggable key={row.rowId} draggableId={row.rowId} index={index}>
                     {(provided) => (
                       <div
                         className="MonthContainer"

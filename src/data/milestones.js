@@ -13,7 +13,7 @@ export const milestones = {
   loading: false,
   data: [
     {
-      rowId: "ganttRow1",
+      rowId: "mil1",
       description: "Description of milestone 1",
       schedule: [
         {
@@ -179,7 +179,7 @@ export const milestones = {
       ],
     },
     {
-      rowId: "ganttRow2",
+      rowId: "mil2",
       description: "Description of milestone 2",
       schedule: [
         {
