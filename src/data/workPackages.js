@@ -19,7 +19,7 @@ export const workPackages = {
       description: "Description of task 1",
       days: 30,
       dayLoading: "front",
-      longBars: true,
+      sortPosition: 1,
       resources: [
         { name: "JG", workLoad: 0.1 },
         { name: "DJ", workLoad: 0.2 },
@@ -214,6 +214,7 @@ export const workPackages = {
       description: "Description of task 2",
       days: 10,
       dayLoading: "front",
+      sortPosition: 2,
       resources: [
         { name: "JG", workLoad: 0.1 },
         { name: "DJ", workLoad: 0.2 },
@@ -408,6 +409,7 @@ export const workPackages = {
       description: "Description of task 3",
       days: 6,
       dayLoading: "front",
+      sortPosition: 3,
       resources: [
         { name: "JG", workLoad: 0.1 },
         { name: "DJ", workLoad: 0.2 },

@@ -1,14 +1,14 @@
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
+  reorderItems,
   currentCombinedLengthOfBars,
   getFirstAndLastDateOfBar,
   spreadWork,
 } from "./index";
 
-export function reorderItems(array, result) {
-  const [item] = array.splice(result.source.index, 1);
-  array.splice(result.destination.index, 0, item);
-  return array;
-}
+toast.configure();
 
 export function handleReorderWorkPackageBlocks(row, result) {
   const schedule = row.schedule;
@@ -62,7 +62,12 @@ function ifBarLengthsExceedsTotalDays(row, result, blockContents) {
     const currentDuration = currentCombinedLengthOfBars(row.schedule);
     const newDuration = change + currentDuration;
     if (newDuration > row.days) {
-      alert("increased number of days");
+      toast.info("increased number of days", {
+        // success, info, warn, error
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2500,
+        // autoClose: false,
+      });
       row.days = newDuration;
     }
   }

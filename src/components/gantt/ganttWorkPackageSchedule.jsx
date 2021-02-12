@@ -20,7 +20,7 @@ function GanttWorkPackageSchedule(props) {
           />
         );
       })}
-      <div className="footer" />
+      {/* <div className="footer" /> */}
     </Container>
   );
 }

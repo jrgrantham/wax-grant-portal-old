@@ -16,6 +16,7 @@ function GanttRowSchedule(props) {
   function handleMovingDateBlock(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
+    // choose the 
     const isWP = row.workPackageTitle !== undefined;
     props.reorderWorkPackageBlocks(result, row, isWP);
   }
@@ -26,7 +27,7 @@ function GanttRowSchedule(props) {
         <Droppable droppableId={rowId} direction="horizontal">
           {(provided) => (
             <div
-              className="chartArea"
+              className="blockRow"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -84,7 +85,7 @@ const Container = styled.div`
   justify-content: flex-start;
   /* width: 100%; */
 
-  .chartArea {
+  .blockRow {
     display: flex;
   }
 `;

@@ -17,6 +17,8 @@ function GanttChart(props) {
     ),
   ];
 
+  workPackageTitles.sort((a, b) => a - b);
+
   function createSubArraysByTitle(titles, data) {
     const groupedWork = [];
     titles.forEach((title) => {
@@ -50,7 +52,7 @@ function GanttChart(props) {
             );
           })}
           <div className="space">
-            <button>New WP</button>
+            <button>add new task</button>
           </div>
           <GanttWorkPackageDetails
             workPackData={deliverables.data}
@@ -62,6 +64,9 @@ function GanttChart(props) {
             backgroundColor={"green"}
             title={"Milestones"}
           />
+          <div className="space">
+            <button>add new deadline</button>
+          </div>
         </div>
         <div className="right">
           <div className="inner">
@@ -87,6 +92,7 @@ function GanttChart(props) {
               prefix={"M"}
               backgroundColor={"green"}
             />
+            <div className="space"></div>
           </div>
         </div>
       </div>

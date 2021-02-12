@@ -13,7 +13,7 @@ function GanttDetails(props) {
   const [showOptions, setShowOptions] = useState(true);
   const row = props.row;
   const isWP = props.isWP;
-  const { description, resources, days, schedule } = row;
+  const { description, resources, days } = row;
 
   const expandedResources = resources
     ? resources.map((person, index) => <span key={index}>{person.name} </span>)

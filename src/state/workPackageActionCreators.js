@@ -24,6 +24,7 @@ export const fetchWorkPackageRequest = () => {
 };
 
 export const fetchWorkPackageSuccess = (data) => {
+  // sort data by sortPosition then return to state
   return {
     type: actionType.FETCH_WORK_PACKAGE_SUCCESS,
     payload: data,
@@ -37,13 +38,15 @@ export const fetchWorkPackageFailure = (error) => {
   };
 };
 
-export function reorderWorkPackageRows(result, column) {
-  // const copiedGantt = Array.from(column); // this here!!!
-  // const reorderedGantt = helpers.reorderItems(copiedGantt, result);
-  const reorderedGantt = helpers.reorderItems(column, result);
+export function reorderWorkPackageRows(row, movement) {
+  // console.log(row);
+  // console.log(movement);
   return {
-    type: actionType.MOVE_WORK_PACKAGE_ROWS,
-    payload: reorderedGantt,
+    type: actionType.REORDER_WORK_PACKAGE_ROWS,
+    payload: {
+      row,
+      movement,
+    },
   };
 }
 

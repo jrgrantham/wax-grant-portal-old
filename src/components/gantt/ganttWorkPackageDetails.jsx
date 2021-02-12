@@ -1,27 +1,69 @@
 import React from "react";
 import { connect } from "react-redux";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { reorderWorkPackageRows } from "../../state/workPackageActionCreators";
 
 import GanttDetails from "./ganttDetails";
 
 function GanttWorkPackage(props) {
-  const isWP = !(props.title === 'Deliverables' || props.title === 'Milestones')
+  const isWP = !(
+    props.title === "Deliverables" || props.title === "Milestones"
+  );
+
+  function handleMovingRow(result) {
+    if (!result.destination || result.destination.index === result.source.index)
+      return;
+    // check is wp here and call the correct action
+    const movement = result.destination.index - result.source.index
+    const row = props.workPackData[result.source.index]
+    // console.log(movement);
+    // console.log(row);
+    props.reorderWorkPackageRows(row, movement);
+  }
+
   return (
     <Container backgroundColor={props.backgroundColor}>
       <div className="title">
         <h3>{props.title}</h3>
       </div>
-      {props.workPackData.map((row, index) => {
-        return <GanttDetails key={index} row={row} isWP={isWP}/>;
-      })}
-      <div className="footer">
+
+      <DragDropContext onDragEnd={handleMovingRow}>
+        <Droppable droppableId={props.title}>
+          {(provided) => (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {props.workPackData.map((row, index) => {
+                return (
+                  <Draggable key={index} draggableId={row.rowId} index={index}>
+                    {(provided) => (
+                      <div
+                        className="MonthContainer"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <GanttDetails key={index} row={row} isWP={isWP} />
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+
+      {/* <div className="footer">
         <button>add row</button>
-      </div>
+      </div> */}
     </Container>
   );
 }
 
-export default (GanttWorkPackage);
+export default connect((state) => state, {
+  reorderWorkPackageRows,
+})(GanttWorkPackage);
 
 const Container = styled.div`
   display: flex;

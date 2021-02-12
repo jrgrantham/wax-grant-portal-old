@@ -3,13 +3,13 @@ import { currentCombinedLengthOfBars } from "./index";
 
 export function createNewRow() {}
 
-export function setScheduleLength(row) {
-  const newSchedule = []; // of length determined by settings
-  const scheduleLength = 20; // to come from project setup
-  for (let i = 0; i < scheduleLength; i++) {
-    newSchedule.push({ ...emptyBlock });
-  }
-}
+// export function setScheduleLength(row) {
+//   const newSchedule = []; // of length determined by settings
+//   const scheduleLength = 20; // to come from project setup
+//   for (let i = 0; i < scheduleLength; i++) {
+//     newSchedule.push({ ...emptyBlock });
+//   }
+// }
 
 export function spreadWork(row) {
   const days = row.days;

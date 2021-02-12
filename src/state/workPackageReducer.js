@@ -1,5 +1,6 @@
 import { workPackages } from "../data";
 import * as actionType from "./actionTypes";
+import { reorderArrayByIndex, setArrayIndexAsSortPosition } from "../helpers";
 
 // const initialGanttState = [
 //   {
@@ -50,11 +51,21 @@ export function workPackageReducer(state = workPackages, action) {
         loading: false,
         error: "failed to fetch gantt",
       };
-    case actionType.MOVE_WORK_PACKAGE_ROWS:
-      console.log("moving rows");
+    case actionType.REORDER_WORK_PACKAGE_ROWS:
+      const rowId = action.payload.row.rowId;
+      const originalIndex = workPackages.data
+        .map(function (obj) {
+          return obj.rowId;
+        })
+        .indexOf(rowId);
+      const newIndex = originalIndex + action.payload.movement;
+      const reordered = reorderArrayByIndex(workPackages.data, originalIndex, newIndex)
+      console.log(reordered);
+      const reIndexed = setArrayIndexAsSortPosition(reordered)
+      // send to server
       return {
         ...workPackages,
-        data: action.payload,
+        data: reIndexed,
       };
     case actionType.UPDATE_WORK_PACKAGE_ROW:
       // console.log(action.payload);
