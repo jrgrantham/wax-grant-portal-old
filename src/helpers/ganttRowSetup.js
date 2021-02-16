@@ -1,4 +1,4 @@
-import { emptyBlock } from "../data/workPackages";
+// import { emptyBlock } from "../data/workPackages";
 import { currentCombinedLengthOfBars } from "./index";
 
 export function createNewRow() {}

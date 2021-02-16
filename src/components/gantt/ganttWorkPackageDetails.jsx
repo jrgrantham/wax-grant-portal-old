@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { reorderWorkPackageRows } from "../../state/workPackageActionCreators";
+import { reorderWorkPackageRows } from "../../store/projectData/workPackageActionCreators";
 
 import GanttDetails from "./ganttDetails";
 
@@ -14,12 +14,9 @@ function GanttWorkPackage(props) {
   function handleMovingRow(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
-    // check is wp here and call the correct action
     const movement = result.destination.index - result.source.index;
     const row = props.workPackData[result.source.index];
-    // console.log(movement);
-    // console.log(row);
-    props.reorderWorkPackageRows(row, movement);
+    if (isWP) props.reorderWorkPackageRows(row, movement);
   }
 
   return (
@@ -27,15 +24,17 @@ function GanttWorkPackage(props) {
       <div className="title">
         <h3>{props.title}</h3>
       </div>
-
       <DragDropContext onDragEnd={handleMovingRow}>
         <Droppable droppableId={props.title}>
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {props.workPackData.map((row, index) => {
-                console.log(row.rowId);
                 return (
-                  <Draggable key={row.rowId} draggableId={row.rowId} index={index}>
+                  <Draggable
+                    key={row.rowId}
+                    draggableId={row.rowId}
+                    index={index}
+                  >
                     {(provided) => (
                       <div
                         className="MonthContainer"
@@ -54,7 +53,6 @@ function GanttWorkPackage(props) {
           )}
         </Droppable>
       </DragDropContext>
-
       {/* <div className="footer">
         <button>add row</button>
       </div> */}

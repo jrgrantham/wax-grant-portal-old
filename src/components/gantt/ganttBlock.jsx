@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { TiCode } from "react-icons/ti";
+// import { TiCode } from "react-icons/ti";
 
 function GanttBlock(props) {
   const { value, status, start, end, barNumber, nonWPPrefix, rowIndex } = props;
   const rowNumber = rowIndex + 1;
   const blockContent = nonWPPrefix ? nonWPPrefix + rowNumber : value;
-  console.log('block render');
+  // console.log('block render');
   return (
     <Container
       value={value}
@@ -39,17 +39,17 @@ function GanttBlock(props) {
   );
 }
 
-const pointerLeft = (
-  <div className="pointer left">
-    <TiCode />
-  </div>
-);
+// const pointerLeft = (
+//   <div className="pointer left">
+//     <TiCode />
+//   </div>
+// );
 
-const pointerRight = (
-  <div className="pointer right">
-    <TiCode />
-  </div>
-);
+// const pointerRight = (
+//   <div className="pointer right">
+//     <TiCode />
+//   </div>
+// );
 
 const Container = styled.div`
   margin: 0;

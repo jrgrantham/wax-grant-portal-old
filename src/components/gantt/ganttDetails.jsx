@@ -6,66 +6,54 @@ import { BiMenu, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
 import {
   evenlySpreadWork,
   setNumberOfBars,
-} from "../../state/workPackageActionCreators";
+} from "../../store/projectData/workPackageActionCreators";
 
 function GanttDetails(props) {
-  // console.log('gantt details');
-  const [showOptions, setShowOptions] = useState(true);
-  const row = props.row;
-  const isWP = props.isWP;
+  const [edit, setEdit] = useState(false);
+  const { row, isWP } = props;
   const { description, resources, days } = row;
 
   const expandedResources = resources
     ? resources.map((person, index) => <span key={index}>{person.name} </span>)
     : null;
 
-  const rowDescription = (
-    <div className="rowDescription">
-      <BiMenu />
-      <p>{description}</p>
-    </div>
-  );
-
-  const rowDataForWP = (
-    <div className="rowData WP">
-      <p>{expandedResources}</p>
-      <p>{days}</p>
-      <button onClick={() => setShowOptions(!showOptions)}>
-        <BiDotsHorizontalRounded />
-      </button>
-    </div>
-  );
-  
-  const rowDataForOther = (
-    <div className="rowData other">
-      <p>Jul 2021</p>
-      <BiTrash />
-    </div>
-  );
-  
-  const optionsForWP = (
-    <div className="options">
-    <BiTrash />
-      <button onClick={() => props.setNumberOfBars(row)}>bars</button>
-      <button onClick={() => props.evenlySpreadWork(row)}>
-        <FiClock />
-      </button>
-      <button onClick={(e) => console.log(e.target)}>
-        log rowId
-      </button>
-      <button onClick={() => setShowOptions(!showOptions)}>x</button>
+  const editModal = (
+    <div className="editScreen" id="outside">
+      <div className="editWindow">
+        <div className="topRow">
+          <BiTrash />
+          <button onClick={() => setEdit(false)}>x</button>
+        </div>
+        <button onClick={() => props.setNumberOfBars(row)}>bars</button>
+        <button onClick={() => props.evenlySpreadWork(row)}>
+          <FiClock />
+        </button>
+        <button onClick={(e) => console.log(e.target)}>log rowId</button>
+        <button onClick={() => setEdit(!edit)}>x</button>
+      </div>
     </div>
   );
 
   return (
     <Container>
-      {showOptions ? (
-        <>
-          {rowDescription}
-          {isWP ? rowDataForWP : rowDataForOther}
-        </>
+      {edit ? editModal : null}
+      <div className="rowDescription">
+        <BiMenu />
+        <p>{description}</p>
+      </div>
+      {isWP ? (
+        <div className="rowData WP">
+          <p>{expandedResources}</p>
+          <p>{days}</p>
+          <button onClick={() => setEdit(!edit)}>
+            <BiDotsHorizontalRounded />
+          </button>
+        </div>
       ) : (
-        <div>{optionsForWP}</div>
+        <div className="rowData other">
+          <p>Jul 2021</p>
+          <BiTrash />
+        </div>
       )}
     </Container>
   );
@@ -102,15 +90,41 @@ const Container = styled.div`
     }
   }
 
-  .options {
-    width: 400px;
-    height: 80px;
-    padding: 20px 10px;
+  .editScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+
     display: flex;
-    justify-content: space-between;
-    background-color: #d1d1d1;
-    border: 2px solid #a1a1a1;
-    border-radius: 10px;
-    z-index: 1;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(20, 20, 20, 0.7);
+    z-index: 2;
+
+    .editWindow {
+      width: 500px;
+      height: 400px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 6px;
+    }
+
+    .topRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      button {
+        padding: 0 5px 4px 5px;
+      }
+    }
   }
 `;

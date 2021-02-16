@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 // import GanttBlock from "./ganttBlock";
 import { MemoisedBlock } from "./ganttBlock";
-import { reorderWorkPackageBlocks } from "../../state/workPackageActionCreators";
+import { reorderWorkPackageBlocks } from "../../store/projectData/workPackageActionCreators";
 
 function GanttRowSchedule(props) {
   const row = props.row;
@@ -16,7 +16,7 @@ function GanttRowSchedule(props) {
   function handleMovingDateBlock(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
-    // choose the 
+    // choose the
     const isWP = row.workPackageTitle !== undefined;
     props.reorderWorkPackageBlocks(result, row, isWP);
   }

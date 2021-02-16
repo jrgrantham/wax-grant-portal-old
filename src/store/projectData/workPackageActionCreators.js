@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionType from "./actionTypes";
-import * as helpers from "../helpers";
+import * as helpers from "../../helpers";
 
 export const fetchUser = () => {
   return function (dispatch) {
@@ -37,6 +37,27 @@ export const fetchWorkPackageFailure = (error) => {
     payload: error,
   };
 };
+
+// export function addNewRow(newRow) {
+//   // console.log(row);
+//   // console.log(movement);
+//   return {
+//     type: actionType.ROW_ADDED,
+//     payload: newRow,
+//   };
+// }
+
+export const addNewRow = newRow => ({
+  type: actionType.ROW_ADDED,
+  payload: newRow,
+})
+
+export function deleteRow(id) {
+  return {
+    type: actionType.REMOVE_WORK_PACKAGE_ROW,
+    payload: {rowId: id}
+  }
+}
 
 export function reorderWorkPackageRows(row, movement) {
   // console.log(row);

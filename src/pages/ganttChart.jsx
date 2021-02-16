@@ -11,12 +11,13 @@ import { deliverables } from "../data/index";
 import { milestones } from "../data/index";
 
 function GanttChart(props) {
-  console.log('chart refreshed');
+  // console.log('chart refreshed');
   const workPackageTitles = [
     ...new Set(
       props.workPackages.data.map((workPackage) => workPackage.workPackageTitle)
     ),
   ];
+
 
   workPackageTitles.sort((a, b) => a - b);
 

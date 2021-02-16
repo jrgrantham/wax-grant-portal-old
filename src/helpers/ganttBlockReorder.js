@@ -15,17 +15,18 @@ export function handleReorderWorkPackageBlocks(row, result) {
   const originalBlockDate = result.source.index;
   const newBlockDate = result.destination.index;
   const blockContents = schedule[originalBlockDate];
-
-  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
-  ifBarLengthsExceedsTotalDays(row, result, blockContents);
-
   const [barStart, barEnd] = getFirstAndLastDateOfBar(
     blockContents.barNumber,
     schedule
   );
 
+  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
+
+  increaseDaysIfRequired(row, result, blockContents);
+
   if (blockContents.start && blockContents.end) {
     splitSingleEntry(originalBlockDate, newBlockDate, schedule);
+    setPropertiesByFirstAndLast(schedule);
   } else if (blockContents.start && newBlockDate >= barEnd) {
     createSingleEntry(barEnd, barStart, schedule);
   } else if (blockContents.end && newBlockDate <= barStart) {
@@ -55,25 +56,32 @@ function barsOverlap(originalBlockDate, newBlockDate, schedule) {
   return false;
 }
 
-function ifBarLengthsExceedsTotalDays(row, result, blockContents) {
-  if (barLengthIncreasing(result, blockContents)) {
-    let change = result.destination.index - result.source.index;
-    if (change < 0) change *= -1;
-    const currentDuration = currentCombinedLengthOfBars(row.schedule);
-    const newDuration = change + currentDuration;
-    if (newDuration > row.days) {
-      toast.info("increased number of days", {
-        // success, info, warn, error
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2500,
-        // autoClose: false,
-      });
-      row.days = newDuration;
-    }
+function increaseDaysIfRequired(row, result, blockContents) {
+  if (
+    barLengthIsIncreasing(result, blockContents) &&
+    newDuration(row, result) > row.days
+  ) {
+    changeDays(row, result);
   }
 }
 
-function barLengthIncreasing(result, blockContents) {
+function changeDays(row, result) {
+  row.days = newDuration(row, result);
+  toast.info("increased number of days", {
+    // success, info, warn, error
+    position: toast.POSITION.TOP_RIGHT,
+    autoClose: 2500,
+    // autoClose: false,
+  });
+}
+
+function newDuration(row, result) {
+  const change = Math.abs(result.destination.index - result.source.index);
+  const currentDuration = currentCombinedLengthOfBars(row.schedule);
+  return change + currentDuration;
+}
+
+function barLengthIsIncreasing(result, blockContents) {
   return (
     (blockContents.start && result.destination.index < result.source.index) ||
     (blockContents.end && result.destination.index > result.source.index)
@@ -113,7 +121,6 @@ function splitSingleEntry(originalBlockDate, newBlockDate, schedule) {
   schedule[first].barNumber = barNumber;
   schedule[last].end = true;
   schedule[last].start = false;
-  setPropertiesByFirstAndLast(schedule);
   return schedule;
 }
 
