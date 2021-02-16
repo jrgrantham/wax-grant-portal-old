@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 // import GanttBlock from "./ganttBlock";
 import { MemoisedBlock } from "./ganttBlock";
-import { reorderWorkPackageBlocks } from "../../store/projectData/workPackageActionCreators";
+import { reorderWorkPackageBlocks } from "../../store/projectData/workPackages";
 
 function GanttRowSchedule(props) {
   const row = props.row;

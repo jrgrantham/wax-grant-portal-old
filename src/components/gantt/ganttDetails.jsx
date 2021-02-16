@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { FiClock } from "react-icons/fi";
+// import { FiClock } from "react-icons/fi";
 import { BiMenu, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
 import {
-  evenlySpreadWork,
   setNumberOfBars,
-} from "../../store/projectData/workPackageActionCreators";
+} from "../../store/projectData/workPackages";
 
 function GanttDetails(props) {
   const [edit, setEdit] = useState(false);
@@ -25,9 +24,6 @@ function GanttDetails(props) {
           <button onClick={() => setEdit(false)}>x</button>
         </div>
         <button onClick={() => props.setNumberOfBars(row)}>bars</button>
-        <button onClick={() => props.evenlySpreadWork(row)}>
-          <FiClock />
-        </button>
         <button onClick={(e) => console.log(e.target)}>log rowId</button>
         <button onClick={() => setEdit(!edit)}>x</button>
       </div>
@@ -60,7 +56,6 @@ function GanttDetails(props) {
 }
 
 export default connect((state) => state, {
-  evenlySpreadWork,
   setNumberOfBars,
 })(GanttDetails);
 

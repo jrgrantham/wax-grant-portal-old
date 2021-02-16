@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { reorderWorkPackageRows } from "../../store/projectData/workPackageActionCreators";
+import { reorderWorkPackageRows } from "../../store/projectData/workPackages";
 
 import GanttDetails from "./ganttDetails";
 
