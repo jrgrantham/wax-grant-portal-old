@@ -18,7 +18,7 @@ function EditModal(props) {
     workPackageTitle,
   } = row;
 
-  console.log(resources);
+  // console.log(resources);
 
   const deleteWP = (
     <div className="confirmDelete">
@@ -41,8 +41,7 @@ function EditModal(props) {
           <p>Assigned Days: {days}</p>
           <p>Loading: {dayLoading}</p>
           {/* <p>Loading: {resources}</p> */}
-          <button onClick={() => dispatch(wPSetNumberOfBars(row))}>bars</button>
-          <button onClick={(e) => console.log(e.target)}>log rowId</button>
+          <button onClick={() => dispatch(wPSetNumberOfBars({row, bars: 5}))}>bars</button>
         </div>
         <div className="bottom row">
           {confirmDelete ? (
@@ -74,7 +73,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: rgba(20, 20, 20, 0.7);
+  background-color: rgba(20, 20, 20, 0.6);
   z-index: 2;
 
   p {
@@ -91,7 +90,7 @@ const Container = styled.div`
 
     background-color: white;
     border: 1px solid black;
-    border-radius: 6px;
+    border-radius: 8px;
   }
 
   .top.row {

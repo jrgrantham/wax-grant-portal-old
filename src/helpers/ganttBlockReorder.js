@@ -18,6 +18,31 @@ export function dAndMScheduleHelper(oldRow, result) {
   return newRow;
 }
 
+export function updateNumberOfBars(oldRow, numberOfBars) {
+  console.log(oldRow, numberOfBars);
+  const newRow = produce(oldRow, draft => {
+    const schedule = draft.schedule;
+    for (let i = 0; i < schedule.length; i++) {
+      schedule[i].value = 0;
+      if (i < numberOfBars) {
+        // console.log("singe, index", i);
+        schedule[i].start = true;
+        schedule[i].end = true;
+        schedule[i].status = true;
+        schedule[i].barNumber = i + 1;
+      } else {
+        // console.log("removed, index", i);
+        schedule[i].start = false;
+        schedule[i].end = false;
+        schedule[i].status = false;
+        schedule[i].barNumber = 0;
+      }
+    }
+    spreadWork(draft);
+  })
+  return newRow;
+}
+
 export function wPScheduleHelper(row, result) {
   const newRow = produce(row, draft => {
     const schedule = draft.schedule;

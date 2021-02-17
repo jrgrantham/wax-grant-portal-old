@@ -82,9 +82,17 @@ export default function project(state = projectData, action) {
         ...state,
         data: state.data.filter((row) => row.rowId !== action.payload),
       };
+    case wPSetNumberOfBars.type:
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.row.rowId) {
+            return action.payload.row;
+          }
+          return row;
+        }),
+      };
     default:
       return state;
   }
 }
-
-// export const getWorkPackages = 

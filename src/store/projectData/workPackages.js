@@ -2,9 +2,11 @@
 import { createAction } from "@reduxjs/toolkit";
 
 import { wPDummyData } from "../../data";
-import { reorderArrayByIndex, wPScheduleHelper } from "../../helpers";
-
-// actions
+import {
+  reorderArrayByIndex,
+  wPScheduleHelper,
+  updateNumberOfBars,
+} from "../../helpers";
 
 export const wPFetchRequest = createAction("wPFetchRequest");
 export const wPFetchSuccess = createAction("wPFetchSuccess");
@@ -15,8 +17,6 @@ export const wPRowRemoved = createAction("wPRowRemoved");
 export const wPScheduleUpdated = createAction("wPScheduleUpdated");
 export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
 export const wPReorderRows = createAction("wPReorderRows");
-
-// reducer
 
 export default function workPackageReducer(state = wPDummyData, action) {
   switch (action.type) {
@@ -82,9 +82,21 @@ export default function workPackageReducer(state = wPDummyData, action) {
         ...state,
         data: state.data.filter((row) => row.rowId !== action.payload),
       };
+    case wPSetNumberOfBars.type:
+      const newRow = updateNumberOfBars(
+        action.payload.row,
+        action.payload.bars
+      );
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.row.rowId) {
+            return newRow;
+          }
+          return row;
+        }),
+      };
     default:
       return state;
   }
 }
-
-// export const getWorkPackages = 
