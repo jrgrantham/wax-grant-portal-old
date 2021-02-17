@@ -1,4 +1,4 @@
-export const project = {
+export const projectData = {
   loading: false,
   data: {
     projectTitle: "first Project",
