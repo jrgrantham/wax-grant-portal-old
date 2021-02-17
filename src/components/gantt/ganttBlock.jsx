@@ -6,7 +6,7 @@ function GanttBlock(props) {
   const { value, status, start, end, barNumber, nonWPPrefix, rowIndex } = props;
   const rowNumber = rowIndex + 1;
   const blockContent = nonWPPrefix ? nonWPPrefix + rowNumber : value;
-  // console.log('block render');
+  console.log('block render');
   return (
     <Container
       value={value}

@@ -606,7 +606,7 @@ export const singleRow = {
   rowId: "ganttRow4",
   workPackageTitle: "New WP",
   description: "Description of task 4",
-  days: 30,
+  days: 10,
   dayLoading: "front",
   sortPosition: 0,
   resources: [

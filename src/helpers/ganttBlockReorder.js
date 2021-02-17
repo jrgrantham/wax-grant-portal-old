@@ -1,10 +1,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { wPScheduleUpdated } from "../store/projectData/workPackages";
 import produce from "immer";
-import { store } from "../store";
 import {
-  reorderItems,
   currentCombinedLengthOfBars,
   getFirstAndLastDateOfBar,
   spreadWork,
@@ -12,10 +9,13 @@ import {
 
 toast.configure();
 
-export function reorderDelMilBlocks(row, result) {
-  reorderItems(row.schedule, result);
-  store.dispatch(wPScheduleUpdated( {row: row} ));
-  // wPScheduleUpdated(row)
+export function dAndMScheduleHelper(oldRow, result) {
+  const newRow = produce(oldRow, draft => {
+    // const schedule = 
+    const [item] = draft.schedule.splice(result.source.index, 1);
+    draft.schedule.splice(result.destination.index, 0, item);
+  })
+  return newRow;
 }
 
 export function wPScheduleHelper(row, result) {
@@ -41,7 +41,7 @@ export function wPScheduleHelper(row, result) {
     } else if (blockContents.end && newBlockDate <= barStart) {
       createSingleEntry(barStart, barEnd, schedule);
     } else {
-      reorderItems(schedule, result);
+      reorderWPItems(schedule, result);
       setPropertiesByFirstAndLast(schedule);
     }
     spreadWork(draft);
@@ -156,4 +156,10 @@ function setPropertiesByFirstAndLast(schedule) {
     }
   }
   return schedule;
+}
+
+export function reorderWPItems(array, result) {
+  const [item] = array.splice(result.source.index, 1);
+  array.splice(result.destination.index, 0, item);
+  return array;
 }

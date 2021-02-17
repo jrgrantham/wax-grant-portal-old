@@ -14,6 +14,7 @@ export const dMDummyData = {
   data: [
     {
       rowId: "mil1",
+      sortPosition: 0,
       type: 'milestone',
       description: "Description of milestone 1",
       schedule: [
@@ -181,6 +182,7 @@ export const dMDummyData = {
     },
     {
       rowId: "mil2",
+      sortPosition: 1,
       type: 'milestone',
       description: "Description of milestone 2",
       schedule: [
@@ -347,9 +349,10 @@ export const dMDummyData = {
       ],
     },
     {
-      rowId: "del1",
+      rowId: "del3",
+      sortPosition: 2,
       type: 'deliverable',
-      description: "Description of deliverable 1",
+      description: "Description of deliverable 3",
       schedule: [
         {
           status: false,
@@ -514,9 +517,10 @@ export const dMDummyData = {
       ],
     },
     {
-      rowId: "del2",
+      rowId: "del4",
+      sortPosition: 3,
       type: 'deliverable',
-      description: "Description of deliverable 2",
+      description: "Description of deliverable 4",
       schedule: [
         {
           status: false,

@@ -1,10 +1,12 @@
 import { produce } from "immer";
 
-export function reorderItems(array, result) {
-  const [item] = array.splice(result.source.index, 1);
-  array.splice(result.destination.index, 0, item);
-  return array;
-}
+// export function reorderWithImmerItems(oldArray, result) {
+//   const newArray = produce(oldArray, draft => {
+//     const [item] = draft.splice(result.source.index, 1);
+//     draft.splice(result.destination.index, 0, item);
+//   })
+//   return newArray;
+// }
 
 export function reorderArrayByIndex(oldArray, originalIndex, newIndex) {
   const newArray = produce(oldArray, draft => {

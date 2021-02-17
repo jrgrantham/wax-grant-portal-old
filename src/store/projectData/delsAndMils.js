@@ -54,22 +54,22 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
         ...state,
         data: reordered,
       };
-    // case dAndMScheduleUpdated.type:
+    case dAndMScheduleUpdated.type:
       // const { row, result } = action.payload;
-      // console.log(action.payload);
-      // const updatedRow = dAndMScheduleHelper(
-      //   action.payload.row,
-      //   action.payload.result
-      // );
-      // return {
-      //   ...state,
-      //   data: state.data.map((row) => {
-      //     if (row.rowId === action.payload.row.rowId) {
-      //       return updatedRow;
-      //     }
-      //     return row;
-      //   }),
-      // };
+      console.log(action.payload);
+      const updatedRow = dAndMScheduleHelper(
+        action.payload.row,
+        action.payload.result
+      );
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.row.rowId) {
+            return updatedRow;
+          }
+          return row;
+        }),
+      };
     case dAndMRowAdded.type:
       const row = action.payload;
       return {

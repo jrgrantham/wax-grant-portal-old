@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { wPReorderRows } from "../../store/projectData/workPackages";
 import GanttDetails from "./ganttDetails";
+import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
 
 function GanttWorkPackage(props) {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function GanttWorkPackage(props) {
     const movement = result.destination.index - result.source.index;
     const row = props.workPackData[result.source.index];
     if (isWP) dispatch(wPReorderRows({row, movement}));
+    else dispatch(dAndMReorderRows({row, movement}))
   }
 
   return (

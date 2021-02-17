@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
 import { wPScheduleUpdated } from "../../store/projectData/workPackages";
+import { dAndMScheduleUpdated } from "../../store/projectData/delsAndMils";
 import { MemoisedBlock } from "./ganttBlock";
 
 function GanttRowSchedule(props) {
@@ -19,7 +20,7 @@ function GanttRowSchedule(props) {
     const isWP = row.workPackageTitle !== undefined;
     if (isWP) dispatch(wPScheduleUpdated({ row, result }));
     else {
-      wPScheduleUpdated(row, result);
+      dispatch(dAndMScheduleUpdated({ row, result }));
     }
   }
 
