@@ -10,7 +10,7 @@ export const emptyBlock = {
   scheduleIndex: 0,
 };
 
-export const threeWorkPackages = {
+export const wPDummyData = {
   loading: false,
   data: [
     {
@@ -604,7 +604,7 @@ export const threeWorkPackages = {
 
 export const singleRow = {
   rowId: "ganttRow4",
-  workPackageTitle: "Different WP",
+  workPackageTitle: "New WP",
   description: "Description of task 4",
   days: 30,
   dayLoading: "front",

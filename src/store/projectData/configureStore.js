@@ -5,12 +5,14 @@ import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 import workPackageReducer from "./workPackages";
+import delsAndMilsReducer from "./delsAndMils";
 import { userReducer } from "./userReducer";
 
 // const middleware = [thunk];
 const rootReducer = combineReducers({
   workPackages: workPackageReducer,
   user: userReducer,
+  delsAndMils: delsAndMilsReducer,
 });
 
 // export default function configureStore() {

@@ -1,93 +1,43 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
-import * as helpers from "../../helpers";
 
-import { threeWorkPackages } from "../../data";
-import {
-  reorderArrayByIndex,
-  setArrayIndexAsSortPosition,
-} from "../../helpers";
-
-const FETCH_WORK_PACKAGE_REQUEST = "FETCH_WORK_PACKAGE_REQUEST";
-const FETCH_WORK_PACKAGE_SUCCESS = "FETCH_WORK_PACKAGE_SUCCESS";
-const FETCH_WORK_PACKAGE_FAILURE = "FETCH_WORK_PACKAGE_FAILURE";
-const REORDER_WORK_PACKAGE_ROWS = "REORDER_WORK_PACKAGE_ROWS";
-const UPDATE_WORK_PACKAGE_ROW = "UPDATE_WORK_PACKAGE_ROW";
+import { wPDummyData } from "../../data";
+import { reorderArrayByIndex, wPScheduleHelper } from "../../helpers";
 
 // actions
 
-export const fetchWorkPackageRequest = () => {
-  return {
-    type: FETCH_WORK_PACKAGE_REQUEST,
-  };
-};
+export const wPFetchRequest = createAction("wPFetchRequest");
+export const wPFetchSuccess = createAction("wPFetchSuccess");
+export const wPFetchFailure = createAction("wPFetchFailure");
+export const wPRowAdded = createAction("wPRowAdded");
+export const wPRowRemoved = createAction("wPRowRemoved");
+export const wPScheduleUpdated = createAction("wPScheduleUpdated");
+export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
+export const wPReorderRows = createAction("wPReorderRows");
 
-export const fetchWorkPackageSuccess = (data) => {
-  // sort data by sortPosition then return to state
-  return {
-    type: FETCH_WORK_PACKAGE_SUCCESS,
-    payload: data,
-  };
-};
+// reducer
 
-export const fetchWorkPackageFailure = (error) => {
-  return {
-    type: FETCH_WORK_PACKAGE_FAILURE,
-    payload: error,
-  };
-};
-
-export const rowAdded = createAction("rowAdded");
-export const rowRemoved = createAction("rowRemoved");
-export const scheduleUpdated = createAction("scheduleUpdated");
-
-export function reorderWorkPackageRows(row, movement) {
-  return {
-    type: REORDER_WORK_PACKAGE_ROWS,
-    payload: {
-      row,
-      movement,
-    },
-  };
-}
-
-// export function reorderWorkPackageBlocks(row) {
-//   console.log('reducer');
-//   return {
-//     type: UPDATE_WORK_PACKAGE_ROW,
-//     payload: row,
-//   };
-// }
-
-export function setNumberOfBars(row, numberOfBars) {
-  helpers.updateNumberOfBars(row, numberOfBars);
-  return {
-    type: UPDATE_WORK_PACKAGE_ROW,
-    payload: row,
-  };
-}
-
-export default function workPackageReducer(state = threeWorkPackages, action) {
+export default function workPackageReducer(state = wPDummyData, action) {
   switch (action.type) {
-    case FETCH_WORK_PACKAGE_REQUEST:
+    case wPFetchRequest.type:
       return {
         ...state,
         loading: true,
       };
-    case FETCH_WORK_PACKAGE_SUCCESS:
+    case wPFetchSuccess.type:
       return {
         ...state,
         loading: false,
         data: action.payload,
         error: "",
       };
-    case FETCH_WORK_PACKAGE_FAILURE:
+    case wPFetchFailure.type:
       return {
         data: [],
         loading: false,
         error: "failed to fetch gantt",
       };
-    case REORDER_WORK_PACKAGE_ROWS:
+    case wPReorderRows.type:
       const rowId = action.payload.row.rowId;
       const originalIndex = state.data
         .map(function (obj) {
@@ -100,33 +50,33 @@ export default function workPackageReducer(state = threeWorkPackages, action) {
         originalIndex,
         newIndex
       );
-      const reIndexed = setArrayIndexAsSortPosition(reordered);
-      // send to server
       return {
         ...state,
-        data: reIndexed,
+        data: reordered,
       };
-
-    case scheduleUpdated.type:
+    case wPScheduleUpdated.type:
       // const { row, result } = action.payload;
-      console.log(action.payload.row);
-      // const test = reorderWorkPackageBlocks(action.payload.row, action.payload.result);
+      console.log(action.payload);
+      const updatedRow = wPScheduleHelper(
+        action.payload.row,
+        action.payload.result
+      );
       return {
         ...state,
         data: state.data.map((row) => {
           if (row.rowId === action.payload.row.rowId) {
-            return action.payload.row;
+            return updatedRow;
           }
           return row;
         }),
       };
-    case rowAdded.type:
+    case wPRowAdded.type:
       const row = action.payload;
       return {
         ...state,
         data: [...state.data, row],
       };
-    case rowRemoved.type:
+    case wPRowRemoved.type:
       return {
         ...state,
         data: state.data.filter((row) => row.rowId !== action.payload),
@@ -135,3 +85,5 @@ export default function workPackageReducer(state = threeWorkPackages, action) {
       return state;
   }
 }
+
+// export const getWorkPackages = 

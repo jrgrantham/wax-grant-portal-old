@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { scheduleUpdated } from "../store/projectData/workPackages";
+import { wPScheduleUpdated } from "../store/projectData/workPackages";
 import produce from "immer";
 import { store } from "../store";
 import {
@@ -14,11 +14,11 @@ toast.configure();
 
 export function reorderDelMilBlocks(row, result) {
   reorderItems(row.schedule, result);
-  store.dispatch(scheduleUpdated( {row: row} ));
-  // scheduleUpdated(row)
+  store.dispatch(wPScheduleUpdated( {row: row} ));
+  // wPScheduleUpdated(row)
 }
 
-export function reorderWorkPackageBlocks(row, result) {
+export function wPScheduleHelper(row, result) {
   const newRow = produce(row, draft => {
     const schedule = draft.schedule;
     const originalBlockDate = result.source.index;
@@ -45,12 +45,8 @@ export function reorderWorkPackageBlocks(row, result) {
       setPropertiesByFirstAndLast(schedule);
     }
     spreadWork(draft);
-
   });
-
-  store.dispatch(scheduleUpdated( {row: newRow} ));
-  // scheduleUpdated(row);
-  // return row
+  return newRow
 }
 
 function barsOverlap(originalBlockDate, newBlockDate, schedule) {

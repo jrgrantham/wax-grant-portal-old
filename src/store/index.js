@@ -1,14 +1,14 @@
 import configureStore from './projectData/configureStore'
 
-import { singleRow } from "../data/workPackages";
-import { rowAdded, rowRemoved } from "./projectData/workPackages";
+import { singleRow } from "../data/wPData";
+import { wPRowAdded, wPRowRemoved } from "./projectData/workPackages";
 
 export const store = configureStore()
 
 setTimeout(() => {
-  store.dispatch(rowAdded(singleRow));
+  store.dispatch(wPRowAdded(singleRow));
 }, 1500);
 
 setTimeout(() => {
-  store.dispatch(rowRemoved("ganttRow1"));
+  store.dispatch(wPRowRemoved("ganttRow3"));
 }, 2000);

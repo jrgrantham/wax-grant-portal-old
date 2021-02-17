@@ -1,23 +1,21 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import GanttScheduleBackground from "../components/gantt/ganttScheduleBackground";
 
 import GanttWorkPackageDetails from "../components/gantt/ganttWorkPackageDetails";
 import GanttWorkPackageSchedule from "../components/gantt/ganttWorkPackageSchedule";
 
-// needs adding to state
-import { deliverables } from "../data/index";
-import { milestones } from "../data/index";
+function GanttChart() {
+  const bundledWPData = useSelector((state) => state.workPackages.data);
+  const deliverables = useSelector((state) => state.delsAndMils.data.filter(row => row.type === 'deliverable'));
+  const milestones = useSelector((state) => state.delsAndMils.data.filter(row => row.type === 'milestone'));
 
-function GanttChart(props) {
-  // console.log('chart refreshed');
+  console.log(deliverables, milestones);
+
   const workPackageTitles = [
-    ...new Set(
-      props.workPackages.data.map((workPackage) => workPackage.workPackageTitle)
-    ),
+    ...new Set(bundledWPData.map((workPackage) => workPackage.workPackageTitle)),
   ];
-
 
   workPackageTitles.sort((a, b) => a - b);
 
@@ -32,10 +30,7 @@ function GanttChart(props) {
     return groupedWork;
   }
 
-  const group = createSubArraysByTitle(
-    workPackageTitles,
-    props.workPackages.data
-  );
+  const groupedWPData = createSubArraysByTitle(workPackageTitles, bundledWPData);
 
   return (
     <Container>
@@ -43,7 +38,7 @@ function GanttChart(props) {
       <div className="chartArea">
         <div className="left">
           <div className="months"></div>
-          {group.map((item, index) => {
+          {groupedWPData.map((item, index) => {
             return (
               <GanttWorkPackageDetails
                 key={index}
@@ -57,12 +52,12 @@ function GanttChart(props) {
             <button>add new task</button>
           </div>
           <GanttWorkPackageDetails
-            workPackData={deliverables.data}
+            workPackData={deliverables}
             backgroundColor={"red"}
             title={"Deliverables"}
           />
           <GanttWorkPackageDetails
-            workPackData={milestones.data}
+            workPackData={milestones}
             backgroundColor={"green"}
             title={"Milestones"}
           />
@@ -70,11 +65,12 @@ function GanttChart(props) {
             <button>add new deadline</button>
           </div>
         </div>
+
         <div className="right">
           <div className="inner">
             <GanttScheduleBackground />
             <div className="months"></div>
-            {group.map((item, index) => {
+            {groupedWPData.map((item, index) => {
               return (
                 <GanttWorkPackageSchedule
                   key={index}
@@ -85,12 +81,12 @@ function GanttChart(props) {
             })}
             <div className="space"></div>
             <GanttWorkPackageSchedule
-              workPackData={deliverables.data}
+              workPackData={deliverables}
               prefix={"D"}
               backgroundColor={"red"}
             />
             <GanttWorkPackageSchedule
-              workPackData={milestones.data}
+              workPackData={milestones}
               prefix={"M"}
               backgroundColor={"green"}
             />
@@ -102,7 +98,7 @@ function GanttChart(props) {
   );
 }
 
-export default connect((state) => state, {})(GanttChart);
+export default GanttChart;
 
 const Container = styled.div`
   display: flex;

@@ -1,24 +1,25 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
+import { wPScheduleUpdated } from "../../store/projectData/workPackages";
 import { MemoisedBlock } from "./ganttBlock";
-import { reorderDelMilBlocks, reorderWorkPackageBlocks } from "../../helpers";
 
 function GanttRowSchedule(props) {
   const row = props.row;
   const nonWPPrefix = props.nonWPPrefix;
   const rowIndex = props.rowIndex;
   const { rowId, schedule } = props.row;
+  const dispatch = useDispatch();
 
   function handleMovingDateBlock(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     const isWP = row.workPackageTitle !== undefined;
-    if (isWP) reorderWorkPackageBlocks(row, result);
-    // if (isWP) dispatch(scheduleUpdated({ row, result, rowId }));
+    if (isWP) dispatch(wPScheduleUpdated({ row, result }));
     else {
-      reorderDelMilBlocks(row, result);
+      wPScheduleUpdated(row, result);
     }
   }
 

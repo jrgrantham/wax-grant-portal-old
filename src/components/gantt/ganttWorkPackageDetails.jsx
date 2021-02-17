@@ -1,12 +1,13 @@
 import React from "react";
-import { connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { reorderWorkPackageRows } from "../../store/projectData/workPackages";
+import { useDispatch } from "react-redux";
 
+import { wPReorderRows } from "../../store/projectData/workPackages";
 import GanttDetails from "./ganttDetails";
 
 function GanttWorkPackage(props) {
+  const dispatch = useDispatch();
   const isWP = !(
     props.title === "Deliverables" || props.title === "Milestones"
   );
@@ -16,7 +17,7 @@ function GanttWorkPackage(props) {
       return;
     const movement = result.destination.index - result.source.index;
     const row = props.workPackData[result.source.index];
-    if (isWP) props.reorderWorkPackageRows(row, movement);
+    if (isWP) dispatch(wPReorderRows({row, movement}));
   }
 
   return (
@@ -60,9 +61,7 @@ function GanttWorkPackage(props) {
   );
 }
 
-export default connect((state) => state, {
-  reorderWorkPackageRows,
-})(GanttWorkPackage);
+export default GanttWorkPackage;
 
 const Container = styled.div`
   display: flex;

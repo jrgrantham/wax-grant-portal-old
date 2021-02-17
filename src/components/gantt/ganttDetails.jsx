@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import styled from "styled-components";
 // import { FiClock } from "react-icons/fi";
+import { useDispatch } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
-import {
-  setNumberOfBars,
-} from "../../store/projectData/workPackages";
+import { wPSetNumberOfBars } from "../../store/projectData/workPackages";
 
 function GanttDetails(props) {
+  const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
   const { row, isWP } = props;
   const { description, resources, days } = row;
@@ -23,7 +22,7 @@ function GanttDetails(props) {
           <BiTrash />
           <button onClick={() => setEdit(false)}>x</button>
         </div>
-        <button onClick={() => props.setNumberOfBars(row)}>bars</button>
+        <button onClick={() => dispatch(wPSetNumberOfBars(row))}>bars</button>
         <button onClick={(e) => console.log(e.target)}>log rowId</button>
         <button onClick={() => setEdit(!edit)}>x</button>
       </div>
@@ -55,9 +54,7 @@ function GanttDetails(props) {
   );
 }
 
-export default connect((state) => state, {
-  setNumberOfBars,
-})(GanttDetails);
+export default GanttDetails;
 
 const Container = styled.div`
   display: flex;
