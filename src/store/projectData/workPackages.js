@@ -8,6 +8,7 @@ import { reorderArrayByIndex, wPScheduleHelper } from "../../helpers";
 
 export const wPFetchRequest = createAction("wPFetchRequest");
 export const wPFetchSuccess = createAction("wPFetchSuccess");
+// sort schedule by index to ensure correct order
 export const wPFetchFailure = createAction("wPFetchFailure");
 export const wPRowAdded = createAction("wPRowAdded");
 export const wPRowRemoved = createAction("wPRowRemoved");

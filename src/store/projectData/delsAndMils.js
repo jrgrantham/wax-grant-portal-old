@@ -8,6 +8,8 @@ import { reorderArrayByIndex, dAndMScheduleHelper } from "../../helpers";
 
 export const dAndMFetchRequest = createAction("dAndMFetchRequest");
 export const dAndMFetchSuccess = createAction("dAndMFetchSuccess");
+// sort schedule by index to ensure correct order
+// sort by del and mil so drag and drop works properly
 export const dAndMFetchFailure = createAction("dAndMFetchFailure");
 export const dAndMRowAdded = createAction("dAndMRowAdded");
 export const dAndMRowRemoved = createAction("dAndMRowRemoved");
@@ -38,13 +40,13 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
         error: "failed to fetch gantt",
       };
     case dAndMReorderRows.type:
-      const rowId = action.payload.row.rowId;
       const originalIndex = state.data
         .map(function (obj) {
           return obj.rowId;
         })
-        .indexOf(rowId);
+        .indexOf(action.payload.rowId);
       const newIndex = originalIndex + action.payload.movement;
+      console.log(action.payload.rowId, originalIndex, action.payload.movement);
       const reordered = reorderArrayByIndex(
         state.data,
         originalIndex,

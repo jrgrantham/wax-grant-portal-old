@@ -1,28 +1,5 @@
 // import { emptyBlock } from "../data/workPackages";
-import { produce } from "immer";
 import { currentCombinedLengthOfBars } from "./index";
-
-export function createNewRow() {}
-
-// export function setScheduleLength(row) {
-//   const newSchedule = []; // of length determined by settings
-//   const scheduleLength = 20; // to come from project setup
-//   for (let i = 0; i < scheduleLength; i++) {
-//     newSchedule.push({ ...emptyBlock });
-//   }
-// }
-
-export function reorderRows() {
-  // const rowId = action.payload.row.rowId;
-  // const originalIndex = state.data
-  //   .map(function (obj) {
-  //     return obj.rowId;
-  //   })
-  //   .indexOf(rowId);
-  // const newIndex = originalIndex + action.payload.movement;
-  // const reordered = reorderArrayByIndex(state.data, originalIndex, newIndex);
-  // const reIndexed = setArrayIndexAsSortPosition(reordered);
-}
 
 export function spreadWork(row) {
   const days = row.days;

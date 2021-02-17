@@ -8,13 +8,23 @@ import GanttWorkPackageSchedule from "../components/gantt/ganttWorkPackageSchedu
 
 function GanttChart() {
   const bundledWPData = useSelector((state) => state.workPackages.data);
-  const deliverables = useSelector((state) => state.delsAndMils.data.filter(row => row.type === 'deliverable'));
-  const milestones = useSelector((state) => state.delsAndMils.data.filter(row => row.type === 'milestone'));
-
-  console.log(deliverables, milestones);
+  // function compareTypes(a, b) {
+  //   if (a.type < b.type) return -1;
+  //   if (a.type > b.type) return 1;
+  //   return 0;
+  // }
+  // const delsAndMils = useSelector((state) => state.delsAndMils.data.sort(compareTypes))
+  const deliverables = useSelector((state) =>
+    state.delsAndMils.data.filter((row) => row.type === "deliverable")
+  );
+  const milestones = useSelector((state) =>
+    state.delsAndMils.data.filter((row) => row.type === "milestone")
+  );
 
   const workPackageTitles = [
-    ...new Set(bundledWPData.map((workPackage) => workPackage.workPackageTitle)),
+    ...new Set(
+      bundledWPData.map((workPackage) => workPackage.workPackageTitle)
+    ),
   ];
 
   workPackageTitles.sort((a, b) => a - b);
@@ -30,7 +40,10 @@ function GanttChart() {
     return groupedWork;
   }
 
-  const groupedWPData = createSubArraysByTitle(workPackageTitles, bundledWPData);
+  const groupedWPData = createSubArraysByTitle(
+    workPackageTitles,
+    bundledWPData
+  );
 
   return (
     <Container>

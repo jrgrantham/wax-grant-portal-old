@@ -4,10 +4,12 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
 import { wPSetNumberOfBars } from "../../store/projectData/workPackages";
+import { dAndMRowRemoved } from "../../store/projectData/delsAndMils";
 
 function GanttDetails(props) {
   const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const { row, isWP } = props;
   const { description, resources, days } = row;
 
@@ -46,8 +48,19 @@ function GanttDetails(props) {
         </div>
       ) : (
         <div className="rowData other">
-          <p>Jul 2021</p>
-          <BiTrash />
+          {confirmDelete ? (
+            <div className="confirmDelete">
+              <button onClick={() => setConfirmDelete(false)}>Cancel</button>
+              <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
+                Delete
+              </button>
+            </div>
+          ) : (
+            <>
+              <p>Jul 2021</p>
+              <BiTrash style={{cursor: "pointer"}} onClick={() => setConfirmDelete(true)} />
+            </>
+          )}
         </div>
       )}
     </Container>
@@ -118,5 +131,11 @@ const Container = styled.div`
         padding: 0 5px 4px 5px;
       }
     }
+  }
+
+  .confirmDelete {
+    display: flex;
+    justify-content: space-evenly;
+    width: 140px;
   }
 `;

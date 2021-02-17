@@ -5,10 +5,11 @@ import { useDispatch } from "react-redux";
 
 import { wPReorderRows } from "../../store/projectData/workPackages";
 import GanttDetails from "./ganttDetails";
-import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
+import { dAndMReorderRows, dAndMRowAdded } from "../../store/projectData/delsAndMils";
 
 function GanttWorkPackage(props) {
   const dispatch = useDispatch();
+  const packData = props.workPackData;
   const isWP = !(
     props.title === "Deliverables" || props.title === "Milestones"
   );
@@ -17,9 +18,9 @@ function GanttWorkPackage(props) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     const movement = result.destination.index - result.source.index;
-    const row = props.workPackData[result.source.index];
-    if (isWP) dispatch(wPReorderRows({row, movement}));
-    else dispatch(dAndMReorderRows({row, movement}))
+    const row = packData[result.source.index];
+    if (isWP) dispatch(wPReorderRows({ row, movement }));
+    else dispatch(dAndMReorderRows({ rowId: row.rowId, movement }));
   }
 
   return (
@@ -31,7 +32,7 @@ function GanttWorkPackage(props) {
         <Droppable droppableId={props.title}>
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {props.workPackData.map((row, index) => {
+              {packData.map((row, index) => {
                 return (
                   <Draggable
                     key={row.rowId}
@@ -45,7 +46,7 @@ function GanttWorkPackage(props) {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <GanttDetails key={index} row={row} isWP={isWP} />
+                        <GanttDetails key={index} row={row} isWP={isWP} {...provided.dragHandleProps}/>
                       </div>
                     )}
                   </Draggable>
@@ -64,7 +65,6 @@ function GanttWorkPackage(props) {
 }
 
 export default GanttWorkPackage;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,7 +79,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     height: 40px;
-    width: 100%;
+    width: 500px;
     background-color: ${(props) => props.backgroundColor};
   }
   .footer {
