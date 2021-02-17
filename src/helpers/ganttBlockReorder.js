@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { scheduleUpdated } from "../store/projectData/workPackages";
+import produce from "immer";
+import { store } from "../store";
 import {
   reorderItems,
   currentCombinedLengthOfBars,
@@ -10,33 +12,45 @@ import {
 
 toast.configure();
 
-export function handleReorderWorkPackageBlocks(row, result) {
-  const schedule = row.schedule;
-  const originalBlockDate = result.source.index;
-  const newBlockDate = result.destination.index;
-  const blockContents = schedule[originalBlockDate];
-  const [barStart, barEnd] = getFirstAndLastDateOfBar(
-    blockContents.barNumber,
-    schedule
-  );
+export function reorderDelMilBlocks(row, result) {
+  reorderItems(row.schedule, result);
+  store.dispatch(scheduleUpdated( {row: row} ));
+  // scheduleUpdated(row)
+}
 
-  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
+export function reorderWorkPackageBlocks(row, result) {
+  const newRow = produce(row, draft => {
+    const schedule = draft.schedule;
+    const originalBlockDate = result.source.index;
+    const newBlockDate = result.destination.index;
+    const blockContents = schedule[originalBlockDate];
+    const [barStart, barEnd] = getFirstAndLastDateOfBar(
+      blockContents.barNumber,
+      schedule
+    );
+  
+    if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
+  
+    increaseDaysIfRequired(draft, result, blockContents);
+  
+    if (blockContents.start && blockContents.end) {
+      splitSingleEntry(originalBlockDate, newBlockDate, schedule);
+      setPropertiesByFirstAndLast(schedule);
+    } else if (blockContents.start && newBlockDate >= barEnd) {
+      createSingleEntry(barEnd, barStart, schedule);
+    } else if (blockContents.end && newBlockDate <= barStart) {
+      createSingleEntry(barStart, barEnd, schedule);
+    } else {
+      reorderItems(schedule, result);
+      setPropertiesByFirstAndLast(schedule);
+    }
+    spreadWork(draft);
 
-  increaseDaysIfRequired(row, result, blockContents);
+  });
 
-  if (blockContents.start && blockContents.end) {
-    splitSingleEntry(originalBlockDate, newBlockDate, schedule);
-    setPropertiesByFirstAndLast(schedule);
-  } else if (blockContents.start && newBlockDate >= barEnd) {
-    createSingleEntry(barEnd, barStart, schedule);
-  } else if (blockContents.end && newBlockDate <= barStart) {
-    createSingleEntry(barStart, barEnd, schedule);
-  } else {
-    reorderItems(schedule, result);
-    setPropertiesByFirstAndLast(schedule);
-  }
-  spreadWork(row);
-  return row;
+  store.dispatch(scheduleUpdated( {row: newRow} ));
+  // scheduleUpdated(row);
+  // return row
 }
 
 function barsOverlap(originalBlockDate, newBlockDate, schedule) {
@@ -63,6 +77,7 @@ function increaseDaysIfRequired(row, result, blockContents) {
   ) {
     changeDays(row, result);
   }
+  return row;
 }
 
 function changeDays(row, result) {
@@ -73,6 +88,7 @@ function changeDays(row, result) {
     autoClose: 2500,
     // autoClose: false,
   });
+  return row;
 }
 
 function newDuration(row, result) {

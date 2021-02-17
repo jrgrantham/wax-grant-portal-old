@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
 import * as helpers from "../../helpers";
 
@@ -13,23 +13,8 @@ const FETCH_WORK_PACKAGE_SUCCESS = "FETCH_WORK_PACKAGE_SUCCESS";
 const FETCH_WORK_PACKAGE_FAILURE = "FETCH_WORK_PACKAGE_FAILURE";
 const REORDER_WORK_PACKAGE_ROWS = "REORDER_WORK_PACKAGE_ROWS";
 const UPDATE_WORK_PACKAGE_ROW = "UPDATE_WORK_PACKAGE_ROW";
-const REMOVE_WORK_PACKAGE_ROW = "REMOVE_WORK_PACKAGE_ROW";
-const ROW_ADDED = "ROW_ADDED";
 
-export const fetchUser = () => {
-  return function (dispatch) {
-    dispatch(fetchWorkPackageRequest());
-    axios
-      .get("url")
-      .then((response) => {
-        // const gantt = response.data
-        // dispatch(fetchWorkPackageSuccess(gantt))
-      })
-      .catch((error) => {
-        //error.message
-      });
-  };
-};
+// actions
 
 export const fetchWorkPackageRequest = () => {
   return {
@@ -52,21 +37,9 @@ export const fetchWorkPackageFailure = (error) => {
   };
 };
 
-export const addNewRow = (newRow) => ({
-  type: ROW_ADDED,
-  payload: newRow,
-});
-
-export const rowAdded = createAction('rowAdded')
-export const rowRemoved = createAction('rowRemoved')
-export const rowUpdated = createAction('rowUpdated')
-
-export function deleteRow(id) {
-  return {
-    type: REMOVE_WORK_PACKAGE_ROW,
-    payload: { rowId: id },
-  };
-}
+export const rowAdded = createAction("rowAdded");
+export const rowRemoved = createAction("rowRemoved");
+export const scheduleUpdated = createAction("scheduleUpdated");
 
 export function reorderWorkPackageRows(row, movement) {
   return {
@@ -78,20 +51,13 @@ export function reorderWorkPackageRows(row, movement) {
   };
 }
 
-
-
-export function reorderWorkPackageBlocks(result, row, isWP) {
-  const schedule = row.schedule;
-  if (isWP) {
-    helpers.handleReorderWorkPackageBlocks(row, result);
-  } else {
-    helpers.reorderItems(schedule, result);
-  }
-  return {
-    type: UPDATE_WORK_PACKAGE_ROW,
-    payload: row,
-  };
-}
+// export function reorderWorkPackageBlocks(row) {
+//   console.log('reducer');
+//   return {
+//     type: UPDATE_WORK_PACKAGE_ROW,
+//     payload: row,
+//   };
+// }
 
 export function setNumberOfBars(row, numberOfBars) {
   helpers.updateNumberOfBars(row, numberOfBars);
@@ -140,22 +106,22 @@ export default function workPackageReducer(state = threeWorkPackages, action) {
         ...state,
         data: reIndexed,
       };
-    case UPDATE_WORK_PACKAGE_ROW:
-      // console.log(action.payload);
-      console.log(state.data);
+
+    case scheduleUpdated.type:
+      // const { row, result } = action.payload;
+      console.log(action.payload.row);
+      // const test = reorderWorkPackageBlocks(action.payload.row, action.payload.result);
       return {
         ...state,
-        data: state.data.map((entry) => {
-          if (entry.rowId === action.payload.rowId) {
-            return action.payload;
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.row.rowId) {
+            return action.payload.row;
           }
-          return entry;
+          return row;
         }),
       };
     case rowAdded.type:
       const row = action.payload;
-      console.log(state.data);
-      console.log(row);
       return {
         ...state,
         data: [...state.data, row],

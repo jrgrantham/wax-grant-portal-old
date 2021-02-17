@@ -1,11 +1,9 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { connect } from "react-redux";
 import styled from "styled-components";
 
-// import GanttBlock from "./ganttBlock";
 import { MemoisedBlock } from "./ganttBlock";
-import { reorderWorkPackageBlocks } from "../../store/projectData/workPackages";
+import { reorderDelMilBlocks, reorderWorkPackageBlocks } from "../../helpers";
 
 function GanttRowSchedule(props) {
   const row = props.row;
@@ -16,9 +14,12 @@ function GanttRowSchedule(props) {
   function handleMovingDateBlock(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
-    // choose the
     const isWP = row.workPackageTitle !== undefined;
-    props.reorderWorkPackageBlocks(result, row, isWP);
+    if (isWP) reorderWorkPackageBlocks(row, result);
+    // if (isWP) dispatch(scheduleUpdated({ row, result, rowId }));
+    else {
+      reorderDelMilBlocks(row, result);
+    }
   }
 
   return (
@@ -76,9 +77,7 @@ function GanttRowSchedule(props) {
   );
 }
 
-export default connect((state) => state, {
-  reorderWorkPackageBlocks,
-})(GanttRowSchedule);
+export default GanttRowSchedule;
 
 const Container = styled.div`
   display: flex;
