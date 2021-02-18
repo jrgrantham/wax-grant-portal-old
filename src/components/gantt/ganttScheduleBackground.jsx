@@ -1,24 +1,28 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-// needs adding to state
-import { projectData } from "../../data/index";
+function GanttScheduleBackground() {
+  const { dates } = useSelector((state) => state.project.data);
 
-function GanttScheduleBackground(props) {
   const classNames = [
     "backgroundColumn columnLeft",
     "backgroundColumn",
     "backgroundColumn columnRight",
   ];
-  const columns = [];
-  for (let i = 0; i < projectData.data.projectLength; i++) {
-    columns.push(<div key={i} className={classNames[i % 3]}></div>);
-  }
-  return <Container>{columns}</Container>;
+
+  const backgroundColumn = dates.map((date, i) => {
+    return (
+      <div key={i} className={classNames[i % 3]}>
+        {date[0]}
+      </div>
+    );
+  });
+
+  return <Container>{backgroundColumn}</Container>;
 }
 
-export default connect((state) => state, {})(GanttScheduleBackground);
+export default GanttScheduleBackground;
 
 const Container = styled.div`
   position: absolute;
@@ -32,6 +36,10 @@ const Container = styled.div`
     background-color: rgba(100, 100, 100, 0.1);
     border-left: 1px solid rgba(100, 100, 100, 0.1);
     border-right: 1px solid rgba(100, 100, 100, 0.1);
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+    font-weight: 500;
   }
   .columnLeft {
     border-left: 1px solid white;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import GanttScheduleBackground from "../components/gantt/ganttScheduleBackground";
@@ -45,6 +45,39 @@ function GanttChart() {
     bundledWPData
   );
 
+  useEffect(() => {
+    // const slider = document.querySelector(".right");
+    // let isDown = false;
+    // let startX;
+    // let scrollLeft;
+
+    // slider.addEventListener("mousedown", (e) => {
+    //   if (e.target.className.includes('backgroundColumn')) {
+    //     isDown = true;
+    //     startX = e.pageX - slider.offsetLeft;
+    //     scrollLeft = slider.scrollLeft;
+    //   };
+    //   // slider.classList.add("active");
+    // });
+    // slider.addEventListener("mouseleave", () => {
+    //   isDown = false;
+    //   // slider.classList.remove("active");
+    // });
+    // slider.addEventListener("mouseup", () => {
+    //   isDown = false;
+    //   // slider.classList.remove("active");
+    // });
+    // slider.addEventListener("mousemove", (e) => {
+    //   if (!isDown) return;
+    //   e.preventDefault();
+    //   const x = e.pageX - slider.offsetLeft;
+    //   // const walk = (x - startX) * 3; //scroll-fast
+    //   const walk = (x - startX)
+    //   slider.scrollLeft = scrollLeft - walk;
+    //   // console.log(walk);
+    // });
+  }, []);
+
   return (
     <Container>
       <h4>Gantt Chart</h4>
@@ -62,7 +95,7 @@ function GanttChart() {
             );
           })}
           <div className="space">
-            <button>add new task</button>
+            <button>add task</button>
           </div>
           <GanttWorkPackageDetails
             workPackData={deliverables}
@@ -75,7 +108,7 @@ function GanttChart() {
             title={"Milestones"}
           />
           <div className="space">
-            <button>add new deadline</button>
+            <button>add deadline</button>
           </div>
         </div>
 

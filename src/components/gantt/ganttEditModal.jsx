@@ -35,13 +35,13 @@ function EditModal(props) {
         <div className="top row">
           <button onClick={() => props.setEdit(false)}>Close</button>
         </div>
-        <div>
+        <div className='content row'>
           <p>Work Pack: {workPackageTitle}</p>
           <p>Description: {description}</p>
           <p>Assigned Days: {days}</p>
           <p>Loading: {dayLoading}</p>
           {/* <p>Loading: {resources}</p> */}
-          <button onClick={() => dispatch(wPSetNumberOfBars({row, bars: 5}))}>bars</button>
+          <button onClick={() => dispatch(wPSetNumberOfBars({row, bars: 5}))}>set bars</button>
         </div>
         <div className="bottom row">
           {confirmDelete ? (
@@ -77,7 +77,10 @@ const Container = styled.div`
   z-index: 2;
 
   p {
-    padding: 5px 5px 5px 25px;
+    padding-bottom: 10px;
+  }
+  button {
+    /* margin-left: 25px; */
   }
 
   .editWindow {
@@ -93,19 +96,14 @@ const Container = styled.div`
     border-radius: 8px;
   }
 
-  .top.row {
+  .row {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
     padding: 10px;
-    /* padding: 12px; */
-    /* button {
-        padding: 0 5px 4px 5px;
-      } */
   }
-  .bottom.row {
-    display: flex;
-    justify-content: flex-end;
+  .content {
+    flex-direction: column;
+    align-items: flex-start;
     padding: 10px;
   }
 
