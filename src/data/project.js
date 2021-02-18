@@ -6,7 +6,7 @@ export const projectData = {
     projectTitle: "first Project",
     projectLength: 20,
     resources: ["JG", "DJ", "CG"],
-    startDate: 'Feb 2021',
+    startDate: "Feb 2021",
     dates: [],
   },
   error: "",
@@ -15,17 +15,16 @@ export const projectData = {
 
 const month = "Feb";
 const year = 2021;
-const thisYear = parseInt(moment().format("YYYY"));
-// console.log(thisYear + 1);
 
 const projectStart = moment(`${month} ${year}`, "MMM YYYY");
 const dateArray = () => {
   const years = [];
   const dateStart = projectStart;
   for (let i = 0; i < projectData.data.projectLength; i++) {
+    // console.log(dateStart); // WTF
     years.push(dateStart.format("MMM YYYY"));
     dateStart.add(1, "month");
-  }
+   }
   return years;
 };
 

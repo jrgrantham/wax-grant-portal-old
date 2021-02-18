@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
+import moment from "moment";
 
 import { dAndMRowRemoved } from "../../store/projectData/delsAndMils";
 import EditModal from "./ganttEditModal";
 
 function GanttDetails(props) {
+  const projectStart = useSelector((state) => state.project.data.dates[0]);
+  const startMoment = moment(projectStart, "MMM YYYY");
   const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { row, isWP } = props;
-  const { description, resources, days } = row;
+  const { description, resources, days, schedule } = row;
+
+  const dateIndex = schedule
+    .map(function (date) {
+      return date.status;
+    })
+    .indexOf(true);
+  const eventDate = startMoment.add(dateIndex, "month").format("MMM YYYY");
 
   const expandedResources = resources
     ? resources.map((person, index) => <span key={index}>{person.name} </span>)
@@ -28,7 +38,7 @@ function GanttDetails(props) {
 
   return (
     <Container>
-      {edit ? <EditModal setEdit={setEdit} row={row}/> : null}
+      {edit ? <EditModal setEdit={setEdit} row={row} /> : null}
       <div className="rowDescription">
         <BiMenu />
         <p>{description}</p>
@@ -47,7 +57,7 @@ function GanttDetails(props) {
             deleteDM
           ) : (
             <>
-              <p>Jul 2021</p>
+              <p>{eventDate}</p>
               <BiTrash
                 style={{ cursor: "pointer" }}
                 onClick={() => setConfirmDelete(true)}
