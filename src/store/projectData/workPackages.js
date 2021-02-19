@@ -1,6 +1,5 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
 
 import { wPDummyData } from "../../data";
 import {
@@ -114,12 +113,13 @@ export default function workPackageReducer(state = wPDummyData, action) {
         }),
       };
     case wPDaysUpdated.type:
-      const updatedDays = wPUpdateDays(action.payload.row, 5);
+      const updatedDaysRow = wPUpdateDays(action.payload.row, 5);
+      console.log('helper');
       return {
         ...state,
         data: state.data.map((row) => {
           if (row.rowId === action.payload.row.rowId) {
-            return updatedDays;
+            return updatedDaysRow;
           }
           return row;
         }),

@@ -2,7 +2,7 @@
 import { createAction } from "@reduxjs/toolkit";
 
 import { dMDummyData } from "../../data";
-import { reorderArrayByIndex, dAndMScheduleHelper } from "../../helpers";
+import { reorderArrayByIndex, dAndMScheduleHelper, dAndMUpdateDate } from "../../helpers";
 
 // actions
 
@@ -16,6 +16,7 @@ export const dAndMRowRemoved = createAction("dAndMRowRemoved");
 export const dAndMScheduleUpdated = createAction("dAndMScheduleUpdated");
 export const dAndMSetNumberOfBars = createAction("dAndMSetNumberOfBars");
 export const dAndMReorderRows = createAction("dAndMReorderRows");
+export const dAndMChangedDate = createAction("dAndMChangedDate");
 
 // reducer
 
@@ -82,6 +83,18 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
       return {
         ...state,
         data: state.data.filter((row) => row.rowId !== action.payload),
+      };
+    case dAndMChangedDate.type:
+      const newDateRow = dAndMUpdateDate(action.payload.row, action.payload.value)
+      console.log(newDateRow);
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.row.rowId) {
+            return newDateRow;
+          }
+          return row;
+        }),
       };
     default:
       return state;

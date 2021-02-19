@@ -1,17 +1,19 @@
-import {wPDummyData} from '../data/wPData'
 import configureStore from "./projectData/configureStore";
 import { wPDaysUpdated } from "./projectData/workPackages";
+import { dAndMRowAdded, dAndMChangedDate } from './projectData/delsAndMils';
 
+import {wPDummyData} from '../data/wPData'
+import {dMDummyData} from '../data/dMData'
 // console.log(wPDummyData.data[0]);
 
 // import { singleRow } from "../data/wPData";
 // import { singleMilOne, singleMilTwo } from "../data/dMData";
-// import { dAndMRowAdded } from './projectData/delsAndMils';
 
 export const store = configureStore();
 
 setTimeout(() => {
-  store.dispatch(wPDaysUpdated({row: wPDummyData.data[0], value: 5}));
+  console.log('timer');
+  store.dispatch(dAndMChangedDate({row: dMDummyData.data[0], value: 15}));
 }, 1500);
 
 // setTimeout(() => {

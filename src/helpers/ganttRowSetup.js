@@ -38,17 +38,36 @@ export function wPUpdateDays(oldRow, days) {
         schedule[i].start = false;
         schedule[i].end = false;
         schedule[i].value = 0;
-        schedule[i].value = 0;
+        schedule[i].barNumber = 0;
         if (!alerted) {
           alerted = true;
           toast.info("decreased length of bars", {
             position: toast.POSITION.TOP_RIGHT,
-            autoClose: 2500,
+            autoClose: 2000,
           });
-      }
+        }
       }
     }
     spreadWork(draft);
+  });
+  return newRow;
+}
+
+export function dAndMUpdateDate(oldRow, date) {
+  console.log(oldRow);
+  const newRow = produce(oldRow, (draft) => {
+    const schedule = draft.schedule;
+    for (let i = 0; i < schedule.length; i++) {
+      if (i === date) {
+      schedule[i].status = true;
+      schedule[i].start = true;
+      schedule[i].end = true;
+      } else {
+      schedule[i].status = false;
+      schedule[i].start = false;
+      schedule[i].end = false;
+      }
+    }
   });
   return newRow;
 }

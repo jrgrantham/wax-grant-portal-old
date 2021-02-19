@@ -10,16 +10,16 @@ import {
 toast.configure();
 
 export function dAndMScheduleHelper(oldRow, result) {
-  const newRow = produce(oldRow, draft => {
+  const newRow = produce(oldRow, (draft) => {
     const [item] = draft.schedule.splice(result.source.index, 1);
     draft.schedule.splice(result.destination.index, 0, item);
-  })
+  });
   return newRow;
 }
 
 export function updateNumberOfBars(oldRow, numberOfBars) {
   console.log(oldRow, numberOfBars);
-  const newRow = produce(oldRow, draft => {
+  const newRow = produce(oldRow, (draft) => {
     const schedule = draft.schedule;
     for (let i = 0; i < schedule.length; i++) {
       schedule[i].value = 0;
@@ -36,12 +36,12 @@ export function updateNumberOfBars(oldRow, numberOfBars) {
       }
     }
     spreadWork(draft);
-  })
+  });
   return newRow;
 }
 
 export function wPScheduleHelper(row, result) {
-  const newRow = produce(row, draft => {
+  const newRow = produce(row, (draft) => {
     const schedule = draft.schedule;
     const originalBlockDate = result.source.index;
     const newBlockDate = result.destination.index;
@@ -50,11 +50,11 @@ export function wPScheduleHelper(row, result) {
       blockContents.barNumber,
       schedule
     );
-  
+
     if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
-  
+
     increaseDaysIfRequired(draft, result, blockContents);
-  
+
     if (blockContents.start && blockContents.end) {
       splitSingleEntry(originalBlockDate, newBlockDate, schedule);
       setPropertiesByFirstAndLast(schedule);
@@ -68,7 +68,7 @@ export function wPScheduleHelper(row, result) {
     }
     spreadWork(draft);
   });
-  return newRow
+  return newRow;
 }
 
 function barsOverlap(originalBlockDate, newBlockDate, schedule) {
@@ -93,17 +93,17 @@ function increaseDaysIfRequired(row, result, blockContents) {
     barLengthIsIncreasing(result, blockContents) &&
     newDuration(row, result) > row.days
   ) {
-    changeDays(row, result);
+    updateDays(row, result);
   }
   return row;
 }
 
-function changeDays(row, result) {
+function updateDays(row, result) {
   row.days = newDuration(row, result);
   toast.info("increased number of days", {
     // success, info, warn, error
     position: toast.POSITION.TOP_RIGHT,
-    autoClose: 2500,
+    autoClose: 2000,
     // autoClose: false,
   });
   return row;
