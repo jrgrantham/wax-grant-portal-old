@@ -11,7 +11,6 @@ toast.configure();
 
 export function dAndMScheduleHelper(oldRow, result) {
   const newRow = produce(oldRow, draft => {
-    // const schedule = 
     const [item] = draft.schedule.splice(result.source.index, 1);
     draft.schedule.splice(result.destination.index, 0, item);
   })
@@ -25,13 +24,11 @@ export function updateNumberOfBars(oldRow, numberOfBars) {
     for (let i = 0; i < schedule.length; i++) {
       schedule[i].value = 0;
       if (i < numberOfBars) {
-        // console.log("singe, index", i);
         schedule[i].start = true;
         schedule[i].end = true;
         schedule[i].status = true;
         schedule[i].barNumber = i + 1;
       } else {
-        // console.log("removed, index", i);
         schedule[i].start = false;
         schedule[i].end = false;
         schedule[i].status = false;
@@ -133,12 +130,10 @@ function createSingleEntry(dateForNewBlock, otherDate, schedule) {
   for (let i = firstDate; i < lastDate + 1; i++) {
     schedule[i].value = 0;
     if (i === dateForNewBlock) {
-      console.log("singe, index", i);
       schedule[i].start = true;
       schedule[i].end = true;
       schedule[i].status = true;
     } else {
-      console.log("removed, index", i);
       schedule[i].start = false;
       schedule[i].end = false;
       schedule[i].status = false;
@@ -149,7 +144,6 @@ function createSingleEntry(dateForNewBlock, otherDate, schedule) {
 }
 
 function splitSingleEntry(originalBlockDate, newBlockDate, schedule) {
-  // console.log("splitSingleEntry");
   const barNumber = schedule[originalBlockDate].barNumber;
   const first = Math.min(originalBlockDate, newBlockDate); // startDate = endDate
   const last = Math.max(originalBlockDate, newBlockDate); // startDate = endDate

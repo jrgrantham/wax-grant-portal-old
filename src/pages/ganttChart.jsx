@@ -94,9 +94,6 @@ function GanttChart() {
               />
             );
           })}
-          <div className="space">
-            <button>add task</button>
-          </div>
           <GanttWorkPackageDetails
             workPackData={deliverables}
             backgroundColor={"red"}
@@ -107,9 +104,6 @@ function GanttChart() {
             backgroundColor={"green"}
             title={"Milestones"}
           />
-          <div className="space">
-            <button>add deadline</button>
-          </div>
         </div>
 
         <div className="right">
@@ -125,7 +119,6 @@ function GanttChart() {
                 />
               );
             })}
-            <div className="space"></div>
             <GanttWorkPackageSchedule
               workPackData={deliverables}
               prefix={"D"}
@@ -136,7 +129,6 @@ function GanttChart() {
               prefix={"M"}
               backgroundColor={"green"}
             />
-            <div className="space"></div>
           </div>
         </div>
       </div>

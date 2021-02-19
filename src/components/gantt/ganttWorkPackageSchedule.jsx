@@ -20,7 +20,7 @@ function GanttWorkPackageSchedule(props) {
           />
         );
       })}
-      {/* <div className="footer" /> */}
+      <div className="addButton" />
     </Container>
   );
 }
@@ -30,7 +30,8 @@ export default GanttWorkPackageSchedule;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  border-bottom: 10px solid rgba(200, 200, 200, 0.15);
 
   .title {
     height: 40px;
@@ -39,7 +40,7 @@ const Container = styled.div`
     align-items: center;
     color: white;
   }
-  .footer {
+  .addButton {
     height: 40px;
   }
 `;

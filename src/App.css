@@ -11,4 +11,5 @@ p {
 
 button {
   cursor: pointer;
+  border: 1px solid #c1c1c1
 }

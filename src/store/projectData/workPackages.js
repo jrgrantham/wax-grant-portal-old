@@ -56,8 +56,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
         data: reordered,
       };
     case wPScheduleUpdated.type:
-      // const { row, result } = action.payload;
-      console.log(action.payload);
+      // console.log(action.payload);
       const updatedRow = wPScheduleHelper(
         action.payload.row,
         action.payload.result

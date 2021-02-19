@@ -5,7 +5,9 @@ import { useDispatch } from "react-redux";
 
 import { wPReorderRows } from "../../store/projectData/workPackages";
 import GanttDetails from "./ganttDetails";
-import { dAndMReorderRows, dAndMRowAdded } from "../../store/projectData/delsAndMils";
+import {
+  dAndMReorderRows,
+} from "../../store/projectData/delsAndMils";
 
 function GanttWorkPackage(props) {
   const dispatch = useDispatch();
@@ -44,22 +46,27 @@ function GanttWorkPackage(props) {
                         className="MonthContainer"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        {...provided.dragHandleProps}
                       >
-                        <GanttDetails key={index} row={row} isWP={isWP} {...provided.dragHandleProps}/>
+                        <GanttDetails // this component is to the right
+                          provided={provided}
+                          key={index}
+                          row={row}
+                          isWP={isWP}
+                          // {...provided.dragHandleProps} // I want to pass these...
+                        />
                       </div>
                     )}
                   </Draggable>
                 );
               })}
               {provided.placeholder}
+              <div className='addButton'>
+                <button>add task</button>
+              </div>
             </div>
           )}
         </Droppable>
       </DragDropContext>
-      {/* <div className="footer">
-        <button>add row</button>
-      </div> */}
     </Container>
   );
 }
@@ -82,7 +89,7 @@ const Container = styled.div`
     width: 500px;
     background-color: ${(props) => props.backgroundColor};
   }
-  .footer {
+  .addButton {
     display: flex;
     align-items: center;
     height: 40px;

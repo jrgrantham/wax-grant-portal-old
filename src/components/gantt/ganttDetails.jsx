@@ -13,7 +13,7 @@ function GanttDetails(props) {
   const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const { row, isWP } = props;
+  const { row, isWP, provided } = props;
   const { description, resources, days, schedule } = row;
 
   const dateIndex = schedule
@@ -37,10 +37,17 @@ function GanttDetails(props) {
   );
 
   return (
+    //           this is the GanttDetails component
+    //           spreading the provided props here
+    //           {...provided.dragHandleProps}
+    //           states that provided isn't defined
+
     <Container>
       {edit ? <EditModal setEdit={setEdit} row={row} /> : null}
       <div className="rowDescription">
-        <BiMenu />
+        <div {...provided.dragHandleProps} >
+          <BiMenu/>
+        </div>
         <p>{description}</p>
       </div>
       {isWP ? (
