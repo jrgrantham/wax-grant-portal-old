@@ -1,13 +1,14 @@
 import React from "react";
-// import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import GanttRowSchedule from "./ganttRowSchedule";
 function GanttWorkPackageSchedule(props) {
   const nonWPPrefix = props.prefix;
+  const scheduleWidth = useSelector(state => state.project.data.projectLength)
 
   return (
-    <Container backgroundColor={props.backgroundColor}>
+    <Container columns={scheduleWidth}>
       <div className="title" />
       {props.workPackData.map((row, index) => {
         return (
@@ -31,7 +32,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   /* margin-bottom: 10px; */
-  border-bottom: 10px solid rgba(200, 200, 200, 0.15);
+  border-bottom: 10px solid rgba(250, 250, 250, 0.25);
+  width: ${props => props.columns * 40}px;
 
   .title {
     height: 40px;

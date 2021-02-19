@@ -18,7 +18,7 @@ function GanttScheduleBackground() {
     return (
       <div key={i} className={classNames[i % 3]}>
         {/* <div className='month'> */}
-        <Tippy delay={250} content={date} >
+        <Tippy delay={250} content={date}>
           <p>{date[0]}</p>
         </Tippy>
         {/* </div> */}
@@ -38,10 +38,10 @@ const Container = styled.div`
   border-radius: 10px;
   overflow: hidden;
   P {
-  font-size: 18px;
-  font-weight: 700;
-  color: white;
-  cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
   }
   .month {
     display: flex;
@@ -66,10 +66,10 @@ const Container = styled.div`
     padding-top: 5px;
   }
   .columnLeft {
-    border-left: 1px solid  rgba(250, 250, 250, 0.5);
+    border-left: 1px solid rgba(250, 250, 250, 0.5);
   }
   .columnRight {
-    border-right: 1px solid  rgba(250, 250, 250, 0.5);
+    border-right: 1px solid rgba(250, 250, 250, 0.5);
   }
 
   .tooltip {
