@@ -7,6 +7,7 @@ import {
   reorderArrayByIndex,
   wPScheduleHelper,
   updateNumberOfBars,
+  wPUpdateDays,
 } from "../../helpers";
 
 export const wPFetchRequest = createAction("wPFetchRequest");
@@ -19,6 +20,7 @@ export const wPScheduleUpdated = createAction("wPScheduleUpdated");
 export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
 export const wPReorderRows = createAction("wPReorderRows");
 export const wPChangeKeyValue = createAction("wPChangeKeyValue");
+export const wPDaysUpdated = createAction("wPDaysUpdated");
 
 export default function workPackageReducer(state = wPDummyData, action) {
   switch (action.type) {
@@ -105,10 +107,21 @@ export default function workPackageReducer(state = wPDummyData, action) {
             const updatedRow = {
               ...row,
               [action.payload.key]: action.payload.value,
-            }
-            return updatedRow
+            };
+            return updatedRow;
           }
-          return row
+          return row;
+        }),
+      };
+    case wPDaysUpdated.type:
+      const updatedDays = wPUpdateDays(action.payload.row, 5);
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.row.rowId) {
+            return updatedDays;
+          }
+          return row;
         }),
       };
     default:

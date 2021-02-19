@@ -1,5 +1,10 @@
 // import { emptyBlock } from "../data/workPackages";
+import produce from "immer";
 import { currentCombinedLengthOfBars } from "./index";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 export function spreadWork(row) {
   const days = row.days;
@@ -19,3 +24,31 @@ export function spreadWork(row) {
   return row;
 }
 
+export function wPUpdateDays(oldRow, days) {
+  const newRow = produce(oldRow, (draft) => {
+    let alerted = false;
+    draft.days = days;
+    const schedule = draft.schedule;
+    let statusCount = 0;
+    for (let i = 0; i < schedule.length; i++) {
+      if (schedule[i].status) statusCount++;
+      if (statusCount === days) schedule[i].end = true;
+      if (statusCount > days) {
+        schedule[i].status = false;
+        schedule[i].start = false;
+        schedule[i].end = false;
+        schedule[i].value = 0;
+        schedule[i].value = 0;
+        if (!alerted) {
+          alerted = true;
+          toast.info("decreased length of bars", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2500,
+          });
+      }
+      }
+    }
+    spreadWork(draft);
+  });
+  return newRow;
+}

@@ -1,14 +1,17 @@
+import {wPDummyData} from '../data/wPData'
 import configureStore from "./projectData/configureStore";
+import { wPDaysUpdated } from "./projectData/workPackages";
+
+// console.log(wPDummyData.data[0]);
 
 // import { singleRow } from "../data/wPData";
 // import { singleMilOne, singleMilTwo } from "../data/dMData";
-import { wPChangeKeyValue } from "./projectData/workPackages";
 // import { dAndMRowAdded } from './projectData/delsAndMils';
 
 export const store = configureStore();
 
 setTimeout(() => {
-  store.dispatch(wPChangeKeyValue({rowId: "ganttRow1", key: 'days', value: 5 }));
+  store.dispatch(wPDaysUpdated({row: wPDummyData.data[0], value: 5}));
 }, 1500);
 
 // setTimeout(() => {
