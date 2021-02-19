@@ -37,11 +37,6 @@ function GanttDetails(props) {
   );
 
   return (
-    //           this is the GanttDetails component
-    //           spreading the provided props here
-    //           {...provided.dragHandleProps}
-    //           states that provided isn't defined
-
     <Container>
       {edit ? <EditModal setEdit={setEdit} row={row} /> : null}
       <div className="rowDescription">

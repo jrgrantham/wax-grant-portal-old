@@ -1,5 +1,6 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 
 import { wPDummyData } from "../../data";
 import {
@@ -17,6 +18,7 @@ export const wPRowRemoved = createAction("wPRowRemoved");
 export const wPScheduleUpdated = createAction("wPScheduleUpdated");
 export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
 export const wPReorderRows = createAction("wPReorderRows");
+export const wPChangeKeyValue = createAction("wPChangeKeyValue");
 
 export default function workPackageReducer(state = wPDummyData, action) {
   switch (action.type) {
@@ -93,6 +95,20 @@ export default function workPackageReducer(state = wPDummyData, action) {
             return newRow;
           }
           return row;
+        }),
+      };
+    case wPChangeKeyValue.type:
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.rowId) {
+            const updatedRow = {
+              ...row,
+              [action.payload.key]: action.payload.value,
+            }
+            return updatedRow
+          }
+          return row
         }),
       };
     default:

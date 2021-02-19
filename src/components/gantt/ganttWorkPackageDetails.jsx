@@ -47,12 +47,11 @@ function GanttWorkPackage(props) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                       >
-                        <GanttDetails // this component is to the right
+                        <GanttDetails
                           provided={provided}
                           key={index}
                           row={row}
                           isWP={isWP}
-                          // {...provided.dragHandleProps} // I want to pass these...
                         />
                       </div>
                     )}
