@@ -86,7 +86,6 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
       };
     case dAndMChangedDate.type:
       const newDateRow = dAndMUpdateDate(action.payload.row, action.payload.value)
-      console.log(newDateRow);
       return {
         ...state,
         data: state.data.map((row) => {

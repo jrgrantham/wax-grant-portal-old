@@ -54,7 +54,6 @@ export function wPUpdateDays(oldRow, days) {
 }
 
 export function dAndMUpdateDate(oldRow, date) {
-  console.log(oldRow);
   const newRow = produce(oldRow, (draft) => {
     const schedule = draft.schedule;
     for (let i = 0; i < schedule.length; i++) {
