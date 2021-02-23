@@ -18,3 +18,7 @@ select,
 input {
   border-color: lightgray;
 }
+
+input:focus {
+  border-color: dodgerblue;
+}

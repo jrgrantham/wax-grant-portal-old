@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
@@ -25,7 +25,6 @@ function EditModal(props) {
     description,
     workPackageTitle,
     schedule,
-    rowId,
   } = row;
   const barLimit = Math.ceil(schedule.length / 2);
   const bars = numberOfBars(schedule);
@@ -98,10 +97,12 @@ function EditModal(props) {
   );
 
   function closeModal(e) {
-    e.preventDefault();
-    console.log(e);
-    if (e.target.id === "background" || e.keycode === 27) props.setEdit(false);
+    if (e.target.id === "background" ) props.setEdit(false);
   }
+
+  window.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' || event.keycode === 27) props.setEdit(false)
+  })
 
   return (
     <Container id="background" onClick={(e) => closeModal(e)} >
@@ -212,11 +213,6 @@ function EditModal(props) {
 
           <button type="submit">Submit changes</button>
         </form>
-        {/* <div className="content row">
-          <button onClick={() => dispatch(wPSetNumberOfBars({ row, bars: 5 }))}>
-            set bars
-          </button>
-        </div> */}
       </div>
     </Container>
   );

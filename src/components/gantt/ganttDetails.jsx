@@ -22,11 +22,6 @@ function GanttDetails(props) {
   const { row, isWP, provided } = props;
   const { description, resources, days, schedule } = row;
 
-  function changeDate(value) {
-    console.log({ row, value });
-    dispatch(dAndMChangedDate({ row, value }));
-  }
-
   const dateIndex = schedule
     .map(function(date) {
       return date.status;
@@ -77,8 +72,22 @@ function GanttDetails(props) {
             })
           )
         }
+        onBlur={(e) => {
+          console.log("remember to send to the server");
+        }}
       />
       {/* <p>{description}</p> */}
+    </div>
+  );
+
+  const deleteDM = (
+    <div className="confirmDelete">
+      <button className="cancel" onClick={() => setConfirmDelete(false)}>
+        Cancel
+      </button>
+      <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
+        Confirm Delete
+      </button>
     </div>
   );
 
@@ -91,7 +100,11 @@ function GanttDetails(props) {
           {/* <p>{eventDate}</p> */}
           <select
             value={eventDate}
-            onChange={(e) => changeDate(parseInt(e.target.value))}
+            onChange={(e) =>
+              dispatch(
+                dAndMChangedDate({ row, value: parseInt(e.target.value) })
+              )
+            }
           >
             {projectDates.map((date, index) => (
               <option value={index} key={index}>
@@ -106,17 +119,6 @@ function GanttDetails(props) {
           />
         </>
       )}
-    </div>
-  );
-
-  const deleteDM = (
-    <div className="confirmDelete">
-      <button className="cancel" onClick={() => setConfirmDelete(false)}>
-        Cancel
-      </button>
-      <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
-        Confirm Delete
-      </button>
     </div>
   );
   // join these

@@ -1,9 +1,9 @@
 import configureStore from "./projectData/configureStore";
-import { wPDaysUpdated } from "./projectData/workPackages";
-import { dAndMRowAdded, dAndMChangedDate } from './projectData/delsAndMils';
+// import { wPDaysUpdated } from "./projectData/workPackages";
+// import { dAndMRowAdded, dAndMChangedDate } from './projectData/delsAndMils';
 
-import {wPDummyData} from '../data/wPData'
-import {dMDummyData} from '../data/dMData'
+// import {wPDummyData} from '../data/wPData'
+// import {dMDummyData} from '../data/dMData'
 // console.log(wPDummyData.data[0]);
 
 // import { singleRow } from "../data/wPData";
