@@ -11,7 +11,8 @@ function GanttDetails(props) {
   const projectStart = useSelector((state) => state.project.data.dates[0]);
   const startMoment = moment(projectStart, "MMM YYYY");
   const dispatch = useDispatch();
-  const [edit, setEdit] = useState(false);
+  // const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(props.row.rowId === 'ganttRow1');
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { row, isWP, provided } = props;
   const { description, resources, days, schedule } = row;
@@ -29,7 +30,7 @@ function GanttDetails(props) {
 
   const deleteDM = (
     <div className="confirmDelete">
-      <button onClick={() => setConfirmDelete(false)}>Cancel</button>
+      <button className='cancel' onClick={() => setConfirmDelete(false)}>Cancel</button>
       <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
         Confirm Delete
       </button>
@@ -102,7 +103,10 @@ const Container = styled.div`
 
   .confirmDelete {
     display: flex;
-    justify-content: space-between;
-    width: 175px;
+    justify-content: flex-end;
+    width: 205px;
+    .cancel {
+      margin-right: 10px;
+    }
   }
 `;

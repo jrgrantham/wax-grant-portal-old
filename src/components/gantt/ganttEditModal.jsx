@@ -3,29 +3,32 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  wPRowRemoved,
-  wPSetNumberOfBars,
-} from "../../store/projectData/workPackages";
-// import { validate } from "uuid";
+import { wPRowRemoved, wPEdited } from "../../store/projectData/workPackages";
+
+function numberOfBars(schedule) {
+  let bars = 0;
+  for (let i = schedule.length - 1; i > 0; i--) {
+    if (schedule[i].status) {
+      bars = schedule[i].barNumber;
+      return bars;
+    }
+  }
+}
 
 function EditModal(props) {
-  console.log("modal");
   const dispatch = useDispatch();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const row = props.row;
-  const { dayLoading, days, description, workPackageTitle, schedule } = row;
+  const {
+    dayLoading,
+    days,
+    description,
+    workPackageTitle,
+    schedule,
+    rowId,
+  } = row;
   const barLimit = Math.ceil(schedule.length / 2);
-
-  function numberOfBars() {
-    let bars = 0;
-    for (let i = schedule.length - 1; i > 0; i--) {
-      if (schedule[i].status) {
-        bars = schedule[i].barNumber;
-        return bars;
-      }
-    }
-  }
+  const bars = numberOfBars(schedule);
 
   const validationSchema = Yup.object({
     workPackageTitle: Yup.string().required("Required"),
@@ -33,7 +36,6 @@ function EditModal(props) {
     days: Yup.number()
       .typeError("You must specify a number")
       .min(1, "Minimum 1 day")
-      // .max(barLimit, `Maximum ${barLimit} days`)
       .required("Required")
       .integer("Must be a whole number"),
     dayLoading: Yup.string().required("Required"),
@@ -51,24 +53,44 @@ function EditModal(props) {
       description,
       days,
       dayLoading,
-      bars: numberOfBars(),
+      bars,
     },
     onSubmit: (values) => {
-      // send bars to function
-      // delete object key
-      // delete values.bars
-      // check remaining object keys
-      // send entire object to reducer
-      // get reducer to send to different functions
-      console.log(values);
+      const parsedBars = parseInt(values.bars);
+      const parsedDays = parseInt(values.days);
+      const newBars = bars === parsedBars ? false : parsedBars;
+      const newDays = days === parsedDays ? false : parsedDays;
+      const newWorkPackageTitle =
+        workPackageTitle === values.workPackageTitle
+          ? false
+          : values.workPackageTitle;
+      const newDescription =
+        description === values.description ? false : values.description;
+      const newDayLoading =
+        dayLoading === values.dayLoading ? false : values.dayLoading;
+      const changes = {
+        newBars,
+        newDays,
+        newWorkPackageTitle,
+        newDescription,
+        newDayLoading,
+      };
+      dispatch(
+        wPEdited({
+          row,
+          changes,
+        })
+      );
+      // props.setEdit(false);
     },
-    // validate,
     validationSchema,
   });
 
   const deleteWP = (
     <div className="confirmDelete">
-      <button onClick={() => setConfirmDelete(false)}>Cancel</button>
+      <button className="cancel" onClick={() => setConfirmDelete(false)}>
+        Cancel
+      </button>
       <button onClick={() => dispatch(wPRowRemoved(row.rowId))}>
         Confirm Delete
       </button>
@@ -78,81 +100,8 @@ function EditModal(props) {
   return (
     <Container>
       <div className="editWindow">
-        <div className="top row">
+        <div className="topRow">
           <button onClick={() => props.setEdit(false)}>Close</button>
-        </div>
-        <form onSubmit={formik.handleSubmit}>
-          <label htmlFor="work pack">Work pack</label>
-          <input
-            type="text"
-            name="workPackageTitle"
-            id="workPackageTitle"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.workPackageTitle}
-          />
-          {formik.touched.workPackageTitle && formik.errors.workPackageTitle ? (
-            <p>{formik.errors.workPackageTitle}</p>
-          ) : null}
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            name="description"
-            id="description"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.description}
-          />
-          {formik.touched.description && formik.errors.description ? (
-            <p>{formik.errors.description}</p>
-          ) : null}
-          <label htmlFor="Assigned days">Assigned days</label>
-          <input
-            type="text"
-            name="days"
-            id="days"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.days}
-          />
-          {formik.touched.bars && formik.errors.bars ? (
-            <p>{formik.errors.bars}</p>
-          ) : null}
-          <label htmlFor="Number of bars">Number of bars</label>
-          <input
-            type="text"
-            name="bars"
-            id="bars"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.bars}
-          />
-          {formik.touched.bars && formik.errors.bars ? (
-            <p>{formik.errors.bars}</p>
-          ) : null}
-          <label htmlFor="Days Loading">Days Loading</label>
-          <select
-            id="dayLoading"
-            name="dayLoading"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.dayLoading}
-          >
-            <option value="front">Front</option>
-            <option value="level">Level</option>
-            <option value="back">Back</option>
-          </select>
-          {formik.touched.daysLoading && formik.errors.dayLoading ? (
-            <p>{formik.errors.dayLoading}</p>
-          ) : null}
-          <button type="submit">Submit</button>
-        </form>
-        <div className="content row">
-          <button onClick={() => dispatch(wPSetNumberOfBars({ row, bars: 5 }))}>
-            set bars
-          </button>
-        </div>
-        <div className="bottom row">
           {confirmDelete ? (
             deleteWP
           ) : (
@@ -164,6 +113,104 @@ function EditModal(props) {
             </button>
           )}
         </div>
+
+        <form onSubmit={formik.handleSubmit}>
+          <div className="formField">
+            <div className="inputArea">
+              <label htmlFor="work pack">Work pack</label>
+              <input
+                type="text"
+                name="workPackageTitle"
+                id="workPackageTitle"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.workPackageTitle}
+              />
+            </div>
+            {formik.touched.workPackageTitle &&
+            formik.errors.workPackageTitle ? (
+              <p className="errorMessage">{formik.errors.workPackageTitle}</p>
+            ) : null}
+          </div>
+
+          <div className="formField">
+            <div className="inputArea">
+              <label htmlFor="description">Description</label>
+              <input
+                type="text"
+                name="description"
+                id="description"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.description}
+              />
+            </div>
+            {formik.touched.description && formik.errors.description ? (
+              <p className="errorMessage">{formik.errors.description}</p>
+            ) : null}
+          </div>
+
+          <div className="formField">
+            <div className="inputArea">
+              <label htmlFor="Assigned days">Assigned days</label>
+              <input
+                type="text"
+                name="days"
+                id="days"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.days}
+              />
+            </div>
+            {formik.touched.days && formik.errors.days ? (
+              <p className="errorMessage">{formik.errors.days}</p>
+            ) : null}
+          </div>
+
+          <div className="formField">
+            <div className="inputArea">
+              <label htmlFor="Number of bars">Number of bars</label>
+              <input
+                type="text"
+                name="bars"
+                id="bars"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.bars}
+              />
+            </div>
+            {formik.touched.bars && formik.errors.bars ? (
+              <p className="errorMessage">{formik.errors.bars}</p>
+            ) : null}
+          </div>
+
+          <div className="formField">
+            <div className="inputArea">
+              <label htmlFor="Days Loading">Days Loading</label>
+              <select
+                id="dayLoading"
+                name="dayLoading"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.dayLoading}
+              >
+                <option value="front">Front</option>
+                <option value="level">Level</option>
+                <option value="back">Back</option>
+              </select>
+            </div>
+            {formik.touched.daysLoading && formik.errors.dayLoading ? (
+              <p className="errorMessage">{formik.errors.dayLoading}</p>
+            ) : null}
+          </div>
+
+          <button type="submit">Submit changes</button>
+        </form>
+        {/* <div className="content row">
+          <button onClick={() => dispatch(wPSetNumberOfBars({ row, bars: 5 }))}>
+            set bars
+          </button>
+        </div> */}
       </div>
     </Container>
   );
@@ -185,22 +232,10 @@ const Container = styled.div`
   background-color: rgba(20, 20, 20, 0.6);
   z-index: 2;
 
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  p {
-    padding-bottom: 10px;
-  }
-  button {
-    /* margin-left: 25px; */
-  }
-
   .editWindow {
     width: 500px;
-    height: 600px;
+    height: 420px;
+    padding: 15px 15px 30px 15px;
 
     display: flex;
     flex-direction: column;
@@ -211,10 +246,48 @@ const Container = styled.div`
     border-radius: 8px;
   }
 
-  .row {
+  form {
     display: flex;
-    justify-content: flex-end;
-    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+    /* width: 100%; */
+  }
+  button {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .errorMessage {
+    font-size: 12px;
+    color: red;
+  }
+
+  .formField {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: flex-end;
+    flex-direction: column;
+    width: 80%;
+    height: 50px;
+    margin-bottom: 5px;
+  }
+  .inputArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  select,
+  input {
+    height: 30px;
+    width: 250px;
+    border-color: lightgray;
+  }
+
+  .topRow {
+    display: flex;
+    justify-content: space-between;
   }
   .content {
     flex-direction: column;
@@ -222,9 +295,9 @@ const Container = styled.div`
     padding: 10px;
   }
 
-  .confirmDelete {
+  /* .confirmDelete {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 175px;
-  }
+  } */
 `;

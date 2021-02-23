@@ -7,6 +7,7 @@ import {
   wPScheduleHelper,
   updateNumberOfBars,
   wPUpdateDays,
+  updateEditedWp,
 } from "../../helpers";
 
 export const wPFetchRequest = createAction("wPFetchRequest");
@@ -20,6 +21,7 @@ export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
 export const wPReorderRows = createAction("wPReorderRows");
 export const wPChangeKeyValue = createAction("wPChangeKeyValue");
 export const wPDaysUpdated = createAction("wPDaysUpdated");
+export const wPEdited = createAction("wPEdited");
 
 export default function workPackageReducer(state = wPDummyData, action) {
   switch (action.type) {
@@ -44,7 +46,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
     case wPReorderRows.type:
       const rowId = action.payload.row.rowId;
       const originalIndex = state.data
-        .map(function (obj) {
+        .map(function(obj) {
           return obj.rowId;
         })
         .indexOf(rowId);
@@ -113,13 +115,30 @@ export default function workPackageReducer(state = wPDummyData, action) {
         }),
       };
     case wPDaysUpdated.type:
-      const updatedDaysRow = wPUpdateDays(action.payload.row, 5);
-      console.log('helper');
+      const updatedDaysRow = wPUpdateDays(
+        action.payload.row,
+        action.payload.days
+      );
+      console.log("helper");
       return {
         ...state,
         data: state.data.map((row) => {
           if (row.rowId === action.payload.row.rowId) {
             return updatedDaysRow;
+          }
+          return row;
+        }),
+      };
+    case wPEdited.type:
+      const editedRow = updateEditedWp(
+        action.payload.row,
+        action.payload.changes
+      );
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.row.rowId) {
+            return editedRow;
           }
           return row;
         }),

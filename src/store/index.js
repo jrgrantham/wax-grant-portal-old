@@ -11,10 +11,10 @@ import {dMDummyData} from '../data/dMData'
 
 export const store = configureStore();
 
-setTimeout(() => {
-  console.log('timer');
-  store.dispatch(dAndMChangedDate({row: dMDummyData.data[0], value: 15}));
-}, 1500);
+// setTimeout(() => {
+//   console.log('timer');
+//   store.dispatch(dAndMChangedDate({row: dMDummyData.data[0], value: 15}));
+// }, 3000);
 
 // setTimeout(() => {
 //   store.dispatch(wPRowRemoved("ganttRow3"));

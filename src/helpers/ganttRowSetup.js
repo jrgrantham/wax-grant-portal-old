@@ -6,6 +6,59 @@ import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();
 
+export function updateEditedWp(oldRow, changes) {
+  const {
+    newWorkPackageTitle,
+    newDescription,
+    newDayLoading,
+    newDays,
+    newBars,
+  } = changes;
+
+  const newRow = produce(oldRow, (draft) => {
+    if (newWorkPackageTitle) draft.workPackageTitle = newWorkPackageTitle;
+    if (newDescription) draft.description = newDescription;
+    if (newDayLoading) draft.datLoading = newDayLoading;
+    if (newDays) {
+      draft.days = newDays;
+      spreadWork(draft);
+    }
+    let bars = newBars;
+    if (newBars) {
+      // console.log('bars');
+      if (newBars > draft.days) {
+        bars = draft.days;
+        toast.info("decreased length of bars", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+        });
+      }
+      updateNumberOfBars(draft, bars);
+    }
+  });
+  return newRow;
+}
+
+export function updateNumberOfBars(oldRow, numberOfBars) {
+  const schedule = oldRow.schedule;
+  for (let i = 0; i < schedule.length; i++) {
+    schedule[i].value = 0;
+    if (i < numberOfBars) {
+      schedule[i].start = true;
+      schedule[i].end = true;
+      schedule[i].status = true;
+      schedule[i].barNumber = i + 1;
+    } else {
+      schedule[i].start = false;
+      schedule[i].end = false;
+      schedule[i].status = false;
+      schedule[i].barNumber = 0;
+    }
+  }
+  spreadWork(oldRow);
+  return oldRow;
+}
+
 export function spreadWork(row) {
   const days = row.days;
   const schedule = row.schedule;
@@ -58,13 +111,13 @@ export function dAndMUpdateDate(oldRow, date) {
     const schedule = draft.schedule;
     for (let i = 0; i < schedule.length; i++) {
       if (i === date) {
-      schedule[i].status = true;
-      schedule[i].start = true;
-      schedule[i].end = true;
+        schedule[i].status = true;
+        schedule[i].start = true;
+        schedule[i].end = true;
       } else {
-      schedule[i].status = false;
-      schedule[i].start = false;
-      schedule[i].end = false;
+        schedule[i].status = false;
+        schedule[i].start = false;
+        schedule[i].end = false;
       }
     }
   });
