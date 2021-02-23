@@ -7,6 +7,7 @@ import moment from "moment";
 import {
   dAndMRowRemoved,
   dAndMChangedDate,
+  dAndMChangeKeyValue,
 } from "../../store/projectData/delsAndMils";
 import EditModal from "./ganttEditModal";
 
@@ -37,18 +38,8 @@ function GanttDetails(props) {
     ? resources.map((person, index) => <span key={index}>{person.name} </span>)
     : null;
 
-  const deleteDM = (
-    <div className="confirmDelete">
-      <button className="cancel" onClick={() => setConfirmDelete(false)}>
-        Cancel
-      </button>
-      <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
-        Confirm Delete
-      </button>
-    </div>
-  );
-
-  const rowDescription = (
+  // join these
+  const wpRowDetails = (
     <div className="rowDescription">
       <div {...provided.dragHandleProps}>
         <BiMenu />
@@ -64,6 +55,30 @@ function GanttDetails(props) {
       <button onClick={() => setEdit(!edit)}>
         <BiDotsHorizontalRounded />
       </button>
+    </div>
+  );
+  // join these
+
+  // join these
+  const dmRowDetails = (
+    <div className="rowDescription">
+      <div {...provided.dragHandleProps}>
+        <BiMenu />
+      </div>
+      <input
+        value={description}
+        type="text"
+        onChange={(e) =>
+          dispatch(
+            dAndMChangeKeyValue({
+              rowId: row.rowId,
+              key: "description",
+              value: e.target.value,
+            })
+          )
+        }
+      />
+      {/* <p>{description}</p> */}
     </div>
   );
 
@@ -94,10 +109,22 @@ function GanttDetails(props) {
     </div>
   );
 
+  const deleteDM = (
+    <div className="confirmDelete">
+      <button className="cancel" onClick={() => setConfirmDelete(false)}>
+        Cancel
+      </button>
+      <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
+        Confirm Delete
+      </button>
+    </div>
+  );
+  // join these
+
   return (
     <Container>
       {edit ? <EditModal setEdit={setEdit} row={row} /> : null}
-      {rowDescription}
+      {isWP ? wpRowDetails : dmRowDetails}
       {isWP ? wp : dm}
     </Container>
   );
@@ -114,15 +141,17 @@ const Container = styled.div`
   height: 50px;
   border-bottom: 1px solid lightgrey;
 
-  select,
-  input {
-  }
-
   .rowDescription {
     display: flex;
     align-items: center;
     p {
       margin-left: 10px;
+    }
+    input {
+      width: 320px;
+      margin-left: 5px;
+      padding-left: 10px;
+      background-color: #f5f5f5;
     }
   }
 
@@ -132,6 +161,9 @@ const Container = styled.div`
     align-items: center;
     p {
       margin-right: 10px;
+    }
+    select {
+      margin-right: 5px;
     }
   }
 

@@ -5,7 +5,6 @@ import { wPDummyData } from "../../data";
 import {
   reorderArrayByIndex,
   wPScheduleHelper,
-  updateNumberOfBars,
   wPUpdateDays,
   updateEditedWp,
 } from "../../helpers";

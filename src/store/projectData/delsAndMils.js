@@ -14,9 +14,9 @@ export const dAndMFetchFailure = createAction("dAndMFetchFailure");
 export const dAndMRowAdded = createAction("dAndMRowAdded");
 export const dAndMRowRemoved = createAction("dAndMRowRemoved");
 export const dAndMScheduleUpdated = createAction("dAndMScheduleUpdated");
-export const dAndMSetNumberOfBars = createAction("dAndMSetNumberOfBars");
 export const dAndMReorderRows = createAction("dAndMReorderRows");
 export const dAndMChangedDate = createAction("dAndMChangedDate");
+export const dAndMChangeKeyValue = createAction("dAndMChangeKeyValue");
 
 // reducer
 
@@ -82,6 +82,20 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
         ...state,
         data: state.data.filter((row) => row.rowId !== action.payload),
       };
+      case dAndMChangeKeyValue.type:
+        return {
+          ...state,
+          data: state.data.map((row) => {
+            if (row.rowId === action.payload.rowId) {
+              const updatedRow = {
+                ...row,
+                [action.payload.key]: action.payload.value,
+              };
+              return updatedRow;
+            }
+            return row;
+          }),
+        };
     case dAndMChangedDate.type:
       const newDateRow = dAndMUpdateDate(action.payload.row, action.payload.value)
       return {
