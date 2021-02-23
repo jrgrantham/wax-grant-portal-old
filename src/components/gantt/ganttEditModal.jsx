@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
@@ -81,7 +81,7 @@ function EditModal(props) {
           changes,
         })
       );
-      // props.setEdit(false);
+      props.setEdit(false);
     },
     validationSchema,
   });
@@ -97,11 +97,17 @@ function EditModal(props) {
     </div>
   );
 
+  function closeModal(e) {
+    e.preventDefault();
+    console.log(e);
+    if (e.target.id === "background" || e.keycode === 27) props.setEdit(false);
+  }
+
   return (
-    <Container>
+    <Container id="background" onClick={(e) => closeModal(e)} >
       <div className="editWindow">
         <div className="topRow">
-          <button onClick={() => props.setEdit(false)}>Close</button>
+          <button onClick={() => props.setEdit(false)}>Cancel</button>
           {confirmDelete ? (
             deleteWP
           ) : (
@@ -280,9 +286,7 @@ const Container = styled.div`
 
   select,
   input {
-    height: 30px;
     width: 250px;
-    border-color: lightgray;
   }
 
   .topRow {

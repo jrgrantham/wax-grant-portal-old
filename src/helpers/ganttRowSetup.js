@@ -25,10 +25,9 @@ export function updateEditedWp(oldRow, changes) {
     }
     let bars = newBars;
     if (newBars) {
-      // console.log('bars');
       if (newBars > draft.days) {
         bars = draft.days;
-        toast.info("decreased length of bars", {
+        toast.info("bars cannot exceed assigned days", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
         });
@@ -39,8 +38,8 @@ export function updateEditedWp(oldRow, changes) {
   return newRow;
 }
 
-export function updateNumberOfBars(oldRow, numberOfBars) {
-  const schedule = oldRow.schedule;
+function updateNumberOfBars(row, numberOfBars) {
+  const schedule = row.schedule;
   for (let i = 0; i < schedule.length; i++) {
     schedule[i].value = 0;
     if (i < numberOfBars) {
@@ -55,8 +54,8 @@ export function updateNumberOfBars(oldRow, numberOfBars) {
       schedule[i].barNumber = 0;
     }
   }
-  spreadWork(oldRow);
-  return oldRow;
+  spreadWork(row);
+  return row;
 }
 
 export function spreadWork(row) {

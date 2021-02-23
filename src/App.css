@@ -13,3 +13,8 @@ button {
   cursor: pointer;
   border: 1px solid #c1c1c1
 }
+
+select,
+input {
+  border-color: lightgray;
+}

@@ -58,8 +58,6 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
         data: reordered,
       };
     case dAndMScheduleUpdated.type:
-      // const { row, result } = action.payload;
-      // console.log(action.payload);
       const updatedRow = dAndMScheduleHelper(
         action.payload.row,
         action.payload.result
