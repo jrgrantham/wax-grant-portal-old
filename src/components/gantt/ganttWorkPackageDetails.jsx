@@ -116,7 +116,7 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 40px;
-    padding-left: 5px;
+    padding-left: 25px;
     padding-right: 27px;
     p {
       font-weight: 700;

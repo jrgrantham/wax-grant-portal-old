@@ -1,12 +1,48 @@
 import React from "react";
 import styled from "styled-components";
-// import { TiCode } from "react-icons/ti";
+
+import { useDispatch } from "react-redux";
+import { wPBlockUpdated } from "../../store/projectData/workPackages";
 
 function GanttBlock(props) {
-  const { value, status, start, end, barNumber, nonWPPrefix, rowIndex } = props;
-  const rowNumber = rowIndex + 1;
-  const blockContent = nonWPPrefix ? nonWPPrefix + rowNumber : value;
-  // console.log('block render');
+  const dispatch = useDispatch();
+  const {
+    value,
+    status,
+    start,
+    end,
+    barNumber,
+    nonWPPrefix,
+    rowIndex,
+    row,
+    isWP,
+    index,
+  } = props;
+  const reference = nonWPPrefix + (rowIndex + 1);
+
+  function onchangeHandler(e) {
+    const lastTwoNumbers = e.target.value.slice(-2);
+    const newValue = parseInt(lastTwoNumbers);
+    dispatch(
+      wPBlockUpdated({
+        row,
+        blockIndex: index,
+        newValue,
+        oldValue: value,
+      })
+    );
+  }
+
+  function isNumberKey(e) {
+    const charCode = e.which ? e.which : e.keyCode;
+    // if (charCode > 31 && (charCode < 48 || charCode > 57)) e.preventDefault();
+    if (
+      (charCode < 48 && !(charCode === 37 || charCode === 39)) ||
+      charCode > 57
+    )
+      e.preventDefault();
+  }
+
   return (
     <Container
       value={value}
@@ -17,7 +53,6 @@ function GanttBlock(props) {
     >
       {props.status ? (
         <div className="active">
-          {/* {start ? pointerLeft : null} */}
           <div
             className={
               start && end
@@ -29,27 +64,24 @@ function GanttBlock(props) {
                 : "value"
             }
           >
-            <p>{blockContent}</p>
+            {isWP ? (
+              <input
+                type="text"
+                value={value}
+                pattern="[0-9]"
+                onKeyDown={(e) => isNumberKey(e)}
+                onChange={(e) => onchangeHandler(e)}
+                // onBlur={onblurHandler} send to server?
+              />
+            ) : (
+              <p>{reference}</p>
+            )}
           </div>
-          {/* {end ? pointerRight : null} */}
         </div>
-      ) : // ) : <p>{end}</p>}
-      null}
+      ) : null}
     </Container>
   );
 }
-
-// const pointerLeft = (
-//   <div className="pointer left">
-//     <TiCode />
-//   </div>
-// );
-
-// const pointerRight = (
-//   <div className="pointer right">
-//     <TiCode />
-//   </div>
-// );
 
 const Container = styled.div`
   margin: 0;
@@ -58,13 +90,12 @@ const Container = styled.div`
   align-items: center;
   height: 50px;
   width: 40px;
-  /* border-bottom: 1px solid grey; */
-  /* background-color: white; */
-  /* &:first-child {
-    border-left: 0.5px solid lightgrey;
-  } */
-  p {
-    font-size: 16;
+
+  input {
+    text-align: center;
+    width: 20px;
+    padding: 0;
+    border: none;
   }
   .active {
     display: flex;
@@ -95,37 +126,10 @@ const Container = styled.div`
     background-color: white;
     z-index: 1;
 
-    .start {
-      /* margin-right: 25px; */
-    }
-    .end {
-      /* margin-left: 25px; */
-    }
-
     &:hover .pointer {
       opacity: 1;
     }
   }
-
-  .pointer {
-    opacity: 0;
-    transition: opacity 0.3s;
-    border: 1px solid black;
-    border-radius: 50%;
-    background-color: white;
-    padding: 4px 4px 3px 4px;
-    z-index: 2;
-    width: 25px;
-    height: 25px;
-    background: black;
-  }
-  .pointer.left {
-    margin-right: 4px;
-  }
-
-  .pointer.right {
-    margin-left: 4px;
-  }
 `;
 // export default GanttBlock;
-export const MemoisedBlock = React.memo(GanttBlock)
+export const MemoisedBlock = React.memo(GanttBlock);

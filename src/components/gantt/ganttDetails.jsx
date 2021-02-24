@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
-import moment from "moment";
 
 import {
   dAndMRowRemoved,
@@ -14,8 +13,6 @@ import EditModal from "./ganttEditModal";
 function GanttDetails(props) {
   const dispatch = useDispatch();
   const projectDates = useSelector((state) => state.project.data.dates);
-  const projectStart = projectDates[0];
-  const startMoment = moment(projectStart, "MMM YYYY");
   const [edit, setEdit] = useState(false);
   // const [edit, setEdit] = useState(props.row.rowId === 'ganttRow1');
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -27,7 +24,6 @@ function GanttDetails(props) {
       return date.status;
     })
     .indexOf(true);
-  const eventDate = startMoment.add(dateIndex, "month").format("MMM YYYY");
 
   const expandedResources = resources
     ? resources.map((person, index) => <span key={index}>{person.name} </span>)
@@ -46,7 +42,7 @@ function GanttDetails(props) {
   const wp = (
     <div className="rowData">
       <p className="resources">{expandedResources}</p>
-      <p className='days'>{days}</p>
+      <p className="days">{days}</p>
       <button onClick={() => setEdit(!edit)} className="hidden icon">
         <BiDotsHorizontalRounded />
       </button>
@@ -97,9 +93,8 @@ function GanttDetails(props) {
         deleteDM
       ) : (
         <>
-          {/* <p>{eventDate}</p> */}
           <select
-            value={eventDate}
+            value={dateIndex}
             onChange={(e) =>
               dispatch(
                 dAndMChangedDate({ row, value: parseInt(e.target.value) })
@@ -111,7 +106,6 @@ function GanttDetails(props) {
                 {date}
               </option>
             ))}
-            <option>{eventDate}</option>
           </select>
           <div className="hidden">
             <BiTrash

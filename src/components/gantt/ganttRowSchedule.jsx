@@ -13,11 +13,11 @@ function GanttRowSchedule(props) {
   const rowIndex = props.rowIndex;
   const { rowId, schedule } = props.row;
   const dispatch = useDispatch();
+  const isWP = row.workPackageTitle !== undefined;
 
   function handleMovingDateBlock(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
-    const isWP = row.workPackageTitle !== undefined;
     if (isWP) dispatch(wPScheduleUpdated({ row, result }));
     else {
       dispatch(dAndMScheduleUpdated({ row, result }));
@@ -63,6 +63,9 @@ function GanttRowSchedule(props) {
                             color={color}
                             nonWPPrefix={nonWPPrefix}
                             rowIndex={rowIndex}
+                            rowId={rowId}
+                            row={row}
+                            isWP={isWP}
                           />
                         </div>
                       )}

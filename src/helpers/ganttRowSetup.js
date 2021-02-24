@@ -23,11 +23,14 @@ export function updateEditedWp(oldRow, changes) {
       draft.days = newDays;
       spreadWork(draft);
     }
+
+    // if days are reducing below the length of the bar, reduce the bar
+
     let bars = newBars;
     if (newBars) {
       if (newBars > draft.days) {
         bars = draft.days;
-        toast.info("bars cannot exceed assigned days", {
+        toast.info("bar length cannot exceed assigned days", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
         });
@@ -119,6 +122,18 @@ export function dAndMUpdateDate(oldRow, date) {
         schedule[i].end = false;
       }
     }
+  });
+  return newRow;
+}
+
+export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
+  console.log(newValue, oldValue, blockIndex);
+  const change = newValue - oldValue;
+  const newDays = oldRow.days + change;
+  const newRow = produce(oldRow, (draft) => {
+    draft.days = newDays;
+    draft.schedule = oldRow.schedule;
+    draft.schedule[blockIndex].value = newValue;
   });
   return newRow;
 }

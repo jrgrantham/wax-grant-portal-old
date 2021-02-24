@@ -7,6 +7,7 @@ import {
   wPScheduleHelper,
   wPUpdateDays,
   updateEditedWp,
+  wPUpdateBlock,
 } from "../../helpers";
 
 export const wPFetchRequest = createAction("wPFetchRequest");
@@ -21,9 +22,10 @@ export const wPReorderRows = createAction("wPReorderRows");
 export const wPChangeKeyValue = createAction("wPChangeKeyValue");
 export const wPDaysUpdated = createAction("wPDaysUpdated");
 export const wPEdited = createAction("wPEdited");
+export const wPBlockUpdated = createAction("wPBlockUpdated");
 
 export default function workPackageReducer(state = wPDummyData, action) {
-// export default function workPackageReducer(state = {loading: false, data: [], error: ''}, action) {
+  // export default function workPackageReducer(state = {loading: false, data: [], error: ''}, action) {
   switch (action.type) {
     case wPFetchRequest.type:
       return {
@@ -86,20 +88,6 @@ export default function workPackageReducer(state = wPDummyData, action) {
         ...state,
         data: state.data.filter((row) => row.rowId !== action.payload),
       };
-    // case wPSetNumberOfBars.type:
-    //   const newRow = updateNumberOfBars(
-    //     action.payload.row,
-    //     action.payload.bars
-    //   );
-    //   return {
-    //     ...state,
-    //     data: state.data.map((row) => {
-    //       if (row.rowId === action.payload.row.rowId) {
-    //         return newRow;
-    //       }
-    //       return row;
-    //     }),
-    //   };
     case wPChangeKeyValue.type:
       return {
         ...state,
@@ -139,6 +127,23 @@ export default function workPackageReducer(state = wPDummyData, action) {
         data: state.data.map((row) => {
           if (row.rowId === action.payload.row.rowId) {
             return editedRow;
+          }
+          return row;
+        }),
+      };
+    case wPBlockUpdated.type:
+      const { newValue, oldValue, blockIndex } = action.payload;
+      const updatedBLockRow = wPUpdateBlock(
+        action.payload.row,
+        newValue,
+        oldValue,
+        blockIndex
+      );
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.row.rowId) {
+            return updatedBLockRow;
           }
           return row;
         }),
