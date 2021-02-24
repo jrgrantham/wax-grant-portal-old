@@ -1,8 +1,9 @@
 // import { emptyBlock } from "../data/workPackages";
 import produce from "immer";
-import { currentCombinedLengthOfBars } from "./index";
+import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { currentCombinedLengthOfBars } from "./index";
 
 toast.configure();
 
@@ -23,8 +24,6 @@ export function updateEditedWp(oldRow, changes) {
       draft.days = newDays;
       spreadWork(draft);
     }
-
-    // if days are reducing below the length of the bar, reduce the bar
 
     let bars = newBars;
     if (newBars) {
@@ -127,7 +126,7 @@ export function dAndMUpdateDate(oldRow, date) {
 }
 
 export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
-  console.log(newValue, oldValue, blockIndex);
+  // console.log(newValue, oldValue, blockIndex);
   const change = newValue - oldValue;
   const newDays = oldRow.days + change;
   const newRow = produce(oldRow, (draft) => {
@@ -135,5 +134,42 @@ export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
     draft.schedule = oldRow.schedule;
     draft.schedule[blockIndex].value = newValue;
   });
+  return newRow;
+}
+
+export function wPCreateNewRow(scheduleLength, title = "New Work Package") {
+  const newRow = {
+    rowId: uuidv4(), // use this but don't send to server
+    workPackageTitle: title,
+    description: "edit this row to change the title",
+    days: 1, // default
+    dayLoading: "front", // default
+    sortPosition: 0, // should sort its self out...
+    resources: [], // empty to start with
+    schedule: [], // create from project settings
+  };
+  for (let i = 0; i < scheduleLength; i++) {
+    const emptyBlock = {
+      status: false,
+      start: false,
+      end: false,
+      barNumber: 0,
+      value: 0,
+      blockId: 'id' + i,
+      scheduleIndex: i,
+    };
+    newRow.schedule.push(emptyBlock);
+  }
+  newRow.schedule[0].status = true;
+  newRow.schedule[0].start = true;
+  // newRow.schedule[0].end = true;
+  newRow.schedule[0].value = 1;
+  newRow.schedule[0].barNumber = 1;
+
+  newRow.schedule[1].status = true;
+  // newRow.schedule[1].start = true;
+  newRow.schedule[1].end = true;
+  newRow.schedule[1].value = 1;
+  newRow.schedule[1].barNumber = 1;
   return newRow;
 }

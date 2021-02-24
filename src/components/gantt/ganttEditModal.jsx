@@ -7,7 +7,7 @@ import { wPRowRemoved, wPEdited } from "../../store/projectData/workPackages";
 
 function numberOfBars(schedule) {
   let bars = 0;
-  for (let i = schedule.length - 1; i > 0; i--) {
+  for (let i = schedule.length - 1; i >= 0; i--) {
     if (schedule[i].status) {
       bars = schedule[i].barNumber;
       return bars;

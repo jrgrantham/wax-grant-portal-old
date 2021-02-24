@@ -8,6 +8,7 @@ import {
   wPUpdateDays,
   updateEditedWp,
   wPUpdateBlock,
+  wPCreateNewRow,
 } from "../../helpers";
 
 export const wPFetchRequest = createAction("wPFetchRequest");
@@ -78,10 +79,11 @@ export default function workPackageReducer(state = wPDummyData, action) {
         }),
       };
     case wPRowAdded.type:
-      const row = action.payload;
+      const { projectLength, title } = action.payload;
+      const newRow = wPCreateNewRow(projectLength, title);
       return {
         ...state,
-        data: [...state.data, row],
+        data: state.data.concat(newRow),
       };
     case wPRowRemoved.type:
       return {
@@ -133,7 +135,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
       };
     case wPBlockUpdated.type:
       const { newValue, oldValue, blockIndex } = action.payload;
-      const updatedBLockRow = wPUpdateBlock(
+      const updatedBlockRow = wPUpdateBlock(
         action.payload.row,
         newValue,
         oldValue,
@@ -143,7 +145,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
         ...state,
         data: state.data.map((row) => {
           if (row.rowId === action.payload.row.rowId) {
-            return updatedBLockRow;
+            return updatedBlockRow;
           }
           return row;
         }),

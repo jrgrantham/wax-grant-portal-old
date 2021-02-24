@@ -135,7 +135,7 @@ function GanttChart() {
 
         <div className="right">
           <div className="inner">
-            <GanttScheduleBackground />
+            {/* <GanttScheduleBackground /> */}
             <div className="months"></div>
             {wpScheduleOutput}
             <GanttWorkPackageSchedule

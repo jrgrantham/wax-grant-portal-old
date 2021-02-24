@@ -10,7 +10,7 @@ import {
 } from "../../store/projectData/delsAndMils";
 import EditModal from "./ganttEditModal";
 
-function GanttDetails(props) {
+function GanttRowDetails(props) {
   const dispatch = useDispatch();
   const projectDates = useSelector((state) => state.project.data.dates);
   const [edit, setEdit] = useState(false);
@@ -128,7 +128,7 @@ function GanttDetails(props) {
   );
 }
 
-export default GanttDetails;
+export default GanttRowDetails;
 
 const Container = styled.div`
   display: flex;

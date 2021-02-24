@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { wPBlockUpdated } from "../../store/projectData/workPackages";
 
 function GanttBlock(props) {
+  console.log('block');
   const dispatch = useDispatch();
   const {
     value,

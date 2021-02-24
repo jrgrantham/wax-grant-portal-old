@@ -1,15 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 
-export const emptyBlock = {
-  status: false,
-  start: false,
-  end: false,
-  barNumber: 0,
-  value: 0,
-  blockId: uuidv4(),
-  scheduleIndex: 0,
-};
-
 export const wPDummyData = {
   loading: false,
   data: [
@@ -796,4 +786,4 @@ export const singleRow = {
       scheduleIndex: 0,
     },
   ],
-}
+};

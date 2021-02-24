@@ -1,28 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
-import { wPReorderRows } from "../../store/projectData/workPackages";
-import GanttDetails from "./ganttDetails";
+import {
+  wPReorderRows,
+  wPRowAdded,
+} from "../../store/projectData/workPackages";
+import GanttDetails from "./ganttRowDetails";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
+import EditModal from "./ganttEditModal";
 
 function GanttWorkPackage(props) {
+  const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
   const packData = props.workPackData;
-  const isWP = !(
-    props.title === "Deliverables" || props.title === "Milestones"
-  );
+  const title = props.title;
+  const isWP = !(title === "Deliverables" || title === "Milestones");
 
-  function calculateHours() {
+  const { projectLength } = useSelector((state) => state.project.data);
+  function handleAddNewRow() {
+    dispatch(wPRowAdded({projectLength, title}));
+  }
+
+  function calculateDays() {
     let days = 0;
     packData.forEach((row) => {
       days += row.days;
     });
     return days;
   }
-  // const totalDays = calculateHours()
-  // console.log(totalDays)
 
   function handleMovingRow(result) {
     if (!result.destination || result.destination.index === result.source.index)
@@ -35,8 +43,9 @@ function GanttWorkPackage(props) {
 
   return (
     <Container backgroundColor={props.backgroundColor}>
+      {edit ? <EditModal setEdit={setEdit} /> : null}
       <div className="title">
-        <h3>{props.title}</h3>
+        <h3>{title}</h3>
         {isWP ? (
           <div className="info">
             <h3 className="resources">Resources</h3>
@@ -45,7 +54,7 @@ function GanttWorkPackage(props) {
         ) : null}
       </div>
       <DragDropContext onDragEnd={handleMovingRow}>
-        <Droppable droppableId={props.title}>
+        <Droppable droppableId={title}>
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {packData.map((row, index) => {
@@ -74,8 +83,8 @@ function GanttWorkPackage(props) {
               })}
               {provided.placeholder}
               <div className="addButton">
-                <button>add task</button>
-                {isWP ? <p>{calculateHours()}</p> : null}
+                <button onClick={handleAddNewRow}>add task</button>
+                {isWP ? <p>{calculateDays()}</p> : null}
               </div>
             </div>
           )}
