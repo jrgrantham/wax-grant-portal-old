@@ -236,7 +236,7 @@ const Container = styled.div`
 
   .editWindow {
     width: 500px;
-    height: 420px;
+    height: 390px;
     padding: 15px 15px 30px 15px;
 
     display: flex;
@@ -270,7 +270,7 @@ const Container = styled.div`
     align-items: flex-end;
     flex-direction: column;
     width: 80%;
-    height: 50px;
+    height: 45px;
     margin-bottom: 5px;
   }
   .inputArea {

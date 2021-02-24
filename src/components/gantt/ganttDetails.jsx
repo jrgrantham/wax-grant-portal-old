@@ -36,7 +36,7 @@ function GanttDetails(props) {
   // join these
   const wpRowDetails = (
     <div className="rowDescription">
-      <div {...provided.dragHandleProps}>
+      <div {...provided.dragHandleProps} className="hidden menu">
         <BiMenu />
       </div>
       <p>{description}</p>
@@ -45,9 +45,9 @@ function GanttDetails(props) {
 
   const wp = (
     <div className="rowData">
-      <p>{expandedResources}</p>
-      <p>{days}</p>
-      <button onClick={() => setEdit(!edit)}>
+      <p className="resources">{expandedResources}</p>
+      <p className='days'>{days}</p>
+      <button onClick={() => setEdit(!edit)} className="hidden icon">
         <BiDotsHorizontalRounded />
       </button>
     </div>
@@ -57,7 +57,7 @@ function GanttDetails(props) {
   // join these
   const dmRowDetails = (
     <div className="rowDescription">
-      <div {...provided.dragHandleProps}>
+      <div {...provided.dragHandleProps} className="hidden menu">
         <BiMenu />
       </div>
       <input
@@ -86,7 +86,7 @@ function GanttDetails(props) {
         Cancel
       </button>
       <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
-        Confirm Delete
+        Confirm
       </button>
     </div>
   );
@@ -113,10 +113,12 @@ function GanttDetails(props) {
             ))}
             <option>{eventDate}</option>
           </select>
-          <BiTrash
-            style={{ cursor: "pointer" }}
-            onClick={() => setConfirmDelete(true)}
-          />
+          <div className="hidden">
+            <BiTrash
+              style={{ cursor: "pointer" }}
+              onClick={() => setConfirmDelete(true)}
+            />
+          </div>
         </>
       )}
     </div>
@@ -142,18 +144,31 @@ const Container = styled.div`
   width: 500px;
   height: 50px;
   border-bottom: 1px solid lightgrey;
+  &:hover .hidden {
+    opacity: 1;
+  }
+  .hidden {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .icon {
+    padding: 3px 1px 0px 1px;
+  }
 
   .rowDescription {
     display: flex;
     align-items: center;
     p {
-      margin-left: 10px;
+      margin-left: 5px;
     }
     input {
-      width: 320px;
+      width: 280px;
       margin-left: 5px;
       padding-left: 10px;
       background-color: #f5f5f5;
+    }
+    .menu {
+      padding-top: 4px;
     }
   }
 
@@ -161,18 +176,24 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    p {
-      margin-right: 10px;
+    .resources {
+      margin-right: 15px;
+    }
+    .days {
+      width: 30px;
+      margin-right: 5px;
+      text-align: right;
     }
     select {
       margin-right: 5px;
+    }
+    button {
     }
   }
 
   .confirmDelete {
     display: flex;
     justify-content: flex-end;
-    width: 205px;
     .cancel {
       margin-right: 10px;
     }

@@ -5,9 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { wPReorderRows } from "../../store/projectData/workPackages";
 import GanttDetails from "./ganttDetails";
-import {
-  dAndMReorderRows,
-} from "../../store/projectData/delsAndMils";
+import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
 
 function GanttWorkPackage(props) {
   const dispatch = useDispatch();
@@ -15,6 +13,16 @@ function GanttWorkPackage(props) {
   const isWP = !(
     props.title === "Deliverables" || props.title === "Milestones"
   );
+
+  function calculateHours() {
+    let days = 0;
+    packData.forEach((row) => {
+      days += row.days;
+    });
+    return days;
+  }
+  // const totalDays = calculateHours()
+  // console.log(totalDays)
 
   function handleMovingRow(result) {
     if (!result.destination || result.destination.index === result.source.index)
@@ -29,6 +37,12 @@ function GanttWorkPackage(props) {
     <Container backgroundColor={props.backgroundColor}>
       <div className="title">
         <h3>{props.title}</h3>
+        {isWP ? (
+          <div className="info">
+            <h3 className="resources">Resources</h3>
+            <h3>Days</h3>
+          </div>
+        ) : null}
       </div>
       <DragDropContext onDragEnd={handleMovingRow}>
         <Droppable droppableId={props.title}>
@@ -59,8 +73,9 @@ function GanttWorkPackage(props) {
                 );
               })}
               {provided.placeholder}
-              <div className='addButton'>
+              <div className="addButton">
                 <button>add task</button>
+                {isWP ? <p>{calculateHours()}</p> : null}
               </div>
             </div>
           )}
@@ -82,16 +97,29 @@ const Container = styled.div`
   .title {
     color: white;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 40px;
     width: 500px;
+    padding-left: 25px;
+    padding-right: 19px;
     background-color: ${(props) => props.backgroundColor};
+    .info {
+      display: flex;
+    }
+    .resources {
+      margin-right: 15px;
+    }
   }
   .addButton {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     height: 40px;
     padding-left: 5px;
+    padding-right: 27px;
+    p {
+      font-weight: 700;
+    }
   }
 `;

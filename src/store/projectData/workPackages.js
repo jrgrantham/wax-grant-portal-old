@@ -23,6 +23,7 @@ export const wPDaysUpdated = createAction("wPDaysUpdated");
 export const wPEdited = createAction("wPEdited");
 
 export default function workPackageReducer(state = wPDummyData, action) {
+// export default function workPackageReducer(state = {loading: false, data: [], error: ''}, action) {
   switch (action.type) {
     case wPFetchRequest.type:
       return {

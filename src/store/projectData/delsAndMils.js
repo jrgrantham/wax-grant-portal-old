@@ -47,7 +47,6 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
         })
         .indexOf(action.payload.rowId);
       const newIndex = originalIndex + action.payload.movement;
-      console.log(action.payload.rowId, originalIndex, action.payload.movement);
       const reordered = reorderArrayByIndex(
         state.data,
         originalIndex,

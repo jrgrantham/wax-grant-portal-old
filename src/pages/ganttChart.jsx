@@ -45,12 +45,48 @@ function GanttChart() {
     bundledWPData
   );
 
+  // if (groupedWPData.length) {
+  //   console.log("true");
+  // }
+
+  const populatedWPDetails = groupedWPData.map((item, index) => {
+    return (
+      <GanttWorkPackageDetails
+        key={index}
+        workPackData={item}
+        backgroundColor={"blue"}
+        title={workPackageTitles[index]}
+      />
+    );
+  });
+  const populatedWPSchedule = groupedWPData.map((item, index) => {
+    return (
+      <GanttWorkPackageSchedule
+        key={index}
+        workPackData={item}
+        backgroundColor={"blue"}
+      />
+    );
+  });
+  const emptyWPDetails = (
+    <div className="empty">
+      <button>add WP</button>
+    </div>
+  );
+  const emptyWPSchedule = <div className="empty"></div>;
+
+  const wpDetailsOutput = groupedWPData.length
+    ? populatedWPDetails
+    : emptyWPDetails;
+  const wpScheduleOutput = groupedWPData.length
+    ? populatedWPSchedule
+    : emptyWPSchedule;
+
   useEffect(() => {
     // const slider = document.querySelector(".right");
     // let isDown = false;
     // let startX;
     // let scrollLeft;
-
     // slider.addEventListener("mousedown", (e) => {
     //   if (e.target.className.includes('backgroundColumn')) {
     //     isDown = true;
@@ -84,16 +120,7 @@ function GanttChart() {
       <div className="chartArea">
         <div className="left">
           <div className="months"></div>
-          {groupedWPData.map((item, index) => {
-            return (
-              <GanttWorkPackageDetails
-                key={index}
-                workPackData={item}
-                backgroundColor={"blue"}
-                title={workPackageTitles[index]}
-              />
-            );
-          })}
+          {wpDetailsOutput}
           <GanttWorkPackageDetails
             workPackData={deliverables}
             backgroundColor={"red"}
@@ -110,15 +137,7 @@ function GanttChart() {
           <div className="inner">
             <GanttScheduleBackground />
             <div className="months"></div>
-            {groupedWPData.map((item, index) => {
-              return (
-                <GanttWorkPackageSchedule
-                  key={index}
-                  workPackData={item}
-                  backgroundColor={"blue"}
-                />
-              );
-            })}
+            {wpScheduleOutput}
             <GanttWorkPackageSchedule
               workPackData={deliverables}
               prefix={"D"}
@@ -159,7 +178,8 @@ const Container = styled.div`
     width: 100%;
   }
   .months {
-    height: 30px;
+    height: 45px;
+    border-bottom: 10px solid rgba(250, 250, 250, 0.25);
   }
   .left {
     display: flex;
@@ -180,5 +200,11 @@ const Container = styled.div`
   }
   .space {
     height: 50px;
+  }
+  .empty {
+    height: 70px;
+    button {
+      width: 400px;
+    }
   }
 `;
