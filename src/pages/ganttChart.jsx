@@ -70,7 +70,7 @@ function GanttChart() {
   });
   const emptyWPDetails = (
     <div className="empty">
-      <button>add WP</button>
+      <button>add a workpack</button>
     </div>
   );
   const emptyWPSchedule = <div className="empty"></div>;
