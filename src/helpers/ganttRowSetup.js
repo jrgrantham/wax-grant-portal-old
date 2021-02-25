@@ -29,7 +29,7 @@ export function updateEditedWp(oldRow, changes) {
     if (newBars) {
       if (newBars > draft.days) {
         bars = draft.days;
-        toast.info("bar length cannot exceed assigned days", {
+        toast.info("Bars limited to number of days", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
         });
@@ -95,7 +95,7 @@ export function wPUpdateDays(oldRow, days) {
         schedule[i].barNumber = 0;
         if (!alerted) {
           alerted = true;
-          toast.info("decreased length of bars", {
+          toast.info("Decreased length of bars", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
           });
@@ -137,11 +137,11 @@ export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
   return newRow;
 }
 
-export function wPCreateNewRow(scheduleLength, title = "New Work Package") {
+export function wPCreateNewRow(scheduleLength, title = "Rename this title in place...") {
   const newRow = {
     rowId: uuidv4(), // use this but don't send to server
     workPackageTitle: title,
-    description: "edit this row to change the title",
+    description: "edit this row in place...",
     days: 1, // default
     dayLoading: "front", // default
     sortPosition: 0, // should sort its self out...
@@ -162,14 +162,8 @@ export function wPCreateNewRow(scheduleLength, title = "New Work Package") {
   }
   newRow.schedule[0].status = true;
   newRow.schedule[0].start = true;
-  // newRow.schedule[0].end = true;
+  newRow.schedule[0].end = true;
   newRow.schedule[0].value = 1;
   newRow.schedule[0].barNumber = 1;
-
-  newRow.schedule[1].status = true;
-  // newRow.schedule[1].start = true;
-  newRow.schedule[1].end = true;
-  newRow.schedule[1].value = 1;
-  newRow.schedule[1].barNumber = 1;
   return newRow;
 }

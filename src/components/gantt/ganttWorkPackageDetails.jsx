@@ -82,7 +82,7 @@ function GanttWorkPackage(props) {
                 );
               })}
               {provided.placeholder}
-              <div className="addButton">
+              <div className="bottom">
                 <button onClick={handleAddNewRow}>add task</button>
                 {isWP ? <p>{calculateDays()}</p> : null}
               </div>
@@ -110,23 +110,23 @@ const Container = styled.div`
     align-items: center;
     height: 40px;
     width: 500px;
-    padding-left: 25px;
-    padding-right: 19px;
+    padding-left: 30px;
+    padding-right: 31px;
     background-color: ${(props) => props.backgroundColor};
     .info {
       display: flex;
     }
     .resources {
-      margin-right: 15px;
+      margin-right: 26px;
     }
   }
-  .addButton {
+  .bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 40px;
-    padding-left: 25px;
-    padding-right: 27px;
+    padding-left: 30px;
+    padding-right: 31px;
     p {
       font-weight: 700;
     }

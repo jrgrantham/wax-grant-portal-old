@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { useDispatch } from "react-redux";
 import { wPBlockUpdated } from "../../store/projectData/workPackages";
+import { isNumberKey } from "../../helpers";
+
+toast.configure();
 
 function GanttBlock(props) {
-  console.log('block');
+  console.log("block");
   const dispatch = useDispatch();
   const {
     value,
@@ -34,14 +39,15 @@ function GanttBlock(props) {
     );
   }
 
-  function isNumberKey(e) {
-    const charCode = e.which ? e.which : e.keyCode;
-    // if (charCode > 31 && (charCode < 48 || charCode > 57)) e.preventDefault();
-    if (
-      (charCode < 48 && !(charCode === 37 || charCode === 39)) ||
-      charCode > 57
-    )
-      e.preventDefault();
+  function checkZero(value) {
+    if (value === 0) {
+      toast.info("zero days entered", {
+        // success, info, warn, error
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+        // autoClose: false,
+      });
+    }
   }
 
   return (
@@ -69,9 +75,10 @@ function GanttBlock(props) {
               <input
                 type="text"
                 value={value}
-                pattern="[0-9]"
+                // pattern="[0-9]"
                 onKeyDown={(e) => isNumberKey(e)}
                 onChange={(e) => onchangeHandler(e)}
+                onBlur={() => checkZero(value)}
                 // onBlur={onblurHandler} send to server?
               />
             ) : (

@@ -1,35 +1,15 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+//  function
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import GanttScheduleBackground from "../components/gantt/ganttScheduleBackground";
-
 import GanttWorkPackageDetails from "../components/gantt/ganttWorkPackageDetails";
 import GanttWorkPackageSchedule from "../components/gantt/ganttWorkPackageSchedule";
+import { wPRowAdded } from "../store/projectData/workPackages";
 
 function GanttChart() {
-  const bundledWPData = useSelector((state) => state.workPackages.data);
-  // function compareTypes(a, b) {
-  //   if (a.type < b.type) return -1;
-  //   if (a.type > b.type) return 1;
-  //   return 0;
-  // }
-  // const delsAndMils = useSelector((state) => state.delsAndMils.data.sort(compareTypes))
-  const deliverables = useSelector((state) =>
-    state.delsAndMils.data.filter((row) => row.type === "deliverable")
-  );
-  const milestones = useSelector((state) =>
-    state.delsAndMils.data.filter((row) => row.type === "milestone")
-  );
-
-  const workPackageTitles = [
-    ...new Set(
-      bundledWPData.map((workPackage) => workPackage.workPackageTitle)
-    ),
-  ];
-
-  workPackageTitles.sort((a, b) => a - b);
-
-  function createSubArraysByTitle(titles, data) {
+  const allRows = useSelector((state) => state.workPackages.data);
+  function groupByTitle(titles, data) {
     const groupedWork = [];
     titles.forEach((title) => {
       const group = data.filter(
@@ -40,47 +20,27 @@ function GanttChart() {
     return groupedWork;
   }
 
-  const groupedWPData = createSubArraysByTitle(
-    workPackageTitles,
-    bundledWPData
+  const workPackageTitles = [
+    ...new Set(
+      allRows
+        .map((workPackage) => workPackage.workPackageTitle)
+        .sort((a, b) => a - b)
+    ),
+  ];
+
+  const workPackages = groupByTitle(workPackageTitles, allRows);
+  const deliverables = useSelector((state) =>
+    state.delsAndMils.data.filter((row) => row.type === "deliverable")
+  );
+  const milestones = useSelector((state) =>
+    state.delsAndMils.data.filter((row) => row.type === "milestone")
   );
 
-  // if (groupedWPData.length) {
-  //   console.log("true");
-  // }
-
-  const populatedWPDetails = groupedWPData.map((item, index) => {
-    return (
-      <GanttWorkPackageDetails
-        key={index}
-        workPackData={item}
-        backgroundColor={"blue"}
-        title={workPackageTitles[index]}
-      />
-    );
-  });
-  const populatedWPSchedule = groupedWPData.map((item, index) => {
-    return (
-      <GanttWorkPackageSchedule
-        key={index}
-        workPackData={item}
-        backgroundColor={"blue"}
-      />
-    );
-  });
-  const emptyWPDetails = (
-    <div className="empty">
-      <button>add a workpack</button>
-    </div>
-  );
-  const emptyWPSchedule = <div className="empty"></div>;
-
-  const wpDetailsOutput = groupedWPData.length
-    ? populatedWPDetails
-    : emptyWPDetails;
-  const wpScheduleOutput = groupedWPData.length
-    ? populatedWPSchedule
-    : emptyWPSchedule;
+  const projectLength = useSelector(state => state.project.data.projectLength);
+  const dispatch = useDispatch();
+  function createNewWorkPackage() {
+    dispatch(wPRowAdded({ projectLength }));
+  }
 
   useEffect(() => {
     // const slider = document.querySelector(".right");
@@ -114,6 +74,41 @@ function GanttChart() {
     // });
   }, []);
 
+  // JSX
+
+  const populatedWPDetails = workPackages.map((item, index) => {
+    return (
+      <GanttWorkPackageDetails
+        key={index}
+        workPackData={item}
+        backgroundColor={"blue"}
+        title={workPackageTitles[index]}
+      />
+    );
+  });
+  const populatedWPSchedule = workPackages.map((item, index) => {
+    return (
+      <GanttWorkPackageSchedule
+        key={index}
+        workPackData={item}
+        backgroundColor={"blue"}
+      />
+    );
+  });
+  const emptyWPDetails = (
+    <div className="empty">
+      <button>add a workpack</button>
+    </div>
+  );
+  const emptyWPSchedule = <div className="empty"></div>;
+
+  const wpDetailsOutput = workPackages.length
+    ? populatedWPDetails
+    : emptyWPDetails;
+  const wpScheduleOutput = workPackages.length
+    ? populatedWPSchedule
+    : emptyWPSchedule;
+
   return (
     <Container>
       <h4>Gantt Chart</h4>
@@ -121,6 +116,9 @@ function GanttChart() {
         <div className="left">
           <div className="months"></div>
           {wpDetailsOutput}
+          <div className="space">
+            <button onClick={createNewWorkPackage} >New Work Package</button>
+          </div>
           <GanttWorkPackageDetails
             workPackData={deliverables}
             backgroundColor={"red"}
@@ -135,9 +133,11 @@ function GanttChart() {
 
         <div className="right">
           <div className="inner">
-            {/* <GanttScheduleBackground /> */}
+            <GanttScheduleBackground />
             <div className="months"></div>
             {wpScheduleOutput}
+            <div className="space" />
+
             <GanttWorkPackageSchedule
               workPackData={deliverables}
               prefix={"D"}

@@ -16,7 +16,8 @@ button {
 
 select,
 input {
-  border-color: lightgray;
+  border-color: white;
+  background-color: none;
 }
 
 input:focus {

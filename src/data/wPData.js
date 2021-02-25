@@ -11,9 +11,7 @@ export const wPDummyData = {
       dayLoading: "front",
       sortPosition: 0,
       resources: [
-        { name: "JG", workLoad: 0.1 },
-        { name: "DJ", workLoad: 0.2 },
-        { name: "CG", workLoad: 0.2 },
+        { name: "DJ", workLoad: 0.1 },
       ],
       schedule: [
         {

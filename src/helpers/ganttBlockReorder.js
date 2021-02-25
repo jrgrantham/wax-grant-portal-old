@@ -77,7 +77,7 @@ function increaseDaysIfRequired(row, result, blockContents) {
 
 function updateDays(row, result) {
   row.days = newDuration(row, result);
-  toast.info("increased number of days", {
+  toast.info("Increased number of days", {
     // success, info, warn, error
     position: toast.POSITION.TOP_RIGHT,
     autoClose: 2000,

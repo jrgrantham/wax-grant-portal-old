@@ -83,7 +83,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
       const newRow = wPCreateNewRow(projectLength, title);
       return {
         ...state,
-        data: state.data.concat(newRow),
+        data: [...state.data, newRow]
       };
     case wPRowRemoved.type:
       return {

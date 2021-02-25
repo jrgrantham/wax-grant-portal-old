@@ -80,7 +80,7 @@ function EditModal(props) {
           changes,
         })
       );
-      props.setEdit(false);
+      props.setEditModal(false);
     },
     validationSchema,
   });
@@ -97,18 +97,18 @@ function EditModal(props) {
   );
 
   function closeModal(e) {
-    if (e.target.id === "background" ) props.setEdit(false);
+    if (e.target.id === "background" ) props.setEditModal(false);
   }
 
   window.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' || event.keycode === 27) props.setEdit(false)
+    if (event.key === 'Escape' || event.keycode === 27) props.setEditModal(false)
   })
 
   return (
     <Container id="background" onClick={(e) => closeModal(e)} >
       <div className="editWindow">
         <div className="topRow">
-          <button onClick={() => props.setEdit(false)}>Cancel</button>
+          <button onClick={() => props.setEditModal(false)}>Cancel</button>
           {confirmDelete ? (
             deleteWP
           ) : (
@@ -283,6 +283,7 @@ const Container = styled.div`
   select,
   input {
     width: 250px;
+    border: 1px solid #d1d1d1
   }
 
   .topRow {
