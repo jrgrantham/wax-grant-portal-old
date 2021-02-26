@@ -39,7 +39,6 @@ function GanttRowDetails(props) {
     : null;
 
   function handleDescriptionChange(value) {
-
     if (isWP)
       dispatch(
         wPChangeKeyValue({
@@ -60,7 +59,7 @@ function GanttRowDetails(props) {
   function handleDayChange(e) {
     const lastThreeNumbers = e.target.value.slice(-3);
     const newValue = parseInt(lastThreeNumbers);
-    if (newValue < 1) return
+    if (newValue < 1) return;
     dispatch(wPDaysUpdated({ row, days: newValue }));
   }
 
@@ -167,8 +166,9 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 5px;
-  width: 500px;
-  height: 50px;
+  width: 100%;
+  max-width: 500px;
+  height: 40px;
   border-bottom: 1px solid lightgrey;
   &:hover .hidden {
     transition: opacity 0.3s;
@@ -196,6 +196,9 @@ const Container = styled.div`
       margin-left: 5px;
       padding-left: 5px;
       text-overflow: ellipsis;
+      @media screen and (max-width: 720px) {
+        width: 190px;
+      }
     }
     .menu {
       padding-top: 4px;
@@ -218,6 +221,7 @@ const Container = styled.div`
       width: 100px;
       padding-left: 5px;
       padding-right: 5px;
+      margin-left: 14px;
       margin-right: 14px;
       border: none;
       border-radius: 5px;
@@ -226,6 +230,9 @@ const Container = styled.div`
       text-align: left;
       text-overflow: ellipsis;
       white-space: nowrap;
+      @media screen and (max-width: 410px) {
+        display: none;
+      }
     }
     .days {
       width: 40px;

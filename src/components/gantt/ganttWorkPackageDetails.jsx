@@ -49,7 +49,7 @@ function GanttWorkPackage(props) {
   }
 
   function sendEditedTitle() {
-    dispatch(wPTitleChanged({oldTitle: title, newTitle: editTitle}))
+    dispatch(wPTitleChanged({ oldTitle: title, newTitle: editTitle }));
   }
 
   return (
@@ -67,10 +67,12 @@ function GanttWorkPackage(props) {
             />
             <div className="info">
               <h3 className="resources">Resources</h3>
-              <h3>Days</h3>
+              <h3 className="days">Days</h3>
             </div>
           </>
-        ) : <h3>{title}</h3>}
+        ) : (
+          <h3 className="notInput">{title}</h3>
+        )}
       </div>
       <DragDropContext onDragEnd={handleMovingRow}>
         <Droppable droppableId={title}>
@@ -103,7 +105,7 @@ function GanttWorkPackage(props) {
               {provided.placeholder}
               <div className="bottom">
                 <button onClick={handleAddNewRow}>add task</button>
-                {isWP ? <p>{calculateDays()}</p> : null}
+                {isWP ? <p className="days">{calculateDays()}</p> : null}
               </div>
             </div>
           )}
@@ -115,12 +117,17 @@ function GanttWorkPackage(props) {
 
 export default GanttWorkPackage;
 const Container = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
   background-color: white;
   border-radius: 6px;
   overflow: hidden;
+  @media screen and (max-width: 720px) {
+    border-radius: 0;
+    margin-bottom: 0;
+  }
 
   .titleBar {
     color: white;
@@ -128,10 +135,13 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 40px;
-    width: 500px;
+    max-width: 500px;
     padding-left: 25px;
     padding-right: 31px;
     background-color: ${(props) => props.backgroundColor};
+    .notInput {
+      padding-left: 5px;
+    }
     .title {
       width: 280px;
       background-color: transparent;
@@ -139,6 +149,9 @@ const Container = styled.div`
       color: white;
       font-size: 16px;
       font-weight: 800;
+      @media screen and (max-width: 720px) {
+        width: 190px;
+      }
       &:hover {
         border-color: #a1a1a1;
       }
@@ -151,6 +164,9 @@ const Container = styled.div`
     }
     .resources {
       margin-right: 26px;
+      @media screen and (max-width: 410px) {
+        display: none;
+      }
     }
   }
   .bottom {

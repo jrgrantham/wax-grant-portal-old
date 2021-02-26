@@ -34,6 +34,9 @@ const Container = styled.div`
   /* margin-bottom: 10px; */
   border-bottom: 10px solid rgba(250, 250, 250, 0.25);
   width: ${props => props.columns * 40}px;
+  @media screen and (max-width: 720px) {
+        border-bottom: 0;
+      }
 
   .title {
     height: 40px;

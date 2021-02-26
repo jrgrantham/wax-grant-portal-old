@@ -91,7 +91,7 @@ function EditModal(props) {
         Cancel
       </button>
       <button onClick={() => dispatch(wPRowRemoved(row.rowId))}>
-        Confirm Delete
+        Confirm
       </button>
     </div>
   );
@@ -116,7 +116,7 @@ function EditModal(props) {
               style={{ cursor: "pointer" }}
               onClick={() => setConfirmDelete(true)}
             >
-              Delete
+              Delete Row
             </button>
           )}
         </div>

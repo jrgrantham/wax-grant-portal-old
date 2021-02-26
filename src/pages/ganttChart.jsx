@@ -36,7 +36,9 @@ function GanttChart() {
     state.delsAndMils.data.filter((row) => row.type === "milestone")
   );
 
-  const projectLength = useSelector(state => state.project.data.projectLength);
+  const projectLength = useSelector(
+    (state) => state.project.data.projectLength
+  );
   const dispatch = useDispatch();
   function createNewWorkPackage() {
     dispatch(wPRowAdded({ projectLength }));
@@ -111,13 +113,13 @@ function GanttChart() {
 
   return (
     <Container>
-      <h4>Gantt Chart</h4>
+      <h4>Gantt<span> Chart</span></h4>
       <div className="chartArea">
         <div className="left">
           <div className="months"></div>
           {wpDetailsOutput}
           <div className="space">
-            <button onClick={createNewWorkPackage} >New Work Package</button>
+            <button onClick={createNewWorkPackage}>Add new Work Package</button>
           </div>
           <GanttWorkPackageDetails
             workPackData={deliverables}
@@ -167,7 +169,11 @@ const Container = styled.div`
   border-radius: 10px;
   background-color: #e8e8e8;
   padding: 10px;
-
+  @media screen and (max-width: 720px) {
+    padding: 0px;
+    width: 100%;
+    border-radius: 0;
+  }
   h4 {
     margin: 10px 0 17px 0;
   }
@@ -176,10 +182,16 @@ const Container = styled.div`
     display: flex;
     /* justify-content: center; */
     width: 100%;
+    @media screen and (max-width: 700px) {
+      justify-content: center;
+    }
   }
   .months {
     height: 45px;
     border-bottom: 10px solid rgba(250, 250, 250, 0.25);
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
   }
   .left {
     display: flex;
@@ -187,6 +199,12 @@ const Container = styled.div`
     justify-content: flex-start;
     align-items: center;
     margin-right: 10px;
+    @media screen and (max-width: 720px) {
+      margin-right: 0;
+    }
+    @media screen and (max-width: 500px) {
+      width: 100%;
+    }
   }
   .right {
     display: flex;
@@ -194,12 +212,20 @@ const Container = styled.div`
     justify-content: flex-start;
     overflow-x: scroll;
     width: 100%;
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
     .inner {
       position: relative;
     }
   }
   .space {
     height: 50px;
+    padding-top: 5px;
+    button {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
   }
   .empty {
     height: 70px;

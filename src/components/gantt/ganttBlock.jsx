@@ -96,7 +96,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 40px;
   width: 40px;
 
   input {
