@@ -20,7 +20,7 @@ function GanttRowDetails(props) {
   const dispatch = useDispatch();
   const projectDates = useSelector((state) => state.project.data.dates);
   const [editModal, setEditModal] = useState(false);
-  const [resourcesModal, setResourcesModal] = useState(props.row.rowId === 'ganttRow1');
+  const [resourcesModal, setResourcesModal] = useState(false);
   // const [editModal, setEditModal] = useState(props.row.rowId === 'ganttRow1');
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { row, isWP, provided } = props;
@@ -38,13 +38,14 @@ function GanttRowDetails(props) {
       ))
     : null;
 
-  function handleDescriptionChange(e) {
+  function handleDescriptionChange(value) {
+
     if (isWP)
       dispatch(
         wPChangeKeyValue({
           rowId: row.rowId,
           key: "description",
-          value: e.target.value,
+          value,
         })
       );
     else
@@ -52,13 +53,14 @@ function GanttRowDetails(props) {
         dAndMChangeKeyValue({
           rowId: row.rowId,
           key: "description",
-          value: e.target.value,
+          value,
         })
       );
   }
   function handleDayChange(e) {
     const lastThreeNumbers = e.target.value.slice(-3);
     const newValue = parseInt(lastThreeNumbers);
+    if (newValue < 1) return
     dispatch(wPDaysUpdated({ row, days: newValue }));
   }
 
@@ -66,7 +68,7 @@ function GanttRowDetails(props) {
     <div className="rowData">
       {/* <div> */}
       <button
-        onClick={() => setEditModal(!editModal)}
+        onClick={() => setResourcesModal(!editModal)}
         className="resources highlight"
       >
         {expandedResources}
@@ -146,7 +148,7 @@ function GanttRowDetails(props) {
           className="highlight"
           value={description}
           type="text"
-          onChange={(e) => handleDescriptionChange(e)}
+          onChange={(e) => handleDescriptionChange(e.target.value)}
           onBlur={(e) => {
             console.log("remember to send to the server");
           }}
@@ -174,7 +176,7 @@ const Container = styled.div`
   }
   &:hover .highlight {
     transition: background-color 0.3s;
-    background-color: #f5f5f5;
+    background-color: #f1f1f1;
   }
   .hidden {
     opacity: 0;

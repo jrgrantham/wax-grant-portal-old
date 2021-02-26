@@ -24,6 +24,7 @@ export const wPChangeKeyValue = createAction("wPChangeKeyValue");
 export const wPDaysUpdated = createAction("wPDaysUpdated");
 export const wPEdited = createAction("wPEdited");
 export const wPBlockUpdated = createAction("wPBlockUpdated");
+export const wPTitleChanged = createAction("wPTitleChanged");
 
 export default function workPackageReducer(state = wPDummyData, action) {
   // export default function workPackageReducer(state = {loading: false, data: [], error: ''}, action) {
@@ -150,6 +151,20 @@ export default function workPackageReducer(state = wPDummyData, action) {
           return row;
         }),
       };
+      case wPTitleChanged.type:
+        console.log(action.payload);
+        return {
+          ...state,
+          data: state.data.map(row => {
+            if (row.workPackageTitle === action.payload.oldTitle) {
+              return {
+                ...row,
+                workPackageTitle: action.payload.newTitle
+              }
+            }
+            return row
+          })
+        }
     default:
       return state;
   }

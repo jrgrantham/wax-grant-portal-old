@@ -2,26 +2,27 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 
 import {
   wPReorderRows,
   wPRowAdded,
+  wPTitleChanged,
 } from "../../store/projectData/workPackages";
 import GanttDetails from "./ganttRowDetails";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
 import EditModal from "./ganttEditModal";
 
 function GanttWorkPackage(props) {
-  const [edit, setEdit] = useState(false);
-  const dispatch = useDispatch();
-  const packData = props.workPackData;
   const title = props.title;
+  const packData = props.workPackData;
+  const dispatch = useDispatch();
   const isWP = !(title === "Deliverables" || title === "Milestones");
+  const [edit, setEdit] = useState(false);
+  const [editTitle, setEditTitle] = useState(title);
 
   const { projectLength } = useSelector((state) => state.project.data);
   function handleAddNewRow() {
-    dispatch(wPRowAdded({projectLength, title}));
+    dispatch(wPRowAdded({ projectLength, title }));
   }
 
   function calculateDays() {
@@ -41,17 +42,35 @@ function GanttWorkPackage(props) {
     else dispatch(dAndMReorderRows({ rowId: row.rowId, movement }));
   }
 
+  function handleEditTitle(value) {
+    if (value === "Deliverables" || title === "Milestones") return;
+    console.log(value);
+    setEditTitle(value);
+  }
+
+  function sendEditedTitle() {
+    dispatch(wPTitleChanged({oldTitle: title, newTitle: editTitle}))
+  }
+
   return (
     <Container backgroundColor={props.backgroundColor}>
       {edit ? <EditModal setEdit={setEdit} /> : null}
-      <div className="title">
-        <h3>{title}</h3>
+      <div className="titleBar">
         {isWP ? (
-          <div className="info">
-            <h3 className="resources">Resources</h3>
-            <h3>Days</h3>
-          </div>
-        ) : null}
+          <>
+            <input
+              className="title"
+              type="text"
+              value={editTitle}
+              onChange={(e) => handleEditTitle(e.target.value)}
+              onBlur={sendEditedTitle}
+            />
+            <div className="info">
+              <h3 className="resources">Resources</h3>
+              <h3>Days</h3>
+            </div>
+          </>
+        ) : <h3>{title}</h3>}
       </div>
       <DragDropContext onDragEnd={handleMovingRow}>
         <Droppable droppableId={title}>
@@ -103,16 +122,30 @@ const Container = styled.div`
   border-radius: 6px;
   overflow: hidden;
 
-  .title {
+  .titleBar {
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 40px;
     width: 500px;
-    padding-left: 30px;
+    padding-left: 25px;
     padding-right: 31px;
     background-color: ${(props) => props.backgroundColor};
+    .title {
+      width: 280px;
+      background-color: transparent;
+      border-color: transparent;
+      color: white;
+      font-size: 16px;
+      font-weight: 800;
+      &:hover {
+        border-color: #a1a1a1;
+      }
+      &:focus {
+        border-color: #a1a1a1;
+      }
+    }
     .info {
       display: flex;
     }
