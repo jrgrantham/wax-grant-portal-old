@@ -1,0 +1,13 @@
+export const appWidth = "1800px";
+
+export const toastDelay = "2000";
+
+// gantt
+
+export const wpTitleColor = 'blue'
+export const delTitleColor = 'red'
+export const milTitleColor = 'green'
+export const wpBackground = "250, 250, 250, 1";
+
+export const wpMarginBottom = "10px";
+export const rowHeight = "40px";

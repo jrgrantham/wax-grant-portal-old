@@ -11,6 +11,7 @@ import {
 import GanttDetails from "./ganttRowDetails";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
 import EditModal from "./ganttEditModal";
+import { wpBackground } from "../../helpers";
 
 function GanttWorkPackage(props) {
   const title = props.title;
@@ -52,8 +53,10 @@ function GanttWorkPackage(props) {
     dispatch(wPTitleChanged({ oldTitle: title, newTitle: editTitle }));
   }
 
+  console.log(props.titleBarColor);
+
   return (
-    <Container backgroundColor={props.backgroundColor}>
+    <Container titleBarColor={props.titleBarColor} wpBackground={wpBackground}>
       {edit ? <EditModal setEdit={setEdit} /> : null}
       <div className="titleBar">
         {isWP ? (
@@ -121,37 +124,44 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  background-color: white;
-  border-radius: 6px;
+  background-color: rgba(${props => props.wpBackground});
+  border-radius: 5px;
   overflow: hidden;
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 750px) {
     border-radius: 0;
     margin-bottom: 0;
   }
-
+  input {
+    width: 100%;
+    margin-right: 5px;
+  }
   .titleBar {
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 40px;
-    max-width: 500px;
+    width: 500px;
     padding-left: 25px;
     padding-right: 31px;
-    background-color: ${(props) => props.backgroundColor};
+    background-color: ${(props) => props.titleBarColor};
+    @media screen and (max-width: 750px) {
+      width: 400px;
+    }
+    @media screen and (max-width: 550px) {
+      width: 100%;
+    }
     .notInput {
       padding-left: 5px;
     }
     .title {
-      width: 280px;
+      width: 100%;
       background-color: transparent;
       border-color: transparent;
       color: white;
       font-size: 16px;
+      text-overflow: ellipsis;
       font-weight: 800;
-      @media screen and (max-width: 720px) {
-        width: 190px;
-      }
       &:hover {
         border-color: #a1a1a1;
       }
@@ -164,7 +174,7 @@ const Container = styled.div`
     }
     .resources {
       margin-right: 26px;
-      @media screen and (max-width: 410px) {
+      @media screen and (max-width: 350px) {
         display: none;
       }
     }

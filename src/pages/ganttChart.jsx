@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 //  function
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import GanttScheduleBackground from "../components/gantt/ganttScheduleBackground";
 import GanttWorkPackageDetails from "../components/gantt/ganttWorkPackageDetails";
+import GanttDelsMilsDetails from "../components/gantt/ganttDelsMilsDetails";
 import GanttWorkPackageSchedule from "../components/gantt/ganttWorkPackageSchedule";
 import { wPRowAdded } from "../store/projectData/workPackages";
+import { appWidth, wpTitleColor, delTitleColor, milTitleColor } from "../helpers/";
 
 function GanttChart() {
   const allRows = useSelector((state) => state.workPackages.data);
@@ -44,6 +46,7 @@ function GanttChart() {
     dispatch(wPRowAdded({ projectLength }));
   }
 
+  const [chartWidth, setChartWidth] = useState(0);
   useEffect(() => {
     // const slider = document.querySelector(".right");
     // let isDown = false;
@@ -74,26 +77,30 @@ function GanttChart() {
     //   slider.scrollLeft = scrollLeft - walk;
     //   // console.log(walk);
     // });
+
+    const scheduleElement = document.getElementById("schedule").scrollWidth;
+    const detailsElement = document.getElementById("details").scrollWidth;
+    setChartWidth(Math.max(500, scheduleElement + detailsElement + 2));
   }, []);
 
   // JSX
 
-  const populatedWPDetails = workPackages.map((item, index) => {
+  const populatedWPDetails = workPackages.map((row, index) => {
     return (
       <GanttWorkPackageDetails
         key={index}
-        workPackData={item}
-        backgroundColor={"blue"}
+        workPackData={row}
+        titleBarColor={wpTitleColor}
         title={workPackageTitles[index]}
       />
     );
   });
-  const populatedWPSchedule = workPackages.map((item, index) => {
+  const populatedWPSchedule = workPackages.map((row, index) => {
     return (
       <GanttWorkPackageSchedule
         key={index}
-        workPackData={item}
-        backgroundColor={"blue"}
+        workPackData={row}
+        // backgroundColor={"blue"}
       />
     );
   });
@@ -112,28 +119,28 @@ function GanttChart() {
     : emptyWPSchedule;
 
   return (
-    <Container>
-      <h4>Gantt<span> Chart</span></h4>
-      <div className="chartArea">
-        <div className="left">
+    <Container chartWidth={chartWidth} appWidth={appWidth} >
+      <h2>Gantt Chart</h2>
+      <div id="chartArea" className="chartArea">
+        <div id="details" className="left">
           <div className="months"></div>
           {wpDetailsOutput}
           <div className="space">
             <button onClick={createNewWorkPackage}>Add new Work Package</button>
           </div>
-          <GanttWorkPackageDetails
+          <GanttDelsMilsDetails
             workPackData={deliverables}
-            backgroundColor={"red"}
+            titleBarColor={delTitleColor}
             title={"Deliverables"}
           />
-          <GanttWorkPackageDetails
+          <GanttDelsMilsDetails
             workPackData={milestones}
-            backgroundColor={"green"}
+            titleBarColor={milTitleColor}
             title={"Milestones"}
           />
         </div>
 
-        <div className="right">
+        <div id="schedule" className="right">
           <div className="inner">
             <GanttScheduleBackground />
             <div className="months"></div>
@@ -143,12 +150,12 @@ function GanttChart() {
             <GanttWorkPackageSchedule
               workPackData={deliverables}
               prefix={"D"}
-              backgroundColor={"red"}
+              titleBarColor={"red"}
             />
             <GanttWorkPackageSchedule
               workPackData={milestones}
               prefix={"M"}
-              backgroundColor={"green"}
+              titleBarColor={"green"}
             />
           </div>
         </div>
@@ -164,32 +171,36 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 95%;
   margin: 20px auto;
-  border-radius: 10px;
-  background-color: #e8e8e8;
   padding: 10px;
-  @media screen and (max-width: 720px) {
+  max-width: ${props => props.appWidth};
+  @media screen and (max-width: 750px) {
     padding: 0px;
     width: 100%;
     border-radius: 0;
   }
-  h4 {
+  h2 {
+    color: white;
     margin: 10px 0 17px 0;
   }
 
   .chartArea {
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
+    max-width: ${(props) => props.chartWidth + 10}px;
     width: 100%;
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: 750px) {
       justify-content: center;
     }
   }
   .months {
     height: 45px;
     border-bottom: 10px solid rgba(250, 250, 250, 0.25);
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 750px) {
+      height: 35px;
+      border-bottom: 0;
+    }
+    @media screen and (max-width: 550px) {
       display: none;
     }
   }
@@ -199,10 +210,8 @@ const Container = styled.div`
     justify-content: flex-start;
     align-items: center;
     margin-right: 10px;
-    @media screen and (max-width: 720px) {
+    @media screen and (max-width: 550px) {
       margin-right: 0;
-    }
-    @media screen and (max-width: 500px) {
       width: 100%;
     }
   }
@@ -212,10 +221,14 @@ const Container = styled.div`
     justify-content: flex-start;
     overflow-x: scroll;
     width: 100%;
-    @media screen and (max-width: 500px) {
+    border-left: 1px solid rgba(250, 250, 250, 0.5);
+    border-right: 1px solid rgba(250, 250, 250, 0.5);
+    border-radius: 4px;
+    @media screen and (max-width: 550px) {
       display: none;
     }
     .inner {
+      scrollbar-color: red yellow;
       position: relative;
     }
   }

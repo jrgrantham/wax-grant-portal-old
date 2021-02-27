@@ -1,5 +1,11 @@
+::-webkit-scrollbar-track {
+  display: none;
+}
 h1 {
   font-size: 200px;
+}
+h2 {
+  font-size: 35px;
 }
 h4 {
   font-size: 22px;

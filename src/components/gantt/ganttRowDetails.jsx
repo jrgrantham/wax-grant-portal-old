@@ -167,7 +167,7 @@ const Container = styled.div`
   align-items: center;
   padding: 0 5px;
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
   height: 40px;
   border-bottom: 1px solid lightgrey;
   &:hover .hidden {
@@ -188,16 +188,18 @@ const Container = styled.div`
   .rowDescription {
     display: flex;
     align-items: center;
+    width: 100%;
+      /* margin: 0 5px; */
     p {
       margin-left: 5px;
     }
     input {
       width: 280px;
+      width: 100%;
       margin-left: 5px;
       padding-left: 5px;
       text-overflow: ellipsis;
-      @media screen and (max-width: 720px) {
-        width: 190px;
+      @media screen and (max-width: 750px) {
       }
     }
     .menu {
@@ -230,7 +232,7 @@ const Container = styled.div`
       text-align: left;
       text-overflow: ellipsis;
       white-space: nowrap;
-      @media screen and (max-width: 410px) {
+      @media screen and (max-width: 350px) {
         display: none;
       }
     }
