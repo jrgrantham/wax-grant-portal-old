@@ -3,14 +3,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import GanttScheduleBackground from "../components/gantt/ganttScheduleBackground";
-import GanttWorkPackageDetails from "../components/gantt/ganttWorkPackageDetails";
-import GanttDelsMilsDetails from "../components/gantt/ganttDelsMilsDetails";
+import GanttWorkPackageDetails from "../components/gantt/ganttPackWork";
+import GanttDelsMilsDetails from "../components/gantt/ganttPackDelsMils";
 import GanttWorkPackageSchedule from "../components/gantt/ganttWorkPackageSchedule";
 import { wPRowAdded } from "../store/projectData/workPackages";
 import { appWidth, wpTitleColor, delTitleColor, milTitleColor } from "../helpers/";
 
 function GanttChart() {
   const allRows = useSelector((state) => state.workPackages.data);
+  
   function groupByTitle(titles, data) {
     const groupedWork = [];
     titles.forEach((title) => {
@@ -104,13 +105,15 @@ function GanttChart() {
       />
     );
   });
+
+  // no data - empty WP
+
   const emptyWPDetails = (
     <div className="empty">
       <button>add a workpack</button>
     </div>
   );
   const emptyWPSchedule = <div className="empty"></div>;
-
   const wpDetailsOutput = workPackages.length
     ? populatedWPDetails
     : emptyWPDetails;
@@ -150,12 +153,10 @@ function GanttChart() {
             <GanttWorkPackageSchedule
               workPackData={deliverables}
               prefix={"D"}
-              titleBarColor={"red"}
             />
             <GanttWorkPackageSchedule
               workPackData={milestones}
               prefix={"M"}
-              titleBarColor={"green"}
             />
           </div>
         </div>

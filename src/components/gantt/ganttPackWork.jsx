@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+
+import { Container } from "./ganttPackStyling";
 
 import {
   wPReorderRows,
   wPRowAdded,
   wPTitleChanged,
 } from "../../store/projectData/workPackages";
-import GanttDetails from "./ganttRowDetails";
+import GanttDetails from "./ganttRowWork";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
-import EditModal from "./ganttEditModal";
+import EditModal from "./ganttModalEdit";
 import { wpBackground } from "../../helpers";
 
-function GanttDelsMilsPackage(props) {
+function GanttPackWork(props) {
   const title = props.title;
   const packData = props.workPackData;
   const dispatch = useDispatch();
@@ -57,23 +58,17 @@ function GanttDelsMilsPackage(props) {
     <Container titleBarColor={props.titleBarColor} wpBackground={wpBackground}>
       {edit ? <EditModal setEdit={setEdit} /> : null}
       <div className="titleBar">
-        {isWP ? (
-          <>
-            <input
-              className="title"
-              type="text"
-              value={editTitle}
-              onChange={(e) => handleEditTitle(e.target.value)}
-              onBlur={sendEditedTitle}
-            />
-            <div className="info">
-              <h3 className="resources">Resources</h3>
-              <h3 className="days">Days</h3>
-            </div>
-          </>
-        ) : (
-          <h3 className="notInput">{title}</h3>
-        )}
+        <input
+          className="title"
+          type="text"
+          value={editTitle}
+          onChange={(e) => handleEditTitle(e.target.value)}
+          onBlur={sendEditedTitle}
+        />
+        <div className="info">
+          <h3 className="resources">Resources</h3>
+          <h3 className="days">Days</h3>
+        </div>
       </div>
       <DragDropContext onDragEnd={handleMovingRow}>
         <Droppable droppableId={title}>
@@ -106,7 +101,7 @@ function GanttDelsMilsPackage(props) {
               {provided.placeholder}
               <div className="bottom">
                 <button onClick={handleAddNewRow}>add task</button>
-                {isWP ? <p className="days">{calculateDays()}</p> : null}
+                <p className="days">{calculateDays()}</p>
               </div>
             </div>
           )}
@@ -115,77 +110,4 @@ function GanttDelsMilsPackage(props) {
     </Container>
   );
 }
-
-export default GanttDelsMilsPackage;
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  background-color: rgba(${props => props.wpBackground});
-  border-radius: 5px;
-  overflow: hidden;
-  @media screen and (max-width: 750px) {
-    border-radius: 0;
-    margin-bottom: 0;
-  }
-  input {
-    width: 100%;
-    margin-right: 5px;
-  }
-  .titleBar {
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    width: 500px;
-    padding-left: 25px;
-    padding-right: 31px;
-    background-color: ${(props) => props.titleBarColor};
-    @media screen and (max-width: 750px) {
-      width: 400px;
-    }
-    @media screen and (max-width: 550px) {
-      width: 100%;
-    }
-    .notInput {
-      padding-left: 5px;
-    }
-    .title {
-      width: 100%;
-      background-color: transparent;
-      border-color: transparent;
-      color: white;
-      font-size: 16px;
-      text-overflow: ellipsis;
-      font-weight: 800;
-      &:hover {
-        border-color: #a1a1a1;
-      }
-      &:focus {
-        border-color: #a1a1a1;
-      }
-    }
-    .info {
-      display: flex;
-    }
-    .resources {
-      margin-right: 26px;
-      @media screen and (max-width: 350px) {
-        display: none;
-      }
-    }
-  }
-  .bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    padding-left: 30px;
-    padding-right: 31px;
-    p {
-      font-weight: 700;
-    }
-  }
-`;
+export default GanttPackWork;
