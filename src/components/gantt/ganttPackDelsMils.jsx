@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 
 import GanttRowDelsMils from "./ganttRowDelsMils";
-import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
+import { dAndMReorderRows, dAndMRowAdded } from "../../store/projectData/delsAndMils";
 
 import { Container } from "./ganttPackStyling";
 
@@ -16,7 +16,8 @@ function GanttPackDelsMils(props) {
   const { projectLength } = useSelector((state) => state.project.data); // needed for new row
 
   function handleAddNewRow() {
-    // dispatch(wPRowAdded({ projectLength, title }));
+    const type = title.toLowerCase().slice(0, -1)
+    dispatch(dAndMRowAdded({ projectLength, type }));
     // need add row function for dels and mils
   }
 

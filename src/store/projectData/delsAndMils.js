@@ -2,7 +2,12 @@
 import { createAction } from "@reduxjs/toolkit";
 
 import { dMDummyData } from "../../data";
-import { reorderArrayByIndex, dAndMScheduleHelper, dAndMUpdateDate } from "../../helpers";
+import {
+  reorderArrayByIndex,
+  dAndMScheduleHelper,
+  dAndMUpdateDate,
+  dAndMCreateNewRow,
+} from "../../helpers";
 
 // actions
 
@@ -71,32 +76,36 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
         }),
       };
     case dAndMRowAdded.type:
-      const row = action.payload;
+      const { projectLength, type } = action.payload;
+      const newRow = dAndMCreateNewRow(type, projectLength);
       return {
         ...state,
-        data: [...state.data, row],
+        data: [...state.data, newRow],
       };
     case dAndMRowRemoved.type:
       return {
         ...state,
         data: state.data.filter((row) => row.rowId !== action.payload),
       };
-      case dAndMChangeKeyValue.type:
-        return {
-          ...state,
-          data: state.data.map((row) => {
-            if (row.rowId === action.payload.rowId) {
-              const updatedRow = {
-                ...row,
-                [action.payload.key]: action.payload.value,
-              };
-              return updatedRow;
-            }
-            return row;
-          }),
-        };
+    case dAndMChangeKeyValue.type:
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.rowId) {
+            const updatedRow = {
+              ...row,
+              [action.payload.key]: action.payload.value,
+            };
+            return updatedRow;
+          }
+          return row;
+        }),
+      };
     case dAndMChangedDate.type:
-      const newDateRow = dAndMUpdateDate(action.payload.row, action.payload.value)
+      const newDateRow = dAndMUpdateDate(
+        action.payload.row,
+        action.payload.value
+      );
       return {
         ...state,
         data: state.data.map((row) => {

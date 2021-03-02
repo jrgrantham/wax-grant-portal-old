@@ -47,8 +47,6 @@ function GanttChart() {
     dispatch(wPRowAdded({ projectLength }));
   }
 
-
-
   const [chartWidth, setChartWidth] = useState(0);
   useEffect(() => {
     const slider = document.querySelector(".right");

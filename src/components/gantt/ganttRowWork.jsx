@@ -14,14 +14,14 @@ import { Container } from "./ganttRowStyling";
 function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
-  const [resourcesModal, setResourcesModal] = useState(true);
+  const [resourcesModal, setResourcesModal] = useState(false);
   const { row, provided } = props;
   const { description, resources, days } = row;
 
   let resourcesArray = [];
-  for (const property in resources) {
-    // console.log(`${property}: ${resources[property]}`);
-    if (resources[property] > 0) resourcesArray.push(`${property}`);
+  for (const person in resources) {
+    // console.log(`${person}: ${resources[person]}`);
+    if (resources[person] > 0) resourcesArray.push(`${person}`);
   }
 
   const expandedResources = resourcesArray

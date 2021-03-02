@@ -185,3 +185,28 @@ export function wPCreateNewRow(scheduleLength, title = newTitle) {
   newRow.schedule[0].barNumber = 1;
   return newRow;
 }
+
+export function dAndMCreateNewRow(type, scheduleLength) {
+  console.log(type, scheduleLength);
+  const newRow = {
+    rowId: uuidv4(),
+    sortPosition: 0,
+    type,
+    description: "edit this row in place...",
+    schedule: [],
+  };
+  for (let i = 0; i < scheduleLength; i++) {
+    const emptyBlock = {
+      status: false,
+      start: false,
+      end: false,
+      blockId: uuidv4(),
+      scheduleIndex: 0,
+    };
+    newRow.schedule.push(emptyBlock);
+  }
+  newRow.schedule[0].status = true;
+  newRow.schedule[0].start = true;
+  newRow.schedule[0].end = true;
+  return newRow;
+}
