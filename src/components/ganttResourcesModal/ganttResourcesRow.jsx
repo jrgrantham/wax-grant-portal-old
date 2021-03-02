@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { wPResourcesUpdated } from "../../store/projectData/workPackages";
 
 function ResourcesRow(props) {
   const dispatch = useDispatch();
@@ -26,7 +27,8 @@ function ResourcesRow(props) {
       : "over total";
 
   function onChangeHandler(e, rowId, person) {
-    console.log(e.target.name, e.target.value, rowId, person);
+    console.log(e.target.value, rowId, person);
+    dispatch(wPResourcesUpdated({name: person, value: parseInt(e.target.value), rowId}))
   }
   const percentages = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
@@ -39,13 +41,13 @@ function ResourcesRow(props) {
             <select
               className="person"
               key={index}
-              value={row.resources[person] + "%"}
+              value={row.resources[person]}
               onChange={(e) => onChangeHandler(e, row.rowId, person)}
               id="resources"
               name="resources"
             >
               {percentages.map((option, index) => {
-                return <option key={index}>{option}%</option>;
+                return <option key={index}>{option}</option>;
               })}
             </select>
           );

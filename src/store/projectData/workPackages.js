@@ -26,6 +26,7 @@ export const wPDaysUpdated = createAction("wPDaysUpdated");
 export const wPEdited = createAction("wPEdited");
 export const wPBlockUpdated = createAction("wPBlockUpdated");
 export const wPTitleChanged = createAction("wPTitleChanged");
+export const wPResourcesUpdated = createAction("wPResourcesUpdated");
 
 export default function workPackageReducer(state = wPDummyData, action) {
   // export default function workPackageReducer(state = {loading: false, data: [], error: ''}, action) {
@@ -51,7 +52,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
     case wPReorderRows.type:
       const rowId = action.payload.row.rowId;
       const originalIndex = state.data
-        .map(function(obj) {
+        .map(function (obj) {
           return obj.rowId;
         })
         .indexOf(rowId);
@@ -85,7 +86,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
       const newRow = wPCreateNewRow(projectLength, title);
       return {
         ...state,
-        data: [...state.data, newRow]
+        data: [...state.data, newRow],
       };
     case wPRowRemoved.type:
       return {
@@ -147,20 +148,39 @@ export default function workPackageReducer(state = wPDummyData, action) {
           return row;
         }),
       };
-      case wPTitleChanged.type:
-        console.log(action.payload);
-        return {
-          ...state,
-          data: state.data.map(row => {
-            if (row.workPackageTitle === action.payload.oldTitle) {
-              return {
-                ...row,
-                workPackageTitle: action.payload.newTitle
+    case wPTitleChanged.type:
+      console.log(action.payload);
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.workPackageTitle === action.payload.oldTitle) {
+            return {
+              ...row,
+              workPackageTitle: action.payload.newTitle,
+            };
+          }
+          return row;
+        }),
+      };
+    case wPResourcesUpdated.type:
+      console.log(action.payload);
+      const { name, value } = action.payload;
+      console.log(name, value);
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.rowId) {
+            return {
+              ...row,
+              resources: {
+                ...row.resources,
+                [name]: value
               }
-            }
-            return row
-          })
-        }
+            };
+          }
+          return row;
+        }),
+      };
     default:
       return state;
   }
