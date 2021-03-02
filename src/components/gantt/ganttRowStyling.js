@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {wpHighlight} from '../../helpers'
 
 export const Container = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ export const Container = styled.div`
   }
   &:hover .highlight {
     transition: background-color 0.3s;
-    background-color: #f1f1f1;
+    background-color: ${wpHighlight};
   }
   .hidden {
     opacity: 0;
@@ -60,7 +61,7 @@ export const Container = styled.div`
       cursor: pointer;
       height: 27px;
       width: 100px;
-      padding-left: 5px;
+      /* padding-left: 5px; */
       padding-right: 5px;
       margin-left: 14px;
       margin-right: 14px;

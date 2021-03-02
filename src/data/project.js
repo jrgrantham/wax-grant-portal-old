@@ -5,7 +5,7 @@ export const projectData = {
   data: {
     projectTitle: "first Project",
     projectLength: 20,
-    resources: ["JG", "DJ", "CG"],
+    resources: ["JG", "DJ", "CG", "MG"],
     startDate: "Feb 2021",
     dates: [],
   },

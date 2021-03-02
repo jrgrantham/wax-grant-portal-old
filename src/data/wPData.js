@@ -10,9 +10,11 @@ export const wPDummyData = {
       days: 30,
       dayLoading: "front",
       sortPosition: 0,
-      resources: [
-        { name: "DJ", workLoad: 0.1 },
-      ],
+      resources: {
+        JG: 0,
+        DJ: 10,
+        CG: 20,
+      },
       schedule: [
         {
           status: false,
@@ -203,11 +205,11 @@ export const wPDummyData = {
       days: 10,
       dayLoading: "front",
       sortPosition: 1,
-      resources: [
-        { name: "JG", workLoad: 0.1 },
-        { name: "DJ", workLoad: 0.2 },
-        { name: "CG", workLoad: 0.2 },
-      ],
+      resources: {
+        JG: 70,
+        DJ: 10,
+        CG: 20,
+      },
       schedule: [
         {
           status: false,
@@ -398,11 +400,11 @@ export const wPDummyData = {
       days: 6,
       dayLoading: "front",
       sortPosition: 2,
-      resources: [
-        { name: "JG", workLoad: 0.1 },
-        { name: "DJ", workLoad: 0.2 },
-        { name: "CG", workLoad: 0.2 },
-      ],
+      resources: {
+        JG: 100,
+        DJ: 90,
+        CG: 50,
+      },
       schedule: [
         {
           status: false,

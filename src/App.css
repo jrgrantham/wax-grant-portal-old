@@ -1,6 +1,13 @@
-::-webkit-scrollbar-track {
-  display: none;
+::-webkit-scrollbar {
+  background: transparent;
 }
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 100, 100, 0.8);
+}
+
 h1 {
   font-size: 200px;
 }
@@ -11,18 +18,20 @@ h4 {
   font-size: 22px;
 }
 
-p, label, input {
+p,
+label,
+input {
   font-size: 14px;
 }
 
 button {
   cursor: pointer;
-  border: 1px solid #c1c1c1
+  border: 1px solid #c1c1c1;
 }
 
 select,
 input {
-  border-color: white;
+  border-color: transparent;
   background-color: none;
 }
 

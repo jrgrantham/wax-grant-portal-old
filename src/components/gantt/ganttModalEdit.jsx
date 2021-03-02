@@ -19,13 +19,7 @@ function EditModal(props) {
   const dispatch = useDispatch();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const row = props.row;
-  const {
-    dayLoading,
-    days,
-    description,
-    workPackageTitle,
-    schedule,
-  } = row;
+  const { dayLoading, days, description, workPackageTitle, schedule } = row;
   const barLimit = Math.ceil(schedule.length / 2);
   const bars = numberOfBars(schedule);
 
@@ -90,22 +84,21 @@ function EditModal(props) {
       <button className="cancel" onClick={() => setConfirmDelete(false)}>
         Cancel
       </button>
-      <button onClick={() => dispatch(wPRowRemoved(row.rowId))}>
-        Confirm
-      </button>
+      <button onClick={() => dispatch(wPRowRemoved(row.rowId))}>Confirm</button>
     </div>
   );
 
   function closeModal(e) {
-    if (e.target.id === "background" ) props.setEditModal(false);
+    if (e.target.id === "background") props.setEditModal(false);
   }
 
-  window.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' || event.keycode === 27) props.setEditModal(false)
-  })
+  window.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" || event.keycode === 27)
+      props.setEditModal(false);
+  });
 
   return (
-    <Container id="background" onClick={(e) => closeModal(e)} >
+    <Container id="background" onClick={(e) => closeModal(e)}>
       <div className="editWindow">
         <div className="topRow">
           <button onClick={() => props.setEditModal(false)}>Cancel</button>
@@ -125,14 +118,18 @@ function EditModal(props) {
           <div className="formField">
             <div className="inputArea">
               <label htmlFor="work pack">Work pack</label>
-              <input
-                type="text"
+              <select
+                value={workPackageTitle}
+                onChange={formik.handleChange}
                 name="workPackageTitle"
                 id="workPackageTitle"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.workPackageTitle}
-              />
+              >
+                {props.allTitles.map((title, index) => (
+                  <option value={title} key={index} className="title">
+                    {title}
+                  </option>
+                ))}
+              </select>
             </div>
             {formik.touched.workPackageTitle &&
             formik.errors.workPackageTitle ? (
@@ -148,7 +145,6 @@ function EditModal(props) {
                 name="description"
                 id="description"
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 value={formik.values.description}
               />
             </div>
@@ -283,7 +279,7 @@ const Container = styled.div`
   select,
   input {
     width: 250px;
-    border: 1px solid #d1d1d1
+    border: 1px solid #d1d1d1;
   }
 
   .topRow {

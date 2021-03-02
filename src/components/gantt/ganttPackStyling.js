@@ -1,11 +1,11 @@
 import styled from "styled-components";
+import {wpBackground} from '../../helpers'
 
 export const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  background-color: rgba(${(props) => props.wpBackground});
   border-radius: 5px;
   overflow: hidden;
   @media screen and (max-width: 750px) {
@@ -14,10 +14,11 @@ export const Container = styled.div`
   }
   input {
     width: 100%;
+    max-width: 300px;
     margin-right: 5px;
   }
-  .notInput {
-    padding-left: 5px;
+  .packBackground {
+    background-color: ${wpBackground};
   }
   .titleBar {
     color: white;
@@ -26,7 +27,7 @@ export const Container = styled.div`
     align-items: center;
     height: 40px;
     width: 500px;
-    padding-left: 25px;
+    padding-left: 30px;
     padding-right: 31px;
     background-color: ${(props) => props.titleBarColor};
     @media screen and (max-width: 750px) {
@@ -49,6 +50,9 @@ export const Container = styled.div`
       &:focus {
         border-color: #a1a1a1;
       }
+    }
+    .titleButton {
+      margin-left: 5px;
     }
     .info {
       display: flex;

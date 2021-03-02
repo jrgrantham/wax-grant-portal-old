@@ -1,5 +1,6 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 import { wPDummyData } from "../../data";
 import {
@@ -110,7 +111,6 @@ export default function workPackageReducer(state = wPDummyData, action) {
         action.payload.row,
         action.payload.days
       );
-      console.log("helper");
       return {
         ...state,
         data: state.data.map((row) => {
@@ -121,18 +121,14 @@ export default function workPackageReducer(state = wPDummyData, action) {
         }),
       };
     case wPEdited.type:
-      const editedRow = updateEditedWp(
+      const newData = updateEditedWp(
         action.payload.row,
-        action.payload.changes
+        action.payload.changes,
+        state.data
       );
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.row.rowId) {
-            return editedRow;
-          }
-          return row;
-        }),
+        data: newData,
       };
     case wPBlockUpdated.type:
       const { newValue, oldValue, blockIndex } = action.payload;

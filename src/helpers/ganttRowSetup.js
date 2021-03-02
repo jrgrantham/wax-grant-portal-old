@@ -7,7 +7,9 @@ import { currentCombinedLengthOfBars } from "./index";
 
 toast.configure();
 
-export function updateEditedWp(oldRow, changes) {
+export function updateEditedWp(oldRow, changes, data) {
+  console.log(data);
+  console.log(oldRow);
   const {
     newWorkPackageTitle,
     newDescription,
@@ -15,16 +17,17 @@ export function updateEditedWp(oldRow, changes) {
     newDays,
     newBars,
   } = changes;
+  // let newTitle = false;
+  // if (newWorkPackageTitle) newTitle = true;
 
   const newRow = produce(oldRow, (draft) => {
-    if (newWorkPackageTitle) draft.workPackageTitle = newWorkPackageTitle;
+    if (newWorkPackageTitle) draft.workPackageTitle = newWorkPackageTitle; // check here - update
     if (newDescription) draft.description = newDescription;
     if (newDayLoading) draft.datLoading = newDayLoading;
     if (newDays) {
-      draft.days = newDays;
+      updateDays(draft, newDays);
       spreadWork(draft);
     }
-
     let bars = newBars;
     if (newBars) {
       if (newBars > draft.days) {
@@ -36,6 +39,49 @@ export function updateEditedWp(oldRow, changes) {
       }
       updateNumberOfBars(draft, bars);
     }
+  });
+
+  const newData = data.map((row) => {
+    if (newRow.rowId === row.rowId) {
+      return newRow;
+    }
+    return row;
+  });
+  console.log(newData);
+  return newData;
+}
+
+function updateDays(draftRow, days) {
+  // must take a 'copy' from immer
+  let alerted = false;
+  draftRow.days = days;
+  const schedule = draftRow.schedule;
+  let statusCount = 0;
+  for (let i = 0; i < schedule.length; i++) {
+    if (schedule[i].status) statusCount++;
+    if (statusCount === days) schedule[i].end = true;
+    if (statusCount > days) {
+      schedule[i].status = false;
+      schedule[i].start = false;
+      schedule[i].end = false;
+      schedule[i].value = 0;
+      schedule[i].barNumber = 0;
+      if (!alerted) {
+        alerted = true;
+        toast.info("Decreased length of bars", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+        });
+      }
+    }
+  }
+  return draftRow;
+}
+
+export function wPUpdateDays(oldRow, days) {
+  const newRow = produce(oldRow, (draft) => {
+    updateDays(draft, days);
+    spreadWork(draft);
   });
   return newRow;
 }
@@ -78,35 +124,6 @@ export function spreadWork(row) {
   return row;
 }
 
-export function wPUpdateDays(oldRow, days) {
-  const newRow = produce(oldRow, (draft) => {
-    let alerted = false;
-    draft.days = days;
-    const schedule = draft.schedule;
-    let statusCount = 0;
-    for (let i = 0; i < schedule.length; i++) {
-      if (schedule[i].status) statusCount++;
-      if (statusCount === days) schedule[i].end = true;
-      if (statusCount > days) {
-        schedule[i].status = false;
-        schedule[i].start = false;
-        schedule[i].end = false;
-        schedule[i].value = 0;
-        schedule[i].barNumber = 0;
-        if (!alerted) {
-          alerted = true;
-          toast.info("Decreased length of bars", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 2000,
-          });
-        }
-      }
-    }
-    spreadWork(draft);
-  });
-  return newRow;
-}
-
 export function dAndMUpdateDate(oldRow, date) {
   const newRow = produce(oldRow, (draft) => {
     const schedule = draft.schedule;
@@ -137,7 +154,8 @@ export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
   return newRow;
 }
 
-export function wPCreateNewRow(scheduleLength, title = "Rename this title in place...") {
+const newTitle = "Rename this title in place...";
+export function wPCreateNewRow(scheduleLength, title = newTitle) {
   const newRow = {
     rowId: uuidv4(), // use this but don't send to server
     workPackageTitle: title,
@@ -155,7 +173,7 @@ export function wPCreateNewRow(scheduleLength, title = "Rename this title in pla
       end: false,
       barNumber: 0,
       value: 0,
-      blockId: 'id' + i,
+      blockId: "id" + i,
       scheduleIndex: i,
     };
     newRow.schedule.push(emptyBlock);

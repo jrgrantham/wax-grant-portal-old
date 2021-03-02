@@ -9,18 +9,19 @@ import {
   wPRowAdded,
   wPTitleChanged,
 } from "../../store/projectData/workPackages";
-import GanttDetails from "./ganttRowWork";
+import GanttRowWork from "./ganttRowWork";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
 import EditModal from "./ganttModalEdit";
-import { wpBackground } from "../../helpers";
 
 function GanttPackWork(props) {
   const title = props.title;
   const packData = props.workPackData;
   const dispatch = useDispatch();
   const isWP = !(title === "Deliverables" || title === "Milestones");
+
   const [edit, setEdit] = useState(false);
-  const [editTitle, setEditTitle] = useState(title);
+  const [editTitleWindow, setEditTitleWindow] = useState(false);
+  const [newTitle, setNewTitle] = useState(title);
 
   const { projectLength } = useSelector((state) => state.project.data);
   function handleAddNewRow() {
@@ -47,28 +48,41 @@ function GanttPackWork(props) {
   function handleEditTitle(value) {
     if (value === "Deliverables" || title === "Milestones") return;
     console.log(value);
-    setEditTitle(value);
+    setNewTitle(value);
   }
 
   function sendEditedTitle() {
-    dispatch(wPTitleChanged({ oldTitle: title, newTitle: editTitle }));
+    dispatch(wPTitleChanged({ oldTitle: title, newTitle: newTitle }));
+    setEditTitleWindow(false)
   }
 
   return (
-    <Container titleBarColor={props.titleBarColor} wpBackground={wpBackground}>
+    <Container titleBarColor={props.titleBarColor}>
       {edit ? <EditModal setEdit={setEdit} /> : null}
       <div className="titleBar">
-        <input
-          className="title"
-          type="text"
-          value={editTitle}
-          onChange={(e) => handleEditTitle(e.target.value)}
-          onBlur={sendEditedTitle}
-        />
-        <div className="info">
-          <h3 className="resources">Resources</h3>
-          <h3 className="days">Days</h3>
-        </div>
+        {editTitleWindow ? (
+          <>
+            <input
+              className="title"
+              type="text"
+              value={newTitle}
+              onChange={(e) => handleEditTitle(e.target.value)}
+              // onBlur={sendEditedTitle}
+            />
+            <button className='titleButton' onClick={sendEditedTitle} >Update</button>
+            <button className='titleButton' onClick={() => setEditTitleWindow(false)}>Cancel</button>
+          </>
+        ) : (
+          <>
+            {/* <button onClick={() => setEditTitleWindow(true)}> */}
+              <h3 onClick={() => setEditTitleWindow(true)}>{title}</h3>
+            {/* </button> */}
+            <div className="info">
+              <h3 className="resources">Resources</h3>
+              <h3 className="days">Days</h3>
+            </div>
+          </>
+        )}
       </div>
       <DragDropContext onDragEnd={handleMovingRow}>
         <Droppable droppableId={title}>
@@ -83,11 +97,12 @@ function GanttPackWork(props) {
                   >
                     {(provided) => (
                       <div
-                        className="MonthContainer"
+                        className="MonthContainer packBackground"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                       >
-                        <GanttDetails
+                        <GanttRowWork
+                          allTitles={props.allTitles}
                           provided={provided}
                           key={index}
                           row={row}
@@ -99,7 +114,7 @@ function GanttPackWork(props) {
                 );
               })}
               {provided.placeholder}
-              <div className="bottom">
+              <div className="bottom packBackground">
                 <button onClick={handleAddNewRow}>add task</button>
                 <p className="days">{calculateDays()}</p>
               </div>

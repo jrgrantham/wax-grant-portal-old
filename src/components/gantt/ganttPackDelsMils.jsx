@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import GanttRowDelsMils from "./ganttRowDelsMils";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
-import { wpBackground } from "../../helpers";
 
 import { Container } from "./ganttPackStyling";
 
@@ -30,9 +29,9 @@ function GanttPackDelsMils(props) {
   }
 
   return (
-    <Container titleBarColor={props.titleBarColor} wpBackground={wpBackground}>
+    <Container titleBarColor={props.titleBarColor}>
       <div className="titleBar">
-        <h3 className="notInput">{title}</h3>
+        <h3>{title}</h3>
       </div>
       <DragDropContext onDragEnd={handleMovingRow}>
         <Droppable droppableId={title}>
@@ -47,7 +46,7 @@ function GanttPackDelsMils(props) {
                   >
                     {(provided) => (
                       <div
-                        className="MonthContainer"
+                        className="MonthContainer packBackground"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                       >
@@ -63,7 +62,7 @@ function GanttPackDelsMils(props) {
                 );
               })}
               {provided.placeholder}
-              <div className="bottom">
+              <div className="bottom packBackground">
                 <button onClick={handleAddNewRow}>add task</button>
               </div>
             </div>

@@ -4,23 +4,29 @@ import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
 
 import EditModal from "./ganttModalEdit";
-import ResourcesModal from "./ganttModalResources";
+import ResourcesModal from "../ganttResourcesModal/ganttResourcesModal";
 import {
   wPChangeKeyValue,
   wPDaysUpdated,
 } from "../../store/projectData/workPackages";
 import { Container } from "./ganttRowStyling";
 
-function GanttRowDetails(props) {
+function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
-  const [resourcesModal, setResourcesModal] = useState(false);
+  const [resourcesModal, setResourcesModal] = useState(true);
   const { row, provided } = props;
-  const { description, resources, days, schedule } = row;
+  const { description, resources, days } = row;
 
-  const expandedResources = resources
-    ? resources.map((person, index) => (
-        <span key={index}>{person.name}.&nbsp;</span>
+  let resourcesArray = [];
+  for (const property in resources) {
+    // console.log(`${property}: ${resources[property]}`);
+    if (resources[property] > 0) resourcesArray.push(`${property}`);
+  }
+
+  const expandedResources = resourcesArray
+    ? resourcesArray.map((person, index) => (
+        <span key={index}>{person}.&nbsp;</span>
       ))
     : null;
 
@@ -40,33 +46,15 @@ function GanttRowDetails(props) {
     dispatch(wPDaysUpdated({ row, days: newValue }));
   }
 
-  const wp = (
-    <div className="rowData">
-      <button
-        onClick={() => setResourcesModal(!editModal)}
-        className="resources highlight"
-      >
-        {expandedResources}
-      </button>
-      <input
-        className="days highlight"
-        type="text"
-        value={days}
-        onKeyDown={(e) => isNumberKey(e)}
-        onChange={(e) => handleDayChange(e)}
-        onBlur={(e) => {
-          console.log("remember to send to the server");
-        }}
-      />
-      <button onClick={() => setEditModal(!editModal)} className="hidden icon">
-        <BiDotsHorizontalRounded />
-      </button>
-    </div>
-  );
-
   return (
     <Container>
-      {editModal ? <EditModal setEditModal={setEditModal} row={row} /> : null}
+      {editModal ? (
+        <EditModal
+          allTitles={props.allTitles}
+          setEditModal={setEditModal}
+          row={row}
+        />
+      ) : null}
       {resourcesModal ? (
         <ResourcesModal setResourcesModal={setResourcesModal} row={row} />
       ) : null}
@@ -75,7 +63,7 @@ function GanttRowDetails(props) {
           <BiMenu />
         </div>
         <input
-          className="highlight"
+          className="highlight description packBackground"
           value={description}
           type="text"
           onChange={(e) => handleDescriptionChange(e.target.value)}
@@ -83,11 +71,33 @@ function GanttRowDetails(props) {
             console.log("remember to send to the server");
           }}
         />
-        {/* <p>{description}</p> */}
       </div>
-      {wp}
+      <div className="rowData">
+        <button
+          onClick={() => setResourcesModal(!editModal)}
+          className="resources highlight packBackground"
+        >
+          {expandedResources}
+        </button>
+        <input
+          className="days highlight packBackground"
+          type="text"
+          value={days}
+          onKeyDown={(e) => isNumberKey(e)}
+          onChange={(e) => handleDayChange(e)}
+          onBlur={(e) => {
+            console.log("remember to send to the server");
+          }}
+        />
+        <button
+          onClick={() => setEditModal(!editModal)}
+          className="hidden icon"
+        >
+          <BiDotsHorizontalRounded />
+        </button>
+      </div>
     </Container>
   );
 }
 
-export default GanttRowDetails;
+export default GanttRowWork;

@@ -17,7 +17,7 @@ function GanttRowDetails(props) {
   const { description, schedule } = row;
 
   const dateIndex = schedule
-    .map(function(date) {
+    .map(function (date) {
       return date.status;
     })
     .indexOf(true);
@@ -39,7 +39,7 @@ function GanttRowDetails(props) {
           <BiMenu />
         </div>
         <input
-          className="highlight"
+          className="highlight description packBackground"
           value={description}
           type="text"
           onChange={(e) => handleDescriptionChange(e.target.value)}
@@ -70,7 +70,7 @@ function GanttRowDetails(props) {
               }
             >
               {projectDates.map((date, index) => (
-                <option value={index} key={index}>
+                <option value={index} key={index} className="date">
                   {date}
                 </option>
               ))}

@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import GanttRowSchedule from "./ganttRowSchedule";
-function GanttWorkPackageSchedule(props) {
+function GanttPackSchedule(props) {
   const nonWPPrefix = props.prefix;
-  const scheduleWidth = useSelector(state => state.project.data.projectLength)
+  const scheduleWidth = useSelector(
+    (state) => state.project.data.projectLength
+  );
 
   return (
     <Container columns={scheduleWidth}>
@@ -26,18 +28,16 @@ function GanttWorkPackageSchedule(props) {
   );
 }
 
-export default GanttWorkPackageSchedule;
+export default GanttPackSchedule;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* margin-bottom: 10px; */
   border-bottom: 10px solid rgba(250, 250, 250, 0.25);
-  width: ${props => props.columns * 40}px;
+  width: ${(props) => props.columns * 40}px;
   @media screen and (max-width: 750px) {
-        border-bottom: 0;
-      }
-
+    border-bottom: 0;
+  }
   .title {
     height: 40px;
     display: flex;

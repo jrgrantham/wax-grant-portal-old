@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-//  function
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+
 import GanttScheduleBackground from "../components/gantt/ganttScheduleBackground";
-import GanttWorkPackageDetails from "../components/gantt/ganttPackWork";
-import GanttDelsMilsDetails from "../components/gantt/ganttPackDelsMils";
-import GanttWorkPackageSchedule from "../components/gantt/ganttWorkPackageSchedule";
+import GanttPackWork from "../components/gantt/ganttPackWork";
+import GanttPackDelsMils from "../components/gantt/ganttPackDelsMils";
+import GanttWorkPackageSchedule from "../components/gantt/ganttPackSchedule";
 import { wPRowAdded } from "../store/projectData/workPackages";
 import { appWidth, wpTitleColor, delTitleColor, milTitleColor } from "../helpers/";
 
@@ -47,37 +47,39 @@ function GanttChart() {
     dispatch(wPRowAdded({ projectLength }));
   }
 
+
+
   const [chartWidth, setChartWidth] = useState(0);
   useEffect(() => {
-    // const slider = document.querySelector(".right");
-    // let isDown = false;
-    // let startX;
-    // let scrollLeft;
-    // slider.addEventListener("mousedown", (e) => {
-    //   if (e.target.className.includes('backgroundColumn')) {
-    //     isDown = true;
-    //     startX = e.pageX - slider.offsetLeft;
-    //     scrollLeft = slider.scrollLeft;
-    //   };
-    //   // slider.classList.add("active");
-    // });
-    // slider.addEventListener("mouseleave", () => {
-    //   isDown = false;
-    //   // slider.classList.remove("active");
-    // });
-    // slider.addEventListener("mouseup", () => {
-    //   isDown = false;
-    //   // slider.classList.remove("active");
-    // });
-    // slider.addEventListener("mousemove", (e) => {
-    //   if (!isDown) return;
-    //   e.preventDefault();
-    //   const x = e.pageX - slider.offsetLeft;
-    //   // const walk = (x - startX) * 3; //scroll-fast
-    //   const walk = (x - startX)
-    //   slider.scrollLeft = scrollLeft - walk;
-    //   // console.log(walk);
-    // });
+    const slider = document.querySelector(".right");
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    slider.addEventListener("mousedown", (e) => {
+      if (e.target.className.includes('backgroundColumn')) {
+        isDown = true;
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      };
+      // slider.classList.add("active");
+    });
+    slider.addEventListener("mouseleave", () => {
+      isDown = false;
+      // slider.classList.remove("active");
+    });
+    slider.addEventListener("mouseup", () => {
+      isDown = false;
+      // slider.classList.remove("active");
+    });
+    slider.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      // const walk = (x - startX) * 3; //scroll-fast
+      const walk = (x - startX)
+      slider.scrollLeft = scrollLeft - walk;
+      // console.log(walk);
+    });
 
     const scheduleElement = document.getElementById("schedule").scrollWidth;
     const detailsElement = document.getElementById("details").scrollWidth;
@@ -88,11 +90,12 @@ function GanttChart() {
 
   const populatedWPDetails = workPackages.map((row, index) => {
     return (
-      <GanttWorkPackageDetails
+      <GanttPackWork
         key={index}
         workPackData={row}
         titleBarColor={wpTitleColor}
         title={workPackageTitles[index]}
+        allTitles={workPackageTitles}
       />
     );
   });
@@ -108,7 +111,7 @@ function GanttChart() {
 
   // no data - empty WP
 
-  const emptyWPDetails = (
+  const noWPs = (
     <div className="empty">
       <button>add a workpack</button>
     </div>
@@ -116,13 +119,13 @@ function GanttChart() {
   const emptyWPSchedule = <div className="empty"></div>;
   const wpDetailsOutput = workPackages.length
     ? populatedWPDetails
-    : emptyWPDetails;
+    : noWPs;
   const wpScheduleOutput = workPackages.length
     ? populatedWPSchedule
     : emptyWPSchedule;
 
   return (
-    <Container chartWidth={chartWidth} appWidth={appWidth} >
+    <PageContainer chartWidth={chartWidth} appWidth={appWidth} >
       <h2>Gantt Chart</h2>
       <div id="chartArea" className="chartArea">
         <div id="details" className="left">
@@ -131,12 +134,12 @@ function GanttChart() {
           <div className="space">
             <button onClick={createNewWorkPackage}>Add new Work Package</button>
           </div>
-          <GanttDelsMilsDetails
+          <GanttPackDelsMils
             workPackData={deliverables}
             titleBarColor={delTitleColor}
             title={"Deliverables"}
           />
-          <GanttDelsMilsDetails
+          <GanttPackDelsMils
             workPackData={milestones}
             titleBarColor={milTitleColor}
             title={"Milestones"}
@@ -161,13 +164,13 @@ function GanttChart() {
           </div>
         </div>
       </div>
-    </Container>
+    </PageContainer>
   );
 }
 
 export default GanttChart;
 
-const Container = styled.div`
+const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -184,7 +187,7 @@ const Container = styled.div`
     color: white;
     margin: 10px 0 17px 0;
   }
-
+  
   .chartArea {
     display: flex;
     justify-content: center;
@@ -195,8 +198,9 @@ const Container = styled.div`
     }
   }
   .months {
+    /* width: 100%; */
     height: 45px;
-    border-bottom: 10px solid rgba(250, 250, 250, 0.25);
+    /* border-bottom: 10px solid rgba(250, 250, 250, 0.25); */
     @media screen and (max-width: 750px) {
       height: 35px;
       border-bottom: 0;
@@ -220,7 +224,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow-x: scroll;
+    overflow-x: auto;
     width: 100%;
     border-left: 1px solid rgba(250, 250, 250, 0.5);
     border-right: 1px solid rgba(250, 250, 250, 0.5);
@@ -229,7 +233,6 @@ const Container = styled.div`
       display: none;
     }
     .inner {
-      scrollbar-color: red yellow;
       position: relative;
     }
   }

@@ -18,7 +18,9 @@ function GanttScheduleBackground() {
     return (
       <div key={i} className={classNames[i % 3]}>
         <Tippy delay={250} content={date}>
-          <p>{date[0]}</p>
+          <div className='monthInitial'>
+            <p>{date[0]}</p>
+          </div>
         </Tippy>
       </div>
     );
@@ -40,7 +42,16 @@ const Container = styled.div`
     font-size: 18px;
     font-weight: 700;
     color: white;
-    /* cursor: pointer; */
+  }
+  .monthInitial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    border-bottom: 10px solid rgba(250, 250, 250, 0.25);
+
   }
   .columnLeft {
     border-left: 1px solid rgba(250, 250, 250, 0.5);
@@ -55,12 +66,11 @@ const Container = styled.div`
     width: 40px;
     background-color: rgba(10, 10, 10, 0.1);
     border-top: 1px solid rgba(250, 250, 250, 0.5);
-    /* border-right: 1px solid rgba(250, 250, 250, 0.2); */
 
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 5px;
+    /* padding-top: 5px; */
     @media screen and (max-width: 750px) {
       border-radius: 0;
     }
