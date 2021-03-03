@@ -52,15 +52,17 @@ function GanttChart() {
     dispatch(wPRowAdded({ projectLength }));
   }
 
-  const test = [];
+  const monthDays = [];
+  let totalDays = 0;
   for (let i = 0; i < projectLength; i++) {
     let days = 0;
     allRows.forEach((row) => {
       days += row.schedule[i].value;
+      totalDays += row.schedule[i].value;
     });
-    test.push(days);
+    monthDays.push(days);
   }
-  console.log(test);
+  console.log(totalDays);
 
   const [chartWidth, setChartWidth] = useState(0);
   useEffect(() => {
@@ -115,7 +117,11 @@ function GanttChart() {
               })
             : null}
           <div className="divider">
+            <div className="totalDays" />
             <button onClick={createNewWorkPackage}>Add Work Package</button>
+            <div className="totalDays content">
+              <h3>{totalDays}</h3>
+            </div>
           </div>
           <GanttPackDelsMils
             workPackData={deliverables}
@@ -141,9 +147,9 @@ function GanttChart() {
                 })
               : null}
             <div className="divider totals">
-              {test.map((month, index) => {
+              {monthDays.map((month, index) => {
                 return (
-                  <div key={index} className='block'>
+                  <div key={index} className="block">
                     <h3>{month ? month : null}</h3>
                   </div>
                 );
@@ -233,9 +239,30 @@ const PageContainer = styled.div`
     }
   }
   .divider {
+    /* border: 1px solid red; */
     height: 50px;
+    width: 100%;
     padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    .totalDays {
+      width: 80px;
+    }
+    .totalDays.content {
+      /* position: relative; */
+      /* top: -10px; */
+      height: 30px;
+      padding-right: 30px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+  
+      /* border: 1px solid white; */
+      color: rgba(255, 255, 255, 0.6);
+    }
     button {
+      height: 30px;
       padding-left: 30px;
       padding-right: 30px;
     }
@@ -243,14 +270,14 @@ const PageContainer = styled.div`
   .totals {
     display: flex;
     align-items: flex-start;
-      /* border: 1px solid white; */
+    /* border: 1px solid white; */
     .block {
       width: 40px;
       height: 30px;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: white;
+      color: rgba(255, 255, 255, 0.6);
       /* border: 1px solid red */
     }
   }
