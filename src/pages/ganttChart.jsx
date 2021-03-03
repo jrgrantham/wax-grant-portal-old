@@ -52,6 +52,16 @@ function GanttChart() {
     dispatch(wPRowAdded({ projectLength }));
   }
 
+  const test = [];
+  for (let i = 0; i < projectLength; i++) {
+    let days = 0;
+    allRows.forEach((row) => {
+      days += row.schedule[i].value;
+    });
+    test.push(days);
+  }
+  console.log(test);
+
   const [chartWidth, setChartWidth] = useState(0);
   useEffect(() => {
     const slider = document.querySelector(".right");
@@ -104,7 +114,7 @@ function GanttChart() {
                 );
               })
             : null}
-          <div className="space">
+          <div className="divider">
             <button onClick={createNewWorkPackage}>Add Work Package</button>
           </div>
           <GanttPackDelsMils
@@ -130,7 +140,15 @@ function GanttChart() {
                   );
                 })
               : null}
-            <div className="space" />
+            <div className="divider totals">
+              {test.map((month, index) => {
+                return (
+                  <div key={index} className='block'>
+                    <h3>{month ? month : null}</h3>
+                  </div>
+                );
+              })}
+            </div>
 
             <GanttWorkPackageSchedule
               workPackData={deliverables}
@@ -214,12 +232,26 @@ const PageContainer = styled.div`
       position: relative;
     }
   }
-  .space {
+  .divider {
     height: 50px;
     padding-top: 5px;
     button {
       padding-left: 30px;
       padding-right: 30px;
+    }
+  }
+  .totals {
+    display: flex;
+    align-items: flex-start;
+      /* border: 1px solid white; */
+    .block {
+      width: 40px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      /* border: 1px solid red */
     }
   }
   .empty {
