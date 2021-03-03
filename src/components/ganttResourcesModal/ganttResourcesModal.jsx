@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ResourcesRow from "./ganttResourcesRow";
 
 function ResourcesModal(props) {
-  const dispatch = useDispatch();
   const allPeople = useSelector((state) => state.project.data.resources);
   const allTasks = useSelector((state) => state.workPackages.data);
 
@@ -19,12 +18,8 @@ function ResourcesModal(props) {
   return (
     <Container id="background" onClick={(e) => closeModal(e)}>
       <div className="editWindow">
-        <div className="topRow">
-          <button onClick={() => props.setResourcesModal(false)}>Close</button>
-        </div>
-
-        <div className="modalRow">
-          <h3 className="description">Work Package</h3>
+        <div className="modalRow title">
+          <h3 className="description">Description</h3>
           {allPeople.map((person, index) => {
             return (
               <h3 key={index} className="person">
@@ -32,9 +27,9 @@ function ResourcesModal(props) {
               </h3>
             );
           })}
-          <h3 className="person">Total</h3>
+          <h3 className="total">Total</h3>
         </div>
-  
+
         {allTasks.map((row, index) => {
           return (
             <ResourcesRow
@@ -45,6 +40,10 @@ function ResourcesModal(props) {
             />
           );
         })}
+
+        <div className="bottomRow">
+          <button onClick={() => props.setResourcesModal(false)}>Close</button>
+        </div>
       </div>
     </Container>
   );
@@ -67,7 +66,7 @@ const Container = styled.div`
   z-index: 2;
 
   .editWindow {
-    padding: 30px 45px;
+    padding: 40px 45px 30px 45px;
     max-height: 80vh;
     overflow: auto;
 
@@ -79,9 +78,10 @@ const Container = styled.div`
     border: 1px solid black;
     border-radius: 8px;
   }
-  .topRow {
+  .bottomRow {
+    margin-top: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
   .modalRow {
     height: 40px;
@@ -92,14 +92,38 @@ const Container = styled.div`
       min-width: 200px;
       max-width: 300px;
     }
-    .person {
-      width: 50px;
-      margin-left: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      
-      border: 1px solid lightgray;
-    }
+  }
+  .title {
+    height: 50px;
+  }
+  .person {
+    width: 35px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .person.select {
+    border: 1px solid lightgray;
+    cursor: pointer;
+  }
+  .total {
+    width: 50px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    font-weight: 600;
+  }
+  .under {
+    color: orange;
+  }
+  .ok {
+    color: green;
+  }
+  .over {
+    color: red;
   }
 `;

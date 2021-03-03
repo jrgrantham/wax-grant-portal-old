@@ -7,11 +7,16 @@ import GanttPackWork from "../components/gantt/ganttPackWork";
 import GanttPackDelsMils from "../components/gantt/ganttPackDelsMils";
 import GanttWorkPackageSchedule from "../components/gantt/ganttPackSchedule";
 import { wPRowAdded } from "../store/projectData/workPackages";
-import { appWidth, wpTitleColor, delTitleColor, milTitleColor } from "../helpers/";
+import {
+  appWidth,
+  wpTitleColor,
+  delTitleColor,
+  milTitleColor,
+} from "../helpers/";
 
 function GanttChart() {
   const allRows = useSelector((state) => state.workPackages.data);
-  
+
   function groupByTitle(titles, data) {
     const groupedWork = [];
     titles.forEach((title) => {
@@ -54,29 +59,25 @@ function GanttChart() {
     let startX;
     let scrollLeft;
     slider.addEventListener("mousedown", (e) => {
-      if (e.target.className.includes('backgroundColumn')) {
+      if (e.target.className.includes("backgroundColumn")) {
         isDown = true;
         startX = e.pageX - slider.offsetLeft;
         scrollLeft = slider.scrollLeft;
-      };
-      // slider.classList.add("active");
+      }
     });
     slider.addEventListener("mouseleave", () => {
       isDown = false;
-      // slider.classList.remove("active");
     });
     slider.addEventListener("mouseup", () => {
       isDown = false;
-      // slider.classList.remove("active");
     });
     slider.addEventListener("mousemove", (e) => {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - slider.offsetLeft;
       // const walk = (x - startX) * 3; //scroll-fast
-      const walk = (x - startX)
+      const walk = x - startX;
       slider.scrollLeft = scrollLeft - walk;
-      // console.log(walk);
     });
 
     const scheduleElement = document.getElementById("schedule").scrollWidth;
@@ -84,53 +85,27 @@ function GanttChart() {
     setChartWidth(Math.max(500, scheduleElement + detailsElement + 2));
   }, []);
 
-  // JSX
-
-  const populatedWPDetails = workPackages.map((row, index) => {
-    return (
-      <GanttPackWork
-        key={index}
-        workPackData={row}
-        titleBarColor={wpTitleColor}
-        title={workPackageTitles[index]}
-        allTitles={workPackageTitles}
-      />
-    );
-  });
-  const populatedWPSchedule = workPackages.map((row, index) => {
-    return (
-      <GanttWorkPackageSchedule
-        key={index}
-        workPackData={row}
-        // backgroundColor={"blue"}
-      />
-    );
-  });
-
-  // no data - empty WP
-
-  const noWPs = (
-    <div className="empty">
-      <button>add a workpack</button>
-    </div>
-  );
-  const emptyWPSchedule = <div className="empty"></div>;
-  const wpDetailsOutput = workPackages.length
-    ? populatedWPDetails
-    : noWPs;
-  const wpScheduleOutput = workPackages.length
-    ? populatedWPSchedule
-    : emptyWPSchedule;
-
   return (
-    <PageContainer chartWidth={chartWidth} appWidth={appWidth} >
+    <PageContainer chartWidth={chartWidth} appWidth={appWidth}>
       <h2>Gantt Chart</h2>
       <div id="chartArea" className="chartArea">
         <div id="details" className="left">
           <div className="months"></div>
-          {wpDetailsOutput}
+          {workPackages.length
+            ? workPackages.map((row, index) => {
+                return (
+                  <GanttPackWork
+                    key={index}
+                    workPackData={row}
+                    titleBarColor={wpTitleColor}
+                    title={workPackageTitles[index]}
+                    allTitles={workPackageTitles}
+                  />
+                );
+              })
+            : null}
           <div className="space">
-            <button onClick={createNewWorkPackage}>Add new Work Package</button>
+            <button onClick={createNewWorkPackage}>Add Work Package</button>
           </div>
           <GanttPackDelsMils
             workPackData={deliverables}
@@ -148,17 +123,20 @@ function GanttChart() {
           <div className="inner">
             <GanttScheduleBackground />
             <div className="months"></div>
-            {wpScheduleOutput}
+            {workPackages.length
+              ? workPackages.map((row, index) => {
+                  return (
+                    <GanttWorkPackageSchedule key={index} workPackData={row} />
+                  );
+                })
+              : null}
             <div className="space" />
 
             <GanttWorkPackageSchedule
               workPackData={deliverables}
               prefix={"D"}
             />
-            <GanttWorkPackageSchedule
-              workPackData={milestones}
-              prefix={"M"}
-            />
+            <GanttWorkPackageSchedule workPackData={milestones} prefix={"M"} />
           </div>
         </div>
       </div>
@@ -169,23 +147,25 @@ function GanttChart() {
 export default GanttChart;
 
 const PageContainer = styled.div`
+  position: relative;
+  top: 30px;
+  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
+  margin: auto;
   padding: 10px;
-  max-width: ${props => props.appWidth};
+  max-width: ${(props) => props.appWidth};
   @media screen and (max-width: 750px) {
     padding: 0px;
     width: 100%;
-    border-radius: 0;
   }
   h2 {
     color: white;
-    margin: 10px 0 17px 0;
+    margin: 10px 0 15px 0;
   }
-  
+
   .chartArea {
     display: flex;
     justify-content: center;

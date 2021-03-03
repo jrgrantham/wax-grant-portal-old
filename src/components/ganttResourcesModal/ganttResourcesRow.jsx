@@ -1,17 +1,10 @@
 import React from "react";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { wPResourcesUpdated } from "../../store/projectData/workPackages";
 
 function ResourcesRow(props) {
   const dispatch = useDispatch();
   const { allPeople, row } = props;
-
-  // {
-  //   under: "under total",
-  //   ok: "green total",
-  //   over: "over total",
-  // };
 
   let taskPercentage = 0;
   for (const person in row.resources) {
@@ -28,18 +21,23 @@ function ResourcesRow(props) {
 
   function onChangeHandler(e, rowId, person) {
     console.log(e.target.value, rowId, person);
-    dispatch(wPResourcesUpdated({name: person, value: parseInt(e.target.value), rowId}))
+    dispatch(
+      wPResourcesUpdated({
+        name: person,
+        value: parseInt(e.target.value),
+        rowId,
+      })
+    );
   }
   const percentages = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
   return (
-    <Container>
       <div className="modalRow">
         <p className="description">{row.description}</p>
         {allPeople.map((person, index) => {
           return (
             <select
-              className="person"
+              className="person select"
               key={index}
               value={row.resources[person]}
               onChange={(e) => onChangeHandler(e, row.rowId, person)}
@@ -54,46 +52,7 @@ function ResourcesRow(props) {
         })}
         <p className={completion}>{taskPercentage}%</p>
       </div>
-    </Container>
   );
 }
 
 export default ResourcesRow;
-
-const Container = styled.div`
-  height: 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .description {
-    min-width: 200px;
-    max-width: 300px;
-  }
-  .person {
-    width: 50px;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    border: 1px solid lightgray;
-  }
-  .total {
-    width: 50px;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    font-weight: 600;
-  }
-  .under {
-    color: orange;
-  }
-  .ok {
-    color: green;
-  }
-  .over {
-    color: red;
-  }
-`;

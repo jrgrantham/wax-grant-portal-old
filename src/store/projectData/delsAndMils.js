@@ -23,9 +23,14 @@ export const dAndMReorderRows = createAction("dAndMReorderRows");
 export const dAndMChangedDate = createAction("dAndMChangedDate");
 export const dAndMChangeKeyValue = createAction("dAndMChangeKeyValue");
 
-// reducer
+const initialState = {
+  loading: false,
+  data: [],
+  error: "",
+};
 
-export default function delsAndMilsReducer(state = dMDummyData, action) {
+// export default function delsAndMilsReducer(state = dMDummyData, action) {
+export default function delsAndMilsReducer(state = initialState, action) {
   switch (action.type) {
     case dAndMFetchRequest.type:
       return {

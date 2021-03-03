@@ -28,8 +28,14 @@ export const wPBlockUpdated = createAction("wPBlockUpdated");
 export const wPTitleChanged = createAction("wPTitleChanged");
 export const wPResourcesUpdated = createAction("wPResourcesUpdated");
 
-export default function workPackageReducer(state = wPDummyData, action) {
-  // export default function workPackageReducer(state = {loading: false, data: [], error: ''}, action) {
+const initialState = {
+  loading: false,
+  data: [],
+  error: "",
+};
+
+// export default function workPackageReducer(state = wPDummyData, action) {
+  export default function workPackageReducer(state = initialState, action) {
   switch (action.type) {
     case wPFetchRequest.type:
       return {
@@ -174,8 +180,8 @@ export default function workPackageReducer(state = wPDummyData, action) {
               ...row,
               resources: {
                 ...row.resources,
-                [name]: value
-              }
+                [name]: value,
+              },
             };
           }
           return row;
