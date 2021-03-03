@@ -9,6 +9,22 @@ import GanttChartRight from "./ganttChartRight";
 function GanttChart() {
   const allRows = useSelector((state) => state.workPackages.data);
 
+  // for testing
+  const people = useSelector((state) => state.project.data.resources);
+  const peoplesDays = {};
+  people.forEach((person) => {
+    peoplesDays[person] = 0;
+    allRows.forEach((row) => {
+      const percentage = row.resources[person] ? row.resources[person] : 0;
+      const days = (row.days * percentage) / 100;
+      if (percentage > 0) {
+        peoplesDays[person] = peoplesDays[person] + days;
+      }
+    });
+  });
+  console.log(peoplesDays);
+  // for testing
+
   function groupByTitle(titles, data) {
     const groupedWork = [];
     titles.forEach((title) => {
@@ -73,6 +89,16 @@ function GanttChart() {
         <GanttChartLeft data={data} />
         <GanttChartRight data={data} />
       </div>
+      <div className="testPeople">
+        {people.map((person, index) => {
+          return (
+            <div key={index} className="person">
+              <span>{person}:</span>
+              <span>{peoplesDays[person].toFixed(2)}</span>
+            </div>
+          );
+        })}
+      </div>
     </PageContainer>
   );
 }
@@ -83,13 +109,13 @@ const PageContainer = styled.div`
   top: 30px;
   margin: auto;
   padding: 10px;
+  width: 100%;
+  max-width: ${(props) => props.appWidth};
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  max-width: ${(props) => props.appWidth};
   @media screen and (max-width: 750px) {
     padding: 0px;
   }
@@ -102,5 +128,28 @@ const PageContainer = styled.div`
     justify-content: center;
     max-width: ${(props) => props.chartWidth + 10}px;
     width: 100%;
+  }
+  .monthHeaderSpacer {
+    height: 45px;
+    @media screen and (max-width: 750px) {
+      height: 35px;
+      border-bottom: 0;
+    }
+  }
+  .testPeople {
+    min-height: 100px;
+    min-width: 125px;
+    z-index: 100;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: white;
+    padding: 10px;
+    border: 10px solid black;
+    border-radius: 10px;
+    .person {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 `;

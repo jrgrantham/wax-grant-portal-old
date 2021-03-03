@@ -9,8 +9,8 @@ import {
   wPRowAdded,
   wPTitleChanged,
 } from "../../store/projectData/workPackages";
-import GanttRowWork from "./ganttRowWork";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
+import GanttRowWork from "./ganttRowWork";
 import EditModal from "./ganttModalEdit";
 
 function GanttPackWork(props) {
@@ -53,7 +53,7 @@ function GanttPackWork(props) {
 
   function sendEditedTitle() {
     dispatch(wPTitleChanged({ oldTitle: title, newTitle: newTitle }));
-    setEditTitleWindow(false)
+    setEditTitleWindow(false);
   }
 
   return (
@@ -69,13 +69,20 @@ function GanttPackWork(props) {
               onChange={(e) => handleEditTitle(e.target.value)}
               // onBlur={sendEditedTitle}
             />
-            <button className='titleButton' onClick={sendEditedTitle} >Update</button>
-            <button className='titleButton' onClick={() => setEditTitleWindow(false)}>Cancel</button>
+            <button className="titleButton" onClick={sendEditedTitle}>
+              Update
+            </button>
+            <button
+              className="titleButton"
+              onClick={() => setEditTitleWindow(false)}
+            >
+              Cancel
+            </button>
           </>
         ) : (
           <>
             {/* <button onClick={() => setEditTitleWindow(true)}> */}
-              <h3 onClick={() => setEditTitleWindow(true)}>{title}</h3>
+            <h3 className='title' onClick={() => setEditTitleWindow(true)}>{title}</h3>
             {/* </button> */}
             <div className="info">
               <h3 className="resources">Resources</h3>

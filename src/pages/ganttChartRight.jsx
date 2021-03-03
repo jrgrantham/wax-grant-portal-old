@@ -3,14 +3,10 @@ import styled from "styled-components";
 
 import GanttScheduleBackground from "../components/gantt/ganttScheduleBackground";
 import GanttWorkPackageSchedule from "../components/gantt/ganttPackSchedule";
+import { dividerHeight, monthWidth } from "../helpers";
 
 function GanttChartRight(props) {
-  const {
-    workPackages,
-    deliverables,
-    milestones,
-    daysPerMonth,
-  } = props.data;
+  const { workPackages, deliverables, milestones, daysPerMonth } = props.data;
 
   useEffect(() => {
     const slider = document.querySelector(".right");
@@ -45,7 +41,7 @@ function GanttChartRight(props) {
       <div id="schedule" className="right">
         <div className="inner">
           <GanttScheduleBackground />
-          <div className="months"></div>
+          <div className="monthHeaderSpacer"></div>
           {workPackages.length
             ? workPackages.map((row, index) => {
                 return (
@@ -53,7 +49,7 @@ function GanttChartRight(props) {
                 );
               })
             : null}
-          <div className="divider totals">
+          <div className="divider">
             {daysPerMonth.map((month, index) => {
               return (
                 <div key={index} className="block">
@@ -70,7 +66,6 @@ function GanttChartRight(props) {
     </PageContainer>
   );
 }
-
 export default GanttChartRight;
 
 const PageContainer = styled.div`
@@ -81,6 +76,7 @@ const PageContainer = styled.div`
   width: 100%;
   border-left: 1px solid rgba(250, 250, 250, 0.5);
   border-right: 1px solid rgba(250, 250, 250, 0.5);
+  border-bottom: 1px solid rgba(250, 250, 250, 0.5);
   border-radius: 4px;
   @media screen and (max-width: 550px) {
     display: none;
@@ -90,113 +86,19 @@ const PageContainer = styled.div`
   }
 
   .divider {
-    /* border: 1px solid red; */
-    height: 50px;
-    width: 100%;
-    padding-top: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    .totalDays {
-      width: 80px;
-    }
-    .totalDays.content {
-      /* position: relative; */
-      /* top: -10px; */
-      height: 30px;
-      padding-right: 30px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      /* border: 1px solid white; */
-      color: rgba(255, 255, 255, 0.6);
-    }
-    button {
-      height: 30px;
-      padding-left: 30px;
-      padding-right: 30px;
-    }
-  }
-  .totals {
+    height: ${dividerHeight};
     display: flex;
     align-items: flex-start;
-    /* border: 1px solid white; */
-    .block {
-      width: 40px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: rgba(255, 255, 255, 0.6);
-      /* border: 1px solid red */
-    }
   }
-  .empty {
-    height: 70px;
-    button {
-      width: 400px;
-    }
-  }
-  .months {
-    /* width: 100%; */
-    height: 45px;
-    /* border-bottom: 10px solid rgba(250, 250, 250, 0.25); */
-    @media screen and (max-width: 750px) {
-      height: 35px;
-      border-bottom: 0;
-    }
-    @media screen and (max-width: 550px) {
-      display: none;
-    }
-  }
-  .divider {
-    /* border: 1px solid red; */
-    height: 50px;
-    width: 100%;
-    padding-top: 5px;
+  .block {
+    width: ${monthWidth};
+    height: 30px;
+    flex-shrink: 0;
+    margin-top: 5px;
+  
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    .totalDays {
-      width: 80px;
-    }
-    .totalDays.content {
-      /* position: relative; */
-      /* top: -10px; */
-      height: 30px;
-      padding-right: 30px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      /* border: 1px solid white; */
-      color: rgba(255, 255, 255, 0.6);
-    }
-    button {
-      height: 30px;
-      padding-left: 30px;
-      padding-right: 30px;
-    }
-  }
-  .totals {
-    display: flex;
-    align-items: flex-start;
-    /* border: 1px solid white; */
-    .block {
-      width: 40px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: rgba(255, 255, 255, 0.6);
-      /* border: 1px solid red */
-    }
-  }
-  .empty {
-    height: 70px;
-    button {
-      width: 400px;
-    }
+    justify-content: center;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.6);
   }
 `;
