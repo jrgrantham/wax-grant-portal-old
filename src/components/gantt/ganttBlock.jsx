@@ -59,7 +59,7 @@ function GanttBlock(props) {
       setDragBarDisplay("flex");
       setTimeout(() => {
         setDragBarDisplay("none");
-      }, 2500);
+      }, 2000);
     }
   }
 
@@ -78,12 +78,7 @@ function GanttBlock(props) {
         </div>
       ) : null}
       {status ? (
-        <div
-          className="active"
-          id={blockId}
-          onMouseDown={showBar}
-          // onMouseUp={() => setDragBarDisplay("none")}
-        >
+        <div className="active" id={blockId} onMouseDown={showBar}>
           <div
             className={
               start && end
@@ -99,11 +94,9 @@ function GanttBlock(props) {
               <input
                 type="text"
                 value={value}
-                // pattern="[0-9]"
                 onKeyDown={(e) => isNumberKey(e)}
                 onChange={(e) => onchangeHandler(e)}
                 onBlur={() => checkZero(value)}
-                // onBlur={onblurHandler} send to server?
               />
             ) : (
               <p>{reference}</p>
@@ -123,9 +116,6 @@ const Container = styled.div`
   height: 40px;
   width: 40px;
   z-index: -1;
-  :active:hover .dragBar {
-    display: flex;
-  }
 
   input {
     text-align: center;
@@ -138,8 +128,6 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10%;
-    margin-bottom: 10%;
     width: 100%;
     height: 80%;
 
@@ -168,11 +156,9 @@ const Container = styled.div`
     }
   }
   .dragBar {
-    transition-delay: 1s;
-    transition-property: display;
     display: ${(props) => props.dragBarDisplay};
-    width: 130px;
-    height: 25px;
+    width: 120px;
+    height: 32px;
     position: absolute;
     z-index: 20;
     justify-content: center;
