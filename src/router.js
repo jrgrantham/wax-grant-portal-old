@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 
 // import HomePage from "./pages/HomePage";
 import GanttChart from "./pages/ganttChart";
+import HomePage from "./pages/homePage";
 import NoResult from "./pages/noResult";
 
 // function protectedRoute(Component, props) {
@@ -18,6 +19,7 @@ const Router = () => (
   <Switch>
     {/* <Route exact path="/" component={HomePage} /> */}
     <Route exact path="/gantt" component={GanttChart} />
+    <Route exact path="/" component={HomePage} />
     {/* <Route
       path="/gantt"
       render={(props) => protectedRoute(GanttPage, props)}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +10,7 @@ import { isNumberKey } from "../../helpers";
 toast.configure();
 
 function GanttBlock(props) {
-  console.log("block");
+  // console.log("block");
   const dispatch = useDispatch();
   const {
     value,
@@ -25,6 +25,7 @@ function GanttBlock(props) {
     index,
   } = props;
   const reference = nonWPPrefix + (rowIndex + 1);
+  const blockId = "block" + rowIndex + index;
 
   function onchangeHandler(e) {
     const lastTwoNumbers = e.target.value.slice(-2);
@@ -50,6 +51,18 @@ function GanttBlock(props) {
     }
   }
 
+  const [dragBarDisplay, setDragBarDisplay] = useState("none");
+
+  function showBar(e) {
+    console.log(e.target.id, blockId);
+    if (e.target.id === blockId) {
+      setDragBarDisplay("flex");
+      setTimeout(() => {
+        setDragBarDisplay("none");
+      }, 2500);
+    }
+  }
+
   return (
     <Container
       value={value}
@@ -57,9 +70,20 @@ function GanttBlock(props) {
       start={start}
       end={end}
       barNumber={barNumber}
+      dragBarDisplay={dragBarDisplay}
     >
-      {props.status ? (
-        <div className="active">
+      {status && !start && !end ? (
+        <div className="dragBar" id={`${blockId}dragBar`}>
+          <p>drag to move bar</p>
+        </div>
+      ) : null}
+      {status ? (
+        <div
+          className="active"
+          id={blockId}
+          onMouseDown={showBar}
+          // onMouseUp={() => setDragBarDisplay("none")}
+        >
           <div
             className={
               start && end
@@ -68,7 +92,7 @@ function GanttBlock(props) {
                 ? "value start"
                 : end
                 ? "value end"
-                : "value"
+                : "value middle"
             }
           >
             {isWP ? (
@@ -98,12 +122,17 @@ const Container = styled.div`
   align-items: center;
   height: 40px;
   width: 40px;
+  z-index: -1;
+  :active:hover .dragBar {
+    display: flex;
+  }
 
   input {
     text-align: center;
     width: 20px;
     padding: 0;
     border: none;
+    z-index: 1;
   }
   .active {
     display: flex;
@@ -137,6 +166,21 @@ const Container = styled.div`
     &:hover .pointer {
       opacity: 1;
     }
+  }
+  .dragBar {
+    transition-delay: 1s;
+    transition-property: display;
+    display: ${(props) => props.dragBarDisplay};
+    width: 130px;
+    height: 25px;
+    position: absolute;
+    z-index: 20;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    background-color: black;
+    color: white;
+    font-weight: 700;
   }
 `;
 // export default GanttBlock;
