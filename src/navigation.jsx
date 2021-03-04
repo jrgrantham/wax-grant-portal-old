@@ -82,7 +82,7 @@ const Container = styled.nav`
     border-radius: 6px;
     background-color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    transition: border-color 0.3s;
+    transition: 0.3s;
     &:hover {
       border-color: rgba(255, 255, 255, 0.7);
     }

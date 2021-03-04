@@ -8,6 +8,7 @@ import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { wPBlockUpdated } from "../../store/projectData/workPackages";
 import { isNumberKey } from "../../helpers";
+import { isPending } from "@reduxjs/toolkit";
 
 toast.configure();
 
@@ -77,8 +78,8 @@ function GanttBlock(props) {
           <p>drag to move bar</p>
         </div>
       ) : null}
-      {start ? <div className="arrow left"></div> : null}
-      {end ? <div className="arrow right"></div> : null}
+      {start && isWP ? <div className="arrow left"></div> : null}
+      {end && isWP ? <div className="arrow right"></div> : null}
       {status ? (
         <div className="active" id={blockId} onMouseDown={showBar}>
           <div

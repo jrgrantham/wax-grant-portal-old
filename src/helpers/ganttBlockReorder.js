@@ -85,13 +85,26 @@ function wPMoveWholeBar(data) {
     newBlockDate,
   } = data;
   const movement = newBlockDate - originalBlockDate;
-  if (barOutsideSchedule(barStart, barEnd, movement, schedule.length)) return;
-  if (barsOverlap(barStart, barStart + movement, schedule)) return;
-  if (barsOverlap(barEnd, barEnd + movement, schedule)) return;
-  // console.log(barStart, barEnd);
-  const item = schedule.splice(barStart, barEnd - barStart + 1);
+  if (
+    barOutsideSchedule(barStart, barEnd, movement, schedule.length) ||
+    barsOverlap(barStart, barStart + movement, schedule) ||
+    barsOverlap(barEnd, barEnd + movement, schedule)
+  ) {
+    toast.info("Keep within open space", {
+      // success, info, warn, error
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 2000,
+      // autoClose: false,
+    });
+    return
+  }
+    // if (barOutsideSchedule(barStart, barEnd, movement, schedule.length)) return;
+    // if (barsOverlap(barStart, barStart + movement, schedule)) return;
+    // if (barsOverlap(barEnd, barEnd + movement, schedule)) return;
+    // console.log(barStart, barEnd);
+    const item = schedule.splice(barStart, barEnd - barStart + 1);
   schedule.splice(barStart + movement, 0, ...item);
-  return schedule
+  return schedule;
 }
 
 function barOutsideSchedule(barStart, barEnd, movement, scheduleLength) {
