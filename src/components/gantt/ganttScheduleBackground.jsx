@@ -17,6 +17,7 @@ function GanttScheduleBackground() {
   const backgroundColumn = dates.map((date, i) => {
     return (
       <div key={i} className={classNames[i % 3]}>
+        {/* <Tippy content={date}> */}
         <Tippy delay={250} content={date}>
           <div className='monthInitial'>
             <p>{date[0]}</p>

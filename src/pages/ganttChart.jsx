@@ -9,7 +9,7 @@ import GanttChartRight from "./ganttChartRight";
 function GanttChart() {
   const allRows = useSelector((state) => state.workPackages.data);
 
-  // for testing
+  // for testing ------------ could be used on other page
   const people = useSelector((state) => state.project.data.resources);
   const peoplesDays = {};
   people.forEach((person) => {
@@ -22,8 +22,7 @@ function GanttChart() {
       }
     });
   });
-  console.log(peoplesDays);
-  // for testing
+  // for testing ------------ could be used on other page
 
   function groupByTitle(titles, data) {
     const groupedWork = [];
@@ -59,10 +58,11 @@ function GanttChart() {
   let totalDays = 0;
   for (let i = 0; i < projectLength; i++) {
     let days = 0;
-    allRows.forEach((row) => {
-      days += row.schedule[i].value;
-      totalDays += row.schedule[i].value;
-    });
+    for (let j = 0; j < allRows.length; j++) {
+      const currentDay = allRows[j].schedule[i].value;
+      days += currentDay;
+      totalDays += currentDay;
+    }
     daysPerMonth.push(days);
   }
 
@@ -124,6 +124,7 @@ const PageContainer = styled.div`
     margin: 10px 0 15px 0;
   }
   .chartArea {
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
     max-width: ${(props) => props.chartWidth + 10}px;
@@ -139,7 +140,7 @@ const PageContainer = styled.div`
   .testPeople {
     min-height: 100px;
     min-width: 125px;
-    z-index: 100;
+    z-index: 5;
     position: fixed;
     bottom: 10px;
     right: 10px;

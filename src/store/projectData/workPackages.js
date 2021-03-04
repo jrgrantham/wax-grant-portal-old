@@ -1,6 +1,5 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 
 import { wPDummyData } from "../../data";
 import {
@@ -28,11 +27,11 @@ export const wPBlockUpdated = createAction("wPBlockUpdated");
 export const wPTitleChanged = createAction("wPTitleChanged");
 export const wPResourcesUpdated = createAction("wPResourcesUpdated");
 
-const initialState = {
-  loading: false,
-  data: [],
-  error: "",
-};
+// const initialState = {
+//   loading: false,
+//   data: [],
+//   error: "",
+// };
 
 export default function workPackageReducer(state = wPDummyData, action) {
   // export default function workPackageReducer(state = initialState, action) {

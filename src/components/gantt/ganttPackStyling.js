@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {wpBackground} from '../../helpers'
+import { wpBackground } from "../../helpers";
 
 export const Container = styled.div`
   width: 100%;
@@ -43,6 +43,7 @@ export const Container = styled.div`
       color: white;
       font-size: 16px;
       text-overflow: ellipsis;
+      white-space: nowrap;
       font-weight: 800;
       &:hover {
         border-color: #a1a1a1;

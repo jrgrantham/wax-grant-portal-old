@@ -15,7 +15,7 @@ function GanttRowSchedule(props) {
   const dispatch = useDispatch();
   const isWP = row.workPackageTitle !== undefined;
 
-  function handleMovingDateBlock(result) {
+  function handleMovingBlock(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     if (isWP) dispatch(wPScheduleUpdated({ row, result }));
@@ -26,7 +26,7 @@ function GanttRowSchedule(props) {
 
   return (
     <Container>
-      <DragDropContext onDragEnd={handleMovingDateBlock}>
+      <DragDropContext onDragEnd={handleMovingBlock}>
         <Droppable droppableId={rowId} direction="horizontal">
           {(provided) => (
             <div

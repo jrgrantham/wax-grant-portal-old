@@ -17,35 +17,85 @@ export function dAndMScheduleHelper(oldRow, result) {
   return newRow;
 }
 
+// dragged block arrives in this function first
+
 export function wPScheduleHelper(row, result) {
+  const schedule = row.schedule;
+  const originalBlockDate = result.source.index;
+  const newBlockDate = result.destination.index;
+  const blockContents = schedule[originalBlockDate];
+  const endOfBar = blockContents.end || blockContents.start;
+
   const newRow = produce(row, (draft) => {
-    const schedule = draft.schedule;
-    const originalBlockDate = result.source.index;
-    const newBlockDate = result.destination.index;
+    const schedule = draft.schedule; // from draft
     const blockContents = schedule[originalBlockDate];
     const [barStart, barEnd] = getFirstAndLastDateOfBar(
       blockContents.barNumber,
       schedule
     );
+    const data = {
+      schedule,
+      blockContents,
+      barStart,
+      barEnd,
+      originalBlockDate,
+      newBlockDate,
+    };
 
-    if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
-
-    increaseDaysIfRequired(draft, result, blockContents);
-
-    if (blockContents.start && blockContents.end) {
-      splitSingleEntry(originalBlockDate, newBlockDate, schedule);
-      setPropertiesByFirstAndLast(schedule);
-    } else if (blockContents.start && newBlockDate >= barEnd) {
-      createSingleEntry(barEnd, barStart, schedule);
-    } else if (blockContents.end && newBlockDate <= barStart) {
-      createSingleEntry(barStart, barEnd, schedule);
-    } else {
-      reorderWPItems(schedule, result);
-      setPropertiesByFirstAndLast(schedule);
-    }
-    spreadWork(draft);
+    if (endOfBar) wPMoveBlockEnd(draft, result);
+    else if (blockContents.status) wPMoveWholeBar(data);
   });
   return newRow;
+}
+
+function wPMoveBlockEnd(row, result) {
+  const schedule = row.schedule;
+  const originalBlockDate = result.source.index;
+  const newBlockDate = result.destination.index;
+  const blockContents = schedule[originalBlockDate];
+  const [barStart, barEnd] = getFirstAndLastDateOfBar(
+    blockContents.barNumber,
+    schedule
+  );
+  if (barsOverlap(originalBlockDate, newBlockDate, schedule)) return;
+  increaseDaysIfRequired(row, result, blockContents);
+
+  if (blockContents.start && blockContents.end) {
+    splitSingleEntry(originalBlockDate, newBlockDate, schedule);
+    setPropertiesByFirstAndLast(schedule);
+  } else if (blockContents.start && newBlockDate >= barEnd) {
+    createSingleEntry(barEnd, barStart, schedule);
+  } else if (blockContents.end && newBlockDate <= barStart) {
+    createSingleEntry(barStart, barEnd, schedule);
+  } else {
+    reorderWPItems(schedule, result);
+    setPropertiesByFirstAndLast(schedule);
+  }
+  spreadWork(row);
+  return row;
+}
+
+function wPMoveWholeBar(data) {
+  const {
+    schedule,
+    blockContents,
+    barStart,
+    barEnd,
+    originalBlockDate,
+    newBlockDate,
+  } = data;
+  const movement = newBlockDate - originalBlockDate;
+  if (barOutsideSchedule(barStart, barEnd, movement, schedule.length)) return;
+  if (barsOverlap(barStart, barStart + movement, schedule)) return;
+  if (barsOverlap(barEnd, barEnd + movement, schedule)) return;
+  // console.log(barStart, barEnd);
+  const item = schedule.splice(barStart, barEnd - barStart + 1);
+  schedule.splice(barStart + movement, 0, ...item);
+  return schedule
+}
+
+function barOutsideSchedule(barStart, barEnd, movement, scheduleLength) {
+  return barStart + movement < 0 || barEnd + movement > scheduleLength - 1;
 }
 
 function barsOverlap(originalBlockDate, newBlockDate, schedule) {

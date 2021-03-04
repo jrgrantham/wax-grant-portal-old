@@ -1,7 +1,7 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
 
-import { dMDummyData } from "../../data";
+// import { dMDummyData } from "../../data";
 import {
   reorderArrayByIndex,
   dAndMScheduleHelper,
