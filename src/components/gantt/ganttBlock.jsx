@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+
 import { useDispatch } from "react-redux";
 import { wPBlockUpdated } from "../../store/projectData/workPackages";
 import { isNumberKey } from "../../helpers";
@@ -46,7 +48,6 @@ function GanttBlock(props) {
         // success, info, warn, error
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
-        // autoClose: false,
       });
     }
   }
@@ -54,7 +55,6 @@ function GanttBlock(props) {
   const [dragBarDisplay, setDragBarDisplay] = useState("none");
 
   function showBar(e) {
-    console.log(e.target.id, blockId);
     if (e.target.id === blockId) {
       setDragBarDisplay("flex");
       setTimeout(() => {
@@ -77,6 +77,8 @@ function GanttBlock(props) {
           <p>drag to move bar</p>
         </div>
       ) : null}
+      {start ? <div className="arrow left"></div> : null}
+      {end ? <div className="arrow right"></div> : null}
       {status ? (
         <div className="active" id={blockId} onMouseDown={showBar}>
           <div
@@ -116,6 +118,9 @@ const Container = styled.div`
   height: 40px;
   width: 40px;
   z-index: -1;
+  &:hover .arrow {
+    opacity: 1
+  }
 
   input {
     text-align: center;
@@ -167,6 +172,23 @@ const Container = styled.div`
     background-color: black;
     color: white;
     font-weight: 700;
+  }
+  .arrow {
+    opacity: 0;
+    transition: opacity 0.3s;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 50%;
+    z-index: 3;
+  }
+  .right {
+    margin-left: 35px;
+  }
+  .left {
+    margin-right: 35px;
   }
 `;
 // export default GanttBlock;
