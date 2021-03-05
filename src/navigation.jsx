@@ -29,7 +29,7 @@ function Navigation() {
               className="navButton"
               activeClassName="selected"
             >
-              Gantt
+              Gantt Chart
             </NavLink>
           </li>
         </ul>

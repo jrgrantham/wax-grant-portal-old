@@ -87,8 +87,6 @@ export default GanttRowSchedule;
 const Container = styled.div`
   display: flex;
   justify-content: flex-start;
-  /* width: 100%; */
-
   .blockRow {
     display: flex;
   }

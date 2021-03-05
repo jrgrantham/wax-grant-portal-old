@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { wpBackground } from "../../helpers";
+import { wpBackground, wpMarginBottom } from "../../helpers";
 
 export const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: ${wpMarginBottom};
   border-radius: 5px;
   overflow: hidden;
   @media screen and (max-width: 750px) {

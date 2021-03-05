@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import { appWidth } from "../helpers/";
-import GanttChartLeft from "./ganttChartLeft";
-import GanttChartRight from "./ganttChartRight";
+import { appWidth, wpMarginBottom } from "../helpers/";
+import GanttChartLeft from "../components/gantt/ganttChartLeft";
+import GanttChartRight from "../components/gantt/ganttChartRight";
 
 function GanttChart() {
   const allRows = useSelector((state) => state.workPackages.data);
@@ -84,7 +84,6 @@ function GanttChart() {
 
   return (
     <PageContainer chartWidth={chartWidth} appWidth={appWidth}>
-      <h2>Gantt Chart</h2>
       <div id="chartArea" className="chartArea">
         <GanttChartLeft data={data} />
         <GanttChartRight data={data} />
@@ -106,7 +105,7 @@ export default GanttChart;
 
 const PageContainer = styled.div`
   position: relative;
-  top: 30px;
+  top: 80px;
   margin: auto;
   padding: 10px;
   width: 100%;
@@ -131,12 +130,14 @@ const PageContainer = styled.div`
     width: 100%;
   }
   .monthHeaderSpacer {
-    height: 45px;
+    height: calc(35px + ${wpMarginBottom});
     @media screen and (max-width: 750px) {
       height: 35px;
       border-bottom: 0;
     }
   }
+
+  // remove this
   .testPeople {
     min-height: 100px;
     min-width: 125px;
@@ -153,4 +154,5 @@ const PageContainer = styled.div`
       justify-content: space-between;
     }
   }
+  // remove this
 `;

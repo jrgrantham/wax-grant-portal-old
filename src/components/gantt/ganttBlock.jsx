@@ -7,8 +7,13 @@ import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 
 import { useDispatch } from "react-redux";
 import { wPBlockUpdated } from "../../store/projectData/workPackages";
-import { isNumberKey } from "../../helpers";
-import { isPending } from "@reduxjs/toolkit";
+import {
+  isNumberKey,
+  monthWidth,
+  wpBarColor,
+  delTitleColor,
+  milTitleColor,
+} from "../../helpers";
 
 toast.configure();
 
@@ -27,8 +32,14 @@ function GanttBlock(props) {
     isWP,
     index,
   } = props;
+
   const reference = nonWPPrefix + (rowIndex + 1);
   const blockId = "block" + rowIndex + index;
+  const blockColor = isWP
+    ? wpBarColor
+    : nonWPPrefix === "D"
+    ? delTitleColor
+    : milTitleColor;
 
   function onchangeHandler(e) {
     const lastTwoNumbers = e.target.value.slice(-2);
@@ -72,6 +83,7 @@ function GanttBlock(props) {
       end={end}
       barNumber={barNumber}
       dragBarDisplay={dragBarDisplay}
+      blockColor={blockColor}
     >
       {status && !start && !end ? (
         <div className="dragBar" id={`${blockId}dragBar`}>
@@ -117,10 +129,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 40px;
-  width: 40px;
+  width: ${monthWidth};
   z-index: -1;
   &:hover .arrow {
-    opacity: 1
+    opacity: 1;
   }
   input {
     text-align: center;
@@ -128,6 +140,8 @@ const Container = styled.div`
     padding: 0;
     margin: 0;
     border: none;
+    background-color: ${(props) => props.blockColor};
+    color: white;
     z-index: 1;
   }
   .active {
@@ -144,17 +158,21 @@ const Container = styled.div`
     margin-left: ${(props) => (props.start ? "2px" : 0)};
     margin-right: ${(props) => (props.end ? "2px" : 0)};
 
-    border-left: ${(props) => (props.start ? "1px solid #909090" : 0)};
-    border-top: ${(props) => (props.status ? "1px solid #909090" : 0)};
-    border-bottom: ${(props) => (props.status ? "1px solid #909090" : 0)};
-    border-right: ${(props) => (props.end ? "1px solid #909090" : 0)};
+    border-left: ${(props) =>
+      props.start ? `1px solid ${props.blockColor}` : 0};
+    border-top: ${(props) =>
+      props.status ? `1px solid ${props.blockColor}` : 0};
+    border-bottom: ${(props) =>
+      props.status ? `1px solid ${props.blockColor}` : 0};
+    border-right: ${(props) =>
+      props.end ? `1px solid ${props.blockColor}` : 0};
 
     border-top-left-radius: ${(props) => (props.start ? "6px" : 0)};
     border-top-right-radius: ${(props) => (props.end ? "6px" : 0)};
     border-bottom-left-radius: ${(props) => (props.start ? "6px" : 0)};
     border-bottom-right-radius: ${(props) => (props.end ? "6px" : 0)};
 
-    background-color: white;
+    background-color: ${(props) => props.blockColor};
     z-index: 1;
   }
   .dragBar {
@@ -174,10 +192,10 @@ const Container = styled.div`
     opacity: 0;
     transition: opacity 0.3s;
     position: absolute;
-    height: 20px;
-    width: 20px;
-    background-color: white;
-    border: 1px solid black;
+    height: 18px;
+    width: 18px;
+    background-color: ${wpBarColor};
+    border: 1px solid white;
     border-radius: 50%;
     z-index: 3;
   }
