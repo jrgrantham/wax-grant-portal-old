@@ -53,10 +53,10 @@ const Container = styled.div`
 
   }
   .columnLeft {
-    border-left: 1px solid ${schedGapColor};
+    border-left: 2px solid ${schedGapColor};
   }
   .columnRight {
-    border-right: 1px solid ${schedGapColor};
+    border-right: 2px solid ${schedGapColor};
   }
   .backgroundColumn {
     height: 100%;
