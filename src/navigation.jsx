@@ -4,20 +4,13 @@ import { NavLink } from "react-router-dom";
 import { appWidth } from "./helpers";
 
 function Navigation() {
+  function openMenu() {
+    setMenu(true);
+    console.log("open");
+  }
   const [menu, setMenu] = useState(false);
   return (
     <Container appWidth={appWidth} menu={menu}>
-      <div className="menu">
-        <div>
-          <p className="link">Export</p>
-          <p className="link">Logout</p>
-        </div>
-        <div>
-          <p onClick={() => setMenu(false)} className="link">
-            Close
-          </p>
-        </div>
-      </div>
       <div className="navBar">
         <ul>
           <li>
@@ -40,9 +33,18 @@ function Navigation() {
             </NavLink>
           </li>
         </ul>
-        <p className="navButton" onClick={() => setMenu(true)}>
+        <p className="navButton" onClick={openMenu}>
           Menu
         </p>
+      </div>
+
+      <div onClick={() => setMenu(false)} id="menu" className="menu">
+        <button onClick={() => console.log("Export")} className="menuButton">
+          Export
+        </button>
+        <button onClick={() => console.log("Logout")} className="menuButton">
+          Logout
+        </button>
       </div>
     </Container>
   );
@@ -61,6 +63,7 @@ const Container = styled.nav`
   .navBar {
     width: 100%;
     max-width: ${(props) => props.appWidth};
+    padding: 0 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -72,7 +75,8 @@ const Container = styled.nav`
 
   .navButton,
   a,
-  p {
+  p,
+  button {
     margin: 5px;
     padding: 5px 10px;
     color: white;
@@ -84,12 +88,12 @@ const Container = styled.nav`
     cursor: pointer;
     transition: 0.3s;
     &:hover {
-      border-color: rgba(255, 255, 255, 0.7);
+      border-color: rgba(255, 255, 255, 1);
     }
   }
   .selected {
-    color: rgba(0, 0, 0, 0.8);
-    background-color: rgba(255, 255, 255, 0.5);
+    /* color: rgba(0, 0, 0, 0.8); */
+    background-color: rgba(255, 255, 255, 0.2);
   }
 
   .menu {
@@ -99,20 +103,21 @@ const Container = styled.nav`
     width: 200px;
     height: 100%;
 
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #404040;
-    .link {
-      margin: 10px;
-      margin-top: 30px;
-      padding: 5px 10px;
-      border: 1px solid #404040;
-      border-radius: 10px;
-      &:hover {
-        border: 1px solid white;
-      }
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgba(50, 50, 50, 0.98);
+    cursor: pointer;
+  }
+  .menuButton {
+    margin-top: 20px;
+    width: 150px;
+    background-color: rgba(25, 25, 25, 1);
+    border: 1px solid #404040;
+    &:hover {
+      border: 1px solid white;
     }
   }
 `;

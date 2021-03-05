@@ -122,11 +122,11 @@ const Container = styled.div`
   &:hover .arrow {
     opacity: 1
   }
-
   input {
     text-align: center;
     width: 20px;
     padding: 0;
+    margin: 0;
     border: none;
     z-index: 1;
   }
@@ -156,10 +156,6 @@ const Container = styled.div`
 
     background-color: white;
     z-index: 1;
-
-    &:hover .pointer {
-      opacity: 1;
-    }
   }
   .dragBar {
     display: ${(props) => props.dragBarDisplay};

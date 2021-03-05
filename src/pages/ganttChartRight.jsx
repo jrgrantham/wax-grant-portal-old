@@ -32,6 +32,7 @@ function GanttChartRight(props) {
       const x = e.pageX - slider.offsetLeft;
       // const walk = (x - startX) * 3; //scroll-fast
       const walk = x - startX;
+      console.log(scrollLeft - walk);
       slider.scrollLeft = scrollLeft - walk;
     });
   }, []);

@@ -8,6 +8,10 @@
   background: rgba(100, 100, 100, 0.8);
 }
 
+::-webkit-scrollbar:vertical {
+  display: none;
+}
+
 h1 {
   font-size: 200px;
 }
