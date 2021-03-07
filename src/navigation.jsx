@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { appWidth } from "./helpers";
+import { appWidth, navBackground } from "./helpers";
 
 function Navigation() {
   function openMenu() {
@@ -17,7 +17,7 @@ function Navigation() {
             <NavLink
               exact
               to="/project"
-              className="navButton hover hover-3"
+              className="navButton"
               activeClassName="selected"
             >
               Project
@@ -27,7 +27,7 @@ function Navigation() {
             <NavLink
               exact
               to="/team"
-              className="navButton hover hover-3"
+              className="navButton"
               activeClassName="selected"
             >
               Team
@@ -36,7 +36,7 @@ function Navigation() {
           <li>
             <NavLink
               to="/gantt"
-              className="navButton hover hover-3"
+              className="navButton"
               activeClassName="selected"
             >
               Gantt Chart
@@ -46,7 +46,7 @@ function Navigation() {
             <NavLink
               exact
               to="/costs"
-              className="navButton hover hover-3"
+              className="navButton"
               activeClassName="selected"
             >
               Costs
@@ -56,14 +56,14 @@ function Navigation() {
             <NavLink
               exact
               to="/revenue"
-              className="navButton hover hover-3"
+              className="navButton"
               activeClassName="selected"
             >
               Revenue
             </NavLink>
           </li>
         </ul>
-        <p className="navButton hover hover-3" onClick={openMenu}>
+        <p className="navButton" onClick={openMenu}>
           Menu
         </p>
       </div>
@@ -88,6 +88,7 @@ const Container = styled.nav`
   margin: auto;
   position: fixed;
   top: 0;
+  background-color: ${navBackground};
   z-index: 10;
 
   .navBar {
@@ -97,7 +98,6 @@ const Container = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(12, 58, 93, 1);
   }
   ul {
     display: flex;
@@ -114,7 +114,7 @@ const Container = styled.nav`
     background-color: rgba(0, 0, 0, 0.15);
     cursor: pointer;
 
-    background-image: linear-gradient(rgba(12, 58, 93, 1), rgba(12, 58, 93, 1)),
+    background-image: linear-gradient(${navBackground}, ${navBackground}),
       linear-gradient(white, white);
     background-size: 100% 2px, 100% 2px;
     background-position: 100% 100%, 0 100%;
@@ -141,7 +141,7 @@ const Container = styled.nav`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: rgba(50, 50, 50, 0.98);
+    background-color: rgba(50, 50, 50, 1);
     cursor: pointer;
   }
   .menuButton {

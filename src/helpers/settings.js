@@ -1,4 +1,5 @@
-export const appWidth = "1800px";
+export const appWidth = "1400px";
+export const navBackground = "rgba(12, 58, 93, 1)";
 
 export const toastDelay = "2000";
 
