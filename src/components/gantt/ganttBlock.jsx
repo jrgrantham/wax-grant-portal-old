@@ -88,8 +88,8 @@ function GanttBlock(props) {
           <p>drag to move bar</p>
         </div>
       ) : null}
-      {start && isWP ? <div className="arrow left"></div> : null}
-      {end && isWP ? <div className="arrow right"></div> : null}
+      {start && isWP ? <div className="handle left"></div> : null}
+      {end && isWP ? <div className="handle right"></div> : null}
       {status ? (
         <div className="active" id={blockId} onMouseDown={showBar}>
             {isWP ? (
@@ -117,7 +117,7 @@ const Container = styled.div`
   height: 40px;
   width: ${monthWidth};
   z-index: -1;
-  &:hover .arrow {
+  &:hover .handle {
     opacity: 1;
   }
   input {
@@ -174,14 +174,14 @@ const Container = styled.div`
     color: white;
     font-weight: 700;
   }
-  .arrow {
+  .handle {
     opacity: 0;
     transition: opacity 0.3s;
     position: absolute;
     height: 18px;
     width: 18px;
     background-color: ${wpBarColor};
-    border: 1px solid white;
+    border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     z-index: 3;
   }

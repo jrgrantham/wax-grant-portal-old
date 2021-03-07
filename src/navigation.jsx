@@ -103,30 +103,32 @@ const Container = styled.nav`
     display: flex;
   }
 
-  .navButton,
-  a,
-  p,
-  button {
+  .navButton {
     margin: 5px;
     padding: 15px 30px;
     color: white;
     font-size: 16px;
     font-weight: 700;
     border: 1px solid rgba(255, 255, 255, 0);
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.15);
     cursor: pointer;
-    /* transition: 0.3s; */
-    &:hover {
-    }
 
+    background-image: linear-gradient(rgba(12, 58, 93, 1), rgba(12, 58, 93, 1)),
+      linear-gradient(white, white);
+    background-size: 100% 2px, 100% 2px;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat, no-repeat;
+    transition: background-size 0.3s linear;
+
+    &:hover {
+      background-size: 0 2px, 100% 2px;
+    }
   }
   .selected {
-    /* color: rgba(0, 0, 0, 0.8); */
-    border-color: rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
   }
-
   .menu {
     position: fixed;
     right: ${(props) => (props.menu ? "0" : "-200px")};
@@ -145,54 +147,12 @@ const Container = styled.nav`
   .menuButton {
     margin-top: 20px;
     width: 150px;
-    background-color: rgba(25, 25, 25, 1);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.15);
     border: 1px solid #404040;
-    /* &:hover {
-      border: 1px solid white;
-    } */
-  }
-
-  .hover {
-    /* transition: all 0.2s ease-in-out; */
-    position: relative;
-    &:before,
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      width: 0px;
-      height: 5px;
-      margin: 5px 0 0;
-      /* transition: all 0.2s ease-in-out; */
-      /* transition-duration: 0.75s; */
-      opacity: 0;
-      background-color: darken(orange, 5%);
-    }
-    &.hover-3 {
-      &:before {
-        left: 50%;
-      }
-      &:after {
-        right: 50%;
-      }
-    }
-  }
-  &:hover {
-    background-color:red;
-    cursor: pointer;
-    .hover {
-      &:before,
-      &:after {
-        width: 100%;
-        opacity: 1;
-      }
-      &.hover-3,
-      &.hover-4 {
-        &:before,
-        &:after {
-          width: 50%;
-        }
-      }
-    }
   }
 `;
