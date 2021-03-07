@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
-
 import { useDispatch } from "react-redux";
 import { wPBlockUpdated } from "../../store/projectData/workPackages";
 import {
@@ -94,17 +92,6 @@ function GanttBlock(props) {
       {end && isWP ? <div className="arrow right"></div> : null}
       {status ? (
         <div className="active" id={blockId} onMouseDown={showBar}>
-          <div
-            className={
-              start && end
-                ? "value single"
-                : start
-                ? "value start"
-                : end
-                ? "value end"
-                : "value middle"
-            }
-          >
             {isWP ? (
               <input
                 type="text"
@@ -116,7 +103,6 @@ function GanttBlock(props) {
             ) : (
               <p>{reference}</p>
             )}
-          </div>
         </div>
       ) : null}
     </Container>

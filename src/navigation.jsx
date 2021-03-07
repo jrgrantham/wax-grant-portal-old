@@ -16,24 +16,54 @@ function Navigation() {
           <li>
             <NavLink
               exact
-              to="/"
-              className="navButton"
+              to="/project"
+              className="navButton hover hover-3"
               activeClassName="selected"
             >
-              Home
+              Project
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              exact
+              to="/team"
+              className="navButton hover hover-3"
+              activeClassName="selected"
+            >
+              Team
             </NavLink>
           </li>
           <li>
             <NavLink
               to="/gantt"
-              className="navButton"
+              className="navButton hover hover-3"
               activeClassName="selected"
             >
               Gantt Chart
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              exact
+              to="/costs"
+              className="navButton hover hover-3"
+              activeClassName="selected"
+            >
+              Costs
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              exact
+              to="/revenue"
+              className="navButton hover hover-3"
+              activeClassName="selected"
+            >
+              Revenue
+            </NavLink>
+          </li>
         </ul>
-        <p className="navButton" onClick={openMenu}>
+        <p className="navButton hover hover-3" onClick={openMenu}>
           Menu
         </p>
       </div>
@@ -67,7 +97,7 @@ const Container = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(12, 58, 93, 1);
   }
   ul {
     display: flex;
@@ -78,22 +108,23 @@ const Container = styled.nav`
   p,
   button {
     margin: 5px;
-    padding: 5px 10px;
+    padding: 15px 30px;
     color: white;
     font-size: 16px;
     font-weight: 700;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 6px;
-    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.15);
     cursor: pointer;
-    transition: 0.3s;
+    /* transition: 0.3s; */
     &:hover {
-      border-color: rgba(255, 255, 255, 1);
     }
+
   }
   .selected {
     /* color: rgba(0, 0, 0, 0.8); */
-    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .menu {
@@ -116,8 +147,52 @@ const Container = styled.nav`
     width: 150px;
     background-color: rgba(25, 25, 25, 1);
     border: 1px solid #404040;
-    &:hover {
+    /* &:hover {
       border: 1px solid white;
+    } */
+  }
+
+  .hover {
+    /* transition: all 0.2s ease-in-out; */
+    position: relative;
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      width: 0px;
+      height: 5px;
+      margin: 5px 0 0;
+      /* transition: all 0.2s ease-in-out; */
+      /* transition-duration: 0.75s; */
+      opacity: 0;
+      background-color: darken(orange, 5%);
+    }
+    &.hover-3 {
+      &:before {
+        left: 50%;
+      }
+      &:after {
+        right: 50%;
+      }
+    }
+  }
+  &:hover {
+    background-color:red;
+    cursor: pointer;
+    .hover {
+      &:before,
+      &:after {
+        width: 100%;
+        opacity: 1;
+      }
+      &.hover-3,
+      &.hover-4 {
+        &:before,
+        &:after {
+          width: 50%;
+        }
+      }
     }
   }
 `;
