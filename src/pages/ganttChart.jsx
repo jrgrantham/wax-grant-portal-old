@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import { appWidth, wpMarginBottom } from "../helpers/";
+import { appTop, appWidth, wpMarginBottom } from "../helpers/";
 import GanttChartLeft from "../components/gantt/ganttChartLeft";
 import GanttChartRight from "../components/gantt/ganttChartRight";
 
@@ -83,7 +83,7 @@ function GanttChart() {
   };
 
   return (
-    <PageContainer chartWidth={chartWidth} appWidth={appWidth}>
+    <PageContainer chartWidth={chartWidth}>
       <div id="chartArea" className="chartArea">
         <GanttChartLeft data={data} />
         <GanttChartRight data={data} />
@@ -105,11 +105,11 @@ export default GanttChart;
 
 const PageContainer = styled.div`
   position: relative;
-  top: 80px;
+  top: ${appTop};
   margin: auto;
   padding: 10px;
   width: 100%;
-  max-width: ${(props) => props.appWidth};
+  max-width: ${appWidth};
 
   display: flex;
   flex-direction: column;
@@ -117,10 +117,6 @@ const PageContainer = styled.div`
   align-items: center;
   @media screen and (max-width: 750px) {
     padding: 0px;
-  }
-  h2 {
-    color: white;
-    margin: 10px 0 15px 0;
   }
   .chartArea {
     margin-bottom: 50px;

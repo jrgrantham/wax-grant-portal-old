@@ -12,6 +12,14 @@ function Navigation() {
   return (
     <Container appWidth={appWidth} menu={menu}>
       <div className="navBar">
+        <NavLink
+          exact
+          to="/"
+          className="navButton small"
+          activeClassName="selected"
+        >
+          Home
+        </NavLink>
         <ul>
           <li>
             <NavLink
@@ -63,7 +71,7 @@ function Navigation() {
             </NavLink>
           </li>
         </ul>
-        <p className="navButton" onClick={openMenu}>
+        <p className="navButton small" onClick={openMenu}>
           Menu
         </p>
       </div>
@@ -104,20 +112,23 @@ const Container = styled.nav`
   }
 
   .navButton {
+    display: flex;
+    justify-content: center;
+    width: 180px;
     margin: 5px;
-    padding: 15px 30px;
+    padding: 15px 10px;
     color: white;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 600;
     border: 1px solid rgba(255, 255, 255, 0);
-    border-radius: 8px;
+    border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.15);
     cursor: pointer;
 
     background-image: linear-gradient(${navBackground}, ${navBackground}),
       linear-gradient(white, white);
     background-size: 100% 2px, 100% 2px;
-    background-position: 100% 100%, 0 100%;
+    background-position: 100% 90%, 0 90%;
     background-repeat: no-repeat, no-repeat;
     transition: background-size 0.3s linear;
 
@@ -125,13 +136,16 @@ const Container = styled.nav`
       background-size: 0 2px, 100% 2px;
     }
   }
+  .navButton.small {
+    width: 80px;
+  }
   .selected {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.15);
   }
   .selected.navButton:hover {
     background-size: 100% 2px, 100% 2px;
-  };
+  }
   .menu {
     position: fixed;
     right: ${(props) => (props.menu ? "0" : "-200px")};

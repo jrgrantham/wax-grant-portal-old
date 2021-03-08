@@ -17,8 +17,6 @@ export function dAndMScheduleHelper(oldRow, result) {
   return newRow;
 }
 
-// dragged block arrives in this function first
-
 export function wPScheduleHelper(row, result) {
   const schedule = row.schedule;
   const originalBlockDate = result.source.index;
@@ -72,6 +70,7 @@ function wPMoveBlockEnd(row, result) {
     setPropertiesByFirstAndLast(schedule);
   }
   spreadWork(row);
+  // calculate block position in the bar its in
   return row;
 }
 
@@ -203,6 +202,21 @@ function setPropertiesByFirstAndLast(schedule) {
   }
   return schedule;
 }
+
+function setBlockPositionInBar(schedule) {
+  for (let i=0; i<schedule.length; i++) {
+    // if first start position
+      // let startPos = i
+      // loop until end of bar
+        // let counter = 1
+        // add counter position to block
+        // increment counter
+        // find end position
+        // counter is length of bar
+        // set barLength inside block
+    //
+  }
+} 
 
 export function reorderWPItems(array, result) {
   const [item] = array.splice(result.source.index, 1);

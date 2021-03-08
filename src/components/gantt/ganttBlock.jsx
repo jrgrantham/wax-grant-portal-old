@@ -82,6 +82,7 @@ function GanttBlock(props) {
       barNumber={barNumber}
       dragBarDisplay={dragBarDisplay}
       blockColor={blockColor}
+      index={index}
     >
       {status && !start && !end ? (
         <div className="dragBar" id={`${blockId}dragBar`}>
@@ -110,6 +111,7 @@ function GanttBlock(props) {
 }
 
 const Container = styled.div`
+  position: static;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -144,14 +146,10 @@ const Container = styled.div`
     margin-left: ${(props) => (props.start ? "2px" : 0)};
     margin-right: ${(props) => (props.end ? "2px" : 0)};
 
-    border-left: ${(props) =>
-      props.start ? `1px solid ${props.blockColor}` : 0};
-    border-top: ${(props) =>
-      props.status ? `1px solid ${props.blockColor}` : 0};
-    border-bottom: ${(props) =>
-      props.status ? `1px solid ${props.blockColor}` : 0};
-    border-right: ${(props) =>
-      props.end ? `1px solid ${props.blockColor}` : 0};
+    border-left: ${(props) => props.start ? `1px solid ${props.blockColor}` : 0};
+    border-top: ${(props) => props.status ? `1px solid ${props.blockColor}` : 0};
+    border-bottom: ${(props) => props.status ? `1px solid ${props.blockColor}` : 0};
+    border-right: ${(props) => props.end ? `1px solid ${props.blockColor}` : 0};
 
     border-top-left-radius: ${(props) => (props.start ? "6px" : 0)};
     border-top-right-radius: ${(props) => (props.end ? "6px" : 0)};
@@ -165,7 +163,12 @@ const Container = styled.div`
     display: ${(props) => props.dragBarDisplay};
     width: 120px;
     height: 32px;
+    // absolute position required, offset calculated from index
+    // calculate the offset and pass as a value
+    // dont do the calculation here 
     position: absolute;
+    /* left: ${props => props.index * 40 - 40}px; */
+    /* left: 40px; */
     z-index: 20;
     justify-content: center;
     align-items: center;
