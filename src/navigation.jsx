@@ -129,6 +129,9 @@ const Container = styled.nav`
     background-color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.15);
   }
+  .selected.navButton:hover {
+    background-size: 100% 2px, 100% 2px;
+  };
   .menu {
     position: fixed;
     right: ${(props) => (props.menu ? "0" : "-200px")};
