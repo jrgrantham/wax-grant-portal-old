@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useDispatch } from "react-redux";
 import { wPBlockUpdated } from "../../store/projectData/workPackages";
-import { isNumberKey } from "../../helpers";
+import {
+  isNumberKey,
+  monthWidth,
+  wpBarColor,
+  delTitleColor,
+  milTitleColor,
+} from "../../helpers";
 
 toast.configure();
 
 function GanttBlock(props) {
-  console.log("block");
+  // console.log("block");
   const dispatch = useDispatch();
   const {
     value,
@@ -24,7 +30,14 @@ function GanttBlock(props) {
     isWP,
     index,
   } = props;
+
   const reference = nonWPPrefix + (rowIndex + 1);
+  const blockId = "block" + rowIndex + index;
+  const blockColor = isWP
+    ? wpBarColor
+    : nonWPPrefix === "D"
+    ? delTitleColor
+    : milTitleColor;
 
   function onchangeHandler(e) {
     const lastTwoNumbers = e.target.value.slice(-2);
@@ -45,8 +58,18 @@ function GanttBlock(props) {
         // success, info, warn, error
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
-        // autoClose: false,
       });
+    }
+  }
+
+  const [dragBarDisplay, setDragBarDisplay] = useState("none");
+
+  function showBar(e) {
+    if (e.target.id === blockId) {
+      setDragBarDisplay("flex");
+      setTimeout(() => {
+        setDragBarDisplay("none");
+      }, 2000);
     }
   }
 
@@ -57,34 +80,29 @@ function GanttBlock(props) {
       start={start}
       end={end}
       barNumber={barNumber}
+      dragBarDisplay={dragBarDisplay}
+      blockColor={blockColor}
     >
-      {props.status ? (
-        <div className="active">
-          <div
-            className={
-              start && end
-                ? "value single"
-                : start
-                ? "value start"
-                : end
-                ? "value end"
-                : "value"
-            }
-          >
+      {status && !start && !end ? (
+        <div className="dragBar" id={`${blockId}dragBar`}>
+          <p>drag to move bar</p>
+        </div>
+      ) : null}
+      {start && isWP ? <div className="handle left"></div> : null}
+      {end && isWP ? <div className="handle right"></div> : null}
+      {status ? (
+        <div className="active" id={blockId} onMouseDown={showBar}>
             {isWP ? (
               <input
                 type="text"
                 value={value}
-                // pattern="[0-9]"
                 onKeyDown={(e) => isNumberKey(e)}
                 onChange={(e) => onchangeHandler(e)}
                 onBlur={() => checkZero(value)}
-                // onBlur={onblurHandler} send to server?
               />
             ) : (
               <p>{reference}</p>
             )}
-          </div>
         </div>
       ) : null}
     </Container>
@@ -97,20 +115,25 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 40px;
-  width: 40px;
-
+  width: ${monthWidth};
+  z-index: -1;
+  &:hover .handle {
+    opacity: 1;
+  }
   input {
     text-align: center;
     width: 20px;
     padding: 0;
+    margin: 0;
     border: none;
+    background-color: ${(props) => props.blockColor};
+    color: white;
+    z-index: 1;
   }
   .active {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10%;
-    margin-bottom: 10%;
     width: 100%;
     height: 80%;
 
@@ -121,22 +144,52 @@ const Container = styled.div`
     margin-left: ${(props) => (props.start ? "2px" : 0)};
     margin-right: ${(props) => (props.end ? "2px" : 0)};
 
-    border-left: ${(props) => (props.start ? "1px solid #909090" : 0)};
-    border-top: ${(props) => (props.status ? "1px solid #909090" : 0)};
-    border-bottom: ${(props) => (props.status ? "1px solid #909090" : 0)};
-    border-right: ${(props) => (props.end ? "1px solid #909090" : 0)};
+    border-left: ${(props) =>
+      props.start ? `1px solid ${props.blockColor}` : 0};
+    border-top: ${(props) =>
+      props.status ? `1px solid ${props.blockColor}` : 0};
+    border-bottom: ${(props) =>
+      props.status ? `1px solid ${props.blockColor}` : 0};
+    border-right: ${(props) =>
+      props.end ? `1px solid ${props.blockColor}` : 0};
 
     border-top-left-radius: ${(props) => (props.start ? "6px" : 0)};
     border-top-right-radius: ${(props) => (props.end ? "6px" : 0)};
     border-bottom-left-radius: ${(props) => (props.start ? "6px" : 0)};
     border-bottom-right-radius: ${(props) => (props.end ? "6px" : 0)};
 
-    background-color: white;
+    background-color: ${(props) => props.blockColor};
     z-index: 1;
-
-    &:hover .pointer {
-      opacity: 1;
-    }
+  }
+  .dragBar {
+    display: ${(props) => props.dragBarDisplay};
+    width: 120px;
+    height: 32px;
+    position: absolute;
+    z-index: 20;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    background-color: black;
+    color: white;
+    font-weight: 700;
+  }
+  .handle {
+    opacity: 0;
+    transition: opacity 0.3s;
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    background-color: ${wpBarColor};
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    z-index: 3;
+  }
+  .right {
+    margin-left: 35px;
+  }
+  .left {
+    margin-right: 35px;
   }
 `;
 // export default GanttBlock;

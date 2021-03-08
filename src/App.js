@@ -13,6 +13,7 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
         <img
+          alt=''
           src={background}
           style={{
             width: "100%",

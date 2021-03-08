@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import { appWidth } from "../helpers/";
-import GanttChartLeft from "./ganttChartLeft";
-import GanttChartRight from "./ganttChartRight";
+import { appWidth, wpMarginBottom } from "../helpers/";
+import GanttChartLeft from "../components/gantt/ganttChartLeft";
+import GanttChartRight from "../components/gantt/ganttChartRight";
 
 function GanttChart() {
   const allRows = useSelector((state) => state.workPackages.data);
 
-  // for testing
+  // for testing ------------ could be used on other page
   const people = useSelector((state) => state.project.data.resources);
   const peoplesDays = {};
   people.forEach((person) => {
@@ -22,8 +22,7 @@ function GanttChart() {
       }
     });
   });
-  console.log(peoplesDays);
-  // for testing
+  // for testing ------------ could be used on other page
 
   function groupByTitle(titles, data) {
     const groupedWork = [];
@@ -59,10 +58,11 @@ function GanttChart() {
   let totalDays = 0;
   for (let i = 0; i < projectLength; i++) {
     let days = 0;
-    allRows.forEach((row) => {
-      days += row.schedule[i].value;
-      totalDays += row.schedule[i].value;
-    });
+    for (let j = 0; j < allRows.length; j++) {
+      const currentDay = allRows[j].schedule[i].value;
+      days += currentDay;
+      totalDays += currentDay;
+    }
     daysPerMonth.push(days);
   }
 
@@ -84,7 +84,6 @@ function GanttChart() {
 
   return (
     <PageContainer chartWidth={chartWidth} appWidth={appWidth}>
-      <h2>Gantt Chart</h2>
       <div id="chartArea" className="chartArea">
         <GanttChartLeft data={data} />
         <GanttChartRight data={data} />
@@ -106,7 +105,7 @@ export default GanttChart;
 
 const PageContainer = styled.div`
   position: relative;
-  top: 30px;
+  top: 80px;
   margin: auto;
   padding: 10px;
   width: 100%;
@@ -124,22 +123,25 @@ const PageContainer = styled.div`
     margin: 10px 0 15px 0;
   }
   .chartArea {
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
     max-width: ${(props) => props.chartWidth + 10}px;
     width: 100%;
   }
   .monthHeaderSpacer {
-    height: 45px;
+    height: calc(35px + ${wpMarginBottom});
     @media screen and (max-width: 750px) {
       height: 35px;
       border-bottom: 0;
     }
   }
+
+  // remove this
   .testPeople {
     min-height: 100px;
     min-width: 125px;
-    z-index: 100;
+    z-index: 5;
     position: fixed;
     bottom: 10px;
     right: 10px;
@@ -152,4 +154,5 @@ const PageContainer = styled.div`
       justify-content: space-between;
     }
   }
+  // remove this
 `;

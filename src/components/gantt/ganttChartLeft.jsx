@@ -2,10 +2,10 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import GanttPackWork from "../components/gantt/ganttPackWork";
-import GanttPackDelsMils from "../components/gantt/ganttPackDelsMils";
-import { wPRowAdded } from "../store/projectData/workPackages";
-import { wpTitleColor, delTitleColor, milTitleColor, dividerHeight } from "../helpers";
+import GanttPackWork from "./ganttPackWork";
+import GanttPackDelsMils from "./ganttPackDelsMils";
+import { wPRowAdded } from "../../store/projectData/workPackages";
+import { wpTitleColor, delTitleColor, milTitleColor, dividerHeight, totalDaysColor } from "../../helpers";
 
 function GanttChartLeft(props) {
   const {
@@ -90,9 +90,7 @@ const PageContainer = styled.div`
       display: flex;
       justify-content: flex-end;
       align-items: center;
-
-      /* border: 1px solid white; */
-      color: rgba(255, 255, 255, 0.6);
+      color: ${totalDaysColor};
     }
     button {
       height: 30px;

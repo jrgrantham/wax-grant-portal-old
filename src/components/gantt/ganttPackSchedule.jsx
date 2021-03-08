@@ -1,16 +1,20 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { monthWidth, schedGapColor, wpMarginBottom } from "../../helpers";
 
 import GanttRowSchedule from "./ganttRowSchedule";
 function GanttPackSchedule(props) {
   const nonWPPrefix = props.prefix;
-  const scheduleWidth = useSelector(
+  const projectLength = useSelector(
     (state) => state.project.data.projectLength
   );
 
-  return (
-    <Container columns={scheduleWidth}>
+  const scheduleWidth =
+    projectLength * parseInt(monthWidth.slice(0, -2)) + "px";
+
+    return (
+    <Container scheduleWidth={scheduleWidth}>
       <div className="title" />
       {props.workPackData.map((row, index) => {
         return (
@@ -33,8 +37,8 @@ export default GanttPackSchedule;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  border-bottom: 10px solid rgba(250, 250, 250, 0.25);
-  width: ${(props) => props.columns * 40}px;
+  border-bottom: ${wpMarginBottom} solid ${schedGapColor};
+  width: ${(props) => props.scheduleWidth};
   @media screen and (max-width: 750px) {
     border-bottom: 0;
   }

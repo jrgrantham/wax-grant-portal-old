@@ -11,6 +11,7 @@
     "@tippy.js/react": "^3.1.1",
     "axios": "^0.21.1",
     "formik": "^2.2.6",
+    "globby": "^6.1.0",
     "immer": "^8.0.1",
     "moment": "^2.29.1",
     "react": "^17.0.1",
@@ -35,7 +36,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run build&&gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
