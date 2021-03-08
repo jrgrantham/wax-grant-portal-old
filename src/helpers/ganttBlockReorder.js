@@ -203,8 +203,8 @@ function setPropertiesByFirstAndLast(schedule) {
   return schedule;
 }
 
-function setBlockPositionInBar(schedule) {
-  for (let i=0; i<schedule.length; i++) {
+// function setBlockPositionInBar(schedule) {
+  // for (let i=0; i<schedule.length; i++) {
     // if first start position
       // let startPos = i
       // loop until end of bar
@@ -215,8 +215,8 @@ function setBlockPositionInBar(schedule) {
         // counter is length of bar
         // set barLength inside block
     //
-  }
-} 
+  // }
+// } 
 
 export function reorderWPItems(array, result) {
   const [item] = array.splice(result.source.index, 1);

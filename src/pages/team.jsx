@@ -2,11 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 import { appTop, appWidth } from "../helpers";
+import TeamInfo from "./teamInfo";
+import TeamOptions from "./teamOptions";
 
 function Team() {
   return (
     <PageContainer>
-      <h2>Team</h2>
+      <div className="displayArea">
+        <TeamOptions />
+        <TeamInfo />
+      </div>
     </PageContainer>
   );
 }
@@ -19,13 +24,22 @@ const PageContainer = styled.div`
   padding: 10px;
   width: 100%;
   max-width: ${appWidth};
-  color: white;
-
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   @media screen and (max-width: 750px) {
     padding: 0px;
+  }
+  .displayArea {
+    margin-bottom: 50px;
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    min-height: 400px;
+    overflow: hidden;
+    border-radius: 5px;
+  }
+  .headings {
+    height: 50px;
   }
 `;

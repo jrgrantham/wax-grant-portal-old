@@ -8,8 +8,6 @@ import { currentCombinedLengthOfBars } from "./index";
 toast.configure();
 
 export function updateEditedWp(oldRow, changes, data) {
-  console.log(data);
-  console.log(oldRow);
   const {
     newWorkPackageTitle,
     newDescription,
@@ -47,7 +45,6 @@ export function updateEditedWp(oldRow, changes, data) {
     }
     return row;
   });
-  console.log(newData);
   return newData;
 }
 
@@ -187,7 +184,6 @@ export function wPCreateNewRow(scheduleLength, title = newTitle) {
 }
 
 export function dAndMCreateNewRow(type, scheduleLength) {
-  console.log(type, scheduleLength);
   const newRow = {
     rowId: uuidv4(),
     sortPosition: 0,

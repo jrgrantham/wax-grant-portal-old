@@ -7,6 +7,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import workPackageReducer from "./workPackages";
 import delsAndMilsReducer from "./delsAndMils";
 import projectReducer from "./project";
+import teamReducer from "./team";
 import { userReducer } from "./userReducer";
 
 // const middleware = [thunk];
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   delsAndMils: delsAndMilsReducer,
   project: projectReducer,
+  team: teamReducer,
 });
 
 // export default function configureStore() {

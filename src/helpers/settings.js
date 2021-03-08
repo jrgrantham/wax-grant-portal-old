@@ -2,6 +2,7 @@ export const appWidth = "1400px";
 export const appTop = "90px";
 
 export const navBackground = "rgba(12, 58, 93, 1)";
+export const navSelected = "rgba(12, 58, 93, 1)";
 
 export const toastDelay = "2000";
 
@@ -22,3 +23,6 @@ export const totalDaysColor = "rgba(255, 255, 255, 0.8)";
 
 export const schedGapColor = "rgba(1, 1, 1, 0.1)";
 export const schedColor = "rgba(255, 255, 255, 0.1)";
+
+export const tableHeadingHeight = '50px';
+export const tableOptionsWidth = '200px';

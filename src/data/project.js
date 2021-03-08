@@ -21,7 +21,6 @@ const dateArray = () => {
   const years = [];
   const dateStart = projectStart;
   for (let i = 0; i < projectData.data.projectLength; i++) {
-    // console.log(dateStart); // WTF
     years.push(dateStart.format("MMM YYYY"));
     dateStart.add(1, "month");
    }
