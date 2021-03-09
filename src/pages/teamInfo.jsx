@@ -6,13 +6,31 @@ import { useSelector } from "react-redux";
 
 function TeamInfo() {
   const team = useSelector((state) => state.team.data);
-  const [selected, setSelected] = useState('leadApp')
+  const [selected, setSelected] = useState("leadApp");
   return (
     <PageContainer>
       <div className="headings">
-        <h3 id='leadApp' className="select">Lead Applicant</h3>
-        <h3 id='pOne' className="select">Partner One</h3>
-        <h3 id='pTwo' className="select">Partner Two</h3>
+        <h3
+          id="leadApp"
+          className={selected === "leadApp" ? "select selected" : "select"}
+          onClick={() => setSelected('leadApp')}
+        >
+          Lead Applicant
+        </h3>
+        <h3
+          id="pOne"
+          className={selected === "pOne" ? "select selected" : "select"}
+          onClick={() => setSelected('pOne')}
+        >
+          Partner One
+        </h3>
+        <h3
+          id="pTwo"
+          className={selected === "pTwo" ? "select selected" : "select"}
+          onClick={() => setSelected('pTwo')}
+        >
+          Partner Two
+        </h3>
       </div>
       <div className="titles">
         <div className="person">
@@ -53,6 +71,11 @@ const PageContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+  }
+  .selected {
+    background-color: white;
+    border-radius: 5px 5px 0 0;
   }
   .field {
     padding: 5px 10px;
