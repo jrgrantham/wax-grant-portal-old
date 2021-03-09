@@ -7,15 +7,18 @@ toast.configure();
 
 function GanttBlockTrial(props) {
   const rowIndex = props.rowIndex;
-  console.log(rowIndex);
+  const scheduleLength = 20;
   const blockWidth = 40;
+  const barWidth = blockWidth * 4; // barLength
+  const leftObstruction = 0;
+  const rightObstruction = 19;
 
   useEffect(() => {
     let isDown = false;
     let offset = 0;
     let mousePosition;
     let startIndex = 0;
-    let leftPosition;
+    let position;
 
     const bar = document.getElementById(rowIndex);
     console.log(bar);
@@ -29,13 +32,12 @@ function GanttBlockTrial(props) {
       true
     );
 
+    // something for when mouse leaves...
     bar.addEventListener(
       "mouseup",
       function () {
-        const blockPercent =
-          Math.floor(leftPosition / blockWidth + 0.5);
-        console.log('index', startIndex, blockPercent);
-
+        const blockPercent = Math.floor(position / blockWidth + 0.5);
+        console.log("index", startIndex, blockPercent);
         bar.style.left = `${blockPercent * 40}px`;
       },
       true
@@ -55,10 +57,11 @@ function GanttBlockTrial(props) {
         event.preventDefault();
         if (isDown) {
           mousePosition = event.clientX;
-          leftPosition = Math.max(0, mousePosition + offset);
-          // let rightPosition = Math.min(20 * 40, mousePosition.x + offset)
-          // minus bar length
-          bar.style.left = leftPosition + "px";
+          position = Math.min(
+            Math.max(mousePosition + offset, leftObstruction * blockWidth),
+            (rightObstruction + 1) * blockWidth - barWidth
+          );
+          bar.style.left = position + "px";
         }
       },
       true
@@ -66,7 +69,7 @@ function GanttBlockTrial(props) {
   });
 
   return (
-    <Container id={`${rowIndex}`}>
+    <Container id={`${rowIndex}`} barWidth={barWidth}>
       <div className="test">
         <div className="block start"></div>
         <div className="block middle"></div>
@@ -82,7 +85,7 @@ const Container = styled.div`
   left: 40px;
   margin: 2px 0;
   height: 36px;
-  width: 120px;
+  width: ${(props) => props.barWidth}px;
   background-color: black;
   border-radius: 5px;
   z-index: 10;
