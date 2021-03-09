@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { monthWidth, schedGapColor, wpMarginBottom } from "../../helpers";
 
 import GanttRowSchedule from "./ganttRowSchedule";
+import GanttRowScheduleTrial from "./ganttRowScheduleTrial";
 function GanttPackSchedule(props) {
   const nonWPPrefix = props.prefix;
   const projectLength = useSelector(
@@ -18,7 +19,7 @@ function GanttPackSchedule(props) {
       <div className="title" />
       {props.workPackData.map((row, index) => {
         return (
-          <GanttRowSchedule
+          <GanttRowScheduleTrial
             key={index}
             ganttRowIndex={index}
             row={row}
