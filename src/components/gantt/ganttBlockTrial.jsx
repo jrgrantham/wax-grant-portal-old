@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { monthWidth } from "../../helpers";
+import { monthWidth, wpBarColor } from "../../helpers";
 
 toast.configure();
 
@@ -11,6 +11,9 @@ function GanttBlockTrial(props) {
   const barId = props.barId;
   const blockId = props.blockId;
   const index = props.index;
+  const blockPosition = blockId.slice(-1);
+  const leftHandle = barId + "left";
+  const rightHandle = barId + "right";
 
   // all from props
   const scheduleLength = 20;
@@ -75,18 +78,49 @@ function GanttBlockTrial(props) {
     );
   });
 
-  return <Container id={blockId}>5</Container>;
+  return (
+    <Container id={blockId}>
+      4
+      {blockPosition === "s" ? (
+        <div id={leftHandle} className="handle left"></div>
+      ) : null}
+      {blockPosition === "e" ? (
+        <div id={rightHandle} className="handle right"></div>
+      ) : null}
+    </Container>
+  );
 }
 export const MemoisedBlock = React.memo(GanttBlockTrial);
 
 const Container = styled.div`
   width: 40px;
   height: 36px;
-  background-color: black;
+  background-color: ${wpBarColor};
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: move;
+  &:hover .handle {
+    opacity: 1;
+  }
+
+  .handle {
+    opacity: 0;
+    transition: opacity 0.3s;
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    background-color: ${wpBarColor};
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    z-index: 3;
+  }
+  .right {
+    margin-left: 35px;
+  }
+  .left {
+    margin-right: 35px;
+  }
 `;
 // export default GanttBlockTrial;
