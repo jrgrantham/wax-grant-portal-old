@@ -9,11 +9,11 @@ import { produce } from "immer";
 // }
 
 export function reorderArrayByIndex(oldArray, originalIndex, newIndex) {
-  const newArray = produce(oldArray, draft => {
+  const newArray = produce(oldArray, (draft) => {
     const [item] = draft.splice(originalIndex, 1);
     draft.splice(newIndex, 0, item);
-    setArrayIndexAsSortPosition(draft)
-  })
+    setArrayIndexAsSortPosition(draft);
+  });
   return newArray;
 }
 
@@ -27,9 +27,12 @@ export function setArrayIndexAsSortPosition(array) {
 export function isNumberKey(e) {
   const charCode = e.which ? e.which : e.keyCode;
   // if (charCode > 31 && (charCode < 48 || charCode > 57)) e.preventDefault();
-  if (
-    (charCode < 48 && !(charCode === 37 || charCode === 39)) ||
-    charCode > 57
-  )
+  if ((charCode < 48 && !(charCode === 37 || charCode === 39)) || charCode > 57)
     e.preventDefault();
+}
+
+export function leadingZero(number) {
+  let zeroNumber = number.toString();
+  zeroNumber = number < 10 ? 0 + zeroNumber : zeroNumber;
+  return zeroNumber;
 }
