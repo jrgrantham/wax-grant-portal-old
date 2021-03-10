@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { monthWidth, schedGapColor, wpMarginBottom } from "../../helpers";
 
-import GanttRowSchedule from "./ganttRowSchedule";
+// import GanttRowSchedule from "./ganttRowSchedule";
 import GanttRowScheduleTrial from "./ganttRowScheduleTrial";
 function GanttPackSchedule(props) {
   const nonWPPrefix = props.prefix;
