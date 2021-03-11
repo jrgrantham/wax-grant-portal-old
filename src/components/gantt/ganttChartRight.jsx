@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 import GanttScheduleBackground from "./ganttScheduleBackground";
-import GanttWorkPackageSchedule from "./ganttPackSchedule";
+import GanttPackSchedule from "./ganttPackSchedule";
 import { dividerHeight, monthWidth, totalDaysColor } from "../../helpers";
 
 function GanttChartRight(props) {
@@ -47,7 +47,11 @@ function GanttChartRight(props) {
           {workPackages.length
             ? workPackages.map((row, index) => {
                 return (
-                  <GanttWorkPackageSchedule key={index} workPackData={row} />
+                  <GanttPackSchedule
+                    key={index}
+                    workPackData={row}
+                    wpIndex={index}
+                  />
                 );
               })
             : null}
@@ -61,8 +65,8 @@ function GanttChartRight(props) {
             })}
           </div>
 
-          <GanttWorkPackageSchedule workPackData={deliverables} prefix={"D"} />
-          <GanttWorkPackageSchedule workPackData={milestones} prefix={"M"} />
+          <GanttPackSchedule workPackData={deliverables} prefix={"D"} />
+          <GanttPackSchedule workPackData={milestones} prefix={"M"} />
         </div>
       </div>
     </PageContainer>
@@ -97,7 +101,7 @@ const PageContainer = styled.div`
     height: 30px;
     flex-shrink: 0;
     margin-top: 5px;
-  
+
     display: flex;
     justify-content: center;
     align-items: center;

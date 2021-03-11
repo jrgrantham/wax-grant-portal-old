@@ -7,24 +7,26 @@ import { monthWidth, schedGapColor, wpMarginBottom } from "../../helpers";
 import GanttRowScheduleTrial from "./ganttRowScheduleTrial";
 function GanttPackSchedule(props) {
   const nonWPPrefix = props.prefix;
+  const wpIndex=props.wpIndex
   const projectLength = useSelector(
     (state) => state.project.data.projectLength
   );
+  // console.log(props);
 
   const scheduleWidth =
     projectLength * parseInt(monthWidth.slice(0, -2)) + "px";
 
-    return (
+  return (
     <Container scheduleWidth={scheduleWidth}>
       <div className="title" />
       {props.workPackData.map((row, index) => {
         return (
           <GanttRowScheduleTrial
             key={index}
-            ganttRowIndex={index}
             row={row}
             nonWPPrefix={nonWPPrefix}
             rowIndex={index}
+            wpIndex={wpIndex}
           />
         );
       })}

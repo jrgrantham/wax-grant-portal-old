@@ -8,20 +8,45 @@ toast.configure();
 
 function GanttBlockTrial(props) {
   // unique string for barId
-  const blockId = props.blockId;
-  const leftHandle = props.leftHandle;
-  const rightHandle = props.rightHandle;
-  const blockPosition = blockId.slice(-1);
+  console.log(props);
+  const { leftHandle, rightHandle, block } = props;
+  const { blockNumber, value, index } = block;
+  const blockPosition = blockNumber.slice(-1);
+
+  function onchangeHandler(e) {
+    // const lastTwoNumbers = e.target.value.slice(-2);
+    // const newValue = parseInt(lastTwoNumbers);
+    // dispatch(
+    //   wPBlockUpdated({
+    //     row,
+    //     blockIndex: index,
+    //     newValue,
+    //     oldValue: value,
+    //   })
+    // );
+  }
 
   return (
-    <Container id={blockId}>
-      4
-      {/* {blockPosition === "s" ? (
-        <div id={leftHandle} className="dragHandle left"></div>
+    <Container id={blockNumber}>
+      <input
+        type="text"
+        value={value}
+        // onKeyDown={(e) => isNumberKey(e)}
+        onChange={(e) => onchangeHandler(e)}
+        // onBlur={() => checkZero(value)}
+      />
+      {blockPosition === "s" ? (
+        <div id={leftHandle} className="dragHandle left" />
       ) : null}
       {blockPosition === "e" ? (
-        <div id={rightHandle} className="dragHandle right"></div>
-      ) : null} */}
+        <div id={rightHandle} className="dragHandle right" />
+      ) : null}
+      {blockPosition === "x" ? (
+        <>
+          <div id={leftHandle} className="dragHandle left" />
+          <div id={rightHandle} className="dragHandle right" />
+        </>
+      ) : null}
     </Container>
   );
 }
@@ -39,6 +64,16 @@ const Container = styled.div`
   cursor: move;
   &:hover .dragHandle {
     opacity: 1;
+  }
+  input {
+    text-align: center;
+    width: 20px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: ${wpBarColor};
+    color: white;
+    z-index: 1;
   }
 
   .dragHandle {

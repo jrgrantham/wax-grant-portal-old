@@ -8,29 +8,22 @@ import { leadingZero, monthWidth, wpBarColor, moveBar } from "../../helpers";
 toast.configure();
 
 function GanttBarTrial(props) {
+  // console.log(props);
   // unique string for barId
+  const bar = props.bar;
   const wpIndex = leadingZero(props.wpIndex);
   const rowIndex = leadingZero(props.rowIndex);
   const barNumber = leadingZero(props.barNumber);
-  const barId = "bar" + wpIndex + rowIndex + barNumber;
+  const barId = "bar" + "-" + wpIndex + "-" + rowIndex + "-" + barNumber;
   const leftHandle = barId + "left";
   const rightHandle = barId + "right";
+  const blockWidth = monthWidth.slice(0, 2);
+  // console.log(barId);
 
   // all from props
-  const blockWidth = monthWidth.slice(0, 2);
-  const barLength = 5;
-  const firstBlockIndex = 0;
+  const barLength = props.bar.barLength;
+  const firstBlockIndex = props.bar.startIndex;
   const startPosition = firstBlockIndex * blockWidth;
-
-  const blocks = [];
-  for (let i = 0; i < barLength; i++) {
-    let blockNum = leadingZero(i);
-    if (i === 0) blockNum = blockNum + "s";
-    else if (i === barLength - 1) blockNum = blockNum + "e";
-    else blockNum = blockNum + "m";
-    const blockId = barId + blockNum;
-    blocks.push(blockId);
-  }
 
   const scheduleLength = 20;
   const barWidth = blockWidth * barLength;
@@ -60,11 +53,8 @@ function GanttBarTrial(props) {
         console.log(e.clientX);
         bar.style.width = e.pageX - bar.getBoundingClientRect().left + "px";
       } else if (handle === "start") {
-        bar.style.width =
-          200 -
-          (e.pageX - originalMouseX) +
-          "px";
-        bar.style.left = (e.pageX - originalMouseX) + 'px'
+        bar.style.width = 200 - (e.pageX - originalMouseX) + "px";
+        bar.style.left = e.pageX - originalMouseX + "px";
       }
     }
 
@@ -80,8 +70,8 @@ function GanttBarTrial(props) {
       "mousedown",
       function (e) {
         if (e.target.id.slice(-1) === "m") moveBar(data, bar, e);
-        else if (e.target.id.slice(-1) === "s" || e.target.id.slice(-1) === "e")
-          reSize(bar, e);
+        // else if (e.target.id.slice(-1) === "s" || e.target.id.slice(-1) === "e")
+        //   reSize(bar, e);
       },
       true
     );
@@ -89,12 +79,12 @@ function GanttBarTrial(props) {
 
   return (
     <Container id={barId} startPosition={startPosition}>
-      {blocks.map((block, index) => (
+      {bar.map((block, index) => (
         <MemoisedBlock
-          blockId={block}
           key={index}
-          barId={barId}
-          index={index}
+          block={block}
+          // barId={barId}
+          // index={index}
           leftHandle={leftHandle}
           rightHandle={rightHandle}
         />

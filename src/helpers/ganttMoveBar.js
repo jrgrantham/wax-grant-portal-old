@@ -12,17 +12,9 @@ export function moveBar(data, bar, e) {
   let startIndex = 0;
   let position = 0;
 
-  // const bar = document.getElementById(barId);
-  // bar.addEventListener(
-  // "mousedown",
-  // function (e) {
-  // if (e.target.id.slice(-1) === "m") isDown = true;
   isDown = true;
   offset = bar.offsetLeft - e.clientX;
   startIndex = bar.offsetLeft / blockWidth;
-  // },
-  // true
-  // );
 
   function dropBar() {
     // prevent from firing on multiple mouse events
