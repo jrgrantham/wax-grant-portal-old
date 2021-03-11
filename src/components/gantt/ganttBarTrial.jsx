@@ -47,36 +47,44 @@ function GanttBarTrial(props) {
     barWidth,
   };
 
-  function reSize() {
-    const bar = document.getElementById(barId);
-    const dragHandles = document.querySelectorAll(".dragHandle");
-    console.log(dragHandles.length);
-    for (let i = 0; i < dragHandles.length; i++) {
-      const currentResizer = dragHandles[i];
-      currentResizer.addEventListener("mousedown", function (e) {
-        console.log(e.target);
-        e.preventDefault();
-        window.addEventListener("mousemove", resize);
-        window.addEventListener("mouseup", stopResize);
-      });
-
-      function resize(e) {
-        console.log(currentResizer);
-        if (currentResizer.id ) {
-          bar.style.width =
-            e.pageX - bar.getBoundingClientRect().left + "px";
-        }
+  function reSize(bar, e) {
+    let originalMouseX = e.pageX;
+    let originalWidth = bar.style;
+    console.log(originalWidth);
+    window.addEventListener("mousemove", resize);
+    window.addEventListener("mouseup", stopResize);
+    let handle = e.target.id.slice(-1) === "e" ? "end" : "start";
+    console.log(handle);
+    function resize(e) {
+      if (handle === "end") {
+        console.log(e.clientX);
+        bar.style.width = e.pageX - bar.getBoundingClientRect().left + "px";
+      } else if (handle === "start") {
+        bar.style.width =
+          200 -
+          (e.pageX - originalMouseX) +
+          "px";
+        bar.style.left = (e.pageX - originalMouseX) + 'px'
       }
+    }
 
-      function stopResize() {
-        window.removeEventListener("mousemove", resize);
-      }
+    function stopResize() {
+      window.removeEventListener("mousemove", resize);
+      // jump to position
     }
   }
 
   useEffect(() => {
-    moveBar(data);
-    reSize();
+    const bar = document.getElementById(barId);
+    bar.addEventListener(
+      "mousedown",
+      function (e) {
+        if (e.target.id.slice(-1) === "m") moveBar(data, bar, e);
+        else if (e.target.id.slice(-1) === "s" || e.target.id.slice(-1) === "e")
+          reSize(bar, e);
+      },
+      true
+    );
   });
 
   return (

@@ -16,12 +16,12 @@ function GanttBlockTrial(props) {
   return (
     <Container id={blockId}>
       4
-      {blockPosition === "s" ? (
+      {/* {blockPosition === "s" ? (
         <div id={leftHandle} className="dragHandle left"></div>
       ) : null}
       {blockPosition === "e" ? (
         <div id={rightHandle} className="dragHandle right"></div>
-      ) : null}
+      ) : null} */}
     </Container>
   );
 }
