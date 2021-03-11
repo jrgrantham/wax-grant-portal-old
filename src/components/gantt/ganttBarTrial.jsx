@@ -10,6 +10,7 @@ toast.configure();
 function GanttBarTrial(props) {
   // console.log(props);
   // unique string for barId
+  const row = props.row;
   const bar = props.bar;
   const wpIndex = leadingZero(props.wpIndex);
   const rowIndex = leadingZero(props.rowIndex);
@@ -69,7 +70,9 @@ function GanttBarTrial(props) {
     bar.addEventListener(
       "mousedown",
       function (e) {
-        if (e.target.id.slice(-1) === "m") moveBar(data, bar, e);
+        console.log(e.target.id);
+        moveBar(data, bar, e);
+        // if (e.target.id.slice(-1) === "m") moveBar(data, bar, e);
         // else if (e.target.id.slice(-1) === "s" || e.target.id.slice(-1) === "e")
         //   reSize(bar, e);
       },
@@ -82,9 +85,10 @@ function GanttBarTrial(props) {
       {bar.map((block, index) => (
         <MemoisedBlock
           key={index}
+          row={row}
           block={block}
           // barId={barId}
-          // index={index}
+          blockIndex={firstBlockIndex + index}
           leftHandle={leftHandle}
           rightHandle={rightHandle}
         />

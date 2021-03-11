@@ -84,26 +84,9 @@ function GanttBlock(props) {
       blockColor={blockColor}
       index={index}
     >
-      {status && !start && !end ? (
-        <div className="dragBar" id={`${blockId}dragBar`}>
-          <p>drag to move bar</p>
-        </div>
-      ) : null}
-      {start && isWP ? <div className="handle left"></div> : null}
-      {end && isWP ? <div className="handle right"></div> : null}
       {status ? (
-        <div className="active" id={blockId} onMouseDown={showBar}>
-            {isWP ? (
-              <input
-                type="text"
-                value={value}
-                onKeyDown={(e) => isNumberKey(e)}
-                onChange={(e) => onchangeHandler(e)}
-                onBlur={() => checkZero(value)}
-              />
-            ) : (
-              <p>{reference}</p>
-            )}
+        <div className="active" id={blockId} >
+          <p>{reference}</p>
         </div>
       ) : null}
     </Container>
@@ -146,10 +129,14 @@ const Container = styled.div`
     margin-left: ${(props) => (props.start ? "2px" : 0)};
     margin-right: ${(props) => (props.end ? "2px" : 0)};
 
-    border-left: ${(props) => props.start ? `1px solid ${props.blockColor}` : 0};
-    border-top: ${(props) => props.status ? `1px solid ${props.blockColor}` : 0};
-    border-bottom: ${(props) => props.status ? `1px solid ${props.blockColor}` : 0};
-    border-right: ${(props) => props.end ? `1px solid ${props.blockColor}` : 0};
+    border-left: ${(props) =>
+      props.start ? `1px solid ${props.blockColor}` : 0};
+    border-top: ${(props) =>
+      props.status ? `1px solid ${props.blockColor}` : 0};
+    border-bottom: ${(props) =>
+      props.status ? `1px solid ${props.blockColor}` : 0};
+    border-right: ${(props) =>
+      props.end ? `1px solid ${props.blockColor}` : 0};
 
     border-top-left-radius: ${(props) => (props.start ? "6px" : 0)};
     border-top-right-radius: ${(props) => (props.end ? "6px" : 0)};
@@ -165,9 +152,9 @@ const Container = styled.div`
     height: 32px;
     // absolute position required, offset calculated from index
     // calculate the offset and pass as a value
-    // dont do the calculation here 
+    // dont do the calculation here
     position: absolute;
-    /* left: ${props => props.index * 40 - 40}px; */
+    /* left: ${(props) => props.index * 40 - 40}px; */
     /* left: 40px; */
     z-index: 20;
     justify-content: center;

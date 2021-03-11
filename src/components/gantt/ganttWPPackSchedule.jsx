@@ -2,10 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { monthWidth, schedGapColor, wpMarginBottom } from "../../helpers";
-
-// import GanttRowSchedule from "./ganttRowSchedule";
 import GanttRowScheduleTrial from "./ganttRowScheduleTrial";
-function GanttPackSchedule(props) {
+// import GanttRowSchedule from "./ganttRowSchedule";
+
+function GanttWPPackSchedule(props) {
   const nonWPPrefix = props.prefix;
   const wpIndex=props.wpIndex
   const projectLength = useSelector(
@@ -35,7 +35,7 @@ function GanttPackSchedule(props) {
   );
 }
 
-export default GanttPackSchedule;
+export default GanttWPPackSchedule;
 
 const Container = styled.div`
   display: flex;

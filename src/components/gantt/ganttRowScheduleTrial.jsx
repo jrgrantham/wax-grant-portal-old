@@ -8,6 +8,7 @@ import { MemoisedBar } from "./ganttBarTrial";
 import { leadingZero } from "../../helpers";
 
 function GanttRowScheduleTrial(props) {
+  const row = props.row;
   const wpIndex = props.wpIndex;
   const rowIndex = props.rowIndex;
   const schedule = props.row.schedule;
@@ -61,6 +62,7 @@ function GanttRowScheduleTrial(props) {
         return (
           <MemoisedBar
             key={index}
+            row={row}
             wpIndex={wpIndex}
             rowIndex={rowIndex}
             barNumber={index}

@@ -1,7 +1,7 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
 
-// import { dMDummyData } from "../../data";
+import { dMDummyData } from "../../data";
 import {
   reorderArrayByIndex,
   dAndMScheduleHelper,
@@ -29,8 +29,8 @@ const initialState = {
   error: "",
 };
 
-// export default function delsAndMilsReducer(state = dMDummyData, action) {
-export default function delsAndMilsReducer(state = initialState, action) {
+export default function delsAndMilsReducer(state = dMDummyData, action) {
+// export default function delsAndMilsReducer(state = initialState, action) {
   switch (action.type) {
     case dAndMFetchRequest.type:
       return {

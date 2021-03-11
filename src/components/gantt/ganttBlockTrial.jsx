@@ -2,28 +2,40 @@ import React from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { wPBlockUpdated } from "../../store/projectData/workPackages";
 import { wpBarColor } from "../../helpers";
 
 toast.configure();
 
 function GanttBlockTrial(props) {
+  const dispatch = useDispatch();
   // unique string for barId
-  console.log(props);
-  const { leftHandle, rightHandle, block } = props;
-  const { blockNumber, value, index } = block;
+  const { leftHandle, rightHandle, block, row, blockIndex } = props;
+  const { blockNumber, value } = block;
   const blockPosition = blockNumber.slice(-1);
 
   function onchangeHandler(e) {
-    // const lastTwoNumbers = e.target.value.slice(-2);
-    // const newValue = parseInt(lastTwoNumbers);
-    // dispatch(
-    //   wPBlockUpdated({
-    //     row,
-    //     blockIndex: index,
-    //     newValue,
-    //     oldValue: value,
-    //   })
-    // );
+    const lastTwoNumbers = e.target.value.slice(-2);
+    const newValue = parseInt(lastTwoNumbers);
+    dispatch(
+      wPBlockUpdated({
+        row,
+        blockIndex,
+        newValue,
+        oldValue: value,
+      })
+    );
+  }
+
+  function checkZero(value) {
+    if (value === 0) {
+      toast.info("zero days entered", {
+        // success, info, warn, error
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    }
   }
 
   return (
@@ -33,7 +45,7 @@ function GanttBlockTrial(props) {
         value={value}
         // onKeyDown={(e) => isNumberKey(e)}
         onChange={(e) => onchangeHandler(e)}
-        // onBlur={() => checkZero(value)}
+        onBlur={() => checkZero(value)}
       />
       {blockPosition === "s" ? (
         <div id={leftHandle} className="dragHandle left" />
