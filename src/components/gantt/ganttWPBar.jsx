@@ -70,14 +70,18 @@ function GanttWPBar(props) {
     bar.addEventListener(
       "mousedown",
       function (e) {
-        console.log(e.target.id);
+        // console.log(e.target.id);
         moveBar(data, bar, e);
+
         // if (e.target.id.slice(-1) === "m") moveBar(data, bar, e);
         // else if (e.target.id.slice(-1) === "s" || e.target.id.slice(-1) === "e")
         //   reSize(bar, e);
       },
       true
     );
+    bar.ondragstart = function () {
+      return false;
+    };
   });
 
   return (
