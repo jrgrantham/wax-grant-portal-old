@@ -8,10 +8,10 @@ import { leadingZero, monthWidth, wpBarColor, moveBar } from "../../helpers";
 toast.configure();
 
 function GanttWPBar(props) {
-  // console.log(props);
   // unique string for barId
   const row = props.row;
   const bar = props.bar;
+  const { leftObstruction, rightObstruction } = props.bar;
   const wpIndex = leadingZero(props.wpIndex);
   const rowIndex = leadingZero(props.rowIndex);
   const barNumber = leadingZero(props.barNumber);
@@ -19,6 +19,7 @@ function GanttWPBar(props) {
   const leftHandle = barId + "left";
   const rightHandle = barId + "right";
   const blockWidth = monthWidth.slice(0, 2);
+  console.log(leftObstruction, rightObstruction);
   // console.log(barId);
 
   // all from props
@@ -30,14 +31,14 @@ function GanttWPBar(props) {
   const barWidth = blockWidth * barLength;
   const prevBarIndex = 0; // needs to be the right-side index
   const leftObstructionIndex = Math.max(0, prevBarIndex);
-  const nextBarIndex = 15;
+  const nextBarIndex = 9;
   const rightObstructionIndex = Math.min(nextBarIndex - 1, scheduleLength - 1);
 
   const data = {
     barId,
     blockWidth,
-    leftObstructionIndex,
-    rightObstructionIndex,
+    leftObstruction,
+    rightObstruction,
     barWidth,
   };
 

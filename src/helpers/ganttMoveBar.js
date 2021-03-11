@@ -1,8 +1,8 @@
 export function moveBar(data, bar, e) {
   const {
     blockWidth,
-    leftObstructionIndex,
-    rightObstructionIndex,
+    leftObstruction,
+    rightObstruction,
     barWidth,
   } = data;
 
@@ -31,7 +31,6 @@ export function moveBar(data, bar, e) {
   document.addEventListener("mouseup", dropBar, true);
 
   document.addEventListener(
-    // bar.addEventListener(
     "mousemove",
     function (event) {
       event.preventDefault();
@@ -39,8 +38,8 @@ export function moveBar(data, bar, e) {
         mousePosition = event.clientX;
         console.log(mousePosition);
         position = Math.min(
-          Math.max(mousePosition + offset, leftObstructionIndex * blockWidth),
-          (rightObstructionIndex + 1) * blockWidth - barWidth
+          Math.max(mousePosition + offset, leftObstruction * blockWidth),
+          (rightObstruction) * blockWidth - barWidth
         );
         // console.log(position);
         bar.style.left = position + "px";

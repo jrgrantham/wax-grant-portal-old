@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { monthWidth, schedGapColor, wpMarginBottom } from "../../helpers";
-import GanttRowScheduleTrial from "./ganttRowScheduleTrial";
+import GanttWPRowSchedule from "./ganttWPRowSchedule";
 // import GanttRowSchedule from "./ganttRowSchedule";
 
 function GanttWPPackSchedule(props) {
@@ -21,7 +21,7 @@ function GanttWPPackSchedule(props) {
       <div className="title" />
       {props.workPackData.map((row, index) => {
         return (
-          <GanttRowScheduleTrial
+          <GanttWPRowSchedule
             key={index}
             row={row}
             nonWPPrefix={nonWPPrefix}
