@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 // import { wPScheduleUpdated } from "../../store/projectData/workPackages";
 // import { dAndMScheduleUpdated } from "../../store/projectData/delsAndMils";
-import { MemoisedBar } from "./ganttBarTrial";
+import { MemoisedBar } from "./ganttWPBar";
 import { leadingZero } from "../../helpers";
 
 function GanttRowScheduleTrial(props) {

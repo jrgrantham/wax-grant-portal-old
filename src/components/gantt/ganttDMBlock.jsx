@@ -5,6 +5,7 @@ import {
   monthWidth,
   delTitleColor,
   milTitleColor,
+  rowHeight,
 } from "../../helpers";
 
 function GanttDMBlock(props) {
@@ -37,11 +38,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
+  height: ${rowHeight};
   z-index: -1;
-  &:hover .handle {
-    opacity: 1;
-  }
+  color: white;
+
   .active {
     display: flex;
     justify-content: center;

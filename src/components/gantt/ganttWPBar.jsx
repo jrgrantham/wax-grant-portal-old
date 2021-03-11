@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { MemoisedBlock } from "./ganttBlockTrial";
+import { MemoisedWPBlock } from "./ganttWPBlock";
 import { leadingZero, monthWidth, wpBarColor, moveBar } from "../../helpers";
 
 toast.configure();
 
-function GanttBarTrial(props) {
+function GanttWPBar(props) {
   // console.log(props);
   // unique string for barId
   const row = props.row;
@@ -83,7 +83,7 @@ function GanttBarTrial(props) {
   return (
     <Container id={barId} startPosition={startPosition}>
       {bar.map((block, index) => (
-        <MemoisedBlock
+        <MemoisedWPBlock
           key={index}
           row={row}
           block={block}
@@ -96,7 +96,7 @@ function GanttBarTrial(props) {
     </Container>
   );
 }
-export const MemoisedBar = React.memo(GanttBarTrial);
+export const MemoisedBar = React.memo(GanttWPBar);
 
 const Container = styled.div`
   position: absolute;
@@ -104,8 +104,11 @@ const Container = styled.div`
   margin: 2px 0;
   background-color: ${wpBarColor};
   color: white;
-  border-radius: 5px;
-  z-index: 10;
+  border-radius: 6px;
+  z-index: 1;
   display: flex;
+  &:hover .dragHandle {
+    opacity: 1;
+  }
 `;
-// export default GanttBarTrial;
+// export default GanttWPBar;

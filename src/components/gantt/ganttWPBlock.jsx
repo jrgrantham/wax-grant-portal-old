@@ -8,7 +8,7 @@ import { wpBarColor } from "../../helpers";
 
 toast.configure();
 
-function GanttBlockTrial(props) {
+function GanttWPBlock(props) {
   const dispatch = useDispatch();
   // unique string for barId
   const { leftHandle, rightHandle, block, row, blockIndex } = props;
@@ -62,21 +62,17 @@ function GanttBlockTrial(props) {
     </Container>
   );
 }
-export const MemoisedBlock = React.memo(GanttBlockTrial);
+export const MemoisedWPBlock = React.memo(GanttWPBlock);
 
 const Container = styled.div`
   flex-grow: 1;
   width: 40px;
-  height: 36px;
-  background-color: ${wpBarColor};
-  border-radius: 5px;
+  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: move;
-  &:hover .dragHandle {
-    opacity: 1;
-  }
+
   input {
     text-align: center;
     width: 20px;
@@ -106,4 +102,4 @@ const Container = styled.div`
     margin-right: 35px;
   }
 `;
-// export default GanttBlockTrial;
+// export default GanttWPBlock;

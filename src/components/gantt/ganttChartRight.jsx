@@ -81,10 +81,6 @@ const PageContainer = styled.div`
   justify-content: flex-start;
   overflow-x: auto;
   width: 100%;
-  /* border-left: 1px solid rgba(250, 250, 250, 0.5); */
-  /* border-right: 1px solid rgba(250, 250, 250, 0.5); */
-  /* border-bottom: 1px solid rgba(250, 250, 250, 0.5); */
-  /* border-radius: 4px; */
   @media screen and (max-width: 550px) {
     display: none;
   }

@@ -63,6 +63,7 @@ export default GanttDMRowSchedule;
 const Container = styled.div`
   display: flex;
   justify-content: flex-start;
+  height: 40px;
   .blockRow {
     display: flex;
   }
