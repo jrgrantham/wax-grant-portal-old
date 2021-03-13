@@ -3,36 +3,27 @@ import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MemoisedWPBlock } from "./ganttWPBlock";
-import { leadingZero, monthWidth, wpBarColor, moveBar } from "../../helpers";
+import { leadingZero, monthWidth, wpBarColor } from "../../helpers";
+import { useDispatch } from "react-redux";
 
 toast.configure();
 
 function GanttWPBar(props) {
-  // unique string for barId
-  const row = props.row;
-  const bar = props.bar;
-  const { leftObstruction, rightObstruction } = props.bar;
-  const wpIndex = leadingZero(props.wpIndex);
-  const rowIndex = leadingZero(props.rowIndex);
-  const barNumber = leadingZero(props.barNumber);
-  const barId = "bar" + "-" + wpIndex + "-" + rowIndex + "-" + barNumber;
+  const dispatch = useDispatch();
+  const { row, bar, wpIndex, rowIndex, barNumber } = props;
+  // console.log(bar.barLength);
+  const { leftObstruction, rightObstruction, barLength, startIndex } = bar;
+
+  const wpCode = leadingZero(wpIndex);
+  const rowCode = leadingZero(rowIndex);
+  const barCode = leadingZero(barNumber);
+  const barId = "bar" + "-" + wpCode + "-" + rowCode + "-" + barCode;
+
   const leftHandle = barId + "left";
   const rightHandle = barId + "right";
   const blockWidth = monthWidth.slice(0, 2);
-  console.log(leftObstruction, rightObstruction);
-  // console.log(barId);
-
-  // all from props
-  const barLength = props.bar.barLength;
-  const firstBlockIndex = props.bar.startIndex;
-  const startPosition = firstBlockIndex * blockWidth;
-
-  const scheduleLength = 20;
+  const startPosition = startIndex * blockWidth;
   const barWidth = blockWidth * barLength;
-  const prevBarIndex = 0; // needs to be the right-side index
-  const leftObstructionIndex = Math.max(0, prevBarIndex);
-  const nextBarIndex = 9;
-  const rightObstructionIndex = Math.min(nextBarIndex - 1, scheduleLength - 1);
 
   const data = {
     barId,
@@ -41,6 +32,47 @@ function GanttWPBar(props) {
     rightObstruction,
     barWidth,
   };
+
+  function moveBar(data, bar, e, row, barLength) {
+    const { blockWidth, leftObstruction, rightObstruction, barWidth } = data;
+
+    let isDown = false;
+    let offset = 0;
+    let mousePosition;
+    let originalIndex = 0;
+    let position = 0;
+
+    isDown = true;
+    offset = bar.offsetLeft - e.clientX;
+    originalIndex = bar.offsetLeft / blockWidth;
+
+    function dropBar() {
+      isDown = false;
+      document.removeEventListener("mousemove", handleMouseMove);  // tried this - not needed
+      document.removeEventListener("mouseup", dropBar);  // tried this - not needed
+      const newIndex = Math.floor(position / blockWidth + 0.5);
+      if (mousePosition !== undefined && newIndex !== originalIndex) {
+        console.log(newIndex, "redux??");
+        bar.style.left = `${newIndex * 40}px`;
+        // store.dispatch(wPBarMoved(updatedRow));
+      }
+    }
+
+    // document.addEventListener("mouseleave", dropBar, false);
+    document.addEventListener("mouseup", dropBar, false);
+    document.addEventListener("mousemove", handleMouseMove, false);
+
+    function handleMouseMove(event) {
+      if (isDown) {
+        mousePosition = event.clientX;
+        position = Math.min(
+          Math.max(mousePosition + offset, leftObstruction * blockWidth),
+          rightObstruction * blockWidth - barWidth
+        );
+        bar.style.left = position + "px";
+      }
+    }
+  }
 
   function reSize(bar, e) {
     let originalMouseX = e.pageX;
@@ -62,26 +94,19 @@ function GanttWPBar(props) {
 
     function stopResize() {
       window.removeEventListener("mousemove", resize);
-      // jump to position
     }
   }
 
   useEffect(() => {
-    const bar = document.getElementById(barId);
-    bar.addEventListener(
-      "mousedown",
-      function (e) {
-        // console.log(e.target.id);
-        moveBar(data, bar, e);
-
-        // if (e.target.id.slice(-1) === "m") moveBar(data, bar, e);
-        // else if (e.target.id.slice(-1) === "s" || e.target.id.slice(-1) === "e")
-        //   reSize(bar, e);
-      },
-      true
-    );
-    bar.ondragstart = function () {
-      return false;
+    const barDiv = document.getElementById(barId);
+    function handleMouseDown(e) {
+      // console.log("clicked bar");
+      // if handle then resize, otherwise moveBar
+      moveBar(data, barDiv, e, row, bar.barLength);
+    }
+    barDiv.addEventListener("mousedown", handleMouseDown, false);
+    return () => {
+      barDiv.removeEventListener("mousedown", handleMouseDown);
     };
   });
 
@@ -93,7 +118,7 @@ function GanttWPBar(props) {
           row={row}
           block={block}
           // barId={barId}
-          blockIndex={firstBlockIndex + index}
+          blockIndex={startIndex + index}
           leftHandle={leftHandle}
           rightHandle={rightHandle}
         />
@@ -101,7 +126,8 @@ function GanttWPBar(props) {
     </Container>
   );
 }
-export const MemoisedBar = React.memo(GanttWPBar);
+// export const MemoisedBar = React.memo(GanttWPBar);
+export default GanttWPBar;
 
 const Container = styled.div`
   position: absolute;

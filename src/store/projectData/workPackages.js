@@ -26,6 +26,7 @@ export const wPEdited = createAction("wPEdited");
 export const wPBlockUpdated = createAction("wPBlockUpdated");
 export const wPTitleChanged = createAction("wPTitleChanged");
 export const wPResourcesUpdated = createAction("wPResourcesUpdated");
+export const wPBarMoved = createAction("wPBarMoved");
 
 // const initialState = {
 //   loading: false,
@@ -70,6 +71,17 @@ export default function workPackageReducer(state = wPDummyData, action) {
       return {
         ...state,
         data: reordered,
+      };
+    case wPBarMoved.type: 
+      console.log(action.payload);
+      return {
+        ...state,
+        data: state.data.map((row) => {
+          if (row.rowId === action.payload.rowId) {
+            return action.payload;
+          }
+          return row;
+        }),
       };
     case wPScheduleUpdated.type:
       // console.log(action.payload);

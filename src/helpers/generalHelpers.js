@@ -1,4 +1,6 @@
 import { produce } from "immer";
+import { toast } from "react-toastify";
+toast.configure();
 
 // export function reorderWithImmerItems(oldArray, result) {
 //   const newArray = produce(oldArray, draft => {
@@ -35,4 +37,15 @@ export function leadingZero(number) {
   let zeroNumber = number.toString();
   zeroNumber = number < 10 ? 0 + zeroNumber : zeroNumber;
   return zeroNumber;
+}
+
+
+export function checkZero(value) {
+  if (value === 0) {
+    toast.info("zero days entered", {
+      // success, info, warn, error
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 2000,
+    });
+  }
 }

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 // import { wPScheduleUpdated } from "../../store/projectData/workPackages";
 // import { dAndMScheduleUpdated } from "../../store/projectData/delsAndMils";
-import { MemoisedBar } from "./ganttWPBar";
+import GanttBar from "./ganttWPBar";
 import { leadingZero } from "../../helpers";
 
 function GanttWPRowSchedule(props) {
@@ -74,7 +74,7 @@ function GanttWPRowSchedule(props) {
     <Container>
       {bars.map((bar, index) => {
         return (
-          <MemoisedBar
+          <GanttBar
             key={index}
             row={row}
             wpIndex={wpIndex}

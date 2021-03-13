@@ -9,7 +9,6 @@ import { dividerHeight, monthWidth, totalDaysColor } from "../../helpers";
 
 function GanttChartRight(props) {
   const { workPackages, deliverables, milestones, daysPerMonth } = props.data;
-
   // useEffect(() => {
   //   const slider = document.querySelector(".right");
   //   let isDown = false;
