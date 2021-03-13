@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { MemoisedWPBlock } from "./ganttWPBlock";
 import { leadingZero, monthWidth, wpBarColor } from "../../helpers";
 import { useDispatch } from "react-redux";
+import { wPBarMoved } from "../../store/projectData/workPackages";
+import produce from "immer";
 
 toast.configure();
 
@@ -54,7 +56,8 @@ function GanttWPBar(props) {
       if (mousePosition !== undefined && newIndex !== originalIndex) {
         console.log(newIndex, "redux??");
         bar.style.left = `${newIndex * 40}px`;
-        // store.dispatch(wPBarMoved(updatedRow));
+        const updatedRow = updateRow(originalIndex, newIndex)
+        dispatch(wPBarMoved(updatedRow));
       }
     }
 
@@ -72,6 +75,17 @@ function GanttWPBar(props) {
         bar.style.left = position + "px";
       }
     }
+  }
+
+  function updateRow(originalIndex, newIndex) {
+    const newRow = produce(row, (draft) => {
+      const draftSchedule = draft.schedule; // from draft
+      const movement = newIndex - originalIndex;
+      console.log(barWidth);
+      const item = draftSchedule.splice(originalIndex, barLength);
+      draftSchedule.splice(originalIndex + movement, 0, ...item);
+    });
+    return newRow;
   }
 
   function reSize(bar, e) {
