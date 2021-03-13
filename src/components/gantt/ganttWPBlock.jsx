@@ -1,16 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-// import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { wPBlockUpdated } from "../../store/projectData/workPackages";
 import { wpBarColor, isNumberKey, checkZero } from "../../helpers";
 
-// toast.configure();
-
 function GanttWPBlock(props) {
   const dispatch = useDispatch();
-  // unique string for barId
   const { leftHandle, rightHandle, block, row, blockIndex } = props;
   const { blockNumber, value } = block;
   const blockPosition = blockNumber.slice(-1);
@@ -27,16 +23,6 @@ function GanttWPBlock(props) {
       })
     );
   }
-
-  // function checkZero(value) {
-  //   if (value === 0) {
-  //     toast.info("zero days entered", {
-  //       // success, info, warn, error
-  //       position: toast.POSITION.TOP_RIGHT,
-  //       autoClose: 2000,
-  //     });
-  //   }
-  // }
 
   return (
     <Container id={blockNumber}>

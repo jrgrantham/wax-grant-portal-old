@@ -16,22 +16,20 @@ export function moveBar(data, bar, e, row, barLength) {
   originalIndex = bar.offsetLeft / blockWidth;
 
   function dropBar() {
-    // prevent from firing on multiple mouse events
     isDown = false;
-    document.removeEventListener("mousemove", handleMouseMove);  // tried this - not needed
-    document.removeEventListener("mouseup", dropBar);  // tried this - not needed / doesn't
+    document.removeEventListener("mousemove", handleMouseMove); // tried this - not needed
+    document.removeEventListener("mouseup", dropBar); // tried this - not needed
     const newIndex = Math.floor(position / blockWidth + 0.5);
-    console.log(mousePosition !== undefined, newIndex !== originalIndex);
     if (mousePosition !== undefined && newIndex !== originalIndex) {
       bar.style.left = `${newIndex * 40}px`;
       const updatedRow = updateRow(row, originalIndex, newIndex, barLength);
-      // console.log(row.schedule.splice(originalIndex, originalIndex + barLength -2));
       store.dispatch(wPBarMoved(updatedRow));
     }
   }
 
-  document.addEventListener("mouseup", dropBar, true);
-  document.addEventListener("mousemove", handleMouseMove, true);
+  // document.addEventListener("mouseleave", dropBar, false);
+  document.addEventListener("mouseup", dropBar, false);
+  document.addEventListener("mousemove", handleMouseMove, false);
 
   function handleMouseMove(event) {
     if (isDown) {

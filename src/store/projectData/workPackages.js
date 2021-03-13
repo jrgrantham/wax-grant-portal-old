@@ -73,7 +73,6 @@ export default function workPackageReducer(state = wPDummyData, action) {
         data: reordered,
       };
     case wPBarMoved.type: 
-      console.log(action.payload);
       return {
         ...state,
         data: state.data.map((row) => {
