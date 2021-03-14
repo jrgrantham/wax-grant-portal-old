@@ -57,7 +57,15 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: move;
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  &:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }
 
   input {
     text-align: center;
@@ -80,12 +88,13 @@ const Container = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     z-index: 3;
+    cursor: col-resize;
   }
   .right {
-    margin-left: 35px;
+    margin-left: 40px;
   }
   .left {
-    margin-right: 35px;
+    margin-right: 40px;
   }
 `;
 // export default GanttWPBlock;
