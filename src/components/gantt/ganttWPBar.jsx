@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,18 +14,19 @@ import {
 toast.configure();
 
 function GanttWPBar(props) {
+  const [fontColor, setFontColor] = useState("white");
   const { row, bar, wpIndex, rowIndex, barNumber } = props;
   const { leftObstruction, rightObstruction, barLength, startIndex } = bar;
 
   const wpCode = leadingZero(wpIndex);
   const rowCode = leadingZero(rowIndex);
   const barCode = leadingZero(barNumber);
-  const barId = "bar" + "-" + wpCode + "-" + rowCode + "-" + barCode;
+  const barId = "bar-" + wpCode + "-" + rowCode + "-" + barCode;
 
   const leftHandle =
-    "handle" + "-" + wpCode + "-" + rowCode + "-" + barCode + "-" + "left";
+    "handle-" + wpCode + "-" + rowCode + "-" + barCode + "-lft";
   const rightHandle =
-    "handle" + "-" + wpCode + "-" + rowCode + "-" + barCode + "-" + "right";
+    "handle-" + wpCode + "-" + rowCode + "-" + barCode + "-rgt";
   const blockWidth = monthWidth.slice(0, 2);
   const startPosition = startIndex * blockWidth;
   const barWidth = blockWidth * barLength;
@@ -41,9 +42,10 @@ function GanttWPBar(props) {
   useEffect(() => {
     const barDiv = document.getElementById(barId);
     function handleMouseDown(e) {
-      if (e.target.id.slice(0, 6) === "handle")
-        resizeBar(data, barDiv, e, row, barLength);
-      else moveBar(data, barDiv, e, row, barLength);
+      if (e.target.id.slice(0, 6) === "handle") {
+        setFontColor(wpBarColor);
+        resizeBar(data, barDiv, e, row, barLength, setFontColor);
+      } else moveBar(data, barDiv, e, row, barLength);
     }
     barDiv.addEventListener("mousedown", handleMouseDown, false);
     return () => {
@@ -58,10 +60,10 @@ function GanttWPBar(props) {
           key={index}
           row={row}
           block={block}
-          // barId={barId}
           blockIndex={startIndex + index}
           leftHandle={leftHandle}
           rightHandle={rightHandle}
+          fontColor={fontColor}
         />
       ))}
     </Container>
@@ -75,7 +77,6 @@ const Container = styled.div`
   left: ${(props) => props.startPosition}px;
   margin: 2px 0;
   background-color: ${wpBarColor};
-  color: white;
   border-radius: 6px;
   z-index: 1;
   display: flex;

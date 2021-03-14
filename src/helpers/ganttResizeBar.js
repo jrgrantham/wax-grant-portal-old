@@ -1,25 +1,27 @@
-import { store } from "../store";
-import { wPBarMoved } from "../store/projectData/workPackages";
+// import { store } from "../store";
+// import { wPBarMoved } from "../store/projectData/workPackages";
 import produce from "immer";
+import { monthWidth } from "./settings";
 
-export function resizeBar(data, bar, e, row, barLength) {
+export function resizeBar(data, bar, e, row, barLength, setFontColor) {
   let originalMouseX = e.pageX;
-  let originalWidth = bar.style;
-  // window.addEventListener("mousemove", resize);
-  // window.addEventListener("mouseup", stopResize);
-  let handle = e.target.id.slice(-1) === "e" ? "end" : "start";
+  // let originalWidth = bar.style;
+  window.addEventListener("mousemove", resize);
+  window.addEventListener("mouseup", stopResize);
+  const handle = e.target.id.slice(-3);
   console.log(handle);
 
   function resize(e) {
-    if (handle === "end") {
-      console.log(e.clientX);
+    if (handle === "rgt") {
       bar.style.width = e.pageX - bar.getBoundingClientRect().left + "px";
-    } else if (handle === "start") {
-      bar.style.width = 200 - (e.pageX - originalMouseX) + "px";
-      bar.style.left = e.pageX - originalMouseX + "px";
+    } else if (handle === "lft") {
+      bar.style.width = monthWidth * barLength - (e.pageX - originalMouseX) + "px";
+      // bar.style.left = e.pageX - originalMouseX + "px";
     }
   }
+
   function stopResize() {
+    setFontColor('white')
     window.removeEventListener("mousemove", resize);
   }
   // const { blockWidth, leftObstruction, rightObstruction, barWidth } = data;

@@ -20,7 +20,7 @@ function GanttWPRowSchedule(props) {
   let barLength = 0; // might not be used
   let blockIndex = 0;
 
-  let barStartIndex = 0; // right obstruction
+  // let barStartIndex = 0; // right obstruction
   let barEndIndex = schedule.length - 1; // left obst
 
   // create an array of bars
