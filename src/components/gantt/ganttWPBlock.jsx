@@ -7,7 +7,7 @@ import { wpBarColor, isNumberKey, checkZero } from "../../helpers";
 
 function GanttWPBlock(props) {
   const dispatch = useDispatch();
-  const { leftHandle, rightHandle, block, row, blockIndex, fontColor } = props;
+  const { leftHandle, rightHandle, block, row, blockIndex, showBlock } = props;
   const { blockNumber, value } = block;
   const blockPosition = blockNumber.slice(-1);
 
@@ -25,14 +25,16 @@ function GanttWPBlock(props) {
   }
 
   return (
-    <Container id={blockNumber} fontColor={fontColor}>
-      <input
-        type="text"
-        value={value}
-        onKeyDown={(e) => isNumberKey(e)}
-        onChange={(e) => onchangeHandler(e)}
-        onBlur={() => checkZero(value)}
-      />
+    <Container id={blockNumber}>
+      {showBlock ? (
+        <input
+          type="text"
+          value={value}
+          onKeyDown={(e) => isNumberKey(e)}
+          onChange={(e) => onchangeHandler(e)}
+          onBlur={() => checkZero(value)}
+        />
+      ) : null}
       {blockPosition === "s" ? (
         <div id={leftHandle} className="dragHandle left" />
       ) : null}
@@ -74,7 +76,7 @@ const Container = styled.div`
     margin: 0;
     border: none;
     background-color: ${wpBarColor};
-    color: ${props => props.fontColor};
+    color: white;
     z-index: 1;
   }
 

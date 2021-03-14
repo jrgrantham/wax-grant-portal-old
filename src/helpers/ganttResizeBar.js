@@ -3,25 +3,32 @@
 import produce from "immer";
 import { monthWidth } from "./settings";
 
-export function resizeBar(data, bar, e, row, barLength, setFontColor) {
+export function resizeBar(data, bar, e, row, barLength, setShowBlock) {
+  const { blockWidth, leftObstruction, rightObstruction, barWidth } = data;
+
   let originalMouseX = e.pageX;
-  // let originalWidth = bar.style;
   window.addEventListener("mousemove", resize);
   window.addEventListener("mouseup", stopResize);
   const handle = e.target.id.slice(-3);
-  console.log(handle);
+
+  let width;
 
   function resize(e) {
+    setShowBlock(false);
     if (handle === "rgt") {
-      bar.style.width = e.pageX - bar.getBoundingClientRect().left + "px";
+      width = e.pageX - bar.getBoundingClientRect().left;
+      bar.style.width = Math.max(blockWidth, width) + "px";
     } else if (handle === "lft") {
-      bar.style.width = monthWidth * barLength - (e.pageX - originalMouseX) + "px";
+      // bar.style.width = Math.max(monthWidth, monthWidth * barLength - (e.pageX - originalMouseX) + "px");
       // bar.style.left = e.pageX - originalMouseX + "px";
     }
   }
 
   function stopResize() {
-    setFontColor('white')
+    const newIndex = Math.floor(width / blockWidth + 0.5);
+    console.log(newIndex);
+    bar.style.width = newIndex * blockWidth + "px";
+    setShowBlock(true);
     window.removeEventListener("mousemove", resize);
   }
   // const { blockWidth, leftObstruction, rightObstruction, barWidth } = data;

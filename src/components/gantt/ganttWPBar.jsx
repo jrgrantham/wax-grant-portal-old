@@ -14,7 +14,7 @@ import {
 toast.configure();
 
 function GanttWPBar(props) {
-  const [fontColor, setFontColor] = useState("white");
+  const [showBlock, setShowBlock] = useState(true);
   const { row, bar, wpIndex, rowIndex, barNumber } = props;
   const { leftObstruction, rightObstruction, barLength, startIndex } = bar;
 
@@ -43,8 +43,7 @@ function GanttWPBar(props) {
     const barDiv = document.getElementById(barId);
     function handleMouseDown(e) {
       if (e.target.id.slice(0, 6) === "handle") {
-        setFontColor(wpBarColor);
-        resizeBar(data, barDiv, e, row, barLength, setFontColor);
+        resizeBar(data, barDiv, e, row, barLength, setShowBlock);
       } else moveBar(data, barDiv, e, row, barLength);
     }
     barDiv.addEventListener("mousedown", handleMouseDown, false);
@@ -63,7 +62,7 @@ function GanttWPBar(props) {
           blockIndex={startIndex + index}
           leftHandle={leftHandle}
           rightHandle={rightHandle}
-          fontColor={fontColor}
+          showBlock={showBlock}
         />
       ))}
     </Container>
