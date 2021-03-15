@@ -3,12 +3,20 @@
 import produce from "immer";
 import { monthWidth } from "./settings";
 
-export function resizeBar(data, bar, e, row, barLength, setShowBlock) {
+export function resizeBar(
+  data,
+  bar,
+  e,
+  row,
+  barLength,
+  setShowBlock,
+  startPosition
+) {
   const { blockWidth, leftObstruction, rightObstruction, barWidth } = data;
 
   let originalMouseX = e.pageX;
-  window.addEventListener("mousemove", resize);
-  window.addEventListener("mouseup", stopResize);
+  window.addEventListener("mousemove", resize, false);
+  window.addEventListener("mouseup", stopResize, false);
   const handle = e.target.id.slice(-3);
 
   let width;
@@ -16,8 +24,19 @@ export function resizeBar(data, bar, e, row, barLength, setShowBlock) {
   function resize(e) {
     setShowBlock(false);
     if (handle === "rgt") {
-      width = e.pageX - bar.getBoundingClientRect().left;
-      bar.style.width = Math.max(blockWidth, width) + "px";
+      console.log(rightObstruction);
+      const uncontrolledWidth = e.pageX - bar.getBoundingClientRect().left;
+      console.log(
+        uncontrolledWidth + startPosition,
+        rightObstruction * blockWidth,
+
+      );
+      width = Math.min(
+        Math.max(blockWidth, uncontrolledWidth),
+        rightObstruction * blockWidth - startPosition,
+      );
+
+      bar.style.width = width + "px";
     } else if (handle === "lft") {
       // bar.style.width = Math.max(monthWidth, monthWidth * barLength - (e.pageX - originalMouseX) + "px");
       // bar.style.left = e.pageX - originalMouseX + "px";
@@ -25,9 +44,9 @@ export function resizeBar(data, bar, e, row, barLength, setShowBlock) {
   }
 
   function stopResize() {
-    const newIndex = Math.floor(width / blockWidth + 0.5);
-    console.log(newIndex);
-    bar.style.width = newIndex * blockWidth + "px";
+    const newLength = Math.floor(width / blockWidth + 0.5);
+    console.log("length", newLength);
+    bar.style.width = newLength * blockWidth + "px";
     setShowBlock(true);
     window.removeEventListener("mousemove", resize);
   }

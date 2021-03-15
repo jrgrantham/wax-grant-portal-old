@@ -8,9 +8,7 @@ import GanttBar from "./ganttWPBar";
 import { leadingZero } from "../../helpers";
 
 function GanttWPRowSchedule(props) {
-  const row = props.row;
-  const wpIndex = props.wpIndex;
-  const rowIndex = props.rowIndex;
+  const { row, wpIndex, rowIndex } = props;
   const schedule = props.row.schedule;
 
   const bars = [];
@@ -41,8 +39,8 @@ function GanttWPRowSchedule(props) {
 
         // set obstructions
         if (currentBar > 0) {
-          bars[currentBar].leftObstruction = barEndIndex +2;
-          bars[currentBar - 1].rightObstruction = i -1
+          bars[currentBar].leftObstruction = barEndIndex + 2;
+          bars[currentBar - 1].rightObstruction = i - 1;
         }
         newBar = false;
       }

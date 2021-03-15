@@ -28,6 +28,7 @@ function GanttWPBar(props) {
   const rightHandle =
     "handle-" + wpCode + "-" + rowCode + "-" + barCode + "-rgt";
   const blockWidth = monthWidth.slice(0, 2);
+
   const startPosition = startIndex * blockWidth;
   const barWidth = blockWidth * barLength;
 
@@ -43,7 +44,7 @@ function GanttWPBar(props) {
     const barDiv = document.getElementById(barId);
     function handleMouseDown(e) {
       if (e.target.id.slice(0, 6) === "handle") {
-        resizeBar(data, barDiv, e, row, barLength, setShowBlock);
+        resizeBar(data, barDiv, e, row, barLength, setShowBlock, startPosition);
       } else moveBar(data, barDiv, e, row, barLength);
     }
     barDiv.addEventListener("mousedown", handleMouseDown, false);

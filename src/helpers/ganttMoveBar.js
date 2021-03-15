@@ -17,8 +17,8 @@ export function moveBar(data, bar, e, row, barLength) {
 
   function dropBar() {
     isDown = false;
-    document.removeEventListener("mousemove", handleMouseMove); // tried this - not needed
-    document.removeEventListener("mouseup", dropBar); // tried this - not needed
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", dropBar);
     const newIndex = Math.floor(position / blockWidth + 0.5);
     if (mousePosition !== undefined && newIndex !== originalIndex) {
       bar.style.left = `${newIndex * 40}px`;
@@ -27,7 +27,6 @@ export function moveBar(data, bar, e, row, barLength) {
     }
   }
 
-  // document.addEventListener("mouseleave", dropBar, false);
   document.addEventListener("mouseup", dropBar, false);
   document.addEventListener("mousemove", handleMouseMove, false);
 
