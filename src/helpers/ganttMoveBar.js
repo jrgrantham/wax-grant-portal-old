@@ -9,7 +9,7 @@ export function moveBar(data, bar, e) {
     rightObstruction,
     barWidth,
     row,
-    barLength,
+    blockCount,
   } = data;
 
   let isDown = false;
@@ -29,7 +29,7 @@ export function moveBar(data, bar, e) {
     const newIndex = Math.floor(position / blockWidth + 0.5);
     if (mousePosition !== undefined && newIndex !== originalIndex) {
       bar.style.left = `${newIndex * 40}px`;
-      const updatedRow = updateRow(row, originalIndex, newIndex, barLength);
+      const updatedRow = updateRow(row, originalIndex, newIndex, blockCount);
       store.dispatch(wPBarMoved(updatedRow));
     }
   }
@@ -49,12 +49,12 @@ export function moveBar(data, bar, e) {
   }
 }
 
-function updateRow(row, originalIndex, newIndex, barLength) {
+function updateRow(row, originalIndex, newIndex, blockCount) {
+  console.log(originalIndex, newIndex, blockCount);
   const newRow = produce(row, (draft) => {
-    const draftSchedule = draft.schedule; // from draft
     const movement = newIndex - originalIndex;
-    const item = draftSchedule.splice(originalIndex, barLength);
-    draftSchedule.splice(originalIndex + movement, 0, ...item);
+    const item = draft.schedule.splice(originalIndex, blockCount);
+    draft.schedule.splice(originalIndex + movement, 0, ...item);
   });
   return newRow;
 }
