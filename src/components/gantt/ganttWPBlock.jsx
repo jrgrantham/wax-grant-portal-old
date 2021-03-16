@@ -84,19 +84,19 @@ const Container = styled.div`
     opacity: 0;
     transition: opacity 0.3s;
     position: absolute;
-    height: 18px;
-    width: 10px;
+    height: 20px;
+    width: 5px;
     background-color: ${wpBarColor};
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 5px;
     z-index: 3;
     cursor: col-resize;
   }
   .right {
-    margin-left: 39px;
+    margin-left: 40px;
   }
   .left {
-    margin-right: 39px;
+    margin-right: 40px;
   }
 `;
 // export default GanttWPBlock;

@@ -87,5 +87,8 @@ const Container = styled.div`
   &:hover .dragHandle {
     opacity: 1;
   }
+  &:active .dragHandle {
+    display: none;
+  }
 `;
 // export default GanttWPBar;

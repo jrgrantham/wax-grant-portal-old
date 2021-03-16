@@ -48,6 +48,7 @@ export function resizeBar(data, barDiv, e) {
       );
       setSize(width);
     } else if (handle === "lft") {
+      return
       updating = true;
       // barDiv.style.width = Math.max(monthWidth, monthWidth * blockCount - (e.pageX - originalMouseX) + "px");
       // barDiv.style.left = e.pageX - originalMouseX + "px";
@@ -57,13 +58,14 @@ export function resizeBar(data, barDiv, e) {
   function stopResize() {
     setShowBlock(true);
     window.removeEventListener("mousemove", resize);
+    // remove other listener?
     const newBlockCount = Math.floor(width / blockWidth + 0.5);
     if (updating && blockCount !== newBlockCount) {
       change = newBlockCount - blockCount;
       newEndIndex = newBlockCount + startPosition / blockWidth - 1;
       setSize(newBlockCount * blockWidth);
       updateRow();
-      blockCount = newBlockCount;
+      blockCount = newBlockCount; // mouseup triggers a reset to previous value
     } else setSize(blockCount * blockWidth);
     updating = false;
   }
@@ -95,6 +97,7 @@ export function resizeBar(data, barDiv, e) {
       if (started && i > newEndIndex) {
         workingDay = false;
         barNumber = 0;
+        row.schedule[i].value = 0;
       }
       row.schedule[i].status = workingDay;
       row.schedule[i].barNumber = barNumber;
