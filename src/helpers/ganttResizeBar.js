@@ -29,8 +29,9 @@ export function resizeBar(data, barDiv, e) {
   let change = 0;
   let updating = false; // helps multiple logs
   const handle = e.target.id.slice(-3);
-  const start = e.clientX
-  let offset = barDiv.offsetLeft - e.clientX;
+  const start = e.clientX;
+  const offset = barDiv.offsetLeft - e.clientX;
+  const originalPosition = e.clientX + offset
 
   window.addEventListener("mousemove", resize, false);
   window.addEventListener("mouseup", stopResize, false);
@@ -50,13 +51,13 @@ export function resizeBar(data, barDiv, e) {
       );
       setSize(width);
     } else if (handle === "lft") {
-      const growth = start - e.clientX;
       const position = Math.min(
         Math.max(e.clientX + offset, leftObstruction * blockWidth),
         rightObstruction * blockWidth - barWidth
       );
       barDiv.style.left = position + "px";
-      barDiv.style.width = (barWidth + growth) + "px";
+      console.log(leftObstruction, start, offset, position);
+      barDiv.style.width = barWidth - position + originalPosition + "px";
     }
   }
 
