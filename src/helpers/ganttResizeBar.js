@@ -19,6 +19,9 @@ export function resizeBar(data, barDiv, e) {
     startPosition,
     setShowBlock,
   } = data;
+  const handle = e.target.id.slice(-3);
+  const offset = barDiv.offsetLeft - e.clientX;
+  const originalPosition = e.clientX + offset;
 
   let blockCount = data.blockCount;
   let width;
@@ -27,11 +30,7 @@ export function resizeBar(data, barDiv, e) {
   let origEndIndex = (startPosition + barWidth) / blockWidth - 1;
   let newEndIndex = (startPosition + barWidth) / blockWidth - 1;
   let change = 0;
-  let updating = false; // helps multiple logs
-  const handle = e.target.id.slice(-3);
-  const start = e.clientX;
-  const offset = barDiv.offsetLeft - e.clientX;
-  const originalPosition = e.clientX + offset
+  let newPosition = originalPosition;
 
   window.addEventListener("mousemove", resize, false);
   window.addEventListener("mouseup", stopResize, false);
@@ -39,10 +38,12 @@ export function resizeBar(data, barDiv, e) {
   function setSize(dimension) {
     barDiv.style.width = dimension + "px";
   }
+  function setPosition(dimension) {
+    barDiv.style.left = dimension + "px";
+  }
 
   function resize(e) {
     setShowBlock(false);
-    updating = true;
     if (handle === "rgt") {
       const uncontrolledWidth = e.pageX - barDiv.getBoundingClientRect().left;
       width = Math.min(
@@ -51,13 +52,13 @@ export function resizeBar(data, barDiv, e) {
       );
       setSize(width);
     } else if (handle === "lft") {
-      const position = Math.min(
+      newPosition = Math.min(
         Math.max(e.clientX + offset, leftObstruction * blockWidth),
         rightObstruction * blockWidth - barWidth
       );
-      barDiv.style.left = position + "px";
-      console.log(leftObstruction, start, offset, position);
-      barDiv.style.width = barWidth - position + originalPosition + "px";
+      width = barWidth + originalPosition - newPosition;
+      setPosition(newPosition);
+      setSize(width);
     }
   }
 
@@ -66,13 +67,19 @@ export function resizeBar(data, barDiv, e) {
     window.removeEventListener("mousemove", resize);
     window.removeEventListener("mouseup", stopResize);
     const newBlockCount = Math.floor(width / blockWidth + 0.5);
-    if (updating && blockCount !== newBlockCount) {
+    if (handle === "rgt" && blockCount !== newBlockCount) {
       change = newBlockCount - blockCount;
       newEndIndex = newBlockCount + startPosition / blockWidth - 1;
       setSize(newBlockCount * blockWidth);
       updateRow();
-    } else setSize(blockCount * blockWidth);
-    updating = false;
+    } else if (handle === "rgt") setSize(blockCount * blockWidth);
+    else if (handle === "lft") {
+      change = newBlockCount - blockCount;
+      newStartIndex = origStartIndex - change;
+      setPosition(newStartIndex * blockWidth)
+      setSize(newBlockCount * blockWidth);
+      updateRow();
+    }
   }
 
   function updateRow() {
@@ -105,6 +112,7 @@ export function resizeBar(data, barDiv, e) {
       }
       row.schedule[i].status = workingDay;
       row.schedule[i].barNumber = barNumber;
+      console.log(i, workingDay);
     }
   }
 }
