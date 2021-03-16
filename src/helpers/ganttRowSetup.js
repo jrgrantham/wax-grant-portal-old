@@ -129,7 +129,7 @@ export function spreadWork(row) {
         schedule[i].value = Months + 1;
         j++;
       } else schedule[i].value = Months;
-    }
+    } else schedule[i].value = 0;
   }
   return row;
 }
