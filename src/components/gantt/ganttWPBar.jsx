@@ -16,7 +16,7 @@ toast.configure();
 function GanttWPBar(props) {
   const [showBlock, setShowBlock] = useState(true);
   const { row, bar, wpIndex, rowIndex, barNumber } = props;
-  const { leftObstruction, rightObstruction, barLength, startIndex } = bar;
+  const { leftObstruction, rightObstruction, blockCount, startIndex } = bar;
 
   const wpCode = leadingZero(wpIndex);
   const rowCode = leadingZero(rowIndex);
@@ -30,22 +30,26 @@ function GanttWPBar(props) {
   const blockWidth = monthWidth.slice(0, 2);
 
   const startPosition = startIndex * blockWidth;
-  const barWidth = blockWidth * barLength;
+  const barWidth = blockWidth * blockCount;
 
   const data = {
+    row,
     barId,
     blockWidth,
     leftObstruction,
     rightObstruction,
     barWidth,
+    startPosition,
+    blockCount,
+    setShowBlock
   };
 
   useEffect(() => {
     const barDiv = document.getElementById(barId);
     function handleMouseDown(e) {
       if (e.target.id.slice(0, 6) === "handle") {
-        resizeBar(data, barDiv, e, row, barLength, setShowBlock, startPosition);
-      } else moveBar(data, barDiv, e, row, barLength);
+        resizeBar(data, barDiv, e);
+      } else moveBar(data, barDiv, e);
     }
     barDiv.addEventListener("mousedown", handleMouseDown, false);
     return () => {

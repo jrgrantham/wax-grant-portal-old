@@ -23,11 +23,11 @@ export const dAndMReorderRows = createAction("dAndMReorderRows");
 export const dAndMChangedDate = createAction("dAndMChangedDate");
 export const dAndMChangeKeyValue = createAction("dAndMChangeKeyValue");
 
-const initialState = {
-  loading: false,
-  data: [],
-  error: "",
-};
+// const initialState = {
+//   loading: false,
+//   data: [],
+//   error: "",
+// };
 
 export default function delsAndMilsReducer(state = dMDummyData, action) {
 // export default function delsAndMilsReducer(state = initialState, action) {

@@ -2,8 +2,15 @@ import { store } from "../store";
 import { wPBarMoved } from "../store/projectData/workPackages";
 import produce from "immer";
 
-export function moveBar(data, bar, e, row, barLength) {
-  const { blockWidth, leftObstruction, rightObstruction, barWidth } = data;
+export function moveBar(data, bar, e) {
+  const {
+    blockWidth,
+    leftObstruction,
+    rightObstruction,
+    barWidth,
+    row,
+    barLength,
+  } = data;
 
   let isDown = false;
   let offset = 0;

@@ -15,7 +15,7 @@ function GanttWPRowSchedule(props) {
   let newBar = false;
   let currentBar = 0;
   let lastMonth = false;
-  let barLength = 0; // might not be used
+  let blockCount = 0;
   let blockIndex = 0;
 
   // let barStartIndex = 0; // right obstruction
@@ -50,7 +50,7 @@ function GanttWPRowSchedule(props) {
       else blockNumber = blockNumber + "m";
 
       bars[currentBar].push({ value: schedule[i].value, blockNumber });
-      barLength++;
+      blockCount++;
       blockIndex++;
     }
 
@@ -59,9 +59,9 @@ function GanttWPRowSchedule(props) {
       const prefix = bars[currentBar][blockIndex - 1].blockNumber.slice(0, 2);
       if (prefix === "00") bars[currentBar][blockIndex - 1].blockNumber = "00x";
       else bars[currentBar][blockIndex - 1].blockNumber = prefix + "e";
-      bars[currentBar].barLength = barLength;
+      bars[currentBar].blockCount = blockCount;
       barEndIndex = i - 1;
-      barLength = 0;
+      blockCount = 0;
       blockIndex = 0;
       currentBar++;
     }
