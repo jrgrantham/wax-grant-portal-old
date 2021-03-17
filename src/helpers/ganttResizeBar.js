@@ -66,21 +66,19 @@ export function resizeBar(data, barDiv, e) {
     setShowBlock(true);
     window.removeEventListener("mousemove", resize);
     window.removeEventListener("mouseup", stopResize);
+    setSize(null);
     if (!width) return; // undefined if no movement
     const newBlockCount = Math.floor(width / blockWidth + 0.5);
     change = newBlockCount - blockCount;
     if (handle === "rgt" && blockCount !== newBlockCount) {
       newEndIndex = newBlockCount + startPosition / blockWidth - 1;
-      setSize(newBlockCount * blockWidth);
       updateRow();
     } else if (handle === "rgt") setSize(blockCount * blockWidth);
     else if (handle === "lft") {
       newStartIndex = origStartIndex - change;
       setPosition(newStartIndex * blockWidth);
-      setSize(newBlockCount * blockWidth);
       updateRow();
     }
-    setSize(null);
   }
 
   function updateRow() {

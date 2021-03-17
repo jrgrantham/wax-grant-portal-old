@@ -96,7 +96,8 @@ export default GanttWPRowSchedule;
 const Container = styled.div`
   height: 40px;
   display: flex;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  align-items: center;
   width: 500px;
   /* border: 1px solid red; */
   .blockRow {

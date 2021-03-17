@@ -15,13 +15,11 @@ export function updateEditedWp(oldRow, changes, data) {
     newDays,
     newBars,
   } = changes;
-  // let newTitle = false;
-  // if (newWorkPackageTitle) newTitle = true;
 
   const newRow = produce(oldRow, (draft) => {
     if (newWorkPackageTitle) draft.workPackageTitle = newWorkPackageTitle; // check here - update
     if (newDescription) draft.description = newDescription;
-    if (newDayLoading) draft.datLoading = newDayLoading;
+    if (newDayLoading) draft.dayLoading = newDayLoading;
     if (newDays) {
       updateDays(draft, newDays);
       spreadWork(draft);
@@ -56,11 +54,8 @@ function updateDays(draftRow, days) {
   let statusCount = 0;
   for (let i = 0; i < schedule.length; i++) {
     if (schedule[i].status) statusCount++;
-    if (statusCount === days) schedule[i].end = true;
     if (statusCount > days) {
       schedule[i].status = false;
-      schedule[i].start = false;
-      schedule[i].end = false;
       schedule[i].value = 0;
       schedule[i].barNumber = 0;
       if (!alerted) {
@@ -84,11 +79,10 @@ export function wPUpdateDays(oldRow, days) {
 }
 
 function updateNumberOfBars(row, numberOfBars) {
-  console.log('update');
+  console.log("update");
   const schedule = row.schedule;
   let barNumber = 1;
-  for (let i = 0; i < schedule.length -1; i++) {
-    console.log(i);
+  for (let i = 0; i < schedule.length - 1; i = i + 2) {
     schedule[i].value = 0;
     if (barNumber <= numberOfBars) {
       schedule[i].status = true;
@@ -102,7 +96,6 @@ function updateNumberOfBars(row, numberOfBars) {
       schedule[i + 1].status = false;
       schedule[i + 1].barNumber = 0;
     }
-    i++;
   }
   spreadWork(row);
   return row;
@@ -163,8 +156,6 @@ export function wPCreateNewRow(scheduleLength, title = newTitle) {
     newRow.schedule.push(emptyBlock);
   }
   newRow.schedule[0].status = true;
-  newRow.schedule[0].start = true;
-  newRow.schedule[0].end = true;
   newRow.schedule[0].value = 1;
   newRow.schedule[0].barNumber = 1;
   return newRow;
@@ -189,7 +180,5 @@ export function dAndMCreateNewRow(type, scheduleLength) {
     newRow.schedule.push(emptyBlock);
   }
   newRow.schedule[0].status = true;
-  newRow.schedule[0].start = true;
-  newRow.schedule[0].end = true;
   return newRow;
 }

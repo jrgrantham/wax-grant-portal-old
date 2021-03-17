@@ -30,7 +30,7 @@ export function moveBlock(data, e, blockDiv) {
     document.removeEventListener("mouseup", dropBlock);
     const newIndex = Math.floor(newPosition / blockWidth + 0.5);
     if (mousePosition !== undefined && newIndex !== originalIndex) {
-      blockDiv.style.left = `${newIndex * 40}px`;
+      // blockDiv.style.left = `${newIndex * 40}px`;
       store.dispatch(
         dAndMChangeKeyValue({ rowId, key: "scheduled", value: newIndex })
       );

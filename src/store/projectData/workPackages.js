@@ -138,10 +138,10 @@ export default function workPackageReducer(state = wPDummyData, action) {
         }),
       };
     case wPEdited.type:
-      const newData = updateEditedWp(
+      const newData = updateEditedWp( // map over state in the reducer not this function
         action.payload.row,
         action.payload.changes,
-        state.data
+        state.data // don't send this
       );
       return {
         ...state,
