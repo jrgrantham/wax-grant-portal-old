@@ -9,7 +9,6 @@ toast.configure();
 export function resizeBar(data, barDiv, e) {
   const {
     row,
-    // blockCount,
     blockWidth,
     leftObstruction,
     rightObstruction,
@@ -52,7 +51,7 @@ export function resizeBar(data, barDiv, e) {
     } else if (handle === "lft") {
       newPosition = Math.min(
         Math.max(e.clientX + offset, leftObstruction * blockWidth),
-        rightObstruction * blockWidth - barWidth
+        originalPosition + barWidth - blockWidth
       );
       width = barWidth + originalPosition - newPosition;
       setPosition(newPosition);

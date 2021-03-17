@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { MemoisedWPBlock } from "./ganttWPBlock";
+import WPBlock from "./ganttWPBlock";
 import {
   leadingZero,
   monthWidth,
@@ -34,7 +34,6 @@ function GanttWPBar(props) {
 
   const data = {
     row,
-    barId,
     blockWidth,
     leftObstruction,
     rightObstruction,
@@ -60,7 +59,7 @@ function GanttWPBar(props) {
   return (
     <Container id={barId} startPosition={startPosition}>
       {bar.map((block, index) => (
-        <MemoisedWPBlock
+        <WPBlock
           key={index}
           row={row}
           block={block}

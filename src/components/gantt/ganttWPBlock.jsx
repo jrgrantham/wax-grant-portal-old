@@ -50,7 +50,8 @@ function GanttWPBlock(props) {
     </Container>
   );
 }
-export const MemoisedWPBlock = React.memo(GanttWPBlock);
+export default GanttWPBlock;
+// export const MemoisedWPBlock = React.memo(GanttWPBlock);
 
 const Container = styled.div`
   flex-grow: 1;
