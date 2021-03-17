@@ -1,9 +1,6 @@
 import React from "react";
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-// import { wPScheduleUpdated } from "../../store/projectData/workPackages";
-// import { dAndMScheduleUpdated } from "../../store/projectData/delsAndMils";
 import GanttBar from "./ganttWPBar";
 import { leadingZero } from "../../helpers";
 
@@ -13,13 +10,13 @@ function GanttWPRowSchedule(props) {
 
   const bars = [];
   let newBar = false;
-  let currentBar = 0;
+  let currentBarIndex = 0;
   let lastMonth = false;
   let blockCount = 0;
   let blockIndex = 0;
+  let barEndIndex = 0; // left obstruction
 
   // let barStartIndex = 0; // right obstruction
-  let barEndIndex = schedule.length - 1; // left obst
 
   // create an array of bars
   // generate obstruction locations during this loop
@@ -32,38 +29,46 @@ function GanttWPRowSchedule(props) {
 
     if (currentMonth) {
       if (newBar === true) {
+        // initiate bar
         bars.push([]);
-        bars[currentBar].startIndex = i;
-        bars[currentBar].leftObstruction = 0;
-        bars[currentBar].rightObstruction = schedule.length;
+        bars[currentBarIndex].startIndex = i;
+        bars[currentBarIndex].leftObstruction = 0;
+        bars[currentBarIndex].rightObstruction = schedule.length;
 
         // set obstructions
-        if (currentBar > 0) {
-          bars[currentBar].leftObstruction = barEndIndex + 2;
-          bars[currentBar - 1].rightObstruction = i - 1;
+        if (currentBarIndex > 0) {
+          bars[currentBarIndex].leftObstruction = barEndIndex + 2;
+          bars[currentBarIndex - 1].rightObstruction = i - 1;
         }
         newBar = false;
       }
 
+      // append start or middle
       let blockNumber = leadingZero(blockIndex);
       if (blockIndex === 0) blockNumber = blockNumber + "s";
       else blockNumber = blockNumber + "m";
 
-      bars[currentBar].push({ value: schedule[i].value, blockNumber });
+      bars[currentBarIndex].push({ value: schedule[i].value, blockNumber });
       blockCount++;
       blockIndex++;
     }
-
     // at the end of the bar
-    if (lastMonth === true && currentMonth === false) {
-      const prefix = bars[currentBar][blockIndex - 1].blockNumber.slice(0, 2);
-      if (prefix === "00") bars[currentBar][blockIndex - 1].blockNumber = "00x";
-      else bars[currentBar][blockIndex - 1].blockNumber = prefix + "e";
-      bars[currentBar].blockCount = blockCount;
+    const endOfSched = currentMonth && i === schedule.length - 1;
+    const endOfBar = lastMonth === true && currentMonth === false
+    if (endOfBar || endOfSched) {
+      // if (lastMonth === true && currentMonth === false || i === schedule.length - 1) {
+      const prefix = bars[currentBarIndex][blockIndex - 1].blockNumber.slice(
+        0,
+        2
+      );
+      if (prefix === "00")
+        bars[currentBarIndex][blockIndex - 1].blockNumber = "00x";
+      else bars[currentBarIndex][blockIndex - 1].blockNumber = prefix + "e";
+      bars[currentBarIndex].blockCount = blockCount;
       barEndIndex = i - 1;
       blockCount = 0;
       blockIndex = 0;
-      currentBar++;
+      currentBarIndex++;
     }
     lastMonth = currentMonth;
   }

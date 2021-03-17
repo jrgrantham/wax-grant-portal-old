@@ -4,7 +4,6 @@ import {
 } from "../store/projectData/delsAndMils";
 
 export function moveBlock(data, e, blockDiv) {
-  console.log(e.target.id);
   document.addEventListener("mouseup", dropBlock, false);
   document.addEventListener("mousemove", handleMouseMove, false);
 
