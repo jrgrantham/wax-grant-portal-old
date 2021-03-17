@@ -35,5 +35,6 @@ export function moveBlock(data, e, blockDiv) {
         dAndMChangeKeyValue({ rowId, key: "scheduled", value: newIndex })
       );
     }
+    blockDiv.style.left = null
   }
 }
