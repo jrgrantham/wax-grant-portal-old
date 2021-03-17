@@ -2,7 +2,7 @@ import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 
-import GanttRowDelsMils from "./ganttRowDelsMils";
+import GanttRowDelsMils from "./ganttDMRow";
 import { dAndMReorderRows, dAndMRowAdded } from "../../store/projectData/delsAndMils";
 
 import { Container } from "./ganttPackStyling";

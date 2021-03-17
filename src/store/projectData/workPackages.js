@@ -4,7 +4,7 @@ import { createAction } from "@reduxjs/toolkit";
 import { wPDummyData } from "../../data";
 import {
   reorderArrayByIndex,
-  wPScheduleHelper,
+  // wPScheduleHelper,
   wPUpdateDays,
   updateEditedWp,
   wPUpdateBlock,
@@ -17,12 +17,12 @@ export const wPFetchSuccess = createAction("wPFetchSuccess");
 export const wPFetchFailure = createAction("wPFetchFailure");
 export const wPRowAdded = createAction("wPRowAdded");
 export const wPRowRemoved = createAction("wPRowRemoved");
-export const wPScheduleUpdated = createAction("wPScheduleUpdated");
+// export const wPScheduleUpdated = createAction("wPScheduleUpdated");
 // export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
 export const wPReorderRows = createAction("wPReorderRows");
 export const wPChangeKeyValue = createAction("wPChangeKeyValue");
 export const wPDaysUpdated = createAction("wPDaysUpdated");
-export const wPEdited = createAction("wPEdited");
+export const wPEdited = createAction("wPEdited"); // formik modal
 export const wPBlockUpdated = createAction("wPBlockUpdated");
 export const wPTitleChanged = createAction("wPTitleChanged");
 export const wPResourcesUpdated = createAction("wPResourcesUpdated");
@@ -82,21 +82,21 @@ export default function workPackageReducer(state = wPDummyData, action) {
           return row;
         }),
       };
-    case wPScheduleUpdated.type:
-      // console.log(action.payload);
-      const updatedRow = wPScheduleHelper(
-        action.payload.row,
-        action.payload.result
-      );
-      return {
-        ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.row.rowId) {
-            return updatedRow;
-          }
-          return row;
-        }),
-      };
+    // case wPScheduleUpdated.type:
+    //   // console.log(action.payload);
+    //   const updatedRow = wPScheduleHelper(
+    //     action.payload.row,
+    //     action.payload.result
+    //   );
+    //   return {
+    //     ...state,
+    //     data: state.data.map((row) => {
+    //       if (row.rowId === action.payload.row.rowId) {
+    //         return updatedRow;
+    //       }
+    //       return row;
+    //     }),
+    //   };
     case wPRowAdded.type:
       const { projectLength, title } = action.payload;
       const newRow = wPCreateNewRow(projectLength, title);
@@ -123,7 +123,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
           return row;
         }),
       };
-    case wPDaysUpdated.type:
+    case wPDaysUpdated.type: // spreads the work
       const updatedDaysRow = wPUpdateDays(
         action.payload.row,
         action.payload.days

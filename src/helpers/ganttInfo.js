@@ -23,11 +23,3 @@ export function getFirstAndLastDateOfBar(barNumber, schedule) {
   }
   return [startDate, endDate];
 }
-
-// export function getLastDateOfSchedule(schedule) {
-//   console.log('last date');
-//   const endOfSchedule = schedule.length - 1
-//   for (let i=endOfSchedule; i>0; i--) {
-//     if (schedule[i].status === true) return i
-//   } 
-// }

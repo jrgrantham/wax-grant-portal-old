@@ -2,8 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import GanttPackWork from "./ganttPackWork";
-import GanttPackDelsMils from "./ganttPackDelsMils";
+import GanttPackWork from "./ganttWPPack";
+import GanttPackDelsMils from "./ganttDMPack";
 import { wPRowAdded } from "../../store/projectData/workPackages";
 import { wpTitleColor, delTitleColor, milTitleColor, dividerHeight, totalDaysColor } from "../../helpers";
 

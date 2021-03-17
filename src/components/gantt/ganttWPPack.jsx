@@ -10,7 +10,7 @@ import {
   wPTitleChanged,
 } from "../../store/projectData/workPackages";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
-import GanttRowWork from "./ganttRowWork";
+import GanttRowWork from "./ganttWPRow";
 import EditModal from "./ganttModalEdit";
 
 function GanttPackWork(props) {

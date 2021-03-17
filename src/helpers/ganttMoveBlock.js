@@ -1,5 +1,4 @@
 import { store } from "../store";
-import { wPBarMoved } from "../store/projectData/workPackages";
 import produce from "immer";
 import { dAndMScheduleUpdated } from "../store/projectData/delsAndMils";
 
@@ -8,9 +7,6 @@ export function moveBlock(data, e, blockDiv) {
   document.addEventListener("mousemove", handleMouseMove, false);
 
   const { scheduleLength, blockWidth, position, row } = data;
-
-  // console.log(data);
-
   const leftObstruction = 0;
   const rightObstruction = scheduleLength - 1;
 

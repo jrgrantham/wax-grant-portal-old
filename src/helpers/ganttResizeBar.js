@@ -1,5 +1,3 @@
-// import { store } from "../store";
-// import { wPBarMoved } from "../store/projectData/workPackages";
 import produce from "immer";
 import { wPBarMoved } from "../store/projectData/workPackages";
 import { store } from "../store";
