@@ -67,15 +67,11 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
         data: reordered,
       };
     case dAndMScheduleUpdated.type:
-      const updatedRow = dAndMScheduleHelper(
-        action.payload.row,
-        action.payload.result
-      );
       return {
         ...state,
         data: state.data.map((row) => {
-          if (row.rowId === action.payload.row.rowId) {
-            return updatedRow;
+          if (row.rowId === action.payload.rowId) {
+            return action.payload;
           }
           return row;
         }),

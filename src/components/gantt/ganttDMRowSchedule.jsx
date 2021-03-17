@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
 import { dAndMScheduleUpdated } from "../../store/projectData/delsAndMils";
-import { MemoisedBlock } from "./ganttDMBlock";
+import { MemoisedBlock } from "./ganttDMBlockTrial";
 
 function GanttDMRowSchedule(props) {
   const { row, prefix, rowIndex } = props;

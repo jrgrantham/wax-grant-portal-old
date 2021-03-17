@@ -50,7 +50,6 @@ export function moveBar(data, bar, e) {
 }
 
 function updateRow(row, originalIndex, newIndex, blockCount) {
-  console.log(originalIndex, newIndex, blockCount);
   const newRow = produce(row, (draft) => {
     const movement = newIndex - originalIndex;
     const item = draft.schedule.splice(originalIndex, blockCount);

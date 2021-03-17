@@ -88,7 +88,7 @@ const Container = styled.div`
     opacity: 1;
   }
   &:active .dragHandle {
-    display: none;
+    opacity: 0;
   }
 `;
 // export default GanttWPBar;
