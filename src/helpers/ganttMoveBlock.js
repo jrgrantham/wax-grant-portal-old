@@ -1,12 +1,14 @@
 import { store } from "../store";
-import produce from "immer";
-import { dAndMScheduleUpdated } from "../store/projectData/delsAndMils";
+import {
+  dAndMChangeKeyValue,
+} from "../store/projectData/delsAndMils";
 
 export function moveBlock(data, e, blockDiv) {
+  console.log(e.target.id);
   document.addEventListener("mouseup", dropBlock, false);
   document.addEventListener("mousemove", handleMouseMove, false);
 
-  const { scheduleLength, blockWidth, position, row } = data;
+  const { scheduleLength, blockWidth, position, rowId } = data;
   const leftObstruction = 0;
   const rightObstruction = scheduleLength - 1;
 
@@ -30,18 +32,9 @@ export function moveBlock(data, e, blockDiv) {
     const newIndex = Math.floor(newPosition / blockWidth + 0.5);
     if (mousePosition !== undefined && newIndex !== originalIndex) {
       blockDiv.style.left = `${newIndex * 40}px`;
-      const updatedRow = updateRow(row, originalIndex, newIndex, 1);
-      // console.log(updatedRow);
-      store.dispatch(dAndMScheduleUpdated(updatedRow));
+      store.dispatch(
+        dAndMChangeKeyValue({ rowId, key: "scheduled", value: newIndex })
+      );
     }
   }
-}
-
-function updateRow(row, originalIndex, newIndex, blockCount) {
-  const newRow = produce(row, (draft) => {
-    const movement = newIndex - originalIndex;
-    const item = draft.schedule.splice(originalIndex, blockCount);
-    draft.schedule.splice(originalIndex + movement, 0, ...item);
-  });
-  return newRow;
 }

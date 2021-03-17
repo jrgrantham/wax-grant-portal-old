@@ -8,8 +8,7 @@ function GanttDMPackSchedule(props) {
   const prefix = props.prefix;
   const projectLength = useSelector(
     (state) => state.project.data.projectLength
-  );
-  // console.log(props);
+  );  console.log(props);
 
   const scheduleWidth =
     projectLength * parseInt(monthWidth.slice(0, -2)) + "px";

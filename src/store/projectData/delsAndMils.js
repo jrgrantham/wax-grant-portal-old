@@ -4,8 +4,6 @@ import { createAction } from "@reduxjs/toolkit";
 import { dMDummyData } from "../../data";
 import {
   reorderArrayByIndex,
-  dAndMScheduleHelper,
-  dAndMUpdateDate,
   dAndMCreateNewRow,
 } from "../../helpers";
 
@@ -13,14 +11,10 @@ import {
 
 export const dAndMFetchRequest = createAction("dAndMFetchRequest");
 export const dAndMFetchSuccess = createAction("dAndMFetchSuccess");
-// sort schedule by index to ensure correct order
-// sort by del and mil so drag and drop works properly
 export const dAndMFetchFailure = createAction("dAndMFetchFailure");
 export const dAndMRowAdded = createAction("dAndMRowAdded");
 export const dAndMRowRemoved = createAction("dAndMRowRemoved");
-export const dAndMScheduleUpdated = createAction("dAndMScheduleUpdated");
 export const dAndMReorderRows = createAction("dAndMReorderRows");
-export const dAndMChangedDate = createAction("dAndMChangedDate");
 export const dAndMChangeKeyValue = createAction("dAndMChangeKeyValue");
 
 // const initialState = {
@@ -66,16 +60,6 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
         ...state,
         data: reordered,
       };
-    case dAndMScheduleUpdated.type:
-      return {
-        ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.rowId) {
-            return action.payload;
-          }
-          return row;
-        }),
-      };
     case dAndMRowAdded.type:
       const { projectLength, type } = action.payload;
       const newRow = dAndMCreateNewRow(type, projectLength);
@@ -98,20 +82,6 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
               [action.payload.key]: action.payload.value,
             };
             return updatedRow;
-          }
-          return row;
-        }),
-      };
-    case dAndMChangedDate.type:
-      const newDateRow = dAndMUpdateDate(
-        action.payload.row,
-        action.payload.value
-      );
-      return {
-        ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.row.rowId) {
-            return newDateRow;
           }
           return row;
         }),

@@ -5,7 +5,7 @@ import { Container } from "./ganttRowStyling";
 
 import {
   dAndMRowRemoved,
-  dAndMChangedDate,
+  // dAndMChangedDate,
   dAndMChangeKeyValue,
 } from "../../store/projectData/delsAndMils";
 
@@ -14,19 +14,24 @@ function GanttRowDetails(props) {
   const projectDates = useSelector((state) => state.project.data.dates);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { row, provided } = props;
-  const { description, schedule } = row;
+  const { description, scheduled } = row;
 
-  const dateIndex = schedule
-    .map(function (date) {
-      return date.status;
-    })
-    .indexOf(true);
+  const dateIndex = scheduled;
 
   function handleDescriptionChange(value) {
     dispatch(
       dAndMChangeKeyValue({
         rowId: row.rowId,
         key: "description",
+        value,
+      })
+    );
+  }
+  function handleDateChange(value) {
+    dispatch(
+      dAndMChangeKeyValue({
+        rowId: row.rowId,
+        key: "scheduled",
         value,
       })
     );
@@ -63,11 +68,7 @@ function GanttRowDetails(props) {
             <select
               className="highlight"
               value={dateIndex}
-              onChange={(e) =>
-                dispatch(
-                  dAndMChangedDate({ row, value: parseInt(e.target.value) })
-                )
-              }
+              onChange={(e) => handleDateChange(parseInt(e.target.value))}
             >
               {projectDates.map((date, index) => (
                 <option value={index} key={index} className="date">

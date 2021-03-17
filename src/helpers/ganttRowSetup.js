@@ -134,24 +134,6 @@ export function spreadWork(row) {
   return row;
 }
 
-export function dAndMUpdateDate(oldRow, date) {
-  const newRow = produce(oldRow, (draft) => {
-    const schedule = draft.schedule;
-    for (let i = 0; i < schedule.length; i++) {
-      if (i === date) {
-        schedule[i].status = true;
-        schedule[i].start = true;
-        schedule[i].end = true;
-      } else {
-        schedule[i].status = false;
-        schedule[i].start = false;
-        schedule[i].end = false;
-      }
-    }
-  });
-  return newRow;
-}
-
 export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
   // console.log(newValue, oldValue, blockIndex);
   const change = newValue - oldValue;
