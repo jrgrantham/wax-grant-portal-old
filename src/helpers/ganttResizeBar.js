@@ -1,9 +1,11 @@
 import produce from "immer";
 import { wPBarMoved } from "../store/projectData/workPackages";
 import { store } from "../store";
-
-import { currentCombinedLengthOfBars, spreadWork } from "./index";
 import { toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import { currentCombinedLengthOfBars, spreadWork } from "./index";
+
 toast.configure();
 
 export function resizeBar(data, barDiv, e) {
@@ -33,7 +35,8 @@ export function resizeBar(data, barDiv, e) {
   window.addEventListener("mouseup", stopResize, false);
 
   function setSize(dimension) {
-    barDiv.style.width = dimension + "px";
+    if (dimension) barDiv.style.width = dimension + "px";
+    else barDiv.style.width = dimension;
   }
   function setPosition(dimension) {
     barDiv.style.left = dimension + "px";
@@ -63,7 +66,7 @@ export function resizeBar(data, barDiv, e) {
     setShowBlock(true);
     window.removeEventListener("mousemove", resize);
     window.removeEventListener("mouseup", stopResize);
-    if (!width) return // undefined if no movement
+    if (!width) return; // undefined if no movement
     const newBlockCount = Math.floor(width / blockWidth + 0.5);
     change = newBlockCount - blockCount;
     if (handle === "rgt" && blockCount !== newBlockCount) {
@@ -73,18 +76,23 @@ export function resizeBar(data, barDiv, e) {
     } else if (handle === "rgt") setSize(blockCount * blockWidth);
     else if (handle === "lft") {
       newStartIndex = origStartIndex - change;
-      setPosition(newStartIndex * blockWidth)
+      setPosition(newStartIndex * blockWidth);
       setSize(newBlockCount * blockWidth);
       updateRow();
     }
+    setSize(null);
   }
 
   function updateRow() {
+    const newLength = currentCombinedLengthOfBars(row.schedule) + change;
+    if (newLength > row.days) {
+      toast.info("Increased number of days", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    }
     const updatedRow = produce(row, (draft) => {
-      draft.days = Math.max(
-        currentCombinedLengthOfBars(row.schedule) + change,
-        row.days
-      );
+      draft.days = Math.max(newLength, row.days);
       draft.row = updateBar(draft);
       spreadWork(draft);
     });

@@ -91,22 +91,14 @@ function updateNumberOfBars(row, numberOfBars) {
     console.log(i);
     schedule[i].value = 0;
     if (barNumber <= numberOfBars) {
-      schedule[i].start = true;
-      schedule[i].end = true;
       schedule[i].status = true;
       schedule[i].barNumber = barNumber;
       barNumber++;
-      schedule[i + 1].start = false;
-      schedule[i + 1].end = false;
       schedule[i + 1].status = false;
       schedule[i + 1].barNumber = 0;
     } else {
-      schedule[i].start = false;
-      schedule[i].end = false;
       schedule[i].status = false;
       schedule[i].barNumber = 0;
-      schedule[i + 1].start = false;
-      schedule[i + 1].end = false;
       schedule[i + 1].status = false;
       schedule[i + 1].barNumber = 0;
     }
