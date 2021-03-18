@@ -79,17 +79,24 @@ function EditModal(props) {
     validationSchema,
   });
 
-  const deleteWP = (
-    <div className="twoButtons">
-      <button className="cancel" onClick={() => setConfirmDelete(false)}>
-        Cancel
-      </button>
-      <button onClick={() => dispatch(wPRowRemoved(row.rowId))}>Confirm</button>
-    </div>
-  );
-
   function closeModal(e) {
     if (e.target.id === "background") props.setEditModal(false);
+  }
+
+  function resetBars() {
+    // send bars = 1 then days = 1
+    const changes = {
+      newBars: 1,
+      newDays: 1,
+      reset: true, // to stop toast notification
+    };
+    dispatch(
+      wPEdited({
+        row,
+        changes,
+      })
+    );
+    props.setEditModal(false);
   }
 
   window.addEventListener("keydown", function (event) {
@@ -103,14 +110,21 @@ function EditModal(props) {
         <div className="topRow">
           <button onClick={() => props.setEditModal(false)}>Cancel</button>
           {confirmDelete ? (
-            deleteWP
+            <div>
+              <button className="leftB" onClick={() => setConfirmDelete(false)}>
+                Cancel
+              </button>
+              <button onClick={() => dispatch(wPRowRemoved(row.rowId))}>
+                Confirm
+              </button>
+            </div>
           ) : (
-            <button
-              style={{ cursor: "pointer" }}
-              onClick={() => setConfirmDelete(true)}
-            >
-              Delete Row
-            </button>
+            <div>
+              <button className="leftB" onClick={resetBars}>
+                Reset Bars
+              </button>
+              <button onClick={() => setConfirmDelete(true)}>Delete</button>
+            </div>
           )}
         </div>
 
@@ -253,6 +267,7 @@ const Container = styled.div`
   button {
     padding-left: 10px;
     padding-right: 10px;
+    cursor: pointer;
   }
 
   .errorMessage {
@@ -291,10 +306,7 @@ const Container = styled.div`
     align-items: flex-start;
     padding: 10px;
   }
-
-  /* .twoButtons {
-    display: flex;
-    justify-content: flex-end;
-    width: 175px;
-  } */
+  .leftB {
+    margin-right: 10px;
+  }
 `;

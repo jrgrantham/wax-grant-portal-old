@@ -7,13 +7,14 @@ import { currentCombinedLengthOfBars } from "./index";
 
 toast.configure();
 
-export function updateEditedWp(oldRow, changes, data) {
+export function updateEditedWp(oldRow, changes) {
   const {
     newWorkPackageTitle,
     newDescription,
     newDayLoading,
     newDays,
     newBars,
+    reset,
   } = changes;
 
   const newRow = produce(oldRow, (draft) => {
@@ -21,7 +22,7 @@ export function updateEditedWp(oldRow, changes, data) {
     if (newDescription) draft.description = newDescription;
     if (newDayLoading) draft.dayLoading = newDayLoading;
     if (newDays) {
-      updateDays(draft, newDays);
+      updateDays(draft, newDays, reset);
       spreadWork(draft);
     }
     let bars = newBars;
@@ -36,18 +37,10 @@ export function updateEditedWp(oldRow, changes, data) {
       updateNumberOfBars(draft, bars);
     }
   });
-
-  const newData = data.map((row) => {
-    if (newRow.rowId === row.rowId) {
-      return newRow;
-    }
-    return row;
-  });
-  return newData;
+  return newRow;
 }
 
-function updateDays(draftRow, days) {
-  // must take a 'copy' from immer
+function updateDays(draftRow, days, reset) {
   let alerted = false;
   draftRow.days = days;
   const schedule = draftRow.schedule;
@@ -58,7 +51,7 @@ function updateDays(draftRow, days) {
       schedule[i].status = false;
       schedule[i].value = 0;
       schedule[i].barNumber = 0;
-      if (!alerted) {
+      if (!alerted && !reset) {
         alerted = true;
         toast.info("Decreased length of bars", {
           position: toast.POSITION.TOP_RIGHT,
@@ -79,7 +72,6 @@ export function wPUpdateDays(oldRow, days) {
 }
 
 function updateNumberOfBars(row, numberOfBars) {
-  console.log("update");
   const schedule = row.schedule;
   let barNumber = 1;
   for (let i = 0; i < schedule.length - 1; i = i + 2) {
@@ -120,7 +112,6 @@ export function spreadWork(row) {
 }
 
 export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
-  // console.log(newValue, oldValue, blockIndex);
   const change = newValue - oldValue;
   const newDays = oldRow.days + change;
   const newRow = produce(oldRow, (draft) => {

@@ -13,12 +13,10 @@ import {
 
 export const wPFetchRequest = createAction("wPFetchRequest");
 export const wPFetchSuccess = createAction("wPFetchSuccess");
-// sort schedule by index to ensure correct order
 export const wPFetchFailure = createAction("wPFetchFailure");
 export const wPRowAdded = createAction("wPRowAdded");
 export const wPRowRemoved = createAction("wPRowRemoved");
-// export const wPScheduleUpdated = createAction("wPScheduleUpdated");
-// export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
+export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
 export const wPReorderRows = createAction("wPReorderRows");
 export const wPChangeKeyValue = createAction("wPChangeKeyValue");
 export const wPDaysUpdated = createAction("wPDaysUpdated");
@@ -72,7 +70,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
         ...state,
         data: reordered,
       };
-    case wPBarMoved.type: 
+    case wPBarMoved.type:
       return {
         ...state,
         data: state.data.map((row) => {
@@ -82,21 +80,6 @@ export default function workPackageReducer(state = wPDummyData, action) {
           return row;
         }),
       };
-    // case wPScheduleUpdated.type:
-    //   // console.log(action.payload);
-    //   const updatedRow = wPScheduleHelper(
-    //     action.payload.row,
-    //     action.payload.result
-    //   );
-    //   return {
-    //     ...state,
-    //     data: state.data.map((row) => {
-    //       if (row.rowId === action.payload.row.rowId) {
-    //         return updatedRow;
-    //       }
-    //       return row;
-    //     }),
-    //   };
     case wPRowAdded.type:
       const { projectLength, title } = action.payload;
       const newRow = wPCreateNewRow(projectLength, title);
@@ -138,14 +121,20 @@ export default function workPackageReducer(state = wPDummyData, action) {
         }),
       };
     case wPEdited.type:
-      const newData = updateEditedWp( // map over state in the reducer not this function
+      const editedRow = updateEditedWp(
+        // map over state in the reducer not this function
         action.payload.row,
-        action.payload.changes,
-        state.data // don't send this
+        action.payload.changes
+        // state.data // don't send this
       );
       return {
         ...state,
-        data: newData,
+        data: state.data.map((row) => {
+          if (editedRow.rowId === row.rowId) {
+            return editedRow;
+          }
+          return row;
+        }),
       };
     case wPBlockUpdated.type:
       const { newValue, oldValue, blockIndex } = action.payload;
