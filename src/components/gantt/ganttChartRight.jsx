@@ -58,7 +58,7 @@ function GanttChartRight(props) {
           <div className="divider">
             {daysPerMonth.map((month, index) => {
               return (
-                <div key={index} className="monthTotal">
+                <div key={index} className="monthTotalDays">
                   <h3>{month ? month : null}</h3>
                 </div>
               );
@@ -92,7 +92,7 @@ const PageContainer = styled.div`
     display: flex;
     align-items: flex-start;
   }
-  .monthTotal {
+  .monthTotalDays {
     width: ${monthWidth};
     height: 30px;
     flex-shrink: 0;

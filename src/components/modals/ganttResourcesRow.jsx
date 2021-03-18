@@ -8,7 +8,6 @@ function ResourcesRow(props) {
 
   let taskPercentage = 0;
   for (const person in row.resources) {
-    // console.log(`${person}: ${resources[person]}`);
     if (row.resources[person] > 0) taskPercentage += row.resources[person];
   }
 
@@ -20,7 +19,6 @@ function ResourcesRow(props) {
       : "over total";
 
   function onChangeHandler(e, rowId, person) {
-    console.log(e.target.value, rowId, person);
     dispatch(
       wPResourcesUpdated({
         name: person,

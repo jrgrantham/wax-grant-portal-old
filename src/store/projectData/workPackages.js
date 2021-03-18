@@ -154,7 +154,6 @@ export default function workPackageReducer(state = wPDummyData, action) {
         }),
       };
     case wPTitleChanged.type:
-      console.log(action.payload);
       return {
         ...state,
         data: state.data.map((row) => {
@@ -168,9 +167,7 @@ export default function workPackageReducer(state = wPDummyData, action) {
         }),
       };
     case wPResourcesUpdated.type:
-      console.log(action.payload);
       const { name, value } = action.payload;
-      console.log(name, value);
       return {
         ...state,
         data: state.data.map((row) => {

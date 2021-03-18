@@ -23,8 +23,6 @@ export function resizeBar(data, barDiv, e) {
   const offset = barDiv.offsetLeft - e.clientX;
   const originalPosition = e.clientX + offset;
 
-  console.log(e.target);
-
   let blockCount = data.blockCount;
   let width;
   let origStartIndex = startPosition / blockWidth;
@@ -90,7 +88,6 @@ export function resizeBar(data, barDiv, e) {
 
   function updateRow() {
     const newLength = currentCombinedLengthOfBars(row.schedule) + change;
-    console.log(change);
     if (newLength > row.days) {
       toast.info("Increased number of days", {
         position: toast.POSITION.TOP_RIGHT,
