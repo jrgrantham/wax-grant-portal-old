@@ -56,7 +56,6 @@ function GanttWPRowSchedule(props) {
     const endOfSched = currentMonth && i === schedule.length - 1;
     const endOfBar = lastMonth === true && currentMonth === false
     if (endOfBar || endOfSched) {
-      // if (lastMonth === true && currentMonth === false || i === schedule.length - 1) {
       const prefix = bars[currentBarIndex][blockIndex - 1].blockNumber.slice(
         0,
         2
@@ -82,7 +81,7 @@ function GanttWPRowSchedule(props) {
             row={row}
             wpIndex={wpIndex}
             rowIndex={rowIndex}
-            barNumber={index}
+            barNumber={index + 1}
             bar={bar}
           />
         );

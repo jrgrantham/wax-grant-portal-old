@@ -16,11 +16,14 @@ export function resizeBar(data, barDiv, e) {
     rightObstruction,
     barWidth,
     startPosition,
+    barNumber,
     setShowBlock,
   } = data;
   const handle = e.target.id.slice(-3);
   const offset = barDiv.offsetLeft - e.clientX;
   const originalPosition = e.clientX + offset;
+
+  console.log(e.target);
 
   let blockCount = data.blockCount;
   let width;
@@ -69,20 +72,25 @@ export function resizeBar(data, barDiv, e) {
     setSize(null);
     if (!width) return; // undefined if no movement
     const newBlockCount = Math.floor(width / blockWidth + 0.5);
-    change = newBlockCount - blockCount;
     if (handle === "rgt" && blockCount !== newBlockCount) {
+      change = newBlockCount - blockCount;
       newEndIndex = newBlockCount + startPosition / blockWidth - 1;
       updateRow();
     } else if (handle === "rgt") setSize(blockCount * blockWidth);
-    else if (handle === "lft") {
+    else if (handle === "lft" && blockCount !== newBlockCount) {
+      change = newBlockCount - blockCount;
       newStartIndex = origStartIndex - change;
       setPosition(newStartIndex * blockWidth);
       updateRow();
-    }
+    } else if (handle === "lft") {
+      setSize(blockCount * blockWidth)
+    };
+    
   }
 
   function updateRow() {
     const newLength = currentCombinedLengthOfBars(row.schedule) + change;
+    console.log(change);
     if (newLength > row.days) {
       toast.info("Increased number of days", {
         position: toast.POSITION.TOP_RIGHT,
@@ -102,19 +110,17 @@ export function resizeBar(data, barDiv, e) {
     const latest = Math.max(origEndIndex, newEndIndex);
     let workingDay = false;
     let started = false;
-    let barNumber = 0;
     for (let i = earliest; i <= latest; i++) {
       if (!started && i >= newStartIndex) {
         workingDay = true;
         started = true;
-        barNumber = row.schedule[i].barNumber;
       }
       if (started && i > newEndIndex) {
         workingDay = false;
-        barNumber = 0;
       }
       row.schedule[i].status = workingDay;
-      row.schedule[i].barNumber = barNumber;
+      if (workingDay) row.schedule[i].barNumber = barNumber;
+      else row.schedule[i].barNumber = 0;
     }
   }
 }

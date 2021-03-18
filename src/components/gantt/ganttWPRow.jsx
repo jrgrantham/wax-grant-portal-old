@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
 
-import EditModal from "./ganttModalEdit";
-import ResourcesModal from "../ganttResourcesModal/ganttResourcesModal";
+import EditModal from "../modals/ganttModalEdit";
+import ResourcesModal from "../modals/ganttResourcesModal";
 import {
   wPChangeKeyValue,
   wPDaysUpdated,

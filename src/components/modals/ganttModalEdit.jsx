@@ -80,7 +80,7 @@ function EditModal(props) {
   });
 
   const deleteWP = (
-    <div className="confirmDelete">
+    <div className="twoButtons">
       <button className="cancel" onClick={() => setConfirmDelete(false)}>
         Cancel
       </button>
@@ -292,7 +292,7 @@ const Container = styled.div`
     padding: 10px;
   }
 
-  /* .confirmDelete {
+  /* .twoButtons {
     display: flex;
     justify-content: flex-end;
     width: 175px;

@@ -40,6 +40,7 @@ function GanttWPBar(props) {
     barWidth,
     startPosition,
     blockCount,
+    barNumber,
     setShowBlock
   };
 

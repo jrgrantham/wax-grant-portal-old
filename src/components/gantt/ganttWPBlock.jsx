@@ -85,12 +85,12 @@ const Container = styled.div`
     opacity: 0;
     transition: opacity 0.3s;
     position: absolute;
-    height: 20px;
-    width: 10px;
+    height: 22px;
+    width: 12px;
     background-color: ${wpBarColor};
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    z-index: 3;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 35%;
+    /* z-index: 3; */
     cursor: col-resize;
   }
   .right {

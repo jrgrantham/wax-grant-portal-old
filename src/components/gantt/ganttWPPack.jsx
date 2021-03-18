@@ -11,7 +11,7 @@ import {
 } from "../../store/projectData/workPackages";
 import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
 import GanttRowWork from "./ganttWPRow";
-import EditModal from "./ganttModalEdit";
+import EditModal from "../modals/ganttModalEdit";
 
 function GanttPackWork(props) {
   const title = props.title;
