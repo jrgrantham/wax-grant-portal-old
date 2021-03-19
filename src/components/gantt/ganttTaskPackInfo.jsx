@@ -9,9 +9,9 @@ import {
   wPRowAdded,
   wPTitleChanged,
 } from "../../store/projectData/workPackages";
-import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
-import GanttRowWork from "./ganttWPRow";
-import EditModal from "../modals/ganttModalEdit";
+import { dAndMReorderRows } from "../../store/projectData/deadlines";
+import GanttRowWork from "./ganttTaskRowInfo";
+import EditModal from "../modals/ganttEditModal";
 
 function GanttPackWork(props) {
   const title = props.title;
@@ -30,8 +30,8 @@ function GanttPackWork(props) {
 
   function calculateDays() {
     let days = 0;
-    packData.forEach((row) => {
-      days += row.days;
+    packData.forEach((task) => {
+      days += task.days;
     });
     return days;
   }
@@ -40,9 +40,9 @@ function GanttPackWork(props) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     const movement = result.destination.index - result.source.index;
-    const row = packData[result.source.index];
-    if (isWP) dispatch(wPReorderRows({ row, movement }));
-    else dispatch(dAndMReorderRows({ rowId: row.rowId, movement }));
+    const task = packData[result.source.index];
+    if (isWP) dispatch(wPReorderRows({ task, movement }));
+    else dispatch(dAndMReorderRows({ taskId: task.taskId, movement }));
   }
 
   function handleEditTitle(value) {
@@ -82,7 +82,9 @@ function GanttPackWork(props) {
         ) : (
           <>
             {/* <button onClick={() => setEditTitleWindow(true)}> */}
-            <h3 className='title' onClick={() => setEditTitleWindow(true)}>{title}</h3>
+            <h3 className="title" onClick={() => setEditTitleWindow(true)}>
+              {title}
+            </h3>
             {/* </button> */}
             <div className="info">
               <h3 className="resources">Resources</h3>
@@ -95,11 +97,11 @@ function GanttPackWork(props) {
         <Droppable droppableId={title}>
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {packData.map((row, index) => {
+              {packData.map((task, index) => {
                 return (
                   <Draggable
-                    key={row.rowId}
-                    draggableId={row.rowId}
+                    key={task.taskId}
+                    draggableId={task.taskId}
                     index={index}
                   >
                     {(provided) => (
@@ -112,7 +114,7 @@ function GanttPackWork(props) {
                           allTitles={props.allTitles}
                           provided={provided}
                           key={index}
-                          row={row}
+                          task={task}
                           isWP={isWP}
                         />
                       </div>

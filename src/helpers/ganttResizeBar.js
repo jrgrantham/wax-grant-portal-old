@@ -10,7 +10,7 @@ toast.configure();
 
 export function resizeBar(data, barDiv, e) {
   const {
-    row,
+    task,
     blockWidth,
     leftObstruction,
     rightObstruction,
@@ -87,22 +87,22 @@ export function resizeBar(data, barDiv, e) {
   }
 
   function updateRow() {
-    const newLength = currentCombinedLengthOfBars(row.schedule) + change;
-    if (newLength > row.days) {
+    const newLength = currentCombinedLengthOfBars(task.schedule) + change;
+    if (newLength > task.days) {
       toast.info("Increased number of days", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
       });
     }
-    const updatedRow = produce(row, (draft) => {
-      draft.days = Math.max(newLength, row.days);
-      draft.row = updateBar(draft);
+    const updatedRow = produce(task, (draft) => {
+      draft.days = Math.max(newLength, task.days);
+      draft.task = updateBar(draft);
       spreadWork(draft);
     });
     store.dispatch(wPBarMoved(updatedRow));
   }
 
-  function updateBar(row) {
+  function updateBar(task) {
     const earliest = Math.min(origStartIndex, newStartIndex);
     const latest = Math.max(origEndIndex, newEndIndex);
     let workingDay = false;
@@ -115,9 +115,9 @@ export function resizeBar(data, barDiv, e) {
       if (started && i > newEndIndex) {
         workingDay = false;
       }
-      row.schedule[i].status = workingDay;
-      if (workingDay) row.schedule[i].barNumber = barNumber;
-      else row.schedule[i].barNumber = 0;
+      task.schedule[i].status = workingDay;
+      if (workingDay) task.schedule[i].barNumber = barNumber;
+      else task.schedule[i].barNumber = 0;
     }
   }
 }

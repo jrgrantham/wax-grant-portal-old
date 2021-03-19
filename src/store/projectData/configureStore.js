@@ -5,7 +5,7 @@ import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 import workPackageReducer from "./workPackages";
-import delsAndMilsReducer from "./delsAndMils";
+import deadlinesReducer from "./deadlines";
 import projectReducer from "./project";
 import teamReducer from "./team";
 import { userReducer } from "./user";
@@ -14,7 +14,7 @@ import { userReducer } from "./user";
 const rootReducer = combineReducers({
   workPackages: workPackageReducer,
   user: userReducer,
-  delsAndMils: delsAndMilsReducer,
+  deadlines: deadlinesReducer,
   project: projectReducer,
   team: teamReducer,
 });
@@ -33,6 +33,6 @@ const rootReducer = combineReducers({
 //   return store
 // };
 
-export default function store () {
+export default function store() {
   return configureStore({ reducer: rootReducer });
 }

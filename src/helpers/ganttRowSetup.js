@@ -71,8 +71,8 @@ export function wPUpdateDays(oldRow, days) {
   return newRow;
 }
 
-function updateNumberOfBars(row, numberOfBars) {
-  const schedule = row.schedule;
+function updateNumberOfBars(task, numberOfBars) {
+  const schedule = task.schedule;
   let barNumber = 1;
   for (let i = 0; i < schedule.length - 1; i = i + 2) {
     schedule[i].value = 0;
@@ -89,14 +89,14 @@ function updateNumberOfBars(row, numberOfBars) {
       schedule[i + 1].barNumber = 0;
     }
   }
-  spreadWork(row);
-  return row;
+  spreadWork(task);
+  return task;
 }
 
-export function spreadWork(row) {
-  const days = row.days;
-  const schedule = row.schedule;
-  const duration = currentCombinedLengthOfBars(row.schedule);
+export function spreadWork(task) {
+  const days = task.days;
+  const schedule = task.schedule;
+  const duration = currentCombinedLengthOfBars(task.schedule);
   const Months = Math.floor(days / duration);
   const remainderMonths = days % duration;
   let j = 0;
@@ -108,7 +108,7 @@ export function spreadWork(row) {
       } else schedule[i].value = Months;
     } else schedule[i].value = 0;
   }
-  return row;
+  return task;
 }
 
 export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
@@ -125,9 +125,9 @@ export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
 const newTitle = "Rename this title in place...";
 export function wPCreateNewRow(scheduleLength, title = newTitle) {
   const newRow = {
-    rowId: uuidv4(), // use this but don't send to server
+    taskId: uuidv4(), // use this but don't send to server
     workPackageTitle: title,
-    description: "edit this row in place...",
+    description: "edit this task in place...",
     days: 1, // default
     dayLoading: "front", // default
     sortPosition: 0, // should sort its self out...
@@ -154,10 +154,10 @@ export function wPCreateNewRow(scheduleLength, title = newTitle) {
 
 export function dAndMCreateNewRow(type, scheduleLength) {
   const newRow = {
-    rowId: uuidv4(),
+    taskId: uuidv4(),
     sortPosition: 0,
     type,
-    description: "edit this row in place...",
+    description: "edit this task in place...",
     schedule: [],
   };
   for (let i = 0; i < scheduleLength; i++) {

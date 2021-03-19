@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import WPBlock from "./ganttWPBlock";
+import WPBlock from "./ganttTaskBlock";
 import {
   leadingZero,
   monthWidth,
@@ -15,25 +15,25 @@ toast.configure();
 
 function GanttWPBar(props) {
   const [showBlock, setShowBlock] = useState(true);
-  const { row, bar, wpIndex, rowIndex, barNumber } = props;
+  const { task, bar, wpIndex, taskIndex, barNumber } = props;
   const { leftObstruction, rightObstruction, blockCount, startIndex } = bar;
 
   const wpCode = leadingZero(wpIndex);
-  const rowCode = leadingZero(rowIndex);
+  const taskCode = leadingZero(taskIndex);
   const barCode = leadingZero(barNumber);
-  const barId = "bar-" + wpCode + "-" + rowCode + "-" + barCode;
+  const barId = "bar-" + wpCode + "-" + taskCode + "-" + barCode;
 
   const leftHandle =
-    "handle-" + wpCode + "-" + rowCode + "-" + barCode + "-lft";
+    "handle-" + wpCode + "-" + taskCode + "-" + barCode + "-lft";
   const rightHandle =
-    "handle-" + wpCode + "-" + rowCode + "-" + barCode + "-rgt";
+    "handle-" + wpCode + "-" + taskCode + "-" + barCode + "-rgt";
   const blockWidth = monthWidth.slice(0, 2);
 
   const startPosition = startIndex * blockWidth;
   const barWidth = blockWidth * blockCount;
 
   const data = {
-    row,
+    task,
     blockWidth,
     leftObstruction,
     rightObstruction,
@@ -62,7 +62,7 @@ function GanttWPBar(props) {
       {bar.map((block, index) => (
         <WPBlock
           key={index}
-          row={row}
+          task={task}
           block={block}
           blockIndex={startIndex + index}
           leftHandle={leftHandle}

@@ -54,12 +54,12 @@ export default function workPackageReducer(state = wPDummyData, action) {
         error: "failed to fetch gantt",
       };
     case wPReorderRows.type:
-      const rowId = action.payload.row.rowId;
+      const taskId = action.payload.task.taskId;
       const originalIndex = state.data
         .map(function (obj) {
-          return obj.rowId;
+          return obj.taskId;
         })
-        .indexOf(rowId);
+        .indexOf(taskId);
       const newIndex = originalIndex + action.payload.movement;
       const reordered = reorderArrayByIndex(
         state.data,
@@ -73,11 +73,11 @@ export default function workPackageReducer(state = wPDummyData, action) {
     case wPBarMoved.type:
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.rowId) {
+        data: state.data.map((task) => {
+          if (task.taskId === action.payload.taskId) {
             return action.payload;
           }
-          return row;
+          return task;
         }),
       };
     case wPRowAdded.type:
@@ -90,97 +90,97 @@ export default function workPackageReducer(state = wPDummyData, action) {
     case wPRowRemoved.type:
       return {
         ...state,
-        data: state.data.filter((row) => row.rowId !== action.payload),
+        data: state.data.filter((task) => task.taskId !== action.payload),
       };
     case wPChangeKeyValue.type:
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.rowId) {
+        data: state.data.map((task) => {
+          if (task.taskId === action.payload.taskId) {
             const updatedRow = {
-              ...row,
+              ...task,
               [action.payload.key]: action.payload.value,
             };
             return updatedRow;
           }
-          return row;
+          return task;
         }),
       };
     case wPDaysUpdated.type: // spreads the work
       const updatedDaysRow = wPUpdateDays(
-        action.payload.row,
+        action.payload.task,
         action.payload.days
       );
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.row.rowId) {
+        data: state.data.map((task) => {
+          if (task.taskId === action.payload.task.taskId) {
             return updatedDaysRow;
           }
-          return row;
+          return task;
         }),
       };
     case wPEdited.type:
       const editedRow = updateEditedWp(
         // map over state in the reducer not this function
-        action.payload.row,
+        action.payload.task,
         action.payload.changes
         // state.data // don't send this
       );
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (editedRow.rowId === row.rowId) {
+        data: state.data.map((task) => {
+          if (editedRow.taskId === task.taskId) {
             return editedRow;
           }
-          return row;
+          return task;
         }),
       };
     case wPBlockUpdated.type:
       const { newValue, oldValue, blockIndex } = action.payload;
       const updatedBlockRow = wPUpdateBlock(
-        action.payload.row,
+        action.payload.task,
         newValue,
         oldValue,
         blockIndex
       );
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.row.rowId) {
+        data: state.data.map((task) => {
+          if (task.taskId === action.payload.task.taskId) {
             return updatedBlockRow;
           }
-          return row;
+          return task;
         }),
       };
     case wPTitleChanged.type:
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (row.workPackageTitle === action.payload.oldTitle) {
+        data: state.data.map((task) => {
+          if (task.workPackageTitle === action.payload.oldTitle) {
             return {
-              ...row,
+              ...task,
               workPackageTitle: action.payload.newTitle,
             };
           }
-          return row;
+          return task;
         }),
       };
     case wPResourcesUpdated.type:
       const { name, value } = action.payload;
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.rowId) {
+        data: state.data.map((task) => {
+          if (task.taskId === action.payload.taskId) {
             return {
-              ...row,
+              ...task,
               resources: {
-                ...row.resources,
+                ...task.resources,
                 [name]: value,
               },
             };
           }
-          return row;
+          return task;
         }),
       };
     default:

@@ -1,6 +1,6 @@
 import configureStore from "./projectData/configureStore";
 // import { wPDaysUpdated } from "./projectData/workPackages";
-// import { dAndMRowAdded, dAndMChangedDate } from './projectData/delsAndMils';
+// import { dAndMRowAdded, dAndMChangedDate } from './projectData/deadlines';
 
 // import {wPDummyData} from '../data/wPData'
 // import {dMDummyData} from '../data/dMData'

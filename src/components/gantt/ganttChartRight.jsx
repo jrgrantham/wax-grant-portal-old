@@ -3,8 +3,8 @@ import React from "react";
 import styled from "styled-components";
 
 import GanttScheduleBackground from "./ganttScheduleBackground";
-import GanttWPPackSchedule from "./ganttWPPackSchedule";
-import GanttDMPackSchedule from "./ganttDMPackSchedule";
+import GanttWPPackSchedule from "./ganttTaskPackSchedule";
+import GanttDMPackSchedule from "./ganttDeadlinePackSchedule";
 import { dividerHeight, monthWidth, totalDaysColor } from "../../helpers";
 
 function GanttChartRight(props) {
@@ -45,11 +45,11 @@ function GanttChartRight(props) {
           <GanttScheduleBackground />
           <div className="monthHeaderSpacer"></div>
           {workPackages.length
-            ? workPackages.map((row, index) => {
+            ? workPackages.map((task, index) => {
                 return (
                   <GanttWPPackSchedule
                     key={index}
-                    workPackData={row}
+                    workPackData={task}
                     wpIndex={index}
                   />
                 );

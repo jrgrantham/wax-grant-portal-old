@@ -18,8 +18,8 @@ function numberOfBars(schedule) {
 function EditModal(props) {
   const dispatch = useDispatch();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const row = props.row;
-  const { dayLoading, days, description, workPackageTitle, schedule } = row;
+  const task = props.task;
+  const { dayLoading, days, description, workPackageTitle, schedule } = task;
   const barLimit = Math.ceil(schedule.length / 2);
   const bars = numberOfBars(schedule);
 
@@ -70,7 +70,7 @@ function EditModal(props) {
       };
       dispatch(
         wPEdited({
-          row,
+          task,
           changes,
         })
       );
@@ -92,7 +92,7 @@ function EditModal(props) {
     };
     dispatch(
       wPEdited({
-        row,
+        task,
         changes,
       })
     );
@@ -114,7 +114,7 @@ function EditModal(props) {
               <button className="leftB" onClick={() => setConfirmDelete(false)}>
                 Cancel
               </button>
-              <button onClick={() => dispatch(wPRowRemoved(row.rowId))}>
+              <button onClick={() => dispatch(wPRowRemoved(task.taskId))}>
                 Confirm
               </button>
             </div>

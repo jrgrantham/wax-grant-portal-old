@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
 
-import EditModal from "../modals/ganttModalEdit";
+import EditModal from "../modals/ganttEditModal";
 import ResourcesModal from "../modals/ganttResourcesModal";
 import {
   wPChangeKeyValue,
@@ -14,10 +14,10 @@ import { Container } from "./ganttRowStyling";
 function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
-  const [resourcesModal, setResourcesModal] = useState(true);
-  const { row, provided } = props;
-  const { description, resources, days } = row;
-  const team = useSelector(state => state.team.data)
+  const [resourcesModal, setResourcesModal] = useState(false);
+  const { task, provided } = props;
+  const { description, resources, days } = task;
+  const team = useSelector((state) => state.team.data);
   console.log(team);
 
   let resourcesArray = [];
@@ -35,7 +35,7 @@ function GanttRowWork(props) {
   function handleDescriptionChange(value) {
     dispatch(
       wPChangeKeyValue({
-        rowId: row.rowId,
+        taskId: task.taskId,
         key: "description",
         value,
       })
@@ -45,7 +45,7 @@ function GanttRowWork(props) {
     const lastThreeNumbers = e.target.value.slice(-3);
     const newValue = parseInt(lastThreeNumbers);
     if (newValue < 1) return;
-    dispatch(wPDaysUpdated({ row, days: newValue }));
+    dispatch(wPDaysUpdated({ task, days: newValue }));
   }
 
   return (
@@ -54,11 +54,11 @@ function GanttRowWork(props) {
         <EditModal
           allTitles={props.allTitles}
           setEditModal={setEditModal}
-          row={row}
+          task={task}
         />
       ) : null}
       {resourcesModal ? (
-        <ResourcesModal setResourcesModal={setResourcesModal} row={row} />
+        <ResourcesModal setResourcesModal={setResourcesModal} task={task} />
       ) : null}
       <div className="rowDescription">
         <div {...provided.dragHandleProps} className="hidden menu">

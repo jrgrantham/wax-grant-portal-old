@@ -4,7 +4,7 @@ export const wPDummyData = {
   loading: false,
   data: [
     {
-      rowId: "ganttRow1",
+      taskId: "task1",
       workPackageTitle: "Project Management",
       description: "Description of task 1",
       days: 30,
@@ -201,7 +201,7 @@ export const wPDummyData = {
       ],
     },
     {
-      rowId: "ganttRow2",
+      taskId: "task2",
       workPackageTitle: "Project Management",
       description: "Description of task 2",
       days: 10,
@@ -398,7 +398,7 @@ export const wPDummyData = {
       ],
     },
     {
-      rowId: "ganttRow3",
+      taskId: "task3",
       workPackageTitle: "Different WP",
       description: "Description of task 3",
       days: 6,

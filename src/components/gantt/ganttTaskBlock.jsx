@@ -7,7 +7,7 @@ import { wpBarColor, isNumberKey, checkZero } from "../../helpers";
 
 function GanttWPBlock(props) {
   const dispatch = useDispatch();
-  const { leftHandle, rightHandle, block, row, blockIndex, showBlock } = props;
+  const { leftHandle, rightHandle, block, task, blockIndex, showBlock } = props;
   const { blockNumber, value } = block;
   const blockPosition = blockNumber.slice(-1);
 
@@ -16,7 +16,7 @@ function GanttWPBlock(props) {
     const newValue = parseInt(lastTwoNumbers);
     dispatch(
       wPBlockUpdated({
-        row,
+        task,
         blockIndex,
         newValue,
         oldValue: value,

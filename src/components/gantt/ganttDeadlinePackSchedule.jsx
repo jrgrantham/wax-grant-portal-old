@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { monthWidth, schedGapColor, wpMarginBottom } from "../../helpers";
-import GanttDMRowSchedule from "./ganttDMRowSchedule";
+import GanttDMRowSchedule from "./ganttDeadlineRowSchedule";
 
 function GanttDMPackSchedule(props) {
   const prefix = props.prefix;
@@ -16,13 +16,13 @@ function GanttDMPackSchedule(props) {
   return (
     <Container scheduleWidth={scheduleWidth}>
       <div className="title" />
-      {props.workPackData.map((row, index) => {
+      {props.workPackData.map((task, index) => {
         return (
           <GanttDMRowSchedule
             key={index}
-            row={row}
+            task={task}
             prefix={prefix}
-            rowIndex={index}
+            taskIndex={index}
           />
         );
       })}

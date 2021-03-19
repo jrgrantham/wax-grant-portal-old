@@ -2,10 +2,16 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import GanttPackWork from "./ganttWPPack";
-import GanttPackDelsMils from "./ganttDMPack";
+import GanttPackWork from "./ganttTaskPackInfo";
+import GanttPackdeadlines from "./ganttDeadlinePackInfo";
 import { wPRowAdded } from "../../store/projectData/workPackages";
-import { wpTitleColor, delTitleColor, milTitleColor, dividerHeight, totalDaysColor } from "../../helpers";
+import {
+  wpTitleColor,
+  delTitleColor,
+  milTitleColor,
+  dividerHeight,
+  totalDaysColor,
+} from "../../helpers";
 
 function GanttChartLeft(props) {
   const {
@@ -29,11 +35,11 @@ function GanttChartLeft(props) {
       <div id="details">
         <div className="monthHeaderSpacer"></div>
         {workPackages.length
-          ? workPackages.map((row, index) => {
+          ? workPackages.map((task, index) => {
               return (
                 <GanttPackWork
                   key={index}
-                  workPackData={row}
+                  workPackData={task}
                   titleBarColor={wpTitleColor}
                   title={workPackageTitles[index]}
                   allTitles={workPackageTitles}
@@ -48,12 +54,12 @@ function GanttChartLeft(props) {
             <h3>{totalDays ? totalDays : null}</h3>
           </div>
         </div>
-        <GanttPackDelsMils
+        <GanttPackdeadlines
           workPackData={deliverables}
           titleBarColor={delTitleColor}
           title={"Deliverables"}
         />
-        <GanttPackDelsMils
+        <GanttPackdeadlines
           workPackData={milestones}
           titleBarColor={milTitleColor}
           title={"Milestones"}

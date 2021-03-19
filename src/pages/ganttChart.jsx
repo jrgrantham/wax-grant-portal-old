@@ -7,7 +7,7 @@ import GanttChartLeft from "../components/gantt/ganttChartLeft";
 import GanttChartRight from "../components/gantt/ganttChartRight";
 
 function GanttChart() {
-  const allRows = useSelector((state) => state.workPackages.data);
+  const allTasks = useSelector((state) => state.workPackages.data);
 
   // for testing ------------ could be used on other page
   const people = useSelector((state) => state.team.data);
@@ -15,9 +15,11 @@ function GanttChart() {
   people.forEach((person) => {
     const initials = person.acronym;
     peoplesDays[initials] = 0;
-    allRows.forEach((row) => {
-      const percentage = row.resources[initials] ? row.resources[initials] : 0;
-      const days = (row.days * percentage) / 100;
+    allTasks.forEach((task) => {
+      const percentage = task.resources[initials]
+        ? task.resources[initials]
+        : 0;
+      const days = (task.days * percentage) / 100;
       if (percentage > 0) {
         peoplesDays[initials] = peoplesDays[initials] + days;
       }
@@ -39,17 +41,17 @@ function GanttChart() {
 
   const workPackageTitles = [
     ...new Set(
-      allRows
+      allTasks
         .map((workPackage) => workPackage.workPackageTitle)
         .sort((a, b) => a - b)
     ),
   ];
-  const workPackages = groupByTitle(workPackageTitles, allRows);
+  const workPackages = groupByTitle(workPackageTitles, allTasks);
   const deliverables = useSelector((state) =>
-    state.delsAndMils.data.filter((row) => row.type === "deliverable")
+    state.deadlines.data.filter((task) => task.type === "deliverable")
   );
   const milestones = useSelector((state) =>
-    state.delsAndMils.data.filter((row) => row.type === "milestone")
+    state.deadlines.data.filter((task) => task.type === "milestone")
   );
 
   const projectLength = useSelector(
@@ -60,8 +62,8 @@ function GanttChart() {
   let totalDays = 0;
   for (let i = 0; i < projectLength; i++) {
     let days = 0;
-    for (let j = 0; j < allRows.length; j++) {
-      const currentDay = allRows[j].schedule[i].value;
+    for (let j = 0; j < allTasks.length; j++) {
+      const currentDay = allTasks[j].schedule[i].value;
       days += currentDay;
       totalDays += currentDay;
     }

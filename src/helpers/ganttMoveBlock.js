@@ -1,13 +1,11 @@
 import { store } from "../store";
-import {
-  dAndMChangeKeyValue,
-} from "../store/projectData/delsAndMils";
+import { dAndMChangeKeyValue } from "../store/projectData/deadlines";
 
 export function moveBlock(data, e, blockDiv) {
   document.addEventListener("mouseup", dropBlock, false);
   document.addEventListener("mousemove", handleMouseMove, false);
 
-  const { scheduleLength, blockWidth, position, rowId } = data;
+  const { scheduleLength, blockWidth, position, taskId } = data;
   const leftObstruction = 0;
   const rightObstruction = scheduleLength - 1;
 
@@ -32,9 +30,9 @@ export function moveBlock(data, e, blockDiv) {
     if (mousePosition !== undefined && newIndex !== originalIndex) {
       // blockDiv.style.left = `${newIndex * 40}px`;
       store.dispatch(
-        dAndMChangeKeyValue({ rowId, key: "scheduled", value: newIndex })
+        dAndMChangeKeyValue({ taskId, key: "scheduled", value: newIndex })
       );
     }
-    blockDiv.style.left = null
+    blockDiv.style.left = null;
   }
 }

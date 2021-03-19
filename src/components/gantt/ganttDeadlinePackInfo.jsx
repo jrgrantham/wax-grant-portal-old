@@ -2,31 +2,34 @@ import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 
-import GanttRowDelsMils from "./ganttDMRow";
-import { dAndMReorderRows, dAndMRowAdded } from "../../store/projectData/delsAndMils";
+import GanttRowdeadlines from "./ganttDeadlineRowInfo";
+import {
+  dAndMReorderRows,
+  dAndMRowAdded,
+} from "../../store/projectData/deadlines";
 
 import { Container } from "./ganttPackStyling";
 
-function GanttPackDelsMils(props) {
+function GanttPackdeadlines(props) {
   const title = props.title;
   const packData = props.workPackData;
   const dispatch = useDispatch();
   const isWP = !(title === "Deliverables" || title === "Milestones");
 
-  const { projectLength } = useSelector((state) => state.project.data); // needed for new row
+  const { projectLength } = useSelector((state) => state.project.data); // needed for new task
 
   function handleAddNewRow() {
-    const type = title.toLowerCase().slice(0, -1)
+    const type = title.toLowerCase().slice(0, -1);
     dispatch(dAndMRowAdded({ projectLength, type }));
-    // need add row function for dels and mils
+    // need add task function for dels and mils
   }
 
   function handleMovingRow(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     const movement = result.destination.index - result.source.index;
-    const row = packData[result.source.index];
-    dispatch(dAndMReorderRows({ rowId: row.rowId, movement }));
+    const task = packData[result.source.index];
+    dispatch(dAndMReorderRows({ taskId: task.taskId, movement }));
   }
 
   return (
@@ -38,11 +41,11 @@ function GanttPackDelsMils(props) {
         <Droppable droppableId={title}>
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {packData.map((row, index) => {
+              {packData.map((task, index) => {
                 return (
                   <Draggable
-                    key={row.rowId}
-                    draggableId={row.rowId}
+                    key={task.taskId}
+                    draggableId={task.taskId}
                     index={index}
                   >
                     {(provided) => (
@@ -51,10 +54,10 @@ function GanttPackDelsMils(props) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                       >
-                        <GanttRowDelsMils
+                        <GanttRowdeadlines
                           provided={provided}
                           key={index}
-                          row={row}
+                          task={task}
                           isWP={isWP}
                         />
                       </div>
@@ -73,4 +76,4 @@ function GanttPackDelsMils(props) {
     </Container>
   );
 }
-export default GanttPackDelsMils;
+export default GanttPackdeadlines;

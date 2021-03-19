@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-import GanttBar from "./ganttWPBar";
+import GanttBar from "./ganttTaskBar";
 import { leadingZero } from "../../helpers";
 
 function GanttWPRowSchedule(props) {
-  const { row, wpIndex, rowIndex } = props;
-  const schedule = props.row.schedule;
+  const { task, wpIndex, taskIndex } = props;
+  const schedule = props.task.schedule;
 
   const bars = [];
   let newBar = false;
@@ -78,9 +78,9 @@ function GanttWPRowSchedule(props) {
         return (
           <GanttBar
             key={index}
-            row={row}
+            task={task}
             wpIndex={wpIndex}
-            rowIndex={rowIndex}
+            taskIndex={taskIndex}
             barNumber={index + 1}
             bar={bar}
           />

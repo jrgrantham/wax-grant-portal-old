@@ -13,30 +13,30 @@ export const dMDummyData = {
   loading: false,
   data: [
     {
-      rowId: "mil1",
+      taskId: "mil1",
       sortPosition: 0,
-      type: 'milestone',
+      type: "milestone",
       description: "Description of milestone 1",
       scheduled: 5,
     },
     {
-      rowId: "mil2",
+      taskId: "mil2",
       sortPosition: 1,
-      type: 'milestone',
+      type: "milestone",
       description: "Description of milestone 2",
       scheduled: 8,
     },
     {
-      rowId: "del3",
+      taskId: "del3",
       sortPosition: 2,
-      type: 'deliverable',
+      type: "deliverable",
       description: "Description of deliverable 3",
       scheduled: 6,
     },
     {
-      rowId: "del4",
+      taskId: "del4",
       sortPosition: 3,
-      type: 'deliverable',
+      type: "deliverable",
       description: "Description of deliverable 4",
       scheduled: 2,
     },
@@ -45,17 +45,17 @@ export const dMDummyData = {
 };
 
 export const singleMilOne = {
-  rowId: "mil3",
+  taskId: "mil3",
   sortPosition: 0,
-  type: 'milestone',
+  type: "milestone",
   description: "Description of milestone 3",
   scheduled: 5,
-}
+};
 
 export const singleMilTwo = {
-  rowId: "mil4",
+  taskId: "mil4",
   sortPosition: 0,
-  type: 'milestone',
+  type: "milestone",
   description: "Description of milestone 4",
   scheduled: 5,
-}
+};

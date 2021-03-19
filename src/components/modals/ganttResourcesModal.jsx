@@ -30,10 +30,10 @@ function ResourcesModal(props) {
           <h3 className="total">Total</h3>
         </div>
 
-        {allTasks.map((row, index) => {
+        {allTasks.map((task, index) => {
           return (
             <ResourcesRow
-              row={row}
+              task={task}
               index={index}
               key={index}
               allPeople={allPeople}

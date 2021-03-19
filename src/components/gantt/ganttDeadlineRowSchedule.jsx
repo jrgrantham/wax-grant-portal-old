@@ -11,10 +11,10 @@ import {
 } from "../../helpers";
 
 function GanttDMRowSchedule(props) {
-  const { row, prefix, rowIndex } = props;
-  const scheduled = props.row.scheduled;
-  const reference = prefix + (rowIndex + 1);
-  const blockId = "Block-" + prefix + "-" + leadingZero(rowIndex + 1);
+  const { task, prefix, taskIndex } = props;
+  const scheduled = props.task.scheduled;
+  const reference = prefix + (taskIndex + 1);
+  const blockId = "Block-" + prefix + "-" + leadingZero(taskIndex + 1);
   const blockColor = prefix === "D" ? delTitleColor : milTitleColor;
   const blockWidth = monthWidth.slice(0, 2);
   const position = blockWidth * scheduled + "px";
@@ -23,7 +23,7 @@ function GanttDMRowSchedule(props) {
     scheduleLength: 20,
     blockWidth,
     position,
-    rowId: row.rowId,
+    taskId: task.taskId,
   };
 
   useEffect(() => {
@@ -39,7 +39,7 @@ function GanttDMRowSchedule(props) {
 
   return (
     <Container blockColor={blockColor} position={position}>
-      <div className="block" id={blockId} >
+      <div className="block" id={blockId}>
         <p className="active">{reference}</p>
       </div>
     </Container>
@@ -55,7 +55,7 @@ const Container = styled.div`
 
   .block {
     position: absolute;
-    left: ${props => props.position};
+    left: ${(props) => props.position};
     width: ${monthWidth};
     margin: 0;
     display: flex;

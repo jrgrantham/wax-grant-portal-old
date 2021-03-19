@@ -7,21 +7,21 @@ import {
   dAndMRowRemoved,
   // dAndMChangedDate,
   dAndMChangeKeyValue,
-} from "../../store/projectData/delsAndMils";
+} from "../../store/projectData/deadlines";
 
 function GanttRowDetails(props) {
   const dispatch = useDispatch();
   const projectDates = useSelector((state) => state.project.data.dates);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const { row, provided } = props;
-  const { description, scheduled } = row;
+  const { task, provided } = props;
+  const { description, scheduled } = task;
 
   const dateIndex = scheduled;
 
   function handleDescriptionChange(value) {
     dispatch(
       dAndMChangeKeyValue({
-        rowId: row.rowId,
+        taskId: task.taskId,
         key: "description",
         value,
       })
@@ -30,7 +30,7 @@ function GanttRowDetails(props) {
   function handleDateChange(value) {
     dispatch(
       dAndMChangeKeyValue({
-        rowId: row.rowId,
+        taskId: task.taskId,
         key: "scheduled",
         value,
       })
@@ -59,7 +59,7 @@ function GanttRowDetails(props) {
             <button className="cancel" onClick={() => setConfirmDelete(false)}>
               Cancel
             </button>
-            <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
+            <button onClick={() => dispatch(dAndMRowRemoved(task.taskId))}>
               Confirm
             </button>
           </div>

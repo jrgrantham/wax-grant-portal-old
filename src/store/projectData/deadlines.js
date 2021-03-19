@@ -2,10 +2,7 @@
 import { createAction } from "@reduxjs/toolkit";
 
 import { dMDummyData } from "../../data";
-import {
-  reorderArrayByIndex,
-  dAndMCreateNewRow,
-} from "../../helpers";
+import { reorderArrayByIndex, dAndMCreateNewRow } from "../../helpers";
 
 // actions
 
@@ -23,8 +20,8 @@ export const dAndMChangeKeyValue = createAction("dAndMChangeKeyValue");
 //   error: "",
 // };
 
-export default function delsAndMilsReducer(state = dMDummyData, action) {
-// export default function delsAndMilsReducer(state = initialState, action) {
+export default function deadlinesReducer(state = dMDummyData, action) {
+  // export default function deadlinesReducer(state = initialState, action) {
   switch (action.type) {
     case dAndMFetchRequest.type:
       return {
@@ -47,9 +44,9 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
     case dAndMReorderRows.type:
       const originalIndex = state.data
         .map(function (obj) {
-          return obj.rowId;
+          return obj.taskId;
         })
-        .indexOf(action.payload.rowId);
+        .indexOf(action.payload.taskId);
       const newIndex = originalIndex + action.payload.movement;
       const reordered = reorderArrayByIndex(
         state.data,
@@ -70,20 +67,20 @@ export default function delsAndMilsReducer(state = dMDummyData, action) {
     case dAndMRowRemoved.type:
       return {
         ...state,
-        data: state.data.filter((row) => row.rowId !== action.payload),
+        data: state.data.filter((task) => task.taskId !== action.payload),
       };
     case dAndMChangeKeyValue.type:
       return {
         ...state,
-        data: state.data.map((row) => {
-          if (row.rowId === action.payload.rowId) {
+        data: state.data.map((task) => {
+          if (task.taskId === action.payload.taskId) {
             const updatedRow = {
-              ...row,
+              ...task,
               [action.payload.key]: action.payload.value,
             };
             return updatedRow;
           }
-          return row;
+          return task;
         }),
       };
     default:

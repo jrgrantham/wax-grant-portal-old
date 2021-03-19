@@ -8,7 +8,7 @@ export function moveBar(data, bar, e) {
     leftObstruction,
     rightObstruction,
     barWidth,
-    row,
+    task,
     blockCount,
   } = data;
 
@@ -26,7 +26,7 @@ export function moveBar(data, bar, e) {
     bar.style.left = null
     const newIndex = Math.floor(position / blockWidth + 0.5);
     if (mousePosition !== undefined && newIndex !== originalIndex) {
-      const updatedRow = updateRow(row, originalIndex, newIndex, blockCount);
+      const updatedRow = updateRow(task, originalIndex, newIndex, blockCount);
       store.dispatch(wPBarMoved(updatedRow));
     }
   }
@@ -44,12 +44,12 @@ export function moveBar(data, bar, e) {
   }
 }
 
-function updateRow(row, originalIndex, newIndex, blockCount) {
-  const newRow = produce(row, (draft) => {
+function updateRow(task, originalIndex, newIndex, blockCount) {
+  const newRow = produce(task, (draft) => {
     const movement = newIndex - originalIndex;
     const item = draft.schedule.splice(originalIndex, blockCount);
     draft.schedule.splice(originalIndex + movement, 0, ...item);
-    for (let i = 0; i < row.schedule.length; i++) {
+    for (let i = 0; i < task.schedule.length; i++) {
       draft.schedule[i].scheduleIndex = i
     }
   });
