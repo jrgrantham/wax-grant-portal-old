@@ -1,7 +1,7 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
 
-import { dMDummyData } from "../../data";
+import { deadlineData } from "../../data";
 import { reorderArrayByIndex, dAndMCreateNewRow } from "../../helpers";
 
 // actions
@@ -20,7 +20,7 @@ export const dAndMChangeKeyValue = createAction("dAndMChangeKeyValue");
 //   error: "",
 // };
 
-export default function deadlinesReducer(state = dMDummyData, action) {
+export default function deadlinesReducer(state = deadlineData, action) {
   // export default function deadlinesReducer(state = initialState, action) {
   switch (action.type) {
     case dAndMFetchRequest.type:

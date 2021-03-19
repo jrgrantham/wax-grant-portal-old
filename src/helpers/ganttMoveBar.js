@@ -1,5 +1,5 @@
 import { store } from "../store";
-import { wPBarMoved } from "../store/projectData/workPackages";
+import { wPBarMoved } from "../store/projectData/tasks";
 import produce from "immer";
 
 export function moveBar(data, bar, e) {

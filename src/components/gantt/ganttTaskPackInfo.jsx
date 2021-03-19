@@ -8,7 +8,7 @@ import {
   wPReorderRows,
   wPRowAdded,
   wPTitleChanged,
-} from "../../store/projectData/workPackages";
+} from "../../store/projectData/tasks";
 import { dAndMReorderRows } from "../../store/projectData/deadlines";
 import GanttRowWork from "./ganttTaskRowInfo";
 import EditModal from "../modals/ganttEditModal";

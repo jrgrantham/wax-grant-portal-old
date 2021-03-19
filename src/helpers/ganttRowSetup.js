@@ -1,4 +1,4 @@
-// import { emptyBlock } from "../data/workPackages";
+// import { emptyBlock } from "../data/tasks";
 import produce from "immer";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";

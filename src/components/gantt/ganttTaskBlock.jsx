@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
-import { wPBlockUpdated } from "../../store/projectData/workPackages";
+import { wPBlockUpdated } from "../../store/projectData/tasks";
 import { wpBarColor, isNumberKey, checkZero } from "../../helpers";
 
 function GanttWPBlock(props) {

@@ -9,7 +9,7 @@ export const emptyBlock = {
   scheduleIndex: 0,
 };
 
-export const dMDummyData = {
+export const deadlineData = {
   loading: false,
   data: [
     {

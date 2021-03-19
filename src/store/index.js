@@ -1,19 +1,27 @@
-import configureStore from "./projectData/configureStore";
-// import { wPDaysUpdated } from "./projectData/workPackages";
-// import { dAndMRowAdded, dAndMChangedDate } from './projectData/deadlines';
+import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 
-// import {wPDummyData} from '../data/wPData'
-// import {dMDummyData} from '../data/dMData'
-// console.log(wPDummyData.data[0]);
+import taskReducer from "./projectData/tasks";
+import deadlinesReducer from "./projectData/deadlines";
+import projectReducer from "./projectData/project";
+import teamReducer from "./projectData/team";
+import userReducer from "./projectData/user";
+import allocationsReducer from "./projectData/allocations";
 
-// import { singleRow } from "../data/wPData";
-// import { singleMilOne, singleMilTwo } from "../data/dMData";
+const rootReducer = combineReducers({
+  tasks: taskReducer,
+  user: userReducer,
+  deadlines: deadlinesReducer,
+  project: projectReducer,
+  team: teamReducer,
+  allocations: allocationsReducer,
+});
 
-export const store = configureStore();
+export const store = configureStore({ reducer: rootReducer });
 
 // setTimeout(() => {
 //   console.log('timer');
-//   store.dispatch(dAndMChangedDate({row: dMDummyData.data[0], value: 15}));
+//   store.dispatch(dAndMChangedDate({row: deadlineData.data[0], value: 15}));
 // }, 3000);
 
 // setTimeout(() => {

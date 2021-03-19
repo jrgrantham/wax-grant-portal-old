@@ -7,7 +7,7 @@ import GanttChartLeft from "../components/gantt/ganttChartLeft";
 import GanttChartRight from "../components/gantt/ganttChartRight";
 
 function GanttChart() {
-  const allTasks = useSelector((state) => state.workPackages.data);
+  const allTasks = useSelector((state) => state.tasks.data);
 
   // for testing ------------ could be used on other page
   const people = useSelector((state) => state.team.data);
@@ -46,7 +46,7 @@ function GanttChart() {
         .sort((a, b) => a - b)
     ),
   ];
-  const workPackages = groupByTitle(workPackageTitles, allTasks);
+  const tasks = groupByTitle(workPackageTitles, allTasks);
   const deliverables = useSelector((state) =>
     state.deadlines.data.filter((task) => task.type === "deliverable")
   );
@@ -79,7 +79,7 @@ function GanttChart() {
 
   const data = {
     workPackageTitles,
-    workPackages,
+    tasks,
     deliverables,
     milestones,
     daysPerMonth,

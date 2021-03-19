@@ -8,7 +8,7 @@ import ResourcesModal from "../modals/ganttResourcesModal";
 import {
   wPChangeKeyValue,
   wPDaysUpdated,
-} from "../../store/projectData/workPackages";
+} from "../../store/projectData/tasks";
 import { Container } from "./ganttRowStyling";
 
 function GanttRowWork(props) {

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import GanttPackWork from "./ganttTaskPackInfo";
 import GanttPackdeadlines from "./ganttDeadlinePackInfo";
-import { wPRowAdded } from "../../store/projectData/workPackages";
+import { wPRowAdded } from "../../store/projectData/tasks";
 import {
   wpTitleColor,
   delTitleColor,
@@ -16,7 +16,7 @@ import {
 function GanttChartLeft(props) {
   const {
     workPackageTitles,
-    workPackages,
+    tasks,
     deliverables,
     milestones,
     totalDays,
@@ -34,8 +34,8 @@ function GanttChartLeft(props) {
     <PageContainer>
       <div id="details">
         <div className="monthHeaderSpacer"></div>
-        {workPackages.length
-          ? workPackages.map((task, index) => {
+        {tasks.length
+          ? tasks.map((task, index) => {
               return (
                 <GanttPackWork
                   key={index}

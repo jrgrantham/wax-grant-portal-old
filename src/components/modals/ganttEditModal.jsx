@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { wPRowRemoved, wPEdited } from "../../store/projectData/workPackages";
+import { wPRowRemoved, wPEdited } from "../../store/projectData/tasks";
 
 function numberOfBars(schedule) {
   let bars = 0;

@@ -1,7 +1,7 @@
 // import axios from "axios";
 import { createAction } from "@reduxjs/toolkit";
 
-import { wPDummyData } from "../../data";
+import { taskData } from "../../data";
 import {
   reorderArrayByIndex,
   // wPScheduleHelper,
@@ -32,8 +32,8 @@ export const wPBarMoved = createAction("wPBarMoved");
 //   error: "",
 // };
 
-export default function workPackageReducer(state = wPDummyData, action) {
-  // export default function workPackageReducer(state = initialState, action) {
+export default function taskReducer(state = taskData, action) {
+  // export default function taskReducer(state = initialState, action) {
   switch (action.type) {
     case wPFetchRequest.type:
       return {

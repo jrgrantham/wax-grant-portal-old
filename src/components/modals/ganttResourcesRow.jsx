@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { wPResourcesUpdated } from "../../store/projectData/workPackages";
+import { wPResourcesUpdated } from "../../store/projectData/tasks";
 
 function ResourcesRow(props) {
   const dispatch = useDispatch();

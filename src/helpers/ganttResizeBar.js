@@ -1,5 +1,5 @@
 import produce from "immer";
-import { wPBarMoved } from "../store/projectData/workPackages";
+import { wPBarMoved } from "../store/projectData/tasks";
 import { store } from "../store";
 import { toast } from "react-toastify";
 
