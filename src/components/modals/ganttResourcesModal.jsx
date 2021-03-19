@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ResourcesRow from "./ganttResourcesRow";
 
 function ResourcesModal(props) {
-  const allPeople = useSelector((state) => state.project.data.resources);
+  const allPeople = useSelector((state) => state.team.data);
   const allTasks = useSelector((state) => state.workPackages.data);
 
   function closeModal(e) {
@@ -23,7 +23,7 @@ function ResourcesModal(props) {
           {allPeople.map((person, index) => {
             return (
               <h3 key={index} className="person">
-                {person}
+                {person.acronym}
               </h3>
             );
           })}

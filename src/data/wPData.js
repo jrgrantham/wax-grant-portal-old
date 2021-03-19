@@ -8,12 +8,14 @@ export const wPDummyData = {
       workPackageTitle: "Project Management",
       description: "Description of task 1",
       days: 30,
+      startDep: null,
+      endDep: null,
       dayLoading: "front",
       sortPosition: 0,
       resources: {
-        JG: 0,
-        DJ: 10,
-        CG: 20,
+        1: 0,
+        2: 10,
+        3: 20,
       },
       schedule: [
         {
@@ -32,7 +34,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 1,
         },
         {
           status: true,
@@ -41,7 +43,7 @@ export const wPDummyData = {
           barNumber: 1,
           value: 5,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 2,
         },
         {
           status: true,
@@ -50,7 +52,7 @@ export const wPDummyData = {
           barNumber: 1,
           value: 5,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 3,
         },
         {
           status: true,
@@ -59,7 +61,7 @@ export const wPDummyData = {
           barNumber: 1,
           value: 4,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 4,
         },
         {
           status: true,
@@ -68,7 +70,7 @@ export const wPDummyData = {
           barNumber: 1,
           value: 4,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 5,
         },
         {
           status: false,
@@ -77,7 +79,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 6,
         },
         {
           status: false,
@@ -86,7 +88,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 7,
         },
         {
           status: false,
@@ -95,7 +97,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 8,
         },
         {
           status: false,
@@ -104,7 +106,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 9,
         },
         {
           status: true,
@@ -113,7 +115,7 @@ export const wPDummyData = {
           barNumber: 2,
           value: 4,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 10,
         },
         {
           status: true,
@@ -122,7 +124,7 @@ export const wPDummyData = {
           barNumber: 2,
           value: 4,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 11,
         },
         {
           status: false,
@@ -131,7 +133,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 12,
         },
         {
           status: false,
@@ -140,7 +142,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 13,
         },
         {
           status: true,
@@ -149,7 +151,7 @@ export const wPDummyData = {
           barNumber: 3,
           value: 4,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 14,
         },
         {
           status: false,
@@ -158,7 +160,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 15,
         },
         {
           status: false,
@@ -167,7 +169,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 16,
         },
         {
           status: false,
@@ -176,7 +178,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 17,
         },
         {
           status: false,
@@ -185,7 +187,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 18,
         },
         {
           status: false,
@@ -194,7 +196,7 @@ export const wPDummyData = {
           barNumber: 0,
           value: 0,
           blockId: uuidv4(),
-          scheduleIndex: 0,
+          scheduleIndex: 19,
         },
       ],
     },
@@ -203,12 +205,14 @@ export const wPDummyData = {
       workPackageTitle: "Project Management",
       description: "Description of task 2",
       days: 10,
+      startDep: null,
+      endDep: null,
       dayLoading: "front",
       sortPosition: 1,
       resources: {
-        JG: 70,
-        DJ: 10,
-        CG: 20,
+        1: 70,
+        2: 10,
+        3: 20,
       },
       schedule: [
         {
@@ -398,12 +402,14 @@ export const wPDummyData = {
       workPackageTitle: "Different WP",
       description: "Description of task 3",
       days: 6,
+      startDep: null,
+      endDep: null,
       dayLoading: "front",
       sortPosition: 2,
       resources: {
-        JG: 100,
-        DJ: 90,
-        CG: 50,
+        1: 100,
+        2: 90,
+        3: 50,
       },
       schedule: [
         {

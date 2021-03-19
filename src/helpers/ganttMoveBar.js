@@ -49,6 +49,9 @@ function updateRow(row, originalIndex, newIndex, blockCount) {
     const movement = newIndex - originalIndex;
     const item = draft.schedule.splice(originalIndex, blockCount);
     draft.schedule.splice(originalIndex + movement, 0, ...item);
+    for (let i = 0; i < row.schedule.length; i++) {
+      draft.schedule[i].scheduleIndex = i
+    }
   });
   return newRow;
 }

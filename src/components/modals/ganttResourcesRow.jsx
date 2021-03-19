@@ -37,8 +37,8 @@ function ResourcesRow(props) {
             <select
               className="person select"
               key={index}
-              value={row.resources[person]}
-              onChange={(e) => onChangeHandler(e, row.rowId, person)}
+              value={row.resources[person.acronym]}
+              onChange={(e) => onChangeHandler(e, row.rowId, person.acronym)}
               id="resources"
               name="resources"
             >

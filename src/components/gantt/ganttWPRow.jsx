@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
 
@@ -14,9 +14,11 @@ import { Container } from "./ganttRowStyling";
 function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
-  const [resourcesModal, setResourcesModal] = useState(false);
+  const [resourcesModal, setResourcesModal] = useState(true);
   const { row, provided } = props;
   const { description, resources, days } = row;
+  const team = useSelector(state => state.team.data)
+  console.log(team);
 
   let resourcesArray = [];
   for (const person in resources) {

@@ -8,7 +8,7 @@ import workPackageReducer from "./workPackages";
 import delsAndMilsReducer from "./delsAndMils";
 import projectReducer from "./project";
 import teamReducer from "./team";
-import { userReducer } from "./userReducer";
+import { userReducer } from "./user";
 
 // const middleware = [thunk];
 const rootReducer = combineReducers({

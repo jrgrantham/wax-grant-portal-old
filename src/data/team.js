@@ -1,7 +1,9 @@
+
 export const team = {
   loading: false,
   data: [
     {
+      personId: 1,
       name: 'James Grantham',
       acronym: 'JG',
       role: 'tbc',
@@ -11,6 +13,7 @@ export const team = {
       dayRate: 85,
     },
     {
+      personId: 2,
       name: 'Damien Jones',
       acronym: 'DJ',
       role: 'tbc',
@@ -20,6 +23,7 @@ export const team = {
       dayRate: 100,
     },
     {
+      personId: 3,
       name: 'Casper Gray',
       acronym: 'CG',
       role: 'tbc',
@@ -29,6 +33,7 @@ export const team = {
       dayRate: 115,
     },
     {
+      personId: 4,
       name: 'Random Guy',
       acronym: 'RG',
       role: 'tbc',

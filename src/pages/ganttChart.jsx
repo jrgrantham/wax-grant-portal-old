@@ -10,18 +10,20 @@ function GanttChart() {
   const allRows = useSelector((state) => state.workPackages.data);
 
   // for testing ------------ could be used on other page
-  const people = useSelector((state) => state.project.data.resources);
+  const people = useSelector((state) => state.team.data);
   const peoplesDays = {};
   people.forEach((person) => {
-    peoplesDays[person] = 0;
+    const initials = person.acronym;
+    peoplesDays[initials] = 0;
     allRows.forEach((row) => {
-      const percentage = row.resources[person] ? row.resources[person] : 0;
+      const percentage = row.resources[initials] ? row.resources[initials] : 0;
       const days = (row.days * percentage) / 100;
       if (percentage > 0) {
-        peoplesDays[person] = peoplesDays[person] + days;
+        peoplesDays[initials] = peoplesDays[initials] + days;
       }
     });
   });
+  console.log(peoplesDays);
   // for testing ------------ could be used on other page
 
   function groupByTitle(titles, data) {
@@ -90,10 +92,11 @@ function GanttChart() {
       </div>
       <div className="testPeople">
         {people.map((person, index) => {
+          console.log(person.acronym);
           return (
             <div key={index} className="person">
-              <span>{person}:</span>
-              <span>{peoplesDays[person].toFixed(2)}</span>
+              <span>{person.acronym}:</span>
+              <span>{peoplesDays[person.acronym].toFixed(2)}</span>
             </div>
           );
         })}
