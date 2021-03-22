@@ -21,57 +21,41 @@ export const store = configureStore({ reducer: rootReducer });
 
 // locations for these...
 
-const team = store.getState().team.data;
 export const teamInitialsById = {};
-for (let i = 0; i < team.length; i++) {
-  teamInitialsById[team[i].personId] = team[i].acronym;
-}
+export const allResources = {};
+const team = store.getState().team.data;
+const allTasks = store.getState().tasks.data;
+allTasks.forEach((task) => {
+  const peopleKeys = {};
+  team.forEach((person) => {
+    peopleKeys[person.acronym] = {
+      allocationId: "new",
+      percent: 0,
+    };
+    teamInitialsById[person.personId] = person.acronym;
+  });
+
+  allResources[task.taskId] = { completion: 0, people: "", ...peopleKeys };
+});
+console.log(allResources);
 
 // create an object of task allocations from the array
-export const taskResources = {
-  byTask: {},
-  byPerson: {},
-};
 const allocations = store.getState().allocations.data;
 for (let i = 0; i < allocations.length; i++) {
-  let task = allocations[i].taskId;
-  let person = teamInitialsById[allocations[i].personId];
+  let curTask = allocations[i].taskId;
+  let curPerson = teamInitialsById[allocations[i].personId];
 
-  // create an object by taskID
-  // add task object if not exist
-  if (!(task in taskResources.byTask)) {
-    taskResources.byTask[task] = {};
-  }
-  // create string of names for task
-  if (!("people" in taskResources.byTask[task])) {
-    taskResources.byTask[task]["people"] = "";
-  }
-  if (taskResources.byTask[task]["people"].length > 1) {
-    taskResources.byTask[task]["people"] =
-      taskResources.byTask[task]["people"] + ", " + person;
+  if (allResources[curTask]["people"].length > 1) {
+    allResources[curTask]["people"] =
+      allResources[curTask]["people"] + ", " + curPerson;
   } else {
-    taskResources.byTask[task]["people"] =
-      taskResources.byTask[task]["people"] + person;
+    allResources[curTask]["people"] =
+      allResources[curTask]["people"] + curPerson;
   }
-  // create completion value
-  if (!("completion" in taskResources.byTask[task])) {
-    taskResources.byTask[task]["completion"] = 0;
-  }
-  taskResources.byTask[task]["completion"] =
-    taskResources.byTask[task]["completion"] + allocations[i].percent;
-  // create person object with all information
-  if (!(person in taskResources.byTask[allocations[i].taskId])) {
-    taskResources.byTask[task][person] = {};
-  }
-  // assign info to person
-  taskResources.byTask[task][person].percent = allocations[i].percent;
-  taskResources.byTask[task][person].personId = allocations[i].personId;
-  taskResources.byTask[task][person].allocationId = allocations[i].allocationId;
+  allResources[curTask]["completion"] =
+    allResources[curTask]["completion"] + allocations[i].percent;
 
-  // create object info by person
-  if (!(person in taskResources.byPerson)) {
-    taskResources.byPerson[person] = {};
-  }
+  allResources[curTask][curPerson].percent = allocations[i].percent;
+  allResources[curTask][curPerson].personId = allocations[i].personId;
+  allResources[curTask][curPerson].allocationId = allocations[i].allocationId;
 }
-
-console.log(taskResources.byTask);

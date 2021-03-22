@@ -1,34 +1,37 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { wPResourcesUpdated } from "../../store/projectData/tasks";
+// import { useDispatch, useSelector } from "react-redux";
+// import { wPResourcesUpdated } from "../../store/projectData/tasks";
+import { allResources } from "../../store";
 
 function ResourcesRow(props) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { allPeople, task } = props;
-  console.log(props);
 
-  let taskPercentage = 0;
-  for (const person in task.resources) {
-    if (task.resources[person] > 0) taskPercentage += task.resources[person];
-  }
-
-  const completion =
-    taskPercentage === 100
+  const completion = allResources[task.taskId].completion;
+  const status =
+    completion === 100
       ? "ok total"
-      : taskPercentage < 100
+      : completion < 100
       ? "under total"
       : "over total";
 
-  function onChangeHandler(e, taskId, person) {
-    dispatch(
-      wPResourcesUpdated({
-        name: person,
-        value: parseInt(e.target.value),
-        taskId,
-      })
-    );
+  function onChangeHandler(value, personId, allocationId) {
+    console.log(value, personId, allocationId);
+    // dispatch(
+    //   wPResourcesUpdated({
+    //     name: person,
+    //     value: parseInt(e.target.value),
+    //     taskId,
+    //   })
+    // );
   }
-  const percentages = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  const percentages = [];
+  let i = 0;
+  while (i <= 100) {
+    percentages.push(i);
+    i = i + 5;
+  }
+  console.log(allPeople);
 
   return (
     <div className="modalRow">
@@ -38,9 +41,15 @@ function ResourcesRow(props) {
           <select
             className="person select"
             key={index}
-            value={task.resources[person.acronym]}
-            onChange={(e) => onChangeHandler(e, task.taskId, person.acronym)}
-            id="resources"
+            value={allResources[task.taskId][person.acronym].percent}
+            onChange={(e) =>
+              onChangeHandler(
+                e.target.value,
+                person.personId,
+                allResources[task.taskId][person.acronym].allocationId,
+              )
+            }
+            id={allResources[task.taskId][person.acronym].allocationId}
             name="resources"
           >
             {percentages.map((option, index) => {
@@ -49,7 +58,7 @@ function ResourcesRow(props) {
           </select>
         );
       })}
-      <p className={completion}>{taskPercentage}%</p>
+      <p className={status}>{completion}%</p>
     </div>
   );
 }

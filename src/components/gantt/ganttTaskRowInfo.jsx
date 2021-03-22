@@ -6,14 +6,15 @@ import EditModal from "../modals/ganttEditModal";
 import ResourcesModal from "../modals/ganttResourcesModal";
 import { wPChangeKeyValue, wPDaysUpdated } from "../../store/projectData/tasks";
 import { Container } from "./ganttRowStyling";
-import { taskResources } from "../../store";
+import { allResources } from "../../store";
 
 function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
   const [resourcesModal, setResourcesModal] = useState(true);
-  const { task, provided } = props;
+  const { task, provided, packData } = props;
   const { description, days } = task;
+  const buttonContent = allResources[task.taskId].people;
 
   function handleDescriptionChange(value) {
     dispatch(
@@ -41,7 +42,10 @@ function GanttRowWork(props) {
         />
       ) : null}
       {resourcesModal ? (
-        <ResourcesModal setResourcesModal={setResourcesModal} packData={props.packData}/>
+        <ResourcesModal
+          setResourcesModal={setResourcesModal}
+          packData={packData}
+        />
       ) : null}
       <div className="rowDescription">
         <div {...provided.dragHandleProps} className="hidden menu">
@@ -62,7 +66,7 @@ function GanttRowWork(props) {
           onClick={() => setResourcesModal(!editModal)}
           className="resources highlight packBackground"
         >
-          {taskResources.byTask[task.taskId].people}
+          {buttonContent}
         </button>
         <input
           className="days highlight packBackground"

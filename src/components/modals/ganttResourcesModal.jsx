@@ -5,7 +5,7 @@ import ResourcesRow from "./ganttResourcesModalRow";
 
 function ResourcesModal(props) {
   const allPeople = useSelector((state) => state.team.data);
-  const packData = props.packData
+  const {packData, taskResource} = props;
 
   function closeModal(e) {
     if (e.target.id === "background") props.setResourcesModal(false);

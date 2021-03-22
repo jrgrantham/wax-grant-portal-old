@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { appTop, appWidth, wpMarginBottom } from "../helpers/";
 import GanttChartLeft from "../components/gantt/ganttChartLeft";
 import GanttChartRight from "../components/gantt/ganttChartRight";
-import { taskResources } from "../store";
+import { allResources } from "../store";
 
 function GanttChart() {
   const allTasks = useSelector((state) => state.tasks.data);
@@ -18,8 +18,8 @@ function GanttChart() {
     peoplesDays[initials] = 0;
     allTasks.forEach((task) => {
       let percentage = 0;
-      if (taskResources.byTask[task.taskId][initials] !== undefined) {
-        percentage = taskResources.byTask[task.taskId][initials].percent;
+      if (allResources[task.taskId][initials] !== undefined) {
+        percentage = allResources[task.taskId][initials].percent;
       }
       if (percentage > 0) {
         const days = (task.days * percentage) / 100;
