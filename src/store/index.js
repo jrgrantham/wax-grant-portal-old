@@ -36,7 +36,7 @@ const allocations = store.getState().allocations.data;
 for (let i = 0; i < allocations.length; i++) {
   let task = allocations[i].taskId;
   let person = teamInitialsById[allocations[i].personId];
-  
+
   // create an object by taskID
   // add task object if not exist
   if (!(task in taskResources.byTask)) {
@@ -50,8 +50,15 @@ for (let i = 0; i < allocations.length; i++) {
     taskResources.byTask[task]["people"] =
       taskResources.byTask[task]["people"] + ", " + person;
   } else {
-    taskResources.byTask[task]["people"] = taskResources.byTask[task]["people"] + person;
+    taskResources.byTask[task]["people"] =
+      taskResources.byTask[task]["people"] + person;
   }
+  // create completion value
+  if (!("completion" in taskResources.byTask[task])) {
+    taskResources.byTask[task]["completion"] = 0;
+  }
+  taskResources.byTask[task]["completion"] =
+    taskResources.byTask[task]["completion"] + allocations[i].percent;
   // create person object with all information
   if (!(person in taskResources.byTask[allocations[i].taskId])) {
     taskResources.byTask[task][person] = {};
@@ -63,8 +70,8 @@ for (let i = 0; i < allocations.length; i++) {
 
   // create object info by person
   if (!(person in taskResources.byPerson)) {
-    taskResources.byPerson[person] = {}
+    taskResources.byPerson[person] = {};
   }
 }
 
-console.log(taskResources);
+console.log(taskResources.byTask);

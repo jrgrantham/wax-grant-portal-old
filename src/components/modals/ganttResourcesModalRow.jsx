@@ -5,6 +5,7 @@ import { wPResourcesUpdated } from "../../store/projectData/tasks";
 function ResourcesRow(props) {
   const dispatch = useDispatch();
   const { allPeople, task } = props;
+  console.log(props);
 
   let taskPercentage = 0;
   for (const person in task.resources) {

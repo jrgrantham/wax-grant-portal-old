@@ -11,7 +11,7 @@ import { taskResources } from "../../store";
 function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
-  const [resourcesModal, setResourcesModal] = useState(false);
+  const [resourcesModal, setResourcesModal] = useState(true);
   const { task, provided } = props;
   const { description, days } = task;
 

@@ -1,15 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import ResourcesRow from "./ganttResourcesRow";
+import ResourcesRow from "./ganttResourcesModalRow";
 
 function ResourcesModal(props) {
   const allPeople = useSelector((state) => state.team.data);
-  const allTasks = useSelector((state) => state.tasks.data);
   const packData = props.packData
-  
-  console.log(allTasks);
-  console.log(packData);
 
   function closeModal(e) {
     if (e.target.id === "background") props.setResourcesModal(false);
