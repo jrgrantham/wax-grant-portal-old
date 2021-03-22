@@ -8,7 +8,7 @@ import GanttDMPackSchedule from "./ganttDeadlinePackSchedule";
 import { dividerHeight, monthWidth, totalDaysColor } from "../../helpers";
 
 function GanttChartRight(props) {
-  const { tasks, deliverables, milestones, daysPerMonth } = props.data;
+  const { groupedTasks, deliverables, milestones, daysPerMonth } = props.data;
   // useEffect(() => {
   //   const slider = document.querySelector(".right");
   //   let isDown = false;
@@ -44,8 +44,8 @@ function GanttChartRight(props) {
         <div className="inner">
           <GanttScheduleBackground />
           <div className="monthHeaderSpacer"></div>
-          {tasks.length
-            ? tasks.map((task, index) => {
+          {groupedTasks.length
+            ? groupedTasks.map((task, index) => {
                 return (
                   <GanttWPPackSchedule
                     key={index}

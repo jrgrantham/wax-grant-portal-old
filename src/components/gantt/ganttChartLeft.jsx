@@ -15,8 +15,8 @@ import {
 
 function GanttChartLeft(props) {
   const {
-    workPackageTitles,
-    tasks,
+    taskPackTitles,
+    groupedTasks,
     deliverables,
     milestones,
     totalDays,
@@ -34,15 +34,15 @@ function GanttChartLeft(props) {
     <PageContainer>
       <div id="details">
         <div className="monthHeaderSpacer"></div>
-        {tasks.length
-          ? tasks.map((task, index) => {
+        {groupedTasks.length
+          ? groupedTasks.map((task, index) => {
               return (
                 <GanttPackWork
                   key={index}
                   workPackData={task}
                   titleBarColor={wpTitleColor}
-                  title={workPackageTitles[index]}
-                  allTitles={workPackageTitles}
+                  title={taskPackTitles[index]}
+                  allTitles={taskPackTitles}
                 />
               );
             })

@@ -1,36 +1,19 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
-
 import EditModal from "../modals/ganttEditModal";
 import ResourcesModal from "../modals/ganttResourcesModal";
-import {
-  wPChangeKeyValue,
-  wPDaysUpdated,
-} from "../../store/projectData/tasks";
+import { wPChangeKeyValue, wPDaysUpdated } from "../../store/projectData/tasks";
 import { Container } from "./ganttRowStyling";
+import { taskResources } from "../../store";
 
 function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
   const [resourcesModal, setResourcesModal] = useState(false);
   const { task, provided } = props;
-  const { description, resources, days } = task;
-  const team = useSelector((state) => state.team.data);
-  console.log(team);
-
-  let resourcesArray = [];
-  for (const person in resources) {
-    // console.log(`${person}: ${resources[person]}`);
-    if (resources[person] > 0) resourcesArray.push(`${person}`);
-  }
-
-  const expandedResources = resourcesArray
-    ? resourcesArray.map((person, index) => (
-        <span key={index}>{person}.&nbsp;</span>
-      ))
-    : null;
+  const { description, days } = task;
 
   function handleDescriptionChange(value) {
     dispatch(
@@ -58,7 +41,7 @@ function GanttRowWork(props) {
         />
       ) : null}
       {resourcesModal ? (
-        <ResourcesModal setResourcesModal={setResourcesModal} task={task} />
+        <ResourcesModal setResourcesModal={setResourcesModal} packData={props.packData}/>
       ) : null}
       <div className="rowDescription">
         <div {...provided.dragHandleProps} className="hidden menu">
@@ -79,7 +62,7 @@ function GanttRowWork(props) {
           onClick={() => setResourcesModal(!editModal)}
           className="resources highlight packBackground"
         >
-          {expandedResources}
+          {taskResources.byTask[task.taskId].people}
         </button>
         <input
           className="days highlight packBackground"

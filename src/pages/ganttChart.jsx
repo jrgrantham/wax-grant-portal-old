@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { appTop, appWidth, wpMarginBottom } from "../helpers/";
 import GanttChartLeft from "../components/gantt/ganttChartLeft";
 import GanttChartRight from "../components/gantt/ganttChartRight";
+import { taskResources } from "../store";
 
 function GanttChart() {
   const allTasks = useSelector((state) => state.tasks.data);
@@ -16,37 +17,37 @@ function GanttChart() {
     const initials = person.acronym;
     peoplesDays[initials] = 0;
     allTasks.forEach((task) => {
-      const percentage = task.resources[initials]
-        ? task.resources[initials]
-        : 0;
-      const days = (task.days * percentage) / 100;
+      let percentage = 0;
+      if (taskResources.byTask[task.taskId][initials] !== undefined) {
+        percentage = taskResources.byTask[task.taskId][initials].percent;
+      }
       if (percentage > 0) {
+        const days = (task.days * percentage) / 100;
         peoplesDays[initials] = peoplesDays[initials] + days;
       }
     });
   });
-  console.log(peoplesDays);
   // for testing ------------ could be used on other page
 
-  function groupByTitle(titles, data) {
-    const groupedWork = [];
+  function createGroupedTasks(titles, data) {
+    const groupedTask = [];
     titles.forEach((title) => {
       const group = data.filter(
         (workPack) => workPack.workPackageTitle === title
       );
-      groupedWork.push(group);
+      groupedTask.push(group);
     });
-    return groupedWork;
+    return groupedTask;
   }
 
-  const workPackageTitles = [
+  const taskPackTitles = [
     ...new Set(
       allTasks
         .map((workPackage) => workPackage.workPackageTitle)
         .sort((a, b) => a - b)
     ),
   ];
-  const tasks = groupByTitle(workPackageTitles, allTasks);
+  const groupedTasks = createGroupedTasks(taskPackTitles, allTasks);
   const deliverables = useSelector((state) =>
     state.deadlines.data.filter((task) => task.type === "deliverable")
   );
@@ -78,8 +79,8 @@ function GanttChart() {
   }, []);
 
   const data = {
-    workPackageTitles,
-    tasks,
+    taskPackTitles,
+    groupedTasks,
     deliverables,
     milestones,
     daysPerMonth,
@@ -94,7 +95,6 @@ function GanttChart() {
       </div>
       <div className="testPeople">
         {people.map((person, index) => {
-          console.log(person.acronym);
           return (
             <div key={index} className="person">
               <span>{person.acronym}:</span>

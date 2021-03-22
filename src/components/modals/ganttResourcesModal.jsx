@@ -6,6 +6,10 @@ import ResourcesRow from "./ganttResourcesRow";
 function ResourcesModal(props) {
   const allPeople = useSelector((state) => state.team.data);
   const allTasks = useSelector((state) => state.tasks.data);
+  const packData = props.packData
+  
+  console.log(allTasks);
+  console.log(packData);
 
   function closeModal(e) {
     if (e.target.id === "background") props.setResourcesModal(false);
@@ -30,7 +34,7 @@ function ResourcesModal(props) {
           <h3 className="total">Total</h3>
         </div>
 
-        {allTasks.map((task, index) => {
+        {packData.map((task, index) => {
           return (
             <ResourcesRow
               task={task}

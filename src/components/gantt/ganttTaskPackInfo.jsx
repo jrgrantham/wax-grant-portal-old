@@ -111,6 +111,7 @@ function GanttPackWork(props) {
                         {...provided.draggableProps}
                       >
                         <GanttRowWork
+                          packData={packData}
                           allTitles={props.allTitles}
                           provided={provided}
                           key={index}
