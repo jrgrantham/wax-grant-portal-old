@@ -14,6 +14,7 @@ import {
 export const wPFetchRequest = createAction("wPFetchRequest");
 export const wPFetchSuccess = createAction("wPFetchSuccess");
 export const wPFetchFailure = createAction("wPFetchFailure");
+
 export const wPRowAdded = createAction("wPRowAdded");
 export const wPRowRemoved = createAction("wPRowRemoved");
 export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");

@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 export const addAllocation = createAction("addAllocation");
 export const removeAllocation = createAction("removeAllocation");
 export const updateAllocation = createAction("updateAllocation");
+export const removeTaskAllocations = createAction("removeTaskAllocations");
 
 export default function allocations(state = allocationData, action) {
   switch (action.type) {
@@ -47,6 +48,15 @@ export default function allocations(state = allocationData, action) {
             };
           } else return allocation;
         }),
+      };
+    case removeTaskAllocations.type:
+      console.log(action.payload);
+      return {
+        ...state,
+        data: state.data.filter(
+          (allocation) =>
+            allocation.taskId !== action.payload.taskId
+        ),
       };
     default:
       return state;

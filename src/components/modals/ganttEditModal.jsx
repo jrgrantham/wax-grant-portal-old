@@ -4,6 +4,10 @@ import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { wPRowRemoved, wPEdited } from "../../store/projectData/tasks";
+import { removeTaskAllocations } from "../../store/projectData/allocations";
+import close from "../../images/close-grey.png";
+import save from "../../images/save-grey.png";
+import bin from "../../images/bin-grey.png";
 
 function numberOfBars(schedule) {
   let bars = 0;
@@ -18,7 +22,7 @@ function numberOfBars(schedule) {
 function EditModal(props) {
   const dispatch = useDispatch();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const {task, taskPackTitles} = props;
+  const { task, taskPackTitles } = props;
   const { dayLoading, days, description, workPackageTitle, schedule } = task;
   const barLimit = Math.ceil(schedule.length / 2);
   const bars = numberOfBars(schedule);
@@ -98,6 +102,10 @@ function EditModal(props) {
     );
     props.setEditModal(false);
   }
+  function deleteTask(taskId) {
+    dispatch(wPRowRemoved(taskId));
+    dispatch(removeTaskAllocations({ taskId }));
+  }
 
   window.addEventListener("keydown", function (event) {
     if (event.key === "Escape" || event.keycode === 27)
@@ -108,24 +116,9 @@ function EditModal(props) {
     <Container id="background" onClick={(e) => closeModal(e)}>
       <div className="editWindow">
         <div className="topRow">
-          <button onClick={() => props.setEditModal(false)}>Cancel</button>
-          {confirmDelete ? (
-            <div>
-              <button className="leftB" onClick={() => setConfirmDelete(false)}>
-                Cancel
-              </button>
-              <button onClick={() => dispatch(wPRowRemoved(task.taskId))}>
-                Confirm
-              </button>
-            </div>
-          ) : (
-            <div>
-              <button className="leftB" onClick={resetBars}>
-                Reset Bars
-              </button>
-              <button onClick={() => setConfirmDelete(true)}>Delete</button>
-            </div>
-          )}
+          <button onClick={() => props.setEditModal(false)}>
+            <img src={close} alt="close" />
+          </button>
         </div>
 
         <form onSubmit={formik.handleSubmit}>
@@ -133,7 +126,7 @@ function EditModal(props) {
             <div className="inputArea">
               <label htmlFor="work pack">Work pack</label>
               <select
-                value={workPackageTitle}
+                value={formik.values.workPackageTitle}
                 onChange={formik.handleChange}
                 name="workPackageTitle"
                 id="workPackageTitle"
@@ -220,8 +213,17 @@ function EditModal(props) {
               <p className="errorMessage">{formik.errors.dayLoading}</p>
             ) : null}
           </div>
-
-          <button type="submit">Submit changes</button>
+        <div className="bottomRow">
+          <button className="leftB" onClick={resetBars}>
+            Reset Bars
+          </button>
+          <button onClick={() => deleteTask(task.taskId)}>
+            <img src={bin} alt="delete" />
+          </button>
+          <button type="submit">
+            <img src={save} alt="save" />
+          </button>
+        </div>
         </form>
       </div>
     </Container>
@@ -295,18 +297,29 @@ const Container = styled.div`
   input {
     width: 250px;
     border: 1px solid #d1d1d1;
+    margin-right: 0;
   }
-
   .topRow {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    img {
+      height: 25px;
+    }
+  }
+  .bottomRow {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  img {
+    height: 25px;
   }
   .content {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
   }
-  .leftB {
+  /* .leftB {
     margin-right: 10px;
-  }
+  } */
 `;

@@ -8,8 +8,8 @@ import GanttChartRight from "../components/gantt/ganttChartRight";
 // import { allResources } from "../store";
 
 function GanttChart() {
+  
   const allTasks = useSelector((state) => state.tasks.data);
-
   // for testing ------------ could be used on other page
   const people = useSelector((state) => state.team.data);
   const resources = getResources();

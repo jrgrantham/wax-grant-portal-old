@@ -7,6 +7,7 @@ import {
   dAndMReorderRows,
   dAndMRowAdded,
 } from "../../store/projectData/deadlines";
+import add from "../../images/add-grey.png";
 
 import { Container } from "./ganttPackStyling";
 
@@ -67,7 +68,9 @@ function GanttPackdeadlines(props) {
               })}
               {provided.placeholder}
               <div className="bottom packBackground">
-                <button onClick={handleAddNewRow}>add task</button>
+                <button onClick={handleAddNewRow}>
+                  <img src={add} alt="add" />
+                </button>
               </div>
             </div>
           )}

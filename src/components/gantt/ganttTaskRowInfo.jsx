@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
-import { isNumberKey, getResources } from "../../helpers";
+import { isNumberKey, getResources, debounce } from "../../helpers";
 import EditModal from "../modals/ganttEditModal";
 import ResourcesModal from "../modals/ganttResourcesModal";
 import { wPChangeKeyValue, wPDaysUpdated } from "../../store/projectData/tasks";
@@ -27,6 +27,7 @@ function GanttRowWork(props) {
       })
     );
   }
+  
   function handleDayChange(e) {
     const lastThreeNumbers = e.target.value.slice(-3);
     const newValue = parseInt(lastThreeNumbers);

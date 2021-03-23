@@ -12,12 +12,15 @@ import {
 import { dAndMReorderRows } from "../../store/projectData/deadlines";
 import GanttRowWork from "./ganttTaskRowInfo";
 import EditModal from "../modals/ganttEditModal";
+import tick from "../../images/tick-white.png";
+import add from "../../images/add-grey.png";
 
 function GanttPackWork(props) {
-  const title = props.title;
-  const packData = props.workPackData;
   const dispatch = useDispatch();
+
+  const { title, index, packData } = props;
   const isWP = !(title === "Deliverables" || title === "Milestones");
+  const wpNumber = index + 1;
 
   const [edit, setEdit] = useState(false);
   const [editTitleWindow, setEditTitleWindow] = useState(false);
@@ -47,12 +50,12 @@ function GanttPackWork(props) {
 
   function handleEditTitle(value) {
     if (value === "Deliverables" || title === "Milestones") return;
-    console.log(value);
     setNewTitle(value);
   }
 
   function sendEditedTitle() {
-    dispatch(wPTitleChanged({ oldTitle: title, newTitle: newTitle }));
+    if (title !== newTitle)
+      dispatch(wPTitleChanged({ oldTitle: title, newTitle: newTitle }));
     setEditTitleWindow(false);
   }
 
@@ -70,20 +73,14 @@ function GanttPackWork(props) {
               // onBlur={sendEditedTitle}
             />
             <button className="titleButton" onClick={sendEditedTitle}>
-              Update
-            </button>
-            <button
-              className="titleButton"
-              onClick={() => setEditTitleWindow(false)}
-            >
-              Cancel
+              <img src={tick} alt="accept" />
             </button>
           </>
         ) : (
           <>
             {/* <button onClick={() => setEditTitleWindow(true)}> */}
             <h3 className="title" onClick={() => setEditTitleWindow(true)}>
-              {title}
+              {`WP${wpNumber} - ${title}`}
             </h3>
             {/* </button> */}
             <div className="info">
@@ -125,7 +122,9 @@ function GanttPackWork(props) {
               })}
               {provided.placeholder}
               <div className="bottom packBackground">
-                <button onClick={handleAddNewRow}>add task</button>
+                <button onClick={handleAddNewRow}>
+                  <img src={add} alt="add" />
+                </button>
                 <p className="days">{calculateDays()}</p>
               </div>
             </div>

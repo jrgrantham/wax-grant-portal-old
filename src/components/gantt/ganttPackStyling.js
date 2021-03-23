@@ -17,6 +17,15 @@ export const Container = styled.div`
     max-width: 300px;
     margin-right: 5px;
   }
+  button {
+    background: transparent;
+    border: none;
+    height: 100%
+  }
+  img {
+    height: 80%;
+    width: auto;
+  }
   .packBackground {
     background-color: ${wpBackground};
   }

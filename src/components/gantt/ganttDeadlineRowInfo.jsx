@@ -79,7 +79,7 @@ function GanttRowDetails(props) {
             <div className="hidden">
               <BiTrash
                 style={{ cursor: "pointer" }}
-                onClick={() => setConfirmDelete(true)}
+                onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
               />
             </div>
           </>

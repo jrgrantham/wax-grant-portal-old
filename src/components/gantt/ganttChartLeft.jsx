@@ -12,6 +12,7 @@ import {
   dividerHeight,
   totalDaysColor,
 } from "../../helpers";
+import add from "../../images/add-white.png";
 
 function GanttChartLeft(props) {
   const {
@@ -39,7 +40,8 @@ function GanttChartLeft(props) {
               return (
                 <GanttPackWork
                   key={index}
-                  workPackData={task}
+                  index={index}
+                  packData={task}
                   titleBarColor={wpTitleColor}
                   title={taskPackTitles[index]}
                   taskPackTitles={taskPackTitles}
@@ -49,7 +51,10 @@ function GanttChartLeft(props) {
           : null}
         <div className="divider">
           <div className="totalDays" />
-          <button onClick={createNewWorkPackage}>Add Work Package</button>
+          <button onClick={createNewWorkPackage}>
+          <img src={add} alt="add" />
+            
+          </button>
           <div className="totalDays content">
             <h3>{totalDays ? totalDays : null}</h3>
           </div>
@@ -99,9 +104,18 @@ const PageContainer = styled.div`
       color: ${totalDaysColor};
     }
     button {
-      height: 30px;
-      padding-left: 30px;
-      padding-right: 30px;
+      height: 40px;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      display: flex;
+      /* padding-left: 30px;
+      padding-right: 30px; */
+    }
+    img {
+      margin: none;
+      height: 80%;
+      width: auto;
     }
   }
 `;

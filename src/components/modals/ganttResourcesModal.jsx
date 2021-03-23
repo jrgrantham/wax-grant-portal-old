@@ -5,9 +5,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import ResourcesRow from "./ganttResourcesModalRow";
-// import { allResources } from "../../store";
 
-import {teamInitialsById, getResources} from '../../helpers'
+import { getResources} from '../../helpers'
 
 toast.configure();
 

@@ -122,12 +122,12 @@ export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
   return newRow;
 }
 
-const newTitle = "Rename this title in place...";
+const newTitle = "Work Package Title";
 export function wPCreateNewRow(scheduleLength, title = newTitle) {
   const newRow = {
     taskId: uuidv4(), // use this but don't send to server
     workPackageTitle: title,
-    description: "edit this task in place...",
+    description: "Task Name",
     days: 1, // default
     dayLoading: "front", // default
     sortPosition: 0, // should sort its self out...
@@ -157,7 +157,7 @@ export function dAndMCreateNewRow(type, scheduleLength) {
     taskId: uuidv4(),
     sortPosition: 0,
     type,
-    description: "edit this task in place...",
+    description: "Deadline description",
     schedule: [],
   };
   for (let i = 0; i < scheduleLength; i++) {

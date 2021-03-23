@@ -1,6 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { wPResourcesUpdated } from "../../store/projectData/tasks";
+import { useDispatch } from "react-redux";
 import { getResources } from "../../helpers";
 import {
   addAllocation,
@@ -12,7 +11,7 @@ function ResourcesRow(props) {
   const dispatch = useDispatch();
   const { allPeople, task } = props;
   const { taskId } = task;
-  const resources = getResources()
+  const resources = getResources();
 
   const completion = resources[task.taskId].completion;
   const status =
@@ -28,15 +27,8 @@ function ResourcesRow(props) {
     else if (allocationId === "new")
       dispatch(addAllocation({ taskId, personId, value }));
     else dispatch(updateAllocation({ allocationId, value }));
-
-    // dispatch(
-    //   wPResourcesUpdated({
-    //     name: person,
-    //     value: parseInt(e.target.value),
-    //     taskId,
-    //   })
-    // );
   }
+
   const percentages = [];
   let i = 0;
   while (i <= 100) {
