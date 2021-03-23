@@ -18,7 +18,7 @@ export function updateEditedWp(oldRow, changes) {
   } = changes;
 
   const newRow = produce(oldRow, (draft) => {
-    if (newWorkPackageTitle) draft.workPackageTitle = newWorkPackageTitle; // check here - update
+    if (newWorkPackageTitle) draft.workPackageTitle = newWorkPackageTitle;
     if (newDescription) draft.description = newDescription;
     if (newDayLoading) draft.dayLoading = newDayLoading;
     if (newDays) {

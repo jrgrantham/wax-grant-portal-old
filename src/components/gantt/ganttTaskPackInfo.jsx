@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container } from "./ganttPackStyling";
 
 import {
-  wPReorderRows,
-  wPRowAdded,
-  wPTitleChanged,
+  reorderTasks,
+  addTask,
+  updateTaskPackTitle,
 } from "../../store/projectData/tasks";
 import { dAndMReorderRows } from "../../store/projectData/deadlines";
 import GanttRowWork from "./ganttTaskRowInfo";
@@ -28,7 +28,7 @@ function GanttPackWork(props) {
 
   const { projectLength } = useSelector((state) => state.project.data);
   function handleAddNewRow() {
-    dispatch(wPRowAdded({ projectLength, title }));
+    dispatch(addTask({ projectLength, title }));
   }
 
   function calculateDays() {
@@ -44,7 +44,7 @@ function GanttPackWork(props) {
       return;
     const movement = result.destination.index - result.source.index;
     const task = packData[result.source.index];
-    if (isWP) dispatch(wPReorderRows({ task, movement }));
+    if (isWP) dispatch(reorderTasks({ task, movement }));
     else dispatch(dAndMReorderRows({ taskId: task.taskId, movement }));
   }
 
@@ -55,7 +55,7 @@ function GanttPackWork(props) {
 
   function sendEditedTitle() {
     if (title !== newTitle)
-      dispatch(wPTitleChanged({ oldTitle: title, newTitle: newTitle }));
+      dispatch(updateTaskPackTitle({ oldTitle: title, newTitle: newTitle }));
     setEditTitleWindow(false);
   }
 

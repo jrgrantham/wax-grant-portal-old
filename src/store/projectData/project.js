@@ -3,8 +3,8 @@ import { createAction } from "@reduxjs/toolkit";
 
 import { projectData } from "../../data";
 
-// export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
-export const wPReorderRows = createAction("wPReorderRows");
+// export const setTaskBars = createAction("setTaskBars");
+export const reorderTasks = createAction("reorderTasks");
 
 export default function project(state = projectData, action) {
   switch (action.type) {

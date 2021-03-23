@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { wPRowRemoved, wPEdited } from "../../store/projectData/tasks";
+import { removeTask, updateTaskPack } from "../../store/projectData/tasks";
 import { removeTaskAllocations } from "../../store/projectData/allocations";
 import close from "../../images/close-grey.png";
 import save from "../../images/save-grey.png";
@@ -73,7 +73,7 @@ function EditModal(props) {
         newDayLoading,
       };
       dispatch(
-        wPEdited({
+        updateTaskPack({
           task,
           changes,
         })
@@ -95,7 +95,7 @@ function EditModal(props) {
       reset: true, // to stop toast notification
     };
     dispatch(
-      wPEdited({
+      updateTaskPack({
         task,
         changes,
       })
@@ -103,7 +103,7 @@ function EditModal(props) {
     props.setEditModal(false);
   }
   function deleteTask(taskId) {
-    dispatch(wPRowRemoved(taskId));
+    dispatch(removeTask(taskId));
     dispatch(removeTaskAllocations({ taskId }));
   }
 
@@ -124,7 +124,23 @@ function EditModal(props) {
         <form onSubmit={formik.handleSubmit}>
           <div className="formField">
             <div className="inputArea">
-              <label htmlFor="work pack">Work pack</label>
+              <label htmlFor="description">Task Title</label>
+              <input
+                type="text"
+                name="description"
+                id="description"
+                onChange={formik.handleChange}
+                value={formik.values.description}
+              />
+            </div>
+            {formik.touched.description && formik.errors.description ? (
+              <p className="errorMessage">{formik.errors.description}</p>
+            ) : null}
+          </div>
+
+          <div className="formField">
+            <div className="inputArea">
+              <label htmlFor="work pack">Work Package</label>
               <select
                 value={formik.values.workPackageTitle}
                 onChange={formik.handleChange}
@@ -141,22 +157,6 @@ function EditModal(props) {
             {formik.touched.workPackageTitle &&
             formik.errors.workPackageTitle ? (
               <p className="errorMessage">{formik.errors.workPackageTitle}</p>
-            ) : null}
-          </div>
-
-          <div className="formField">
-            <div className="inputArea">
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
-                name="description"
-                id="description"
-                onChange={formik.handleChange}
-                value={formik.values.description}
-              />
-            </div>
-            {formik.touched.description && formik.errors.description ? (
-              <p className="errorMessage">{formik.errors.description}</p>
             ) : null}
           </div>
 
@@ -213,17 +213,17 @@ function EditModal(props) {
               <p className="errorMessage">{formik.errors.dayLoading}</p>
             ) : null}
           </div>
-        <div className="bottomRow">
-          <button className="leftB" onClick={resetBars}>
-            Reset Bars
-          </button>
-          <button onClick={() => deleteTask(task.taskId)}>
-            <img src={bin} alt="delete" />
-          </button>
-          <button type="submit">
-            <img src={save} alt="save" />
-          </button>
-        </div>
+          <div className="bottomRow">
+            <button className="leftB" onClick={resetBars}>
+              Reset Bars
+            </button>
+            <button onClick={() => deleteTask(task.taskId)}>
+              <img src={bin} alt="delete" />
+            </button>
+            <button type="submit">
+              <img src={save} alt="save" />
+            </button>
+          </div>
         </form>
       </div>
     </Container>

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import GanttPackWork from "./ganttTaskPackInfo";
 import GanttPackdeadlines from "./ganttDeadlinePackInfo";
-import { wPRowAdded } from "../../store/projectData/tasks";
+import { addTask } from "../../store/projectData/tasks";
 import {
   wpTitleColor,
   delTitleColor,
@@ -28,7 +28,7 @@ function GanttChartLeft(props) {
   );
   const dispatch = useDispatch();
   function createNewWorkPackage() {
-    dispatch(wPRowAdded({ projectLength }));
+    dispatch(addTask({ projectLength }));
   }
 
   return (
@@ -52,8 +52,7 @@ function GanttChartLeft(props) {
         <div className="divider">
           <div className="totalDays" />
           <button onClick={createNewWorkPackage}>
-          <img src={add} alt="add" />
-            
+            <img src={add} alt="add" />
           </button>
           <div className="totalDays content">
             <h3>{totalDays ? totalDays : null}</h3>

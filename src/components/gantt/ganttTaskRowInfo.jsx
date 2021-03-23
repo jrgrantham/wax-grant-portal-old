@@ -4,7 +4,10 @@ import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
 import { isNumberKey, getResources, debounce } from "../../helpers";
 import EditModal from "../modals/ganttEditModal";
 import ResourcesModal from "../modals/ganttResourcesModal";
-import { wPChangeKeyValue, wPDaysUpdated } from "../../store/projectData/tasks";
+import {
+  updateTaskKeyValue,
+  updateTaskDays,
+} from "../../store/projectData/tasks";
 import { Container } from "./ganttRowStyling";
 
 function GanttRowWork(props) {
@@ -13,33 +16,33 @@ function GanttRowWork(props) {
   const [resourcesModal, setResourcesModal] = useState(false);
   const { task, provided, packData, taskPackTitles } = props;
   const { description, days } = task;
-  const resources = getResources()
+  const resources = getResources();
   const buttonContent = resources[task.taskId].people;
 
   // console.log(taskPackTitles);
 
   function handleDescriptionChange(value) {
     dispatch(
-      wPChangeKeyValue({
+      updateTaskKeyValue({
         taskId: task.taskId,
         key: "description",
         value,
       })
     );
   }
-  
+
   function handleDayChange(e) {
     const lastThreeNumbers = e.target.value.slice(-3);
     const newValue = parseInt(lastThreeNumbers);
     if (newValue < 1) return;
-    dispatch(wPDaysUpdated({ task, days: newValue }));
+    dispatch(updateTaskDays({ task, days: newValue }));
   }
 
   return (
     <Container>
       {editModal ? (
         <EditModal
-        taskPackTitles={taskPackTitles}
+          taskPackTitles={taskPackTitles}
           setEditModal={setEditModal}
           task={task}
         />

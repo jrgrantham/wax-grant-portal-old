@@ -45,7 +45,7 @@ function GanttChart() {
     ...new Set(
       allTasks
         .map((workPackage) => workPackage.workPackageTitle)
-        .sort((a, b) => a - b)
+        // .sort((a, b) => a - b)
     ),
   ];
   const groupedTasks = createGroupedTasks(taskPackTitles, allTasks);

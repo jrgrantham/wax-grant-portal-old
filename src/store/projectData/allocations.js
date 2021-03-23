@@ -4,7 +4,7 @@ import { createAction } from "@reduxjs/toolkit";
 import { allocationData } from "../../data";
 import { v4 as uuidv4 } from "uuid";
 
-// export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
+// export const setTaskBars = createAction("setTaskBars");
 export const addAllocation = createAction("addAllocation");
 export const removeAllocation = createAction("removeAllocation");
 export const updateAllocation = createAction("updateAllocation");
@@ -54,8 +54,7 @@ export default function allocations(state = allocationData, action) {
       return {
         ...state,
         data: state.data.filter(
-          (allocation) =>
-            allocation.taskId !== action.payload.taskId
+          (allocation) => allocation.taskId !== action.payload.taskId
         ),
       };
     default:

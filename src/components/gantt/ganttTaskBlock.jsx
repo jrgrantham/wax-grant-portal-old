@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
-import { wPBlockUpdated } from "../../store/projectData/tasks";
+import { updateTaskBlock } from "../../store/projectData/tasks";
 import { wpBarColor, isNumberKey, checkZero } from "../../helpers";
 
 function GanttWPBlock(props) {
@@ -15,7 +15,7 @@ function GanttWPBlock(props) {
     const lastTwoNumbers = e.target.value.slice(-2);
     const newValue = parseInt(lastTwoNumbers);
     dispatch(
-      wPBlockUpdated({
+      updateTaskBlock({
         task,
         blockIndex,
         newValue,

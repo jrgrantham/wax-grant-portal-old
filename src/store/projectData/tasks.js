@@ -15,15 +15,15 @@ export const wPFetchRequest = createAction("wPFetchRequest");
 export const wPFetchSuccess = createAction("wPFetchSuccess");
 export const wPFetchFailure = createAction("wPFetchFailure");
 
-export const wPRowAdded = createAction("wPRowAdded");
-export const wPRowRemoved = createAction("wPRowRemoved");
-export const wPSetNumberOfBars = createAction("wPSetNumberOfBars");
-export const wPReorderRows = createAction("wPReorderRows");
-export const wPChangeKeyValue = createAction("wPChangeKeyValue");
-export const wPDaysUpdated = createAction("wPDaysUpdated");
-export const wPEdited = createAction("wPEdited"); // formik modal
-export const wPBlockUpdated = createAction("wPBlockUpdated");
-export const wPTitleChanged = createAction("wPTitleChanged");
+export const addTask = createAction("addTask");
+export const removeTask = createAction("removeTask");
+export const setTaskBars = createAction("setTaskBars");
+export const reorderTasks = createAction("reorderTasks");
+export const updateTaskKeyValue = createAction("updateTaskKeyValue");
+export const updateTaskDays = createAction("updateTaskDays");
+export const updateTaskPack = createAction("updateTaskPack"); // formik modal
+export const updateTaskBlock = createAction("updateTaskBlock");
+export const updateTaskPackTitle = createAction("updateTaskPackTitle");
 // export const wPResourcesUpdated = createAction("wPResourcesUpdated");
 export const wPBarMoved = createAction("wPBarMoved");
 
@@ -54,7 +54,7 @@ export default function taskReducer(state = taskData, action) {
         loading: false,
         error: "failed to fetch gantt",
       };
-    case wPReorderRows.type:
+    case reorderTasks.type:
       const taskId = action.payload.task.taskId;
       const originalIndex = state.data
         .map(function (obj) {
@@ -81,19 +81,19 @@ export default function taskReducer(state = taskData, action) {
           return task;
         }),
       };
-    case wPRowAdded.type:
+    case addTask.type:
       const { projectLength, title } = action.payload;
       const newRow = wPCreateNewRow(projectLength, title);
       return {
         ...state,
         data: [...state.data, newRow],
       };
-    case wPRowRemoved.type:
+    case removeTask.type:
       return {
         ...state,
         data: state.data.filter((task) => task.taskId !== action.payload),
       };
-    case wPChangeKeyValue.type:
+    case updateTaskKeyValue.type:
       return {
         ...state,
         data: state.data.map((task) => {
@@ -107,7 +107,7 @@ export default function taskReducer(state = taskData, action) {
           return task;
         }),
       };
-    case wPDaysUpdated.type: // spreads the work
+    case updateTaskDays.type: // spreads the work
       const updatedDaysRow = wPUpdateDays(
         action.payload.task,
         action.payload.days
@@ -121,7 +121,7 @@ export default function taskReducer(state = taskData, action) {
           return task;
         }),
       };
-    case wPEdited.type:
+    case updateTaskPack.type:
       const editedRow = updateEditedWp(
         // map over state in the reducer not this function
         action.payload.task,
@@ -137,7 +137,7 @@ export default function taskReducer(state = taskData, action) {
           return task;
         }),
       };
-    case wPBlockUpdated.type:
+    case updateTaskBlock.type:
       const { newValue, oldValue, blockIndex } = action.payload;
       const updatedBlockRow = wPUpdateBlock(
         action.payload.task,
@@ -154,7 +154,7 @@ export default function taskReducer(state = taskData, action) {
           return task;
         }),
       };
-    case wPTitleChanged.type:
+    case updateTaskPackTitle.type:
       return {
         ...state,
         data: state.data.map((task) => {
