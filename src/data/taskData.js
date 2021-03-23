@@ -12,11 +12,6 @@ export const taskData = {
       endDep: null,
       dayLoading: "front",
       sortPosition: 0,
-      resources: {
-        1: 0,
-        2: 10,
-        3: 20,
-      },
       schedule: [
         {
           status: false,
@@ -209,11 +204,6 @@ export const taskData = {
       endDep: null,
       dayLoading: "front",
       sortPosition: 1,
-      resources: {
-        1: 70,
-        2: 10,
-        3: 20,
-      },
       schedule: [
         {
           status: false,
@@ -406,11 +396,6 @@ export const taskData = {
       endDep: null,
       dayLoading: "front",
       sortPosition: 2,
-      resources: {
-        1: 100,
-        2: 90,
-        3: 50,
-      },
       schedule: [
         {
           status: false,

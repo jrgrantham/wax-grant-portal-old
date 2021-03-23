@@ -1,39 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import ResourcesRow from "./ganttResourcesModalRow";
-import { allResources } from "../../store";
+// import { allResources } from "../../store";
+
+import {teamInitialsById, getResources} from '../../helpers'
+
+toast.configure();
 
 function ResourcesModal(props) {
   const allPeople = useSelector((state) => state.team.data);
   const { packData } = props;
   const taskIds = [...new Set(packData.map((task) => task.taskId))];
+  const resources = getResources()
 
   function closeModal() {
-    let result = true;
+    let close = true;
     for (let i = 0; i < taskIds.length; i++) {
-      if (allResources[taskIds[i]].completion !== 100) {
-        result = false;
-        console.log("toast here - all need to be 100%");
+      if (resources[taskIds[i]].completion !== 100) {
+        // window.removeEventListener("keydown", checkKey);
+        close = false;
+        toast.info("All tasks must be 100%", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+        });
         break;
       }
     }
-    if (result) props.setResourcesModal(false)
+    if (close) props.setResourcesModal(false);
   }
-
-  // console.log(checkTasksComplete());
 
   function checkBackground(e) {
-    if (e.target.id === "background")
-      closeModal();
+    if (e.target.id === "background") closeModal();
   }
-  window.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" || event.keycode === 27)
-      closeModal();
-  });
+  // function checkKey(event) {
+  //   if (event.key === "Escape" || event.keycode === 27) closeModal();
+  // }
+
+  // useEffect(() => {
+  //   window.addEventListener("keydown", checkKey, false);
+  //   return window.removeEventListener("keydown", checkKey);
+  // }, []);
 
   return (
     <Container id="background" onClick={(e) => checkBackground(e)}>
+      {/* <Container id="background" onClick={(e) => checkBackground(e)}> */}
       <div className="editWindow">
         <div className="modalRow title">
           <h3 className="description">Description</h3>

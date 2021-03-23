@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import WPBlock from "./ganttTaskBlock";
 import {
   leadingZero,
@@ -11,7 +11,7 @@ import {
   resizeBar,
 } from "../../helpers";
 
-toast.configure();
+// toast.configure();
 
 function GanttWPBar(props) {
   const [showBlock, setShowBlock] = useState(true);

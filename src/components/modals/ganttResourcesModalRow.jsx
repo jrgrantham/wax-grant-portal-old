@@ -1,13 +1,20 @@
 import React from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { wPResourcesUpdated } from "../../store/projectData/tasks";
-import { allResources } from "../../store";
+import { getResources } from "../../helpers";
+import {
+  addAllocation,
+  removeAllocation,
+  updateAllocation,
+} from "../../store/projectData/allocations";
 
 function ResourcesRow(props) {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { allPeople, task } = props;
+  const { taskId } = task;
+  const resources = getResources()
 
-  const completion = allResources[task.taskId].completion;
+  const completion = resources[task.taskId].completion;
   const status =
     completion === 100
       ? "ok total"
@@ -16,7 +23,12 @@ function ResourcesRow(props) {
       : "over total";
 
   function onChangeHandler(value, personId, allocationId) {
-    // console.log(value, personId, allocationId);
+    console.log(value, personId, allocationId);
+    if (value === 0) dispatch(removeAllocation({ allocationId }));
+    else if (allocationId === "new")
+      dispatch(addAllocation({ taskId, personId, value }));
+    else dispatch(updateAllocation({ allocationId, value }));
+
     // dispatch(
     //   wPResourcesUpdated({
     //     name: person,
@@ -40,15 +52,15 @@ function ResourcesRow(props) {
           <select
             className="person select"
             key={index}
-            value={allResources[task.taskId][person.acronym].percent}
+            value={resources[task.taskId][person.acronym].percent}
             onChange={(e) =>
               onChangeHandler(
-                e.target.value,
+                parseInt(e.target.value),
                 person.personId,
-                allResources[task.taskId][person.acronym].allocationId,
+                resources[task.taskId][person.acronym].allocationId
               )
             }
-            id={allResources[task.taskId][person.acronym].allocationId}
+            id={resources[task.taskId][person.acronym].allocationId}
             name="resources"
           >
             {percentages.map((option, index) => {

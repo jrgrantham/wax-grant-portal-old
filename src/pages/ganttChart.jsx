@@ -2,24 +2,25 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import { appTop, appWidth, wpMarginBottom } from "../helpers/";
+import { appTop, appWidth, wpMarginBottom, getResources } from "../helpers/";
 import GanttChartLeft from "../components/gantt/ganttChartLeft";
 import GanttChartRight from "../components/gantt/ganttChartRight";
-import { allResources } from "../store";
+// import { allResources } from "../store";
 
 function GanttChart() {
   const allTasks = useSelector((state) => state.tasks.data);
 
   // for testing ------------ could be used on other page
   const people = useSelector((state) => state.team.data);
+  const resources = getResources();
   const peoplesDays = {};
   people.forEach((person) => {
     const initials = person.acronym;
     peoplesDays[initials] = 0;
     allTasks.forEach((task) => {
       let percentage = 0;
-      if (allResources[task.taskId][initials] !== undefined) {
-        percentage = allResources[task.taskId][initials].percent;
+      if (resources[task.taskId][initials] !== undefined) {
+        percentage = resources[task.taskId][initials].percent;
       }
       if (percentage > 0) {
         const days = (task.days * percentage) / 100;

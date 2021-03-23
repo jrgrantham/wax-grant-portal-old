@@ -23,7 +23,7 @@ export const wPDaysUpdated = createAction("wPDaysUpdated");
 export const wPEdited = createAction("wPEdited"); // formik modal
 export const wPBlockUpdated = createAction("wPBlockUpdated");
 export const wPTitleChanged = createAction("wPTitleChanged");
-export const wPResourcesUpdated = createAction("wPResourcesUpdated");
+// export const wPResourcesUpdated = createAction("wPResourcesUpdated");
 export const wPBarMoved = createAction("wPBarMoved");
 
 // const initialState = {
@@ -166,23 +166,23 @@ export default function taskReducer(state = taskData, action) {
           return task;
         }),
       };
-    case wPResourcesUpdated.type:
-      const { name, value } = action.payload;
-      return {
-        ...state,
-        data: state.data.map((task) => {
-          if (task.taskId === action.payload.taskId) {
-            return {
-              ...task,
-              resources: {
-                ...task.resources,
-                [name]: value,
-              },
-            };
-          }
-          return task;
-        }),
-      };
+    // case wPResourcesUpdated.type:
+    //   const { name, value } = action.payload;
+    //   return {
+    //     ...state,
+    //     data: state.data.map((task) => {
+    //       if (task.taskId === action.payload.taskId) {
+    //         return {
+    //           ...task,
+    //           resources: {
+    //             ...task.resources,
+    //             [name]: value,
+    //           },
+    //         };
+    //       }
+    //       return task;
+    //     }),
+    //   };
     default:
       return state;
   }

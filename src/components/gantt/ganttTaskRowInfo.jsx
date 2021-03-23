@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
-import { isNumberKey } from "../../helpers";
+import { isNumberKey, getResources } from "../../helpers";
 import EditModal from "../modals/ganttEditModal";
 import ResourcesModal from "../modals/ganttResourcesModal";
 import { wPChangeKeyValue, wPDaysUpdated } from "../../store/projectData/tasks";
 import { Container } from "./ganttRowStyling";
-import { allResources } from "../../store";
 
 function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
-  const [resourcesModal, setResourcesModal] = useState(true);
+  const [resourcesModal, setResourcesModal] = useState(false);
   const { task, provided, packData, taskPackTitles } = props;
   const { description, days } = task;
-  const buttonContent = allResources[task.taskId].people;
+  const resources = getResources()
+  const buttonContent = resources[task.taskId].people;
 
   // console.log(taskPackTitles);
 
