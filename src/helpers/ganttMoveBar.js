@@ -1,5 +1,5 @@
 import { store } from "../store";
-import { wPBarMoved } from "../store/projectData/tasks";
+import { moveTaskBar } from "../store/projectData/tasks";
 import produce from "immer";
 
 export function moveBar(data, bar, e) {
@@ -23,11 +23,11 @@ export function moveBar(data, bar, e) {
   function dropBar() {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", dropBar);
-    bar.style.left = null
+    bar.style.left = null;
     const newIndex = Math.floor(position / blockWidth + 0.5);
     if (mousePosition !== undefined && newIndex !== originalIndex) {
       const updatedRow = updateRow(task, originalIndex, newIndex, blockCount);
-      store.dispatch(wPBarMoved(updatedRow));
+      store.dispatch(moveTaskBar(updatedRow));
     }
   }
 
@@ -35,12 +35,12 @@ export function moveBar(data, bar, e) {
   document.addEventListener("mousemove", handleMouseMove, false);
 
   function handleMouseMove(event) {
-      mousePosition = event.clientX;
-      position = Math.min(
-        Math.max(mousePosition + offset, leftObstruction * blockWidth),
-        rightObstruction * blockWidth - barWidth
-      );
-      bar.style.left = position + "px";
+    mousePosition = event.clientX;
+    position = Math.min(
+      Math.max(mousePosition + offset, leftObstruction * blockWidth),
+      rightObstruction * blockWidth - barWidth
+    );
+    bar.style.left = position + "px";
   }
 }
 
@@ -50,7 +50,7 @@ function updateRow(task, originalIndex, newIndex, blockCount) {
     const item = draft.schedule.splice(originalIndex, blockCount);
     draft.schedule.splice(originalIndex + movement, 0, ...item);
     for (let i = 0; i < task.schedule.length; i++) {
-      draft.schedule[i].scheduleIndex = i
+      draft.schedule[i].scheduleIndex = i;
     }
   });
   return newRow;

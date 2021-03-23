@@ -8,12 +8,15 @@ import {
   reorderTasks,
   addTask,
   updateTaskPackTitle,
+  removeTaskPack,
 } from "../../store/projectData/tasks";
 import { dAndMReorderRows } from "../../store/projectData/deadlines";
 import GanttRowWork from "./ganttTaskRowInfo";
 import EditModal from "../modals/ganttEditModal";
 import tick from "../../images/tick-white.png";
 import add from "../../images/add-grey.png";
+import bin from "../../images/bin-grey.png";
+import { removeTaskAllocations } from "../../store/projectData/allocations";
 
 function GanttPackWork(props) {
   const dispatch = useDispatch();
@@ -21,6 +24,8 @@ function GanttPackWork(props) {
   const { title, index, packData } = props;
   const isWP = !(title === "Deliverables" || title === "Milestones");
   const wpNumber = index + 1;
+
+  console.log(packData);
 
   const [edit, setEdit] = useState(false);
   const [editTitleWindow, setEditTitleWindow] = useState(false);
@@ -59,6 +64,14 @@ function GanttPackWork(props) {
     setEditTitleWindow(false);
   }
 
+  function handleRemovePack() {
+    const taskList = [...new Set(packData.map((task) => task.taskId))];
+    taskList.forEach((taskId) => {
+      dispatch(removeTaskAllocations({ taskId }));
+    });
+    dispatch(removeTaskPack({ workPackageTitle: title }));
+  }
+
   return (
     <Container titleBarColor={props.titleBarColor}>
       {edit ? <EditModal setEdit={setEdit} /> : null}
@@ -70,7 +83,6 @@ function GanttPackWork(props) {
               type="text"
               value={newTitle}
               onChange={(e) => handleEditTitle(e.target.value)}
-              // onBlur={sendEditedTitle}
             />
             <button className="titleButton" onClick={sendEditedTitle}>
               <img src={tick} alt="accept" />
@@ -78,11 +90,9 @@ function GanttPackWork(props) {
           </>
         ) : (
           <>
-            {/* <button onClick={() => setEditTitleWindow(true)}> */}
             <h3 className="title" onClick={() => setEditTitleWindow(true)}>
               {`WP${wpNumber} - ${title}`}
             </h3>
-            {/* </button> */}
             <div className="info">
               <h3 className="resources">Resources</h3>
               <h3 className="days">Days</h3>
@@ -122,10 +132,18 @@ function GanttPackWork(props) {
               })}
               {provided.placeholder}
               <div className="bottom packBackground">
-                <button onClick={handleAddNewRow}>
+                <button className="evenWidth" onClick={handleAddNewRow}>
                   <img src={add} alt="add" />
                 </button>
-                <p className="days">{calculateDays()}</p>
+                <button
+                  onClick={() => handleRemovePack()}
+                  className="evenWidth"
+                >
+                  <img src={bin} alt="delete" />
+                </button>
+                <div className="evenWidth">
+                  <p className="days">{calculateDays()}</p>
+                </div>
               </div>
             </div>
           )}

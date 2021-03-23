@@ -1,5 +1,5 @@
 import produce from "immer";
-import { wPBarMoved } from "../store/projectData/tasks";
+import { moveTaskBar } from "../store/projectData/tasks";
 import { store } from "../store";
 import { toast } from "react-toastify";
 
@@ -81,9 +81,8 @@ export function resizeBar(data, barDiv, e) {
       setPosition(newStartIndex * blockWidth);
       updateRow();
     } else if (handle === "lft") {
-      setSize(blockCount * blockWidth)
-    };
-    
+      setSize(blockCount * blockWidth);
+    }
   }
 
   function updateRow() {
@@ -99,7 +98,7 @@ export function resizeBar(data, barDiv, e) {
       draft.task = updateBar(draft);
       spreadWork(draft);
     });
-    store.dispatch(wPBarMoved(updatedRow));
+    store.dispatch(moveTaskBar(updatedRow));
   }
 
   function updateBar(task) {

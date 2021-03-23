@@ -68,7 +68,7 @@ function GanttPackdeadlines(props) {
               })}
               {provided.placeholder}
               <div className="bottom packBackground">
-                <button onClick={handleAddNewRow}>
+                <button className='evenWidth' onClick={handleAddNewRow}>
                   <img src={add} alt="add" />
                 </button>
               </div>

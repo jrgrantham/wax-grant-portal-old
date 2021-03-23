@@ -20,11 +20,12 @@ export const Container = styled.div`
   button {
     background: transparent;
     border: none;
-    height: 100%
+    height: 100%;
+    padding: 0;
   }
   img {
-    height: 80%;
-    width: auto;
+    max-height: 80%;
+    max-width: 100%;
   }
   .packBackground {
     background-color: ${wpBackground};
@@ -83,6 +84,10 @@ export const Container = styled.div`
     padding-right: 31px;
     p {
       font-weight: 700;
+      text-align: right;
     }
+  }
+  .evenWidth {
+    width: 20px
   }
 `;

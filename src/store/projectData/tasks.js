@@ -17,6 +17,7 @@ export const wPFetchFailure = createAction("wPFetchFailure");
 
 export const addTask = createAction("addTask");
 export const removeTask = createAction("removeTask");
+export const removeTaskPack = createAction("removeTaskPack");
 export const setTaskBars = createAction("setTaskBars");
 export const reorderTasks = createAction("reorderTasks");
 export const updateTaskKeyValue = createAction("updateTaskKeyValue");
@@ -24,8 +25,7 @@ export const updateTaskDays = createAction("updateTaskDays");
 export const updateTaskPack = createAction("updateTaskPack"); // formik modal
 export const updateTaskBlock = createAction("updateTaskBlock");
 export const updateTaskPackTitle = createAction("updateTaskPackTitle");
-// export const wPResourcesUpdated = createAction("wPResourcesUpdated");
-export const wPBarMoved = createAction("wPBarMoved");
+export const moveTaskBar = createAction("moveTaskBar");
 
 // const initialState = {
 //   loading: false,
@@ -71,7 +71,7 @@ export default function taskReducer(state = taskData, action) {
         ...state,
         data: reordered,
       };
-    case wPBarMoved.type:
+    case moveTaskBar.type:
       return {
         ...state,
         data: state.data.map((task) => {
@@ -92,6 +92,13 @@ export default function taskReducer(state = taskData, action) {
       return {
         ...state,
         data: state.data.filter((task) => task.taskId !== action.payload),
+      };
+    case removeTaskPack.type:
+      return {
+        ...state,
+        data: state.data.filter(
+          (task) => task.workPackageTitle !== action.payload.workPackageTitle
+        ),
       };
     case updateTaskKeyValue.type:
       return {
