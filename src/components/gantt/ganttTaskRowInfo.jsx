@@ -12,9 +12,11 @@ function GanttRowWork(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
   const [resourcesModal, setResourcesModal] = useState(true);
-  const { task, provided, packData } = props;
+  const { task, provided, packData, taskPackTitles } = props;
   const { description, days } = task;
   const buttonContent = allResources[task.taskId].people;
+
+  // console.log(taskPackTitles);
 
   function handleDescriptionChange(value) {
     dispatch(
@@ -36,7 +38,7 @@ function GanttRowWork(props) {
     <Container>
       {editModal ? (
         <EditModal
-          allTitles={props.allTitles}
+        taskPackTitles={taskPackTitles}
           setEditModal={setEditModal}
           task={task}
         />

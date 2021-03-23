@@ -2,21 +2,38 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import ResourcesRow from "./ganttResourcesModalRow";
+import { allResources } from "../../store";
 
 function ResourcesModal(props) {
   const allPeople = useSelector((state) => state.team.data);
-  const {packData, taskResource} = props;
+  const { packData } = props;
+  const taskIds = [...new Set(packData.map((task) => task.taskId))];
 
-  function closeModal(e) {
-    if (e.target.id === "background") props.setResourcesModal(false);
+  function closeModal() {
+    let result = true;
+    for (let i = 0; i < taskIds.length; i++) {
+      if (allResources[taskIds[i]].completion !== 100) {
+        result = false;
+        console.log("toast here - all need to be 100%");
+        break;
+      }
+    }
+    if (result) props.setResourcesModal(false)
+  }
+
+  // console.log(checkTasksComplete());
+
+  function checkBackground(e) {
+    if (e.target.id === "background")
+      closeModal();
   }
   window.addEventListener("keydown", function (event) {
     if (event.key === "Escape" || event.keycode === 27)
-      props.setResourcesModal(false);
+      closeModal();
   });
 
   return (
-    <Container id="background" onClick={(e) => closeModal(e)}>
+    <Container id="background" onClick={(e) => checkBackground(e)}>
       <div className="editWindow">
         <div className="modalRow title">
           <h3 className="description">Description</h3>
@@ -34,7 +51,7 @@ function ResourcesModal(props) {
           return (
             <ResourcesRow
               task={task}
-              index={index}
+              // index={index}
               key={index}
               allPeople={allPeople}
             />
@@ -42,7 +59,7 @@ function ResourcesModal(props) {
         })}
 
         <div className="bottomRow">
-          <button onClick={() => props.setResourcesModal(false)}>Close</button>
+          <button onClick={closeModal}>Close</button>
         </div>
       </div>
     </Container>

@@ -25,6 +25,9 @@ export const teamInitialsById = {};
 export const allResources = {};
 const team = store.getState().team.data;
 const allTasks = store.getState().tasks.data;
+team.forEach((person) => {
+  teamInitialsById[person.personId] = person.acronym;
+});
 allTasks.forEach((task) => {
   const peopleKeys = {};
   team.forEach((person) => {
@@ -32,14 +35,10 @@ allTasks.forEach((task) => {
       allocationId: "new",
       percent: 0,
     };
-    teamInitialsById[person.personId] = person.acronym;
   });
-
   allResources[task.taskId] = { completion: 0, people: "", ...peopleKeys };
 });
-console.log(allResources);
 
-// create an object of task allocations from the array
 const allocations = store.getState().allocations.data;
 for (let i = 0; i < allocations.length; i++) {
   let curTask = allocations[i].taskId;
@@ -59,3 +58,4 @@ for (let i = 0; i < allocations.length; i++) {
   allResources[curTask][curPerson].personId = allocations[i].personId;
   allResources[curTask][curPerson].allocationId = allocations[i].allocationId;
 }
+console.log(allResources);

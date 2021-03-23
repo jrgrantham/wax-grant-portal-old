@@ -42,7 +42,7 @@ function GanttChartLeft(props) {
                   workPackData={task}
                   titleBarColor={wpTitleColor}
                   title={taskPackTitles[index]}
-                  allTitles={taskPackTitles}
+                  taskPackTitles={taskPackTitles}
                 />
               );
             })

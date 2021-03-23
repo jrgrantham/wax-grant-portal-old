@@ -18,7 +18,7 @@ function numberOfBars(schedule) {
 function EditModal(props) {
   const dispatch = useDispatch();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const task = props.task;
+  const {task, taskPackTitles} = props;
   const { dayLoading, days, description, workPackageTitle, schedule } = task;
   const barLimit = Math.ceil(schedule.length / 2);
   const bars = numberOfBars(schedule);
@@ -138,7 +138,7 @@ function EditModal(props) {
                 name="workPackageTitle"
                 id="workPackageTitle"
               >
-                {props.allTitles.map((title, index) => (
+                {taskPackTitles.map((title, index) => (
                   <option value={title} key={index} className="title">
                     {title}
                   </option>

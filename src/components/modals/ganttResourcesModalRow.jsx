@@ -16,7 +16,7 @@ function ResourcesRow(props) {
       : "over total";
 
   function onChangeHandler(value, personId, allocationId) {
-    console.log(value, personId, allocationId);
+    // console.log(value, personId, allocationId);
     // dispatch(
     //   wPResourcesUpdated({
     //     name: person,
@@ -31,7 +31,6 @@ function ResourcesRow(props) {
     percentages.push(i);
     i = i + 5;
   }
-  console.log(allPeople);
 
   return (
     <div className="modalRow">

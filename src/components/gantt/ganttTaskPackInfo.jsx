@@ -112,7 +112,7 @@ function GanttPackWork(props) {
                       >
                         <GanttRowWork
                           packData={packData}
-                          allTitles={props.allTitles}
+                          taskPackTitles={props.taskPackTitles}
                           provided={provided}
                           key={index}
                           task={task}
