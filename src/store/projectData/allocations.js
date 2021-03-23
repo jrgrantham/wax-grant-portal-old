@@ -28,10 +28,26 @@ export default function allocations(state = allocationData, action) {
       };
     case removeAllocation.type:
       console.log(action.payload);
-      return state;
+      return {
+        ...state,
+        data: state.data.filter(
+          (allocation) =>
+            allocation.allocationId !== action.payload.allocationId
+        ),
+      };
     case updateAllocation.type:
       console.log(action.payload);
-      return state;
+      return {
+        ...state,
+        data: state.data.map((allocation) => {
+          if (allocation.allocationId === action.payload.allocationId) {
+            return {
+              ...allocation,
+              percent: action.payload.value,
+            };
+          } else return allocation;
+        }),
+      };
     default:
       return state;
   }
