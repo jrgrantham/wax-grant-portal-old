@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {wpHighlight} from '../../helpers'
+import { wpBackground, wpHighlight } from "../../helpers";
 
 export const Container = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-      /* margin: 0 5px; */
+    /* margin: 0 5px; */
     p {
       margin-left: 5px;
     }
@@ -62,7 +62,7 @@ export const Container = styled.div`
       height: 27px;
       width: 100px;
       /* padding-left: 5px; */
-      padding-right: 5px;
+      padding: 0 5px;
       margin-left: 14px;
       margin-right: 14px;
       border: none;
@@ -78,8 +78,26 @@ export const Container = styled.div`
     }
     .days {
       width: 40px;
+      height: 27px;
       margin-right: 5px;
       text-align: right;
+      padding-right: 5px;
+    }
+    .editDays {
+      position: relative;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+      .accept {
+        background-color: ${wpBackground};
+        position: absolute;
+        display: flex;
+        align-items: center;
+        /* bottom: 6px; */
+        right: -17px;
+        max-width: 22px;
+        max-height: 22px;
+      }
     }
   }
 

@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import ResourcesRow from "./ganttResourcesModalRow";
 
-import { getResources} from '../../helpers'
+import { getResources, toastDelay} from '../../helpers'
 
 toast.configure();
 
@@ -24,7 +24,7 @@ function ResourcesModal(props) {
         close = false;
         toast.info("All tasks must be 100%", {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
+          autoClose: toastDelay,
         });
         break;
       }

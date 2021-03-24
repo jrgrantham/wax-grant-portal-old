@@ -11,11 +11,12 @@ import {
   removeTaskPack,
 } from "../../store/projectData/tasks";
 import { dAndMReorderRows } from "../../store/projectData/deadlines";
-import GanttRowWork from "./ganttTaskRowInfo";
+import GanttTaskRowInfo from "./ganttTaskRowInfo";
 import EditModal from "../modals/ganttEditModal";
 import tick from "../../images/tick-white.png";
 import add from "../../images/add-grey.png";
 import bin from "../../images/bin-grey.png";
+import close from "../../images/close-grey.png";
 import { removeTaskAllocations } from "../../store/projectData/allocations";
 
 function GanttPackWork(props) {
@@ -25,11 +26,10 @@ function GanttPackWork(props) {
   const isWP = !(title === "Deliverables" || title === "Milestones");
   const wpNumber = index + 1;
 
-  console.log(packData);
-
   const [edit, setEdit] = useState(false);
   const [editTitleWindow, setEditTitleWindow] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const { projectLength } = useSelector((state) => state.project.data);
   function handleAddNewRow() {
@@ -70,6 +70,7 @@ function GanttPackWork(props) {
       dispatch(removeTaskAllocations({ taskId }));
     });
     dispatch(removeTaskPack({ workPackageTitle: title }));
+    setConfirmDelete(false);
   }
 
   return (
@@ -84,7 +85,7 @@ function GanttPackWork(props) {
               value={newTitle}
               onChange={(e) => handleEditTitle(e.target.value)}
             />
-            <button className="titleButton" onClick={sendEditedTitle}>
+            <button className="evenWidth" onClick={sendEditedTitle}>
               <img src={tick} alt="accept" />
             </button>
           </>
@@ -117,7 +118,7 @@ function GanttPackWork(props) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                       >
-                        <GanttRowWork
+                        <GanttTaskRowInfo
                           packData={packData}
                           taskPackTitles={props.taskPackTitles}
                           provided={provided}
@@ -135,12 +136,29 @@ function GanttPackWork(props) {
                 <button className="evenWidth" onClick={handleAddNewRow}>
                   <img src={add} alt="add" />
                 </button>
-                <button
-                  onClick={() => handleRemovePack()}
-                  className="evenWidth"
-                >
-                  <img src={bin} alt="delete" />
-                </button>
+                {confirmDelete ? (
+                  <div className="confirm">
+                    <button
+                      onClick={() => setConfirmDelete(false)}
+                      className="evenWidth"
+                    >
+                      <img src={close} alt="close" />
+                    </button>
+                    <button
+                      onClick={() => handleRemovePack()}
+                      className="evenWidth"
+                    >
+                      <img src={bin} alt="delete" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setConfirmDelete(true)}
+                    className="evenWidth"
+                  >
+                    <img src={bin} alt="delete" />
+                  </button>
+                )}
                 <div className="evenWidth">
                   <p className="days">{calculateDays()}</p>
                 </div>

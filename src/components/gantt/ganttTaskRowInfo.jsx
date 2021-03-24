@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
-import { isNumberKey, getResources, debounce } from "../../helpers";
+import { isNumberKey, getResources, toastDelay } from "../../helpers";
 import EditModal from "../modals/ganttEditModal";
 import ResourcesModal from "../modals/ganttResourcesModal";
 import {
   updateTaskKeyValue,
   updateTaskDays,
 } from "../../store/projectData/tasks";
+import tick from "../../images/tick-grey.png";
 import { Container } from "./ganttRowStyling";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function GanttRowWork(props) {
+toast.configure();
+
+function GanttTaskRowInfo(props) {
   const dispatch = useDispatch();
   const [editModal, setEditModal] = useState(false);
   const [resourcesModal, setResourcesModal] = useState(false);
@@ -18,6 +23,8 @@ function GanttRowWork(props) {
   const { description, days } = task;
   const resources = getResources();
   const buttonContent = resources[task.taskId].people;
+  const [showEditDays, setShowEditDays] = useState(false);
+  const [newDays, setNewDays] = useState(days);
 
   // console.log(taskPackTitles);
 
@@ -32,10 +39,23 @@ function GanttRowWork(props) {
   }
 
   function handleDayChange(e) {
-    const lastThreeNumbers = e.target.value.slice(-3);
-    const newValue = parseInt(lastThreeNumbers);
-    if (newValue < 1) return;
-    dispatch(updateTaskDays({ task, days: newValue }));
+    if (e.target.value) {
+      const lastThreeNumbers = e.target.value.slice(-3);
+      setNewDays(parseInt(lastThreeNumbers));
+    } else {
+      setNewDays(0);
+    }
+  }
+  function acceptNewDays() {
+    if (newDays > 0) {
+      setShowEditDays(false);
+      if (newDays !== days) dispatch(updateTaskDays({ task, days: newDays }));
+    } else {
+      toast.info("Must enter at least 1 day", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: toastDelay,
+      });
+    }
   }
 
   return (
@@ -74,16 +94,30 @@ function GanttRowWork(props) {
         >
           {buttonContent}
         </button>
-        <input
-          className="days highlight packBackground"
-          type="text"
-          value={days}
-          onKeyDown={(e) => isNumberKey(e)}
-          onChange={(e) => handleDayChange(e)}
-          onBlur={(e) => {
-            console.log("remember to send to the server");
-          }}
-        />
+
+        {showEditDays ? (
+          <div className="editDays">
+            <input
+              autoFocus
+              className="days highlight packBackground"
+              type="text"
+              value={newDays}
+              onKeyDown={(e) => isNumberKey(e)}
+              onChange={(e) => handleDayChange(e)}
+            />
+            <button onClick={acceptNewDays} className="accept">
+              <img src={tick} alt="accept" />
+            </button>
+          </div>
+        ) : (
+          <button
+            className="days highlight packBackground"
+            onClick={() => setShowEditDays(true)}
+          >
+            {days}
+          </button>
+        )}
+
         <button
           onClick={() => setEditModal(!editModal)}
           className="hidden icon"
@@ -95,4 +129,4 @@ function GanttRowWork(props) {
   );
 }
 
-export default GanttRowWork;
+export default GanttTaskRowInfo;

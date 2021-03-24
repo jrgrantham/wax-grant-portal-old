@@ -86,6 +86,11 @@ export const Container = styled.div`
       font-weight: 700;
       text-align: right;
     }
+    .confirm {
+      width: 50px;
+      display: flex;
+      justify-content: space-between;
+    }
   }
   .evenWidth {
     width: 20px

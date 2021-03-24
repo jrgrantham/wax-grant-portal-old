@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { currentCombinedLengthOfBars, spreadWork } from "./index";
+import { toastDelay } from "./settings";
 
 toast.configure();
 
@@ -90,7 +91,7 @@ export function resizeBar(data, barDiv, e) {
     if (newLength > task.days) {
       toast.info("Increased number of days", {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
+        autoClose: toastDelay,
       });
     }
     const updatedRow = produce(task, (draft) => {

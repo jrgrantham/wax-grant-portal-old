@@ -1,5 +1,6 @@
 import { produce } from "immer";
 import { toast } from "react-toastify";
+import { toastDelay } from "./settings";
 toast.configure();
 
 // export function reorderWithImmerItems(oldArray, result) {
@@ -28,8 +29,9 @@ export function setArrayIndexAsSortPosition(array) {
 
 export function isNumberKey(e) {
   const charCode = e.which ? e.which : e.keyCode;
+  console.log(charCode);
   // if (charCode > 31 && (charCode < 48 || charCode > 57)) e.preventDefault();
-  if ((charCode < 48 && !(charCode === 37 || charCode === 39)) || charCode > 57)
+  if ((charCode < 48 && !(charCode === 37 || charCode === 39 || charCode === 8)) || charCode > 57)
     e.preventDefault();
 }
 
@@ -39,13 +41,12 @@ export function leadingZero(number) {
   return zeroNumber;
 }
 
-
 export function checkZero(value) {
   if (value === 0) {
     toast.info("zero days entered", {
       // success, info, warn, error
       position: toast.POSITION.TOP_RIGHT,
-      autoClose: 2000,
+      autoClose: toastDelay,
     });
   }
 }

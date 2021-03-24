@@ -6,7 +6,7 @@ export const appTop = "90px";
 export const navBackground = "rgba(12, 58, 93, 1)";
 export const navSelected = "rgba(12, 58, 93, 1)";
 
-export const toastDelay = "2000";
+export const toastDelay = 2000;
 
 // gantt
 

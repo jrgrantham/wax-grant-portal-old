@@ -247,9 +247,9 @@ const Container = styled.div`
   z-index: 2;
 
   .editWindow {
-    width: 500px;
-    height: 390px;
-    padding: 15px 15px 30px 15px;
+    width: 450px;
+    height: 380px;
+    padding: 25px 20px;
 
     display: flex;
     flex-direction: column;
@@ -282,7 +282,7 @@ const Container = styled.div`
     /* justify-content: space-between; */
     align-items: flex-end;
     flex-direction: column;
-    width: 80%;
+    width: 95%;
     height: 45px;
     margin-bottom: 5px;
   }

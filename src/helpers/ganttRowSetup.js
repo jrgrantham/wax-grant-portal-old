@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { currentCombinedLengthOfBars } from "./index";
+import { toastDelay } from "./settings";
 
 toast.configure();
 
@@ -31,7 +32,7 @@ export function updateEditedWp(oldRow, changes) {
         bars = draft.days;
         toast.info("Bars limited to number of days", {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
+          autoClose: toastDelay,
         });
       }
       updateNumberOfBars(draft, bars);
@@ -55,7 +56,7 @@ function updateDays(draftRow, days, reset) {
         alerted = true;
         toast.info("Decreased length of bars", {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
+          autoClose: toastDelay,
         });
       }
     }
