@@ -23,12 +23,20 @@ function GanttChartLeft(props) {
     totalDays,
   } = props.data;
 
+  console.log(taskPackTitles.length);
+
   const projectLength = useSelector(
     (state) => state.project.data.projectLength
   );
   const dispatch = useDispatch();
   function createNewWorkPackage() {
-    dispatch(addTask({ projectLength }));
+    dispatch(
+      addTask({
+        projectLength,
+        title: `Work Package ${taskPackTitles.length + 1}`,
+      })
+      // addTask({ projectLength })
+    );
   }
 
   return (
