@@ -26,8 +26,6 @@ function GanttTaskRowInfo(props) {
   const [showEditDays, setShowEditDays] = useState(false);
   const [newDays, setNewDays] = useState(days);
 
-  // console.log(taskPackTitles);
-
   function handleDescriptionChange(value) {
     dispatch(
       updateTaskKeyValue({

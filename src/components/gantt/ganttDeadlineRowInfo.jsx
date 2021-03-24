@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BiMenu, BiTrash } from "react-icons/bi";
 import { Container } from "./ganttRowStyling";
+import bin from "../../images/bin-grey.png";
 
 import {
   dAndMRowRemoved,
@@ -77,10 +78,11 @@ function GanttRowDetails(props) {
               ))}
             </select>
             <div className="hidden">
-              <BiTrash
+              <img src={bin} alt="delete" />
+              {/* <BiTrash
                 style={{ cursor: "pointer" }}
                 onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
-              />
+              /> */}
             </div>
           </>
         )}

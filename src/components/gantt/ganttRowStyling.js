@@ -56,6 +56,12 @@ export const Container = styled.div`
       padding-left: 8px;
       padding-right: 5px;
       margin-right: 5px;
+      background-color: transparent;
+    }
+    img {
+      margin-top: 4px;
+      max-height: 18px;
+      max-width: 18px;
     }
     .resources {
       cursor: pointer;
@@ -98,14 +104,6 @@ export const Container = styled.div`
         max-width: 22px;
         max-height: 22px;
       }
-    }
-  }
-
-  .confirmDelete {
-    display: flex;
-    justify-content: flex-end;
-    .cancel {
-      margin-right: 10px;
     }
   }
 `;
