@@ -133,32 +133,17 @@ function GanttPackWork(props) {
               })}
               {provided.placeholder}
               <div className="bottom packBackground">
+                <div>
                 <button className="evenWidth" onClick={handleAddNewRow}>
                   <img src={add} alt="add" />
                 </button>
-                {confirmDelete ? (
-                  <div className="confirm">
-                    <button
-                      onClick={() => setConfirmDelete(false)}
-                      className="evenWidth"
-                    >
-                      <img src={close} alt="close" />
-                    </button>
-                    <button
-                      onClick={() => handleRemovePack()}
-                      className="evenWidth"
-                    >
-                      <img src={bin} alt="delete" />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => setConfirmDelete(true)}
-                    className="evenWidth"
-                  >
-                    <img src={bin} alt="delete" />
-                  </button>
-                )}
+                <button
+                  onClick={() => handleRemovePack()}
+                  className="evenWidth delete"
+                >
+                  <img src={bin} alt="delete" />
+                </button>
+                </div>
                 <div className="evenWidth">
                   <p className="days">{calculateDays()}</p>
                 </div>

@@ -58,8 +58,7 @@ function GanttChartLeft(props) {
             })
           : null}
         <div className="divider">
-          <div className="totalDays" />
-          <button onClick={createNewWorkPackage}>
+          <button className="totalDays content" onClick={createNewWorkPackage}>
             <img src={add} alt="add" />
           </button>
           <div className="totalDays content">

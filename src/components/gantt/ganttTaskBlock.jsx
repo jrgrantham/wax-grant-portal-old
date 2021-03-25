@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { updateTaskBlock } from "../../store/projectData/tasks";
 import { wpBarColor, isNumberKey, checkZero } from "../../helpers";
+import tick from "../../images/tick-white.png";
 
 function GanttWPBlock(props) {
   const dispatch = useDispatch();
   const { leftHandle, rightHandle, block, task, blockIndex, showBlock } = props;
   const { blockNumber, value } = block;
   const blockPosition = blockNumber.slice(-1);
+  const [showEditDays, setShowEditDays] = useState(false);
+  const [newValue, setNewValue] = useState(value);
 
   function onchangeHandler(e) {
     const lastTwoNumbers = e.target.value.slice(-2);
@@ -23,16 +26,67 @@ function GanttWPBlock(props) {
     );
   }
 
+  function handleDayChange(e) {
+    if (e.target.value) {
+      const lastTwoNumbers = e.target.value.slice(-2);
+      setNewValue(parseInt(lastTwoNumbers));
+    } else {
+      setNewValue(0);
+    }
+  }
+  function acceptNewDays() {
+      setShowEditDays(false);
+      if (newValue !== value)
+        dispatch(
+          updateTaskBlock({
+            task,
+            blockIndex,
+            newValue,
+            oldValue: value,
+          })
+        );
+    // else {
+    //   toast.info("Must enter at least 1 day", {
+    //     position: toast.POSITION.TOP_RIGHT,
+    //     autoClose: toastDelay,
+    //   });
+    // }
+  }
+
   return (
     <Container id={blockNumber}>
       {showBlock ? (
-        <input
-          type="text"
-          value={value}
-          onKeyDown={(e) => isNumberKey(e)}
-          onChange={(e) => onchangeHandler(e)}
-          onBlur={() => checkZero(value)}
-        />
+        <div>
+          {showEditDays ? (
+            <div className="editDays">
+              <input
+                autoFocus
+                className="days highlight packBackground"
+                type="text"
+                value={newValue}
+                onKeyDown={(e) => isNumberKey(e)}
+                onChange={(e) => handleDayChange(e)}
+              />
+              <button onClick={acceptNewDays} className="accept">
+                <img src={tick} alt="accept" />
+              </button>
+            </div>
+          ) : (
+            <button
+              className="days highlight packBackground"
+              onClick={() => setShowEditDays(true)}
+            >
+              {value}
+            </button>
+          )}
+          {/* <input
+            type="text"
+            value={value}
+            onKeyDown={(e) => isNumberKey(e)}
+            onChange={(e) => onchangeHandler(e)}
+            onBlur={() => checkZero(value)}
+          /> */}
+        </div>
       ) : null}
       {blockPosition === "s" ? (
         <div id={leftHandle} className="dragHandle left" />
@@ -78,6 +132,35 @@ const Container = styled.div`
     background-color: ${wpBarColor};
     color: white;
     z-index: 1;
+  }
+  button {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    color: white;
+    cursor: text;
+  }
+  img {
+    max-height: 18px;
+    max-width: 18px;
+    cursor: pointer;
+  }
+  .editDays {
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* border-radius: 50%; */
+    z-index: 1;
+    .accept {
+      /* background-color: ${wpBarColor}; */
+      position: absolute;
+      display: flex;
+      align-items: center;
+      /* bottom: 6px; */
+      right: -20px;
+      max-width: 22px;
+      max-height: 22px;
+    }
   }
 
   .dragHandle {

@@ -44,6 +44,15 @@ export const Container = styled.div`
     }
     .menu {
       padding-top: 4px;
+      cursor: move; /* fallback if grab cursor is unsupported */
+      cursor: grab;
+      cursor: -moz-grab;
+      cursor: -webkit-grab;
+      &:active {
+        cursor: grabbing;
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+      }
     }
   }
 
@@ -59,7 +68,6 @@ export const Container = styled.div`
       background-color: transparent;
     }
     img {
-      margin-top: 4px;
       max-height: 18px;
       max-width: 18px;
     }

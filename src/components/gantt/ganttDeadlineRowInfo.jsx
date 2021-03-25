@@ -78,7 +78,12 @@ function GanttRowDetails(props) {
               ))}
             </select>
             <div className="hidden">
-              <img src={bin} alt="delete" />
+              <img
+                src={bin}
+                alt="delete"
+                style={{ cursor: "pointer" }}
+                onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
+              />
               {/* <BiTrash
                 style={{ cursor: "pointer" }}
                 onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
