@@ -1,31 +1,29 @@
-// import { emptyBlock } from "../data/workPackages";
+// import { emptyBlock } from "../data/tasks";
 import produce from "immer";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { currentCombinedLengthOfBars } from "./index";
+import { toastDelay } from "./settings";
 
 toast.configure();
 
-export function updateEditedWp(oldRow, changes, data) {
-  console.log(data);
-  console.log(oldRow);
+export function updateEditedWp(oldRow, changes) {
   const {
     newWorkPackageTitle,
     newDescription,
     newDayLoading,
     newDays,
     newBars,
+    reset,
   } = changes;
-  // let newTitle = false;
-  // if (newWorkPackageTitle) newTitle = true;
 
   const newRow = produce(oldRow, (draft) => {
-    if (newWorkPackageTitle) draft.workPackageTitle = newWorkPackageTitle; // check here - update
+    if (newWorkPackageTitle) draft.workPackageTitle = newWorkPackageTitle;
     if (newDescription) draft.description = newDescription;
-    if (newDayLoading) draft.datLoading = newDayLoading;
+    if (newDayLoading) draft.dayLoading = newDayLoading;
     if (newDays) {
-      updateDays(draft, newDays);
+      updateDays(draft, newDays, reset);
       spreadWork(draft);
     }
     let bars = newBars;
@@ -34,43 +32,31 @@ export function updateEditedWp(oldRow, changes, data) {
         bars = draft.days;
         toast.info("Bars limited to number of days", {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
+          autoClose: toastDelay,
         });
       }
       updateNumberOfBars(draft, bars);
     }
   });
-
-  const newData = data.map((row) => {
-    if (newRow.rowId === row.rowId) {
-      return newRow;
-    }
-    return row;
-  });
-  console.log(newData);
-  return newData;
+  return newRow;
 }
 
-function updateDays(draftRow, days) {
-  // must take a 'copy' from immer
+function updateDays(draftRow, days, reset) {
   let alerted = false;
   draftRow.days = days;
   const schedule = draftRow.schedule;
   let statusCount = 0;
   for (let i = 0; i < schedule.length; i++) {
     if (schedule[i].status) statusCount++;
-    if (statusCount === days) schedule[i].end = true;
     if (statusCount > days) {
       schedule[i].status = false;
-      schedule[i].start = false;
-      schedule[i].end = false;
       schedule[i].value = 0;
       schedule[i].barNumber = 0;
-      if (!alerted) {
+      if (!alerted && !reset) {
         alerted = true;
         toast.info("Decreased length of bars", {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
+          autoClose: toastDelay,
         });
       }
     }
@@ -86,30 +72,32 @@ export function wPUpdateDays(oldRow, days) {
   return newRow;
 }
 
-function updateNumberOfBars(row, numberOfBars) {
-  const schedule = row.schedule;
-  for (let i = 0; i < schedule.length; i++) {
+function updateNumberOfBars(task, numberOfBars) {
+  const schedule = task.schedule;
+  let barNumber = 1;
+  for (let i = 0; i < schedule.length - 1; i = i + 2) {
     schedule[i].value = 0;
-    if (i < numberOfBars) {
-      schedule[i].start = true;
-      schedule[i].end = true;
+    if (barNumber <= numberOfBars) {
       schedule[i].status = true;
-      schedule[i].barNumber = i + 1;
+      schedule[i].barNumber = barNumber;
+      barNumber++;
+      schedule[i + 1].status = false;
+      schedule[i + 1].barNumber = 0;
     } else {
-      schedule[i].start = false;
-      schedule[i].end = false;
       schedule[i].status = false;
       schedule[i].barNumber = 0;
+      schedule[i + 1].status = false;
+      schedule[i + 1].barNumber = 0;
     }
   }
-  spreadWork(row);
-  return row;
+  spreadWork(task);
+  return task;
 }
 
-export function spreadWork(row) {
-  const days = row.days;
-  const schedule = row.schedule;
-  const duration = currentCombinedLengthOfBars(row.schedule);
+export function spreadWork(task) {
+  const days = task.days;
+  const schedule = task.schedule;
+  const duration = currentCombinedLengthOfBars(task.schedule);
   const Months = Math.floor(days / duration);
   const remainderMonths = days % duration;
   let j = 0;
@@ -119,31 +107,12 @@ export function spreadWork(row) {
         schedule[i].value = Months + 1;
         j++;
       } else schedule[i].value = Months;
-    }
+    } else schedule[i].value = 0;
   }
-  return row;
-}
-
-export function dAndMUpdateDate(oldRow, date) {
-  const newRow = produce(oldRow, (draft) => {
-    const schedule = draft.schedule;
-    for (let i = 0; i < schedule.length; i++) {
-      if (i === date) {
-        schedule[i].status = true;
-        schedule[i].start = true;
-        schedule[i].end = true;
-      } else {
-        schedule[i].status = false;
-        schedule[i].start = false;
-        schedule[i].end = false;
-      }
-    }
-  });
-  return newRow;
+  return task;
 }
 
 export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
-  // console.log(newValue, oldValue, blockIndex);
   const change = newValue - oldValue;
   const newDays = oldRow.days + change;
   const newRow = produce(oldRow, (draft) => {
@@ -154,12 +123,12 @@ export function wPUpdateBlock(oldRow, newValue, oldValue, blockIndex) {
   return newRow;
 }
 
-const newTitle = "Rename this title in place...";
+const newTitle = "Work Package Title";
 export function wPCreateNewRow(scheduleLength, title = newTitle) {
   const newRow = {
-    rowId: uuidv4(), // use this but don't send to server
+    taskId: uuidv4(), // use this but don't send to server
     workPackageTitle: title,
-    description: "edit this row in place...",
+    description: "Task Name",
     days: 1, // default
     dayLoading: "front", // default
     sortPosition: 0, // should sort its self out...
@@ -179,20 +148,17 @@ export function wPCreateNewRow(scheduleLength, title = newTitle) {
     newRow.schedule.push(emptyBlock);
   }
   newRow.schedule[0].status = true;
-  newRow.schedule[0].start = true;
-  newRow.schedule[0].end = true;
   newRow.schedule[0].value = 1;
   newRow.schedule[0].barNumber = 1;
   return newRow;
 }
 
 export function dAndMCreateNewRow(type, scheduleLength) {
-  console.log(type, scheduleLength);
   const newRow = {
-    rowId: uuidv4(),
+    taskId: uuidv4(),
     sortPosition: 0,
     type,
-    description: "edit this row in place...",
+    description: "Deadline description",
     schedule: [],
   };
   for (let i = 0; i < scheduleLength; i++) {
@@ -206,7 +172,5 @@ export function dAndMCreateNewRow(type, scheduleLength) {
     newRow.schedule.push(emptyBlock);
   }
   newRow.schedule[0].status = true;
-  newRow.schedule[0].start = true;
-  newRow.schedule[0].end = true;
   return newRow;
 }

@@ -17,6 +17,16 @@ export const Container = styled.div`
     max-width: 300px;
     margin-right: 5px;
   }
+  button {
+    background: transparent;
+    border: none;
+    height: 100%;
+    padding: 0;
+  }
+  img {
+    max-height: 80%;
+    max-width: 100%;
+  }
   .packBackground {
     background-color: ${wpBackground};
   }
@@ -74,6 +84,18 @@ export const Container = styled.div`
     padding-right: 31px;
     p {
       font-weight: 700;
+      text-align: right;
     }
+    .confirm {
+      width: 50px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  .evenWidth {
+    width: 20px
+  }
+  .delete {
+    margin-left: 5px;
   }
 `;

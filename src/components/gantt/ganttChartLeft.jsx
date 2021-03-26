@@ -2,58 +2,75 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import GanttPackWork from "./ganttPackWork";
-import GanttPackDelsMils from "./ganttPackDelsMils";
-import { wPRowAdded } from "../../store/projectData/workPackages";
-import { wpTitleColor, delTitleColor, milTitleColor, dividerHeight, totalDaysColor } from "../../helpers";
+import GanttPackWork from "./ganttTaskPackInfo";
+import GanttPackdeadlines from "./ganttDeadlinePackInfo";
+import { addTask } from "../../store/projectData/tasks";
+import {
+  wpTitleColor,
+  delTitleColor,
+  milTitleColor,
+  dividerHeight,
+  totalDaysColor,
+} from "../../helpers";
+import add from "../../images/add-white.png";
 
 function GanttChartLeft(props) {
   const {
-    workPackageTitles,
-    workPackages,
+    taskPackTitles,
+    groupedTasks,
     deliverables,
     milestones,
     totalDays,
   } = props.data;
+
+  console.log(taskPackTitles.length);
 
   const projectLength = useSelector(
     (state) => state.project.data.projectLength
   );
   const dispatch = useDispatch();
   function createNewWorkPackage() {
-    dispatch(wPRowAdded({ projectLength }));
+    dispatch(
+      addTask({
+        projectLength,
+        title: `Work Package ${taskPackTitles.length + 1}`,
+      })
+      // addTask({ projectLength })
+    );
   }
 
   return (
     <PageContainer>
       <div id="details">
         <div className="monthHeaderSpacer"></div>
-        {workPackages.length
-          ? workPackages.map((row, index) => {
+        {groupedTasks.length
+          ? groupedTasks.map((task, index) => {
               return (
                 <GanttPackWork
                   key={index}
-                  workPackData={row}
+                  index={index}
+                  packData={task}
                   titleBarColor={wpTitleColor}
-                  title={workPackageTitles[index]}
-                  allTitles={workPackageTitles}
+                  title={taskPackTitles[index]}
+                  taskPackTitles={taskPackTitles}
                 />
               );
             })
           : null}
         <div className="divider">
-          <div className="totalDays" />
-          <button onClick={createNewWorkPackage}>Add Work Package</button>
+          <button className="totalDays content" onClick={createNewWorkPackage}>
+            <img src={add} alt="add" />
+          </button>
           <div className="totalDays content">
             <h3>{totalDays ? totalDays : null}</h3>
           </div>
         </div>
-        <GanttPackDelsMils
+        <GanttPackdeadlines
           workPackData={deliverables}
           titleBarColor={delTitleColor}
           title={"Deliverables"}
         />
-        <GanttPackDelsMils
+        <GanttPackdeadlines
           workPackData={milestones}
           titleBarColor={milTitleColor}
           title={"Milestones"}
@@ -93,9 +110,18 @@ const PageContainer = styled.div`
       color: ${totalDaysColor};
     }
     button {
-      height: 30px;
-      padding-left: 30px;
-      padding-right: 30px;
+      height: 40px;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      display: flex;
+      /* padding-left: 30px;
+      padding-right: 30px; */
+    }
+    img {
+      margin: none;
+      height: 80%;
+      width: auto;
     }
   }
 `;

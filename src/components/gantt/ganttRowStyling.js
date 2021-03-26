@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {wpHighlight} from '../../helpers'
+import { wpBackground, wpHighlight } from "../../helpers";
 
 export const Container = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-      /* margin: 0 5px; */
+    /* margin: 0 5px; */
     p {
       margin-left: 5px;
     }
@@ -44,6 +44,15 @@ export const Container = styled.div`
     }
     .menu {
       padding-top: 4px;
+      cursor: move; /* fallback if grab cursor is unsupported */
+      cursor: grab;
+      cursor: -moz-grab;
+      cursor: -webkit-grab;
+      &:active {
+        cursor: grabbing;
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+      }
     }
   }
 
@@ -56,13 +65,18 @@ export const Container = styled.div`
       padding-left: 8px;
       padding-right: 5px;
       margin-right: 5px;
+      background-color: transparent;
+    }
+    img {
+      max-height: 18px;
+      max-width: 18px;
     }
     .resources {
       cursor: pointer;
       height: 27px;
       width: 100px;
       /* padding-left: 5px; */
-      padding-right: 5px;
+      padding: 0 5px;
       margin-left: 14px;
       margin-right: 14px;
       border: none;
@@ -78,16 +92,26 @@ export const Container = styled.div`
     }
     .days {
       width: 40px;
+      height: 27px;
       margin-right: 5px;
       text-align: right;
+      padding-right: 5px;
     }
-  }
-
-  .confirmDelete {
-    display: flex;
-    justify-content: flex-end;
-    .cancel {
-      margin-right: 10px;
+    .editDays {
+      position: relative;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+      .accept {
+        background-color: ${wpBackground};
+        position: absolute;
+        display: flex;
+        align-items: center;
+        /* bottom: 6px; */
+        right: -17px;
+        max-width: 22px;
+        max-height: 22px;
+      }
     }
   }
 `;

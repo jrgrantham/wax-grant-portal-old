@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
+// import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import GanttScheduleBackground from "./ganttScheduleBackground";
-import GanttWorkPackageSchedule from "./ganttPackSchedule";
+import GanttWPPackSchedule from "./ganttTaskPackSchedule";
+import GanttDMPackSchedule from "./ganttDeadlinePackSchedule";
 import { dividerHeight, monthWidth, totalDaysColor } from "../../helpers";
 
 function GanttChartRight(props) {
-  const { workPackages, deliverables, milestones, daysPerMonth } = props.data;
-
+  const { groupedTasks, deliverables, milestones, daysPerMonth } = props.data;
   // useEffect(() => {
   //   const slider = document.querySelector(".right");
   //   let isDown = false;
@@ -43,25 +44,29 @@ function GanttChartRight(props) {
         <div className="inner">
           <GanttScheduleBackground />
           <div className="monthHeaderSpacer"></div>
-          {workPackages.length
-            ? workPackages.map((row, index) => {
+          {groupedTasks.length
+            ? groupedTasks.map((task, index) => {
                 return (
-                  <GanttWorkPackageSchedule key={index} workPackData={row} />
+                  <GanttWPPackSchedule
+                    key={index}
+                    workPackData={task}
+                    wpIndex={index}
+                  />
                 );
               })
             : null}
           <div className="divider">
             {daysPerMonth.map((month, index) => {
               return (
-                <div key={index} className="monthTotal">
+                <div key={index} className="monthTotalDays">
                   <h3>{month ? month : null}</h3>
                 </div>
               );
             })}
           </div>
 
-          <GanttWorkPackageSchedule workPackData={deliverables} prefix={"D"} />
-          <GanttWorkPackageSchedule workPackData={milestones} prefix={"M"} />
+          <GanttDMPackSchedule workPackData={deliverables} prefix={"D"} />
+          <GanttDMPackSchedule workPackData={milestones} prefix={"M"} />
         </div>
       </div>
     </PageContainer>
@@ -75,10 +80,6 @@ const PageContainer = styled.div`
   justify-content: flex-start;
   overflow-x: auto;
   width: 100%;
-  /* border-left: 1px solid rgba(250, 250, 250, 0.5); */
-  /* border-right: 1px solid rgba(250, 250, 250, 0.5); */
-  /* border-bottom: 1px solid rgba(250, 250, 250, 0.5); */
-  /* border-radius: 4px; */
   @media screen and (max-width: 550px) {
     display: none;
   }
@@ -91,12 +92,12 @@ const PageContainer = styled.div`
     display: flex;
     align-items: flex-start;
   }
-  .monthTotal {
+  .monthTotalDays {
     width: ${monthWidth};
     height: 30px;
     flex-shrink: 0;
     margin-top: 5px;
-  
+
     display: flex;
     justify-content: center;
     align-items: center;

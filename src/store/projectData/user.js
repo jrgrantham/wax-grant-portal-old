@@ -1,5 +1,4 @@
-
-export function userReducer(state = {names: 'james'}, action) {
+export default function userReducer(state = { names: "james" }, action) {
   switch (action.type) {
     default:
       return state;
@@ -13,7 +12,7 @@ export function userReducer(state = {names: 'james'}, action) {
 //       .get("url")
 //       .then((response) => {
 //         // const gantt = response.data
-//         // dispatch(fetchWorkPackageSuccess(gantt))
+//         // dispatch(fetchtasksuccess(gantt))
 //       })
 //       .catch((error) => {
 //         //error.message

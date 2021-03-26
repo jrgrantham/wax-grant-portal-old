@@ -2,31 +2,37 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BiMenu, BiTrash } from "react-icons/bi";
 import { Container } from "./ganttRowStyling";
+import bin from "../../images/bin-grey.png";
 
 import {
   dAndMRowRemoved,
-  dAndMChangedDate,
+  // dAndMChangedDate,
   dAndMChangeKeyValue,
-} from "../../store/projectData/delsAndMils";
+} from "../../store/projectData/deadlines";
 
 function GanttRowDetails(props) {
   const dispatch = useDispatch();
   const projectDates = useSelector((state) => state.project.data.dates);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const { row, provided } = props;
-  const { description, schedule } = row;
+  const { task, provided } = props;
+  const { description, scheduled } = task;
 
-  const dateIndex = schedule
-    .map(function (date) {
-      return date.status;
-    })
-    .indexOf(true);
+  const dateIndex = scheduled;
 
   function handleDescriptionChange(value) {
     dispatch(
       dAndMChangeKeyValue({
-        rowId: row.rowId,
+        taskId: task.taskId,
         key: "description",
+        value,
+      })
+    );
+  }
+  function handleDateChange(value) {
+    dispatch(
+      dAndMChangeKeyValue({
+        taskId: task.taskId,
+        key: "scheduled",
         value,
       })
     );
@@ -54,7 +60,7 @@ function GanttRowDetails(props) {
             <button className="cancel" onClick={() => setConfirmDelete(false)}>
               Cancel
             </button>
-            <button onClick={() => dispatch(dAndMRowRemoved(row.rowId))}>
+            <button onClick={() => dispatch(dAndMRowRemoved(task.taskId))}>
               Confirm
             </button>
           </div>
@@ -63,11 +69,7 @@ function GanttRowDetails(props) {
             <select
               className="highlight"
               value={dateIndex}
-              onChange={(e) =>
-                dispatch(
-                  dAndMChangedDate({ row, value: parseInt(e.target.value) })
-                )
-              }
+              onChange={(e) => handleDateChange(parseInt(e.target.value))}
             >
               {projectDates.map((date, index) => (
                 <option value={index} key={index} className="date">
@@ -76,10 +78,16 @@ function GanttRowDetails(props) {
               ))}
             </select>
             <div className="hidden">
-              <BiTrash
+              <img
+                src={bin}
+                alt="delete"
                 style={{ cursor: "pointer" }}
-                onClick={() => setConfirmDelete(true)}
+                onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
               />
+              {/* <BiTrash
+                style={{ cursor: "pointer" }}
+                onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
+              /> */}
             </div>
           </>
         )}

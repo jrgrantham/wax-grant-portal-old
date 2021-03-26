@@ -2,52 +2,58 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import { appWidth, wpMarginBottom } from "../helpers/";
+import { appTop, appWidth, wpMarginBottom, getResources } from "../helpers/";
 import GanttChartLeft from "../components/gantt/ganttChartLeft";
 import GanttChartRight from "../components/gantt/ganttChartRight";
+// import { allResources } from "../store";
 
 function GanttChart() {
-  const allRows = useSelector((state) => state.workPackages.data);
 
+  const allTasks = useSelector((state) => state.tasks.data);
   // for testing ------------ could be used on other page
-  const people = useSelector((state) => state.project.data.resources);
+  const people = useSelector((state) => state.team.data);
+  const resources = getResources();
   const peoplesDays = {};
   people.forEach((person) => {
-    peoplesDays[person] = 0;
-    allRows.forEach((row) => {
-      const percentage = row.resources[person] ? row.resources[person] : 0;
-      const days = (row.days * percentage) / 100;
+    const initials = person.acronym;
+    peoplesDays[initials] = 0;
+    allTasks.forEach((task) => {
+      let percentage = 0;
+      if (resources[task.taskId][initials] !== undefined) {
+        percentage = resources[task.taskId][initials].percent;
+      }
       if (percentage > 0) {
-        peoplesDays[person] = peoplesDays[person] + days;
+        const days = (task.days * percentage) / 100;
+        peoplesDays[initials] = peoplesDays[initials] + days;
       }
     });
   });
   // for testing ------------ could be used on other page
 
-  function groupByTitle(titles, data) {
-    const groupedWork = [];
+  function createGroupedTasks(titles, data) {
+    const groupedTask = [];
     titles.forEach((title) => {
       const group = data.filter(
         (workPack) => workPack.workPackageTitle === title
       );
-      groupedWork.push(group);
+      groupedTask.push(group);
     });
-    return groupedWork;
+    return groupedTask;
   }
 
-  const workPackageTitles = [
+  const taskPackTitles = [
     ...new Set(
-      allRows
+      allTasks
         .map((workPackage) => workPackage.workPackageTitle)
-        .sort((a, b) => a - b)
+        // .sort((a, b) => a - b)
     ),
   ];
-  const workPackages = groupByTitle(workPackageTitles, allRows);
+  const groupedTasks = createGroupedTasks(taskPackTitles, allTasks);
   const deliverables = useSelector((state) =>
-    state.delsAndMils.data.filter((row) => row.type === "deliverable")
+    state.deadlines.data.filter((task) => task.type === "deliverable")
   );
   const milestones = useSelector((state) =>
-    state.delsAndMils.data.filter((row) => row.type === "milestone")
+    state.deadlines.data.filter((task) => task.type === "milestone")
   );
 
   const projectLength = useSelector(
@@ -58,8 +64,8 @@ function GanttChart() {
   let totalDays = 0;
   for (let i = 0; i < projectLength; i++) {
     let days = 0;
-    for (let j = 0; j < allRows.length; j++) {
-      const currentDay = allRows[j].schedule[i].value;
+    for (let j = 0; j < allTasks.length; j++) {
+      const currentDay = allTasks[j].schedule[i].value;
       days += currentDay;
       totalDays += currentDay;
     }
@@ -74,8 +80,8 @@ function GanttChart() {
   }, []);
 
   const data = {
-    workPackageTitles,
-    workPackages,
+    taskPackTitles,
+    groupedTasks,
     deliverables,
     milestones,
     daysPerMonth,
@@ -83,7 +89,7 @@ function GanttChart() {
   };
 
   return (
-    <PageContainer chartWidth={chartWidth} appWidth={appWidth}>
+    <PageContainer chartWidth={chartWidth}>
       <div id="chartArea" className="chartArea">
         <GanttChartLeft data={data} />
         <GanttChartRight data={data} />
@@ -92,8 +98,8 @@ function GanttChart() {
         {people.map((person, index) => {
           return (
             <div key={index} className="person">
-              <span>{person}:</span>
-              <span>{peoplesDays[person].toFixed(2)}</span>
+              <span>{person.acronym}:</span>
+              <span>{peoplesDays[person.acronym].toFixed(2)}</span>
             </div>
           );
         })}
@@ -105,11 +111,11 @@ export default GanttChart;
 
 const PageContainer = styled.div`
   position: relative;
-  top: 80px;
+  top: ${appTop};
   margin: auto;
   padding: 10px;
   width: 100%;
-  max-width: ${(props) => props.appWidth};
+  max-width: ${appWidth};
 
   display: flex;
   flex-direction: column;
@@ -117,10 +123,6 @@ const PageContainer = styled.div`
   align-items: center;
   @media screen and (max-width: 750px) {
     padding: 0px;
-  }
-  h2 {
-    color: white;
-    margin: 10px 0 15px 0;
   }
   .chartArea {
     margin-bottom: 50px;

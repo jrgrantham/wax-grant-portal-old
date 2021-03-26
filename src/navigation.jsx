@@ -12,58 +12,34 @@ function Navigation() {
   return (
     <Container appWidth={appWidth} menu={menu}>
       <div className="navBar">
-        <ul>
-          <li>
-            <NavLink
-              exact
-              to="/project"
-              className="navButton"
-              activeClassName="selected"
-            >
-              Project
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              exact
-              to="/team"
-              className="navButton"
-              activeClassName="selected"
-            >
-              Team
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/gantt"
-              className="navButton"
-              activeClassName="selected"
-            >
-              Gantt Chart
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              exact
-              to="/costs"
-              className="navButton"
-              activeClassName="selected"
-            >
-              Costs
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              exact
-              to="/revenue"
-              className="navButton"
-              activeClassName="selected"
-            >
-              Revenue
-            </NavLink>
-          </li>
-        </ul>
-        <p className="navButton" onClick={openMenu}>
+        <NavLink
+          exact
+          to="/"
+          className="navButton small"
+          activeClassName="selected"
+        >
+          Home
+        </NavLink>
+
+        <div className="links">
+          <NavLink exact to="/project" activeClassName="selected">
+            <div className="navButton">Project</div>
+          </NavLink>
+          <NavLink exact to="/team" activeClassName="selected">
+            <div className="navButton">Team</div>
+          </NavLink>
+          <NavLink to="/gantt" activeClassName="selected">
+            <div className="navButton">Gantt Chart</div>
+          </NavLink>
+          <NavLink exact to="/costs" activeClassName="selected">
+            <div className="navButton">Costs</div>
+          </NavLink>
+          <NavLink exact to="/revenue" activeClassName="selected">
+            <div className="navButton">Revenue</div>
+          </NavLink>
+        </div>
+
+        <p className="navButton small" onClick={openMenu}>
           Menu
         </p>
       </div>
@@ -99,35 +75,45 @@ const Container = styled.nav`
     justify-content: space-between;
     align-items: center;
   }
-  ul {
+  .links {
     display: flex;
   }
-
-  .navButton {
-    margin: 5px;
-    padding: 15px 30px;
+  a, p {
+    width: 170px;
+    display: flex;
+    justify-content: center;
+    /* width: 170px; */
+    margin: 10px 5px;
+    padding: 5px 20px;
     color: white;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 600;
     border: 1px solid rgba(255, 255, 255, 0);
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-
+    border-radius: 5px;
+  }
+  .navButton {
+    border-radius: 5px;
+    padding: 5px;
     background-image: linear-gradient(${navBackground}, ${navBackground}),
       linear-gradient(white, white);
     background-size: 100% 2px, 100% 2px;
     background-position: 100% 100%, 0 100%;
     background-repeat: no-repeat, no-repeat;
     transition: background-size 0.3s linear;
-
     &:hover {
       background-size: 0 2px, 100% 2px;
     }
+
+  }
+  .navButton.small {
+    width: 80px;
   }
   .selected {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.15);
+  }
+  .selected .navButton:hover {
+    background-size: 100% 2px, 100% 2px;
   }
   .menu {
     position: fixed;

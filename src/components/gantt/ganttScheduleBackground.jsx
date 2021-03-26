@@ -43,6 +43,7 @@ const Container = styled.div`
     color: white;
   }
   .monthLetter {
+    /* position: sticky; */
     display: flex;
     justify-content: center;
     align-items: center;

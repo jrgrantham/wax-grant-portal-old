@@ -5,33 +5,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container } from "./ganttPackStyling";
 
 import {
-  wPReorderRows,
-  wPRowAdded,
-  wPTitleChanged,
-} from "../../store/projectData/workPackages";
-import { dAndMReorderRows } from "../../store/projectData/delsAndMils";
-import GanttRowWork from "./ganttRowWork";
-import EditModal from "./ganttModalEdit";
+  reorderTasks,
+  addTask,
+  updateTaskPackTitle,
+  removeTaskPack,
+} from "../../store/projectData/tasks";
+import { dAndMReorderRows } from "../../store/projectData/deadlines";
+import GanttTaskRowInfo from "./ganttTaskRowInfo";
+import EditModal from "../modals/ganttEditModal";
+import tick from "../../images/tick-white.png";
+import add from "../../images/add-grey.png";
+import bin from "../../images/bin-grey.png";
+import close from "../../images/close-grey.png";
+import { removeTaskAllocations } from "../../store/projectData/allocations";
 
 function GanttPackWork(props) {
-  const title = props.title;
-  const packData = props.workPackData;
   const dispatch = useDispatch();
+
+  const { title, index, packData } = props;
   const isWP = !(title === "Deliverables" || title === "Milestones");
+  const wpNumber = index + 1;
 
   const [edit, setEdit] = useState(false);
   const [editTitleWindow, setEditTitleWindow] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const { projectLength } = useSelector((state) => state.project.data);
   function handleAddNewRow() {
-    dispatch(wPRowAdded({ projectLength, title }));
+    dispatch(addTask({ projectLength, title }));
   }
 
   function calculateDays() {
     let days = 0;
-    packData.forEach((row) => {
-      days += row.days;
+    packData.forEach((task) => {
+      days += task.days;
     });
     return days;
   }
@@ -40,20 +48,29 @@ function GanttPackWork(props) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     const movement = result.destination.index - result.source.index;
-    const row = packData[result.source.index];
-    if (isWP) dispatch(wPReorderRows({ row, movement }));
-    else dispatch(dAndMReorderRows({ rowId: row.rowId, movement }));
+    const task = packData[result.source.index];
+    if (isWP) dispatch(reorderTasks({ task, movement }));
+    else dispatch(dAndMReorderRows({ taskId: task.taskId, movement }));
   }
 
   function handleEditTitle(value) {
     if (value === "Deliverables" || title === "Milestones") return;
-    console.log(value);
     setNewTitle(value);
   }
 
   function sendEditedTitle() {
-    dispatch(wPTitleChanged({ oldTitle: title, newTitle: newTitle }));
+    if (title !== newTitle)
+      dispatch(updateTaskPackTitle({ oldTitle: title, newTitle: newTitle }));
     setEditTitleWindow(false);
+  }
+
+  function handleRemovePack() {
+    const taskList = [...new Set(packData.map((task) => task.taskId))];
+    taskList.forEach((taskId) => {
+      dispatch(removeTaskAllocations({ taskId }));
+    });
+    dispatch(removeTaskPack({ workPackageTitle: title }));
+    setConfirmDelete(false);
   }
 
   return (
@@ -67,23 +84,16 @@ function GanttPackWork(props) {
               type="text"
               value={newTitle}
               onChange={(e) => handleEditTitle(e.target.value)}
-              // onBlur={sendEditedTitle}
             />
-            <button className="titleButton" onClick={sendEditedTitle}>
-              Update
-            </button>
-            <button
-              className="titleButton"
-              onClick={() => setEditTitleWindow(false)}
-            >
-              Cancel
+            <button className="evenWidth" onClick={sendEditedTitle}>
+              <img src={tick} alt="accept" />
             </button>
           </>
         ) : (
           <>
-            {/* <button onClick={() => setEditTitleWindow(true)}> */}
-            <h3 className='title' onClick={() => setEditTitleWindow(true)}>{title}</h3>
-            {/* </button> */}
+            <h3 className="title" onClick={() => setEditTitleWindow(true)}>
+              {`WP${wpNumber} - ${title}`}
+            </h3>
             <div className="info">
               <h3 className="resources">Resources</h3>
               <h3 className="days">Days</h3>
@@ -95,11 +105,11 @@ function GanttPackWork(props) {
         <Droppable droppableId={title}>
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {packData.map((row, index) => {
+              {packData.map((task, index) => {
                 return (
                   <Draggable
-                    key={row.rowId}
-                    draggableId={row.rowId}
+                    key={task.taskId}
+                    draggableId={task.taskId}
                     index={index}
                   >
                     {(provided) => (
@@ -108,11 +118,12 @@ function GanttPackWork(props) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                       >
-                        <GanttRowWork
-                          allTitles={props.allTitles}
+                        <GanttTaskRowInfo
+                          packData={packData}
+                          taskPackTitles={props.taskPackTitles}
                           provided={provided}
                           key={index}
-                          row={row}
+                          task={task}
                           isWP={isWP}
                         />
                       </div>
@@ -122,8 +133,20 @@ function GanttPackWork(props) {
               })}
               {provided.placeholder}
               <div className="bottom packBackground">
-                <button onClick={handleAddNewRow}>add task</button>
-                <p className="days">{calculateDays()}</p>
+                <div>
+                <button className="evenWidth" onClick={handleAddNewRow}>
+                  <img src={add} alt="add" />
+                </button>
+                <button
+                  onClick={() => handleRemovePack()}
+                  className="evenWidth delete"
+                >
+                  <img src={bin} alt="delete" />
+                </button>
+                </div>
+                <div className="evenWidth">
+                  <p className="days">{calculateDays()}</p>
+                </div>
               </div>
             </div>
           )}

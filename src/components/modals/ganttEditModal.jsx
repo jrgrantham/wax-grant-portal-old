@@ -3,7 +3,12 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { wPRowRemoved, wPEdited } from "../../store/projectData/workPackages";
+import { removeTask, updateTaskPack } from "../../store/projectData/tasks";
+import { removeTaskAllocations } from "../../store/projectData/allocations";
+import close from "../../images/close-grey.png";
+import save from "../../images/save-grey.png";
+import bin from "../../images/bin-grey.png";
+import { wpTitleColor } from "../../helpers";
 
 function numberOfBars(schedule) {
   let bars = 0;
@@ -18,8 +23,8 @@ function numberOfBars(schedule) {
 function EditModal(props) {
   const dispatch = useDispatch();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const row = props.row;
-  const { dayLoading, days, description, workPackageTitle, schedule } = row;
+  const { task, taskPackTitles } = props;
+  const { dayLoading, days, description, workPackageTitle, schedule } = task;
   const barLimit = Math.ceil(schedule.length / 2);
   const bars = numberOfBars(schedule);
 
@@ -69,8 +74,8 @@ function EditModal(props) {
         newDayLoading,
       };
       dispatch(
-        wPEdited({
-          row,
+        updateTaskPack({
+          task,
           changes,
         })
       );
@@ -79,17 +84,28 @@ function EditModal(props) {
     validationSchema,
   });
 
-  const deleteWP = (
-    <div className="confirmDelete">
-      <button className="cancel" onClick={() => setConfirmDelete(false)}>
-        Cancel
-      </button>
-      <button onClick={() => dispatch(wPRowRemoved(row.rowId))}>Confirm</button>
-    </div>
-  );
-
   function closeModal(e) {
     if (e.target.id === "background") props.setEditModal(false);
+  }
+
+  function resetBars() {
+    // send bars = 1 then days = 1
+    const changes = {
+      newBars: 1,
+      newDays: 1,
+      reset: true, // to stop toast notification
+    };
+    dispatch(
+      updateTaskPack({
+        task,
+        changes,
+      })
+    );
+    props.setEditModal(false);
+  }
+  function deleteTask(taskId) {
+    dispatch(removeTask(taskId));
+    dispatch(removeTaskAllocations({ taskId }));
   }
 
   window.addEventListener("keydown", function (event) {
@@ -100,46 +116,17 @@ function EditModal(props) {
   return (
     <Container id="background" onClick={(e) => closeModal(e)}>
       <div className="editWindow">
+        <div className="color" />
         <div className="topRow">
-          <button onClick={() => props.setEditModal(false)}>Cancel</button>
-          {confirmDelete ? (
-            deleteWP
-          ) : (
-            <button
-              style={{ cursor: "pointer" }}
-              onClick={() => setConfirmDelete(true)}
-            >
-              Delete Row
-            </button>
-          )}
+          <button onClick={() => props.setEditModal(false)}>
+            <img src={close} alt="close" />
+          </button>
         </div>
 
         <form onSubmit={formik.handleSubmit}>
           <div className="formField">
             <div className="inputArea">
-              <label htmlFor="work pack">Work pack</label>
-              <select
-                value={workPackageTitle}
-                onChange={formik.handleChange}
-                name="workPackageTitle"
-                id="workPackageTitle"
-              >
-                {props.allTitles.map((title, index) => (
-                  <option value={title} key={index} className="title">
-                    {title}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {formik.touched.workPackageTitle &&
-            formik.errors.workPackageTitle ? (
-              <p className="errorMessage">{formik.errors.workPackageTitle}</p>
-            ) : null}
-          </div>
-
-          <div className="formField">
-            <div className="inputArea">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">Task Title</label>
               <input
                 type="text"
                 name="description"
@@ -150,6 +137,28 @@ function EditModal(props) {
             </div>
             {formik.touched.description && formik.errors.description ? (
               <p className="errorMessage">{formik.errors.description}</p>
+            ) : null}
+          </div>
+
+          <div className="formField">
+            <div className="inputArea">
+              <label htmlFor="work pack">Work Package</label>
+              <select
+                value={formik.values.workPackageTitle}
+                onChange={formik.handleChange}
+                name="workPackageTitle"
+                id="workPackageTitle"
+              >
+                {taskPackTitles.map((title, index) => (
+                  <option value={title} key={index} className="title">
+                    {title}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {formik.touched.workPackageTitle &&
+            formik.errors.workPackageTitle ? (
+              <p className="errorMessage">{formik.errors.workPackageTitle}</p>
             ) : null}
           </div>
 
@@ -206,8 +215,17 @@ function EditModal(props) {
               <p className="errorMessage">{formik.errors.dayLoading}</p>
             ) : null}
           </div>
-
-          <button type="submit">Submit changes</button>
+          <div className="bottomRow">
+            <button className="leftB" onClick={resetBars}>
+              Reset Bars
+            </button>
+            <button onClick={() => deleteTask(task.taskId)}>
+              <img src={bin} alt="delete" />
+            </button>
+            <button type="submit">
+              <img src={save} alt="save" />
+            </button>
+          </div>
         </form>
       </div>
     </Container>
@@ -231,9 +249,8 @@ const Container = styled.div`
   z-index: 2;
 
   .editWindow {
-    width: 500px;
-    height: 390px;
-    padding: 15px 15px 30px 15px;
+    position: relative;
+    width: 450px;
 
     display: flex;
     flex-direction: column;
@@ -242,6 +259,19 @@ const Container = styled.div`
     background-color: white;
     border: 1px solid black;
     border-radius: 8px;
+    overflow: hidden;
+    label {
+      font-weight: 600;
+      color: white;
+      z-index: 1;
+      margin-left: 10px
+    }
+  }
+  .color {
+    position: absolute;
+    width: 160px;
+    height: 100%;
+    background-color: ${wpTitleColor};
   }
 
   form {
@@ -253,6 +283,7 @@ const Container = styled.div`
   button {
     padding-left: 10px;
     padding-right: 10px;
+    cursor: pointer;
   }
 
   .errorMessage {
@@ -265,9 +296,10 @@ const Container = styled.div`
     /* justify-content: space-between; */
     align-items: flex-end;
     flex-direction: column;
-    width: 80%;
+    width: 95%;
     height: 45px;
     margin-bottom: 5px;
+    margin-right: 10px;
   }
   .inputArea {
     display: flex;
@@ -280,21 +312,32 @@ const Container = styled.div`
   input {
     width: 250px;
     border: 1px solid #d1d1d1;
+    margin-right: 0;
   }
-
   .topRow {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    margin: 10px 5px 10px 0;
+    img {
+      height: 25px;
+    }
+  }
+  .bottomRow {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    padding-right: 5px;
+  }
+  img {
+    height: 25px;
   }
   .content {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
   }
-
-  /* .confirmDelete {
-    display: flex;
-    justify-content: flex-end;
-    width: 175px;
+  /* .leftB {
+    margin-right: 10px;
   } */
 `;

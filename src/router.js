@@ -4,8 +4,12 @@ import { Switch, Route } from "react-router-dom";
 
 // import HomePage from "./pages/HomePage";
 import GanttChart from "./pages/ganttChart";
+import Project from "./pages/project";
 import HomePage from "./pages/homePage";
 import NoResult from "./pages/noResult";
+import Team from "./pages/team";
+import Costs from "./pages/costs";
+import Revenue from "./pages/revenue";
 
 // function protectedRoute(Component, props) {
 //   // Not really secure. Any token would pass the test.
@@ -19,6 +23,10 @@ const Router = () => (
   <Switch>
     {/* <Route exact path="/" component={HomePage} /> */}
     <Route exact path="/gantt" component={GanttChart} />
+    <Route exact path="/project" component={Project} />
+    <Route exact path="/team" component={Team} />
+    <Route exact path="/costs" component={Costs} />
+    <Route exact path="/revenue" component={Revenue} />
     <Route exact path="/" component={HomePage} />
     {/* <Route
       path="/gantt"
