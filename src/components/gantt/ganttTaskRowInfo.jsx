@@ -36,6 +36,17 @@ function GanttTaskRowInfo(props) {
     );
   }
 
+  function handleClick() {
+    setShowEditDays(true);
+    // document.addEventListener("mousedown", handleMouseDown, false);
+  }
+  // function handleMouseDown(e) {
+  //   setShowEditDays(false);
+  //   document.removeEventListener("mousedown", handleMouseDown);
+  //   if (e.target.id === "accept") {
+  //     acceptNewDays();
+  //   } else setNewDays(days);
+  // }
   function handleDayChange(e) {
     if (e.target.value) {
       const lastThreeNumbers = e.target.value.slice(-3);
@@ -45,8 +56,9 @@ function GanttTaskRowInfo(props) {
     }
   }
   function acceptNewDays() {
+    setShowEditDays(false);
+    console.log(newDays);
     if (newDays > 0) {
-      setShowEditDays(false);
       if (newDays !== days) dispatch(updateTaskDays({ task, days: newDays }));
     } else {
       toast.info("Must enter at least 1 day", {
@@ -103,14 +115,15 @@ function GanttTaskRowInfo(props) {
               onKeyDown={(e) => isNumberKey(e)}
               onChange={(e) => handleDayChange(e)}
             />
+            {/* <button className="accept"> */}
             <button onClick={acceptNewDays} className="accept">
-              <img src={tick} alt="accept" />
+              <img id="accept" src={tick} alt="accept" />
             </button>
           </div>
         ) : (
           <button
             className="days highlight packBackground"
-            onClick={() => setShowEditDays(true)}
+            onClick={handleClick}
           >
             {days}
           </button>

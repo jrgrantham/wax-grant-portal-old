@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import close from "../../images/close-grey.png";
 
 import ResourcesRow from "./ganttResourcesModalRow";
 
-import { getResources, toastDelay} from '../../helpers'
+import { getResources, toastDelay, wpTitleColor} from '../../helpers'
 
 toast.configure();
 
@@ -72,7 +73,9 @@ function ResourcesModal(props) {
         })}
 
         <div className="bottomRow">
-          <button onClick={closeModal}>Close</button>
+          <button onClick={closeModal}>
+            <img src={close} alt="close"/>
+          </button>
         </div>
       </div>
     </Container>
@@ -96,7 +99,7 @@ const Container = styled.div`
   z-index: 2;
 
   .editWindow {
-    padding: 40px 45px 30px 45px;
+    /* padding: 40px 45px 30px 45px; */
     max-height: 80vh;
     overflow: auto;
 
@@ -109,7 +112,7 @@ const Container = styled.div`
     border-radius: 8px;
   }
   .bottomRow {
-    margin-top: 20px;
+    margin: 10px 20px 15px 0px;
     display: flex;
     justify-content: flex-end;
   }
@@ -118,6 +121,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px;
     .description {
       min-width: 200px;
       max-width: 300px;
@@ -125,6 +129,10 @@ const Container = styled.div`
   }
   .title {
     height: 50px;
+    margin-bottom: 10px;
+    background-color: ${wpTitleColor};
+    color: white;
+    padding: 0 20px;
   }
   .person {
     width: 35px;
@@ -155,5 +163,9 @@ const Container = styled.div`
   }
   .over {
     color: red;
+  }
+  img {
+    max-width: 25px;
+    max-height: 25px;
   }
 `;

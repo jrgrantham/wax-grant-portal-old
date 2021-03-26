@@ -13,19 +13,22 @@ function GanttWPBlock(props) {
   const [showEditDays, setShowEditDays] = useState(false);
   const [newValue, setNewValue] = useState(value);
 
-  function onchangeHandler(e) {
-    const lastTwoNumbers = e.target.value.slice(-2);
-    const newValue = parseInt(lastTwoNumbers);
-    dispatch(
-      updateTaskBlock({
-        task,
-        blockIndex,
-        newValue,
-        oldValue: value,
-      })
-    );
-  }
+  // document.addEventListener("mousemove", handleMouseMove, false);
+  // document.removeEventListener("mousemove", handleMouseMove);
 
+  function handleClick() {
+    setShowEditDays(true);
+    // document.addEventListener("mousedown", handleMouseDown, false);
+  }
+  // function handleMouseDown(e) {
+  //   console.log(e.target.id);
+  //   if (e.target.id === "accept") {
+  //     console.log("accept");
+  //     acceptNewDays();
+  //   } else setNewValue(value)
+  //   setShowEditDays(false);
+  //   document.removeEventListener("mousedown", handleMouseDown);
+  // }
   function handleDayChange(e) {
     if (e.target.value) {
       const lastTwoNumbers = e.target.value.slice(-2);
@@ -35,22 +38,16 @@ function GanttWPBlock(props) {
     }
   }
   function acceptNewDays() {
-      setShowEditDays(false);
-      if (newValue !== value)
-        dispatch(
-          updateTaskBlock({
-            task,
-            blockIndex,
-            newValue,
-            oldValue: value,
-          })
-        );
-    // else {
-    //   toast.info("Must enter at least 1 day", {
-    //     position: toast.POSITION.TOP_RIGHT,
-    //     autoClose: toastDelay,
-    //   });
-    // }
+    setShowEditDays(false);
+    if (newValue !== value)
+      dispatch(
+        updateTaskBlock({
+          task,
+          blockIndex,
+          newValue,
+          oldValue: value,
+        })
+      );
   }
 
   return (
@@ -68,24 +65,17 @@ function GanttWPBlock(props) {
                 onChange={(e) => handleDayChange(e)}
               />
               <button onClick={acceptNewDays} className="accept">
-                <img src={tick} alt="accept" />
+                <img id="accept" src={tick} alt="accept" />
               </button>
             </div>
           ) : (
             <button
               className="days highlight packBackground"
-              onClick={() => setShowEditDays(true)}
+              onClick={handleClick}
             >
               {value}
             </button>
           )}
-          {/* <input
-            type="text"
-            value={value}
-            onKeyDown={(e) => isNumberKey(e)}
-            onChange={(e) => onchangeHandler(e)}
-            onBlur={() => checkZero(value)}
-          /> */}
         </div>
       ) : null}
       {blockPosition === "s" ? (

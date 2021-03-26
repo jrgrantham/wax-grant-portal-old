@@ -29,7 +29,6 @@ export function setArrayIndexAsSortPosition(array) {
 
 export function isNumberKey(e) {
   const charCode = e.which ? e.which : e.keyCode;
-  console.log(charCode);
   // if (charCode > 31 && (charCode < 48 || charCode > 57)) e.preventDefault();
   if ((charCode < 48 && !(charCode === 37 || charCode === 39 || charCode === 8)) || charCode > 57)
     e.preventDefault();

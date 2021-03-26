@@ -8,6 +8,7 @@ import { removeTaskAllocations } from "../../store/projectData/allocations";
 import close from "../../images/close-grey.png";
 import save from "../../images/save-grey.png";
 import bin from "../../images/bin-grey.png";
+import { wpTitleColor } from "../../helpers";
 
 function numberOfBars(schedule) {
   let bars = 0;
@@ -115,6 +116,7 @@ function EditModal(props) {
   return (
     <Container id="background" onClick={(e) => closeModal(e)}>
       <div className="editWindow">
+        <div className="color" />
         <div className="topRow">
           <button onClick={() => props.setEditModal(false)}>
             <img src={close} alt="close" />
@@ -247,9 +249,8 @@ const Container = styled.div`
   z-index: 2;
 
   .editWindow {
+    position: relative;
     width: 450px;
-    height: 380px;
-    padding: 25px 20px;
 
     display: flex;
     flex-direction: column;
@@ -258,6 +259,19 @@ const Container = styled.div`
     background-color: white;
     border: 1px solid black;
     border-radius: 8px;
+    overflow: hidden;
+    label {
+      font-weight: 600;
+      color: white;
+      z-index: 1;
+      margin-left: 10px
+    }
+  }
+  .color {
+    position: absolute;
+    width: 160px;
+    height: 100%;
+    background-color: ${wpTitleColor};
   }
 
   form {
@@ -285,6 +299,7 @@ const Container = styled.div`
     width: 95%;
     height: 45px;
     margin-bottom: 5px;
+    margin-right: 10px;
   }
   .inputArea {
     display: flex;
@@ -302,6 +317,7 @@ const Container = styled.div`
   .topRow {
     display: flex;
     justify-content: flex-end;
+    margin: 10px 5px 10px 0;
     img {
       height: 25px;
     }
@@ -310,6 +326,8 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 10px;
+    padding-right: 5px;
   }
   img {
     height: 25px;
