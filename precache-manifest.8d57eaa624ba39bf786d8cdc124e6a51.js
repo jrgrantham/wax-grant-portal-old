@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "9c16275e0f2c1f3cfc1e",
+    "revision": "bf7b283fc06bb39023e5",
     "url": "/wax-grant-portal/static/css/main.f2c15b86.chunk.css"
   },
   {
-    "revision": "9c16275e0f2c1f3cfc1e",
-    "url": "/wax-grant-portal/static/js/main.07b8ac56.chunk.js"
+    "revision": "bf7b283fc06bb39023e5",
+    "url": "/wax-grant-portal/static/js/main.7dc1fc06.chunk.js"
   },
   {
     "revision": "faa7c3321385808faa0f",
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/wax-grant-portal/static/media/background.f2338171.jpg"
   },
   {
-    "revision": "1d8d4f730ab419f0cebd8c6f3564c796",
+    "revision": "0bbb28511e51b5cac6f4bf7cfba07ff5",
     "url": "/wax-grant-portal/index.html"
   }
 ];
