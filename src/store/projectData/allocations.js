@@ -9,6 +9,7 @@ export const addAllocation = createAction("addAllocation");
 export const removeAllocation = createAction("removeAllocation");
 export const updateAllocation = createAction("updateAllocation");
 export const removeTaskAllocations = createAction("removeTaskAllocations");
+export const removePersonAllocations = createAction("removePersonAllocations");
 
 export default function allocations(state = allocationData, action) {
   switch (action.type) {
@@ -55,6 +56,14 @@ export default function allocations(state = allocationData, action) {
         ...state,
         data: state.data.filter(
           (allocation) => allocation.taskId !== action.payload.taskId
+        ),
+      };
+    case removePersonAllocations.type:
+      console.log(action.payload);
+      return {
+        ...state,
+        data: state.data.filter(
+          (allocation) => allocation.personId !== action.payload.personId
         ),
       };
     default:

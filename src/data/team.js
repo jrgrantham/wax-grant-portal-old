@@ -3,7 +3,7 @@ export const team = {
   loading: false,
   data: [
     {
-      personId: "1",
+      personId: "person1",
       projectId: 1,
       leader: 'lead',
       name: 'James Grantham',
@@ -15,7 +15,7 @@ export const team = {
       dayRate: 85,
     },
     {
-      personId: "2",
+      personId: "person2",
       projectId: 1,
       leader: 'pOne',
       name: 'Damien Jones',
@@ -27,7 +27,7 @@ export const team = {
       dayRate: 100,
     },
     {
-      personId: "3",
+      personId: "person3",
       projectId: 1,
       leader: 'lead',
       name: 'Casper Gray',
@@ -39,7 +39,7 @@ export const team = {
       dayRate: 115,
     },
     {
-      personId: "4",
+      personId: "person4",
       projectId: 1,
       leader: 'lead',
       name: 'Random Guy',

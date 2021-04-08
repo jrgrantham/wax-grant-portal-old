@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateTeamMember, deleteTeamMember } from "../store/projectData/team";
+import { removePersonAllocations } from "../store/projectData/allocations";
 import bin from "../images/bin-grey.png";
 
 function TeamInfoRow(props) {
@@ -15,6 +16,13 @@ function TeamInfoRow(props) {
         value: e.target.value,
       })
     );
+  }
+
+  function deletePerson() {
+    // needs to cascade effectively
+    // delete allocations by personId
+    dispatch(deleteTeamMember({ personId: person.personId }))
+    dispatch(removePersonAllocations({personId: person.personId}))
   }
 
   return (
@@ -46,9 +54,7 @@ function TeamInfoRow(props) {
           src={bin}
           alt="delete"
           style={{ cursor: "pointer" }}
-          onClick={() =>
-            dispatch(deleteTeamMember({ personId: person.personId }))
-          }
+          onClick={deletePerson}
         />
         {/* <BiTrash
                 style={{ cursor: "pointer" }}
