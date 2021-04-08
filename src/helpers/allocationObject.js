@@ -48,6 +48,5 @@ export function getResources() {
     resources[curTask][curPerson].personId = allocations[i].personId;
     resources[curTask][curPerson].allocationId = allocations[i].allocationId;
   }
-  console.log(resources);
   return resources;
 }

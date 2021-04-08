@@ -19,7 +19,7 @@ export default function project(state = team, action) {
           if (person.personId === action.payload.personId) {
             if (action.payload.key === "name") {
               const matches = action.payload.value.match(/\b(\w)/g) || [];
-              const acronym = matches.join("").slice(0, 3);
+              const acronym = matches.join("").slice(0, 2);
               return {
                 ...person,
                 [action.payload.key]: action.payload.value,

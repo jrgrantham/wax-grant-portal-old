@@ -19,8 +19,6 @@ function TeamInfoRow(props) {
   }
 
   function deletePerson() {
-    // needs to cascade effectively
-    // delete allocations by personId
     dispatch(deleteTeamMember({ personId: person.personId }))
     dispatch(removePersonAllocations({personId: person.personId}))
   }
@@ -34,7 +32,13 @@ function TeamInfoRow(props) {
         onChange={onChangeHandler}
         className="field name"
       />
-      <p className="field acronym">{person.acronym}</p>
+      <input
+        id={person.personId + "acronym"}
+        name="acronym"
+        value={person.acronym}
+        onChange={onChangeHandler}
+        className="field acronym"
+      />
       <input
         id={person.personId + "role"}
         name="role"
