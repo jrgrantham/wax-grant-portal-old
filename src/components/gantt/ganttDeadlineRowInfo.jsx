@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BiMenu, BiTrash } from "react-icons/bi";
+import { BiMenu } from "react-icons/bi";
 import { Container } from "./ganttRowStyling";
 import bin from "../../images/bin-grey.png";
 

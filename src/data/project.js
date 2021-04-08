@@ -6,7 +6,7 @@ export const projectData = {
     projectTitle: "first Project",
     projectLength: 20,
     startDate: "Feb 2021",
-    dates: [],
+    dates: [], // array of sequential months
   },
   error: "",
 };

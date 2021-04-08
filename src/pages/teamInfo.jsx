@@ -1,37 +1,59 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
+import TeamInfoRow from "./teamInfoRow";
 import { tableHeadingHeight } from "../helpers";
+import { addTeamMember } from "../store/projectData/team";
 import { useSelector } from "react-redux";
+import add from "../images/add-grey.png";
 
 function TeamInfo() {
+  const dispatch = useDispatch();
   const team = useSelector((state) => state.team.data);
-  const [selected, setSelected] = useState("leadApp");
+  const [selected, setSelected] = useState("lead");
+  const group = team.filter((person) => person.leader === selected);
+
+  function addPerson() {
+    const number = team.length + 1;
+    const newPerson = {
+      personId: uuidv4(),
+      name: `Team Member ${number}`,
+      role: "tbc",
+      salary: 0,
+      leader: selected,
+      acronym: `TM${number}`
+    };
+    dispatch(addTeamMember(newPerson));
+  }
+
   return (
     <PageContainer>
       <div className="headings">
         <h3
-          id="leadApp"
-          className={selected === "leadApp" ? "select selected" : "select"}
-          onClick={() => setSelected('leadApp')}
+          id="lead"
+          className={selected === "lead" ? "select selected" : "select"}
+          onClick={() => setSelected("lead")}
         >
           Lead Applicant
         </h3>
         <h3
           id="pOne"
           className={selected === "pOne" ? "select selected" : "select"}
-          onClick={() => setSelected('pOne')}
+          onClick={() => setSelected("pOne")}
         >
           Partner One
         </h3>
         <h3
           id="pTwo"
           className={selected === "pTwo" ? "select selected" : "select"}
-          onClick={() => setSelected('pTwo')}
+          onClick={() => setSelected("pTwo")}
         >
           Partner Two
         </h3>
       </div>
+
       <div className="titles">
         <div className="person">
           <h3 className="field name">Name</h3>
@@ -41,17 +63,13 @@ function TeamInfo() {
         </div>
       </div>
       <div className="people">
-        {team.map((person, index) => {
-          return (
-            <div key={index} className="person">
-              <p className="field name">{person.name}</p>
-              <p className="field acronym">{person.acronym}</p>
-              <p className="field role">{person.role}</p>
-              <p className="field salary">{person.salary}</p>
-            </div>
-          );
+        {group.map((person, index) => {
+          return <TeamInfoRow key={index} person={person} />;
         })}
       </div>
+      <button className="evenWidth" onClick={addPerson}>
+        <img src={add} alt="add" />
+      </button>
     </PageContainer>
   );
 }
@@ -82,6 +100,11 @@ const PageContainer = styled.div`
   }
   .person {
     display: flex;
+    align-items: center;
+    &:hover .hidden {
+      transition: opacity 0.3s;
+      opacity: 1;
+    }
   }
   .name {
     width: 200px;
@@ -94,5 +117,17 @@ const PageContainer = styled.div`
   }
   .salary {
     width: 200px;
+  }
+  .hidden {
+    opacity: 0;
+  }
+  img {
+    max-height: 18px;
+    max-width: 18px;
+  }
+  button {
+    margin: 8px;
+    border: none;
+    padding: 0;
   }
 `;

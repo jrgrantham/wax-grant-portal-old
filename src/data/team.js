@@ -3,7 +3,9 @@ export const team = {
   loading: false,
   data: [
     {
-      personId: 1,
+      personId: "1",
+      projectId: 1,
+      leader: 'lead',
       name: 'James Grantham',
       acronym: 'JG',
       role: 'tbc',
@@ -13,7 +15,9 @@ export const team = {
       dayRate: 85,
     },
     {
-      personId: 2,
+      personId: "2",
+      projectId: 1,
+      leader: 'pOne',
       name: 'Damien Jones',
       acronym: 'DJ',
       role: 'tbc',
@@ -23,7 +27,9 @@ export const team = {
       dayRate: 100,
     },
     {
-      personId: 3,
+      personId: "3",
+      projectId: 1,
+      leader: 'lead',
       name: 'Casper Gray',
       acronym: 'CG',
       role: 'tbc',
@@ -33,7 +39,9 @@ export const team = {
       dayRate: 115,
     },
     {
-      personId: 4,
+      personId: "4",
+      projectId: 1,
+      leader: 'lead',
       name: 'Random Guy',
       acronym: 'RG',
       role: 'tbc',
