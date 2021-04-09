@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { appTop, appWidth } from "../helpers";
@@ -6,10 +6,15 @@ import TeamInfo from "./teamInfo";
 import TeamOptions from "./teamOptions";
 
 function Team() {
+  const [selectedEmployment, setSelectedEmployment] = useState("staff");
+  // console.log(selectedEmployment);
+
   return (
     <PageContainer>
       <div className="displayArea">
         <TeamOptions />
+        {/* <TeamOptions setSelectedEmployment={setSelectedEmployment}/> */}
+        {/* <TeamInfo selectedEmployment={selectedEmployment}/> */}
         <TeamInfo />
       </div>
     </PageContainer>

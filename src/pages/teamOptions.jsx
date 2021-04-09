@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { tableHeadingHeight } from "../helpers";
 
-function TeamOptions() {
+function TeamOptions(props) {
   return (
     <PageContainer>
       <div className="headings"></div>
-      <button id="staff">
+      {/* <button id="staff" onClick={props.setSelectedEmployment("staff")}> */}
+      <button id="staff" >
         <h3>Staff</h3>
       </button>
+      {/* <button id="subContract" onClick={props.setSelectedEmployment("contract")}> */}
       <button id="subContract">
         <h3>Sub Contract</h3>
       </button>

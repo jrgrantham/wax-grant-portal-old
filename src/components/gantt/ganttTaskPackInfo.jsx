@@ -16,7 +16,6 @@ import EditModal from "../modals/ganttEditModal";
 import tick from "../../images/tick-white.png";
 import add from "../../images/add-grey.png";
 import bin from "../../images/bin-grey.png";
-import close from "../../images/close-grey.png";
 import { removeTaskAllocations } from "../../store/projectData/allocations";
 
 function GanttPackWork(props) {
@@ -29,7 +28,7 @@ function GanttPackWork(props) {
   const [edit, setEdit] = useState(false);
   const [editTitleWindow, setEditTitleWindow] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  // const [confirmDelete, setConfirmDelete] = useState(false);
 
   const { projectLength } = useSelector((state) => state.project.data);
   function handleAddNewRow() {
@@ -70,7 +69,7 @@ function GanttPackWork(props) {
       dispatch(removeTaskAllocations({ taskId }));
     });
     dispatch(removeTaskPack({ workPackageTitle: title }));
-    setConfirmDelete(false);
+    // setConfirmDelete(false);
   }
 
   return (

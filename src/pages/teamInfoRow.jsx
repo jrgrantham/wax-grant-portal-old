@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateTeamMember, deleteTeamMember } from "../store/projectData/team";
+import { isNumberKey } from "../helpers";
 import { removePersonAllocations } from "../store/projectData/allocations";
 import bin from "../images/bin-grey.png";
 
@@ -9,18 +10,25 @@ function TeamInfoRow(props) {
   const { person } = props;
 
   function onChangeHandler(e) {
+    const key = e.target.name
+    let value = e.target.value
+    if (key === 'salary') {
+      value = parseInt(value)
+      if (!e.target.value) value = 0;
+      console.log(value);
+    }
     dispatch(
       updateTeamMember({
         personId: person.personId,
-        key: e.target.name,
-        value: e.target.value,
+        key,
+        value,
       })
     );
   }
 
   function deletePerson() {
-    dispatch(deleteTeamMember({ personId: person.personId }))
-    dispatch(removePersonAllocations({personId: person.personId}))
+    dispatch(deleteTeamMember({ personId: person.personId }));
+    dispatch(removePersonAllocations({ personId: person.personId }));
   }
 
   return (
@@ -50,6 +58,7 @@ function TeamInfoRow(props) {
         id={person.personId + "salary"}
         name="salary"
         value={person.salary}
+        onKeyDown={(e) => isNumberKey(e)}
         onChange={onChangeHandler}
         className="field salary"
       />

@@ -12,7 +12,6 @@ export const deleteTeamMember = createAction("deleteTeamMember");
 export default function project(state = team, action) {
   switch (action.type) {
     case updateTeamMember.type:
-      console.log(action.payload);
       return {
         ...state,
         data: state.data.map((person) => {
@@ -25,6 +24,12 @@ export default function project(state = team, action) {
                 [action.payload.key]: action.payload.value,
                 acronym,
               };
+            } else if (action.payload.key === "acronym") {
+              const acronym = action.payload.value.slice(-2);
+              return {
+                ...person,
+                acronym,
+              }
             } else
               return {
                 ...person,

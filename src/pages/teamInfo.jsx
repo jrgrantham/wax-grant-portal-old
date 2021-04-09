@@ -12,8 +12,8 @@ import add from "../images/add-grey.png";
 function TeamInfo() {
   const dispatch = useDispatch();
   const team = useSelector((state) => state.team.data);
-  const [selected, setSelected] = useState("lead");
-  const group = team.filter((person) => person.leader === selected);
+  const [selectedLeader, setSelectedLeader] = useState("lead");
+  const group = team.filter((person) => person.leader === selectedLeader);
 
   function addPerson() {
     const number = team.length + 1;
@@ -22,7 +22,7 @@ function TeamInfo() {
       name: `Team Member ${number}`,
       role: "tbc",
       salary: 0,
-      leader: selected,
+      leader: selectedLeader,
       acronym: `TM${number}`
     };
     dispatch(addTeamMember(newPerson));
@@ -33,22 +33,22 @@ function TeamInfo() {
       <div className="headings">
         <h3
           id="lead"
-          className={selected === "lead" ? "select selected" : "select"}
-          onClick={() => setSelected("lead")}
+          className={selectedLeader === "lead" ? "select selectedLeader" : "select"}
+          onClick={() => setSelectedLeader("lead")}
         >
           Lead Applicant
         </h3>
         <h3
           id="pOne"
-          className={selected === "pOne" ? "select selected" : "select"}
-          onClick={() => setSelected("pOne")}
+          className={selectedLeader === "pOne" ? "select selectedLeader" : "select"}
+          onClick={() => setSelectedLeader("pOne")}
         >
           Partner One
         </h3>
         <h3
           id="pTwo"
-          className={selected === "pTwo" ? "select selected" : "select"}
-          onClick={() => setSelected("pTwo")}
+          className={selectedLeader === "pTwo" ? "select selectedLeader" : "select"}
+          onClick={() => setSelectedLeader("pTwo")}
         >
           Partner Two
         </h3>
@@ -91,7 +91,7 @@ const PageContainer = styled.div`
     align-items: center;
     cursor: pointer;
   }
-  .selected {
+  .selectedLeader {
     background-color: white;
     border-radius: 5px 5px 0 0;
   }
