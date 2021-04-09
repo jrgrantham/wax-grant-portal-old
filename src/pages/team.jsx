@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { appTop, appWidth } from "../helpers";
+import { appTop, appWidth, tableHeadingHeight } from "../helpers";
 import TeamInfo from "./teamInfo";
-import TeamOptions from "./teamOptions";
 
 function Team() {
-  const [selectedEmployment, setSelectedEmployment] = useState("staff");
-  // console.log(selectedEmployment);
+  const [employmentType, setEmploymentType] = useState("staff");
+  console.log(employmentType);
 
   return (
     <PageContainer>
       <div className="displayArea">
-        <TeamOptions />
-        {/* <TeamOptions setSelectedEmployment={setSelectedEmployment}/> */}
-        {/* <TeamInfo selectedEmployment={selectedEmployment}/> */}
-        <TeamInfo />
+        <div className="employment">
+          <div className="headings"></div>
+          <button id="staff" onClick={() => setEmploymentType("staff")}>
+            <h3>Staff</h3>
+          </button>
+          <button id="staff" onClick={() => setEmploymentType("contract")}>
+            <h3>Sub Contract</h3>
+          </button>
+        </div>
+        <TeamInfo employmentType={employmentType} />
       </div>
     </PageContainer>
   );
@@ -34,6 +39,25 @@ const PageContainer = styled.div`
   align-items: center;
   @media screen and (max-width: 750px) {
     padding: 0px;
+  }
+  .employment {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    background-color: green;
+
+    .headings {
+      height: ${tableHeadingHeight};
+    }
+    button {
+      border: none;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      padding: 10px;
+      color: white;
+      margin-bottom: 10px;
+      border-radius: 0;
+    }
   }
   .displayArea {
     margin-bottom: 50px;

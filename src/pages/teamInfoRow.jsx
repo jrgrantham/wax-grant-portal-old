@@ -13,9 +13,8 @@ function TeamInfoRow(props) {
     const key = e.target.name
     let value = e.target.value
     if (key === 'salary') {
-      value = parseInt(value)
       if (!e.target.value) value = 0;
-      console.log(value);
+      value = parseInt(value)
     }
     dispatch(
       updateTeamMember({

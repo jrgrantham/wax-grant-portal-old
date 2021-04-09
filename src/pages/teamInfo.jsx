@@ -9,11 +9,12 @@ import { addTeamMember } from "../store/projectData/team";
 import { useSelector } from "react-redux";
 import add from "../images/add-grey.png";
 
-function TeamInfo() {
+function TeamInfo(props) {
   const dispatch = useDispatch();
   const team = useSelector((state) => state.team.data);
   const [selectedLeader, setSelectedLeader] = useState("lead");
-  const group = team.filter((person) => person.leader === selectedLeader);
+  const employmentGroup = team.filter(person => person.employment === props.employmentType)
+  const group = employmentGroup.filter((person) => person.leader === selectedLeader);
 
   function addPerson() {
     const number = team.length + 1;
