@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { appTop, appWidth, tableHeadingHeight } from "../helpers";
-import TeamInfo from "./teamInfo";
+import TeamInfo from "./teamHeader";
 
 function Team() {
   const [employmentType, setEmploymentType] = useState("staff");
@@ -13,10 +13,17 @@ function Team() {
       <div className="displayArea">
         <div className="employment">
           <div className="headings"></div>
-          <button id="staff" onClick={() => setEmploymentType("staff")}>
+          <button
+            id="staff"
+            className={employmentType === "staff" ? "selected" : null}
+            onClick={() => setEmploymentType("staff")}
+          >
             <h3>Staff</h3>
           </button>
-          <button id="staff" onClick={() => setEmploymentType("contract")}>
+          <button id="staff" 
+            className={employmentType === "contract" ? "selected" : null}
+          
+          onClick={() => setEmploymentType("contract")}>
             <h3>Sub Contract</h3>
           </button>
         </div>
@@ -51,12 +58,15 @@ const PageContainer = styled.div`
     }
     button {
       border: none;
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 255, 255, 0.08);
       display: flex;
-      padding: 10px;
+      padding: 15px 10px;
       color: white;
       margin-bottom: 10px;
       border-radius: 0;
+    }
+    button.selected {
+      background-color: rgba(255, 255, 255, 0.25);
     }
   }
   .displayArea {

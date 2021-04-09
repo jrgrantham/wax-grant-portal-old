@@ -3,18 +3,23 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-import TeamInfoRow from "./teamInfoRow";
+import TeamInfoRow from "./teamRow";
 import { tableHeadingHeight } from "../helpers";
 import { addTeamMember } from "../store/projectData/team";
 import { useSelector } from "react-redux";
 import add from "../images/add-grey.png";
 
-function TeamInfo(props) {
+function TeamHeader(props) {
   const dispatch = useDispatch();
+  const employmentType = props.employmentType;
   const team = useSelector((state) => state.team.data);
   const [selectedLeader, setSelectedLeader] = useState("lead");
-  const employmentGroup = team.filter(person => person.employment === props.employmentType)
-  const group = employmentGroup.filter((person) => person.leader === selectedLeader);
+  const employmentGroup = team.filter(
+    (person) => person.employment === employmentType
+  );
+  const group = employmentGroup.filter(
+    (person) => person.leader === selectedLeader
+  );
 
   function addPerson() {
     const number = team.length + 1;
@@ -24,7 +29,8 @@ function TeamInfo(props) {
       role: "tbc",
       salary: 0,
       leader: selectedLeader,
-      acronym: `TM${number}`
+      acronym: `TM${number}`,
+      employment: employmentType,
     };
     dispatch(addTeamMember(newPerson));
   }
@@ -34,21 +40,27 @@ function TeamInfo(props) {
       <div className="headings">
         <h3
           id="lead"
-          className={selectedLeader === "lead" ? "select selectedLeader" : "select"}
+          className={
+            selectedLeader === "lead" ? "select selectedLeader" : "select"
+          }
           onClick={() => setSelectedLeader("lead")}
         >
           Lead Applicant
         </h3>
         <h3
           id="pOne"
-          className={selectedLeader === "pOne" ? "select selectedLeader" : "select"}
+          className={
+            selectedLeader === "pOne" ? "select selectedLeader" : "select"
+          }
           onClick={() => setSelectedLeader("pOne")}
         >
           Partner One
         </h3>
         <h3
           id="pTwo"
-          className={selectedLeader === "pTwo" ? "select selectedLeader" : "select"}
+          className={
+            selectedLeader === "pTwo" ? "select selectedLeader" : "select"
+          }
           onClick={() => setSelectedLeader("pTwo")}
         >
           Partner Two
@@ -60,12 +72,25 @@ function TeamInfo(props) {
           <h3 className="field name">Name</h3>
           <h3 className="field acronym">Acronym</h3>
           <h3 className="field role">Role</h3>
-          <h3 className="field salary">Salary</h3>
+          {employmentType === "staff" ? (
+            <h3 className="field salary">Salary</h3>
+          ) : (
+            <>
+              <h3 className="field dayRate">Day rate</h3>
+              <h3 className="field location">Location</h3>
+            </>
+          )}
         </div>
       </div>
       <div className="people">
         {group.map((person, index) => {
-          return <TeamInfoRow key={index} person={person} />;
+          return (
+            <TeamInfoRow
+              employmentType={employmentType}
+              key={index}
+              person={person}
+            />
+          );
         })}
       </div>
       <button className="evenWidth" onClick={addPerson}>
@@ -74,7 +99,7 @@ function TeamInfo(props) {
     </PageContainer>
   );
 }
-export default TeamInfo;
+export default TeamHeader;
 
 const PageContainer = styled.div`
   width: 85%;
@@ -108,16 +133,22 @@ const PageContainer = styled.div`
     }
   }
   .name {
-    width: 200px;
+    width: 150px;
   }
   .acronym {
-    width: 200px;
+    width: 150px;
   }
   .role {
-    width: 200px;
+    width: 150px;
   }
   .salary {
-    width: 200px;
+    width: 150px;
+  }
+  .dayRate {
+    width: 150px;
+  }
+  .location {
+    width: 150px;
   }
   .hidden {
     opacity: 0;

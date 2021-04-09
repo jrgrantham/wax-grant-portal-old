@@ -5,16 +5,16 @@ import { isNumberKey } from "../helpers";
 import { removePersonAllocations } from "../store/projectData/allocations";
 import bin from "../images/bin-grey.png";
 
-function TeamInfoRow(props) {
+function TeamRow(props) {
   const dispatch = useDispatch();
-  const { person } = props;
+  const { person, employmentType } = props;
 
   function onChangeHandler(e) {
-    const key = e.target.name
-    let value = e.target.value
-    if (key === 'salary') {
+    const key = e.target.name;
+    let value = e.target.value;
+    if (key === "salary" || key === 'dayRate') {
       if (!e.target.value) value = 0;
-      value = parseInt(value)
+      value = parseInt(value);
     }
     dispatch(
       updateTeamMember({
@@ -53,14 +53,34 @@ function TeamInfoRow(props) {
         onChange={onChangeHandler}
         className="field role"
       />
-      <input
-        id={person.personId + "salary"}
-        name="salary"
-        value={person.salary}
-        onKeyDown={(e) => isNumberKey(e)}
-        onChange={onChangeHandler}
-        className="field salary"
-      />
+      {employmentType === "staff" ? (
+        <input
+          id={person.personId + "salary"}
+          name="salary"
+          value={person.salary}
+          onKeyDown={(e) => isNumberKey(e)}
+          onChange={onChangeHandler}
+          className="field salary"
+        />
+      ) : (
+        <>
+          <input
+            id={person.personId + "dayRate"}
+            name="dayRate"
+            value={person.dayRate}
+            onKeyDown={(e) => isNumberKey(e)}
+            onChange={onChangeHandler}
+            className="field dayRate"
+          />
+          <input
+            id={person.personId + "location"}
+            name="location"
+            value={person.location}
+            onChange={onChangeHandler}
+            className="field location"
+          />
+        </>
+      )}
       <div className="hidden">
         <img
           src={bin}
@@ -68,12 +88,8 @@ function TeamInfoRow(props) {
           style={{ cursor: "pointer" }}
           onClick={deletePerson}
         />
-        {/* <BiTrash
-                style={{ cursor: "pointer" }}
-                onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
-              /> */}
       </div>
     </div>
   );
 }
-export default TeamInfoRow;
+export default TeamRow;

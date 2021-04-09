@@ -50,6 +50,18 @@ export const team = {
       location: 'UK', // flag if not
       dayRate: 50,
     },
+    {
+      personId: "person5",
+      projectId: 1,
+      leader: 'lead',
+      name: 'Random Guy2',
+      acronym: 'RG',
+      role: 'tbc',
+      salary: 30000,
+      employment: "contract",
+      location: 'UK', // flag if not
+      dayRate: 50,
+    },
   ],
   error: "",
 };
