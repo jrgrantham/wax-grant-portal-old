@@ -252,7 +252,7 @@ const PageContainer = styled.div`
     border: none;
     padding: 0;
   }
-  input {
+  input, select {
     border-bottom: 1px solid green;
     margin: 5px;
     padding: 0;

@@ -17,6 +17,7 @@ const slice = createSlice({
       team.data.splice(index, 1);
     },
     updateTeamMember: (team, action) => {
+      console.log(action.payload);
       const index = team.data.findIndex(
         (person) => person.personId === action.payload.personId
       );
@@ -28,7 +29,7 @@ const slice = createSlice({
       } else if (action.payload.key === "acronym") {
         const acronym = action.payload.value.slice(-2);
         team.data[index].acronym = acronym;
-      } else team.data[action.payload.key] = action.payload.value;
+      } else team.data[index][action.payload.key] = action.payload.value;
     },
     reorderTeam: (team, action) => {
       console.log(action.payload);

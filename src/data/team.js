@@ -20,7 +20,7 @@ export const team = {
       leader: 'lead',
       name: 'Random Guy',
       acronym: 'RG',
-      role: 'tbc',
+      role: 'Accounts',
       salary: 30000,
       employment: "staff",
       location: 'UK', // flag if not

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   updateTeamMember,
@@ -6,7 +6,7 @@ import {
 } from "../../store/projectData/team";
 import Tippy from "@tippy.js/react";
 import "react-tippy/dist/tippy.css";
-import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
+import { BiMenu } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
 import { removePersonAllocations } from "../../store/projectData/allocations";
 import bin from "../../images/bin-grey.png";
@@ -15,6 +15,14 @@ import add from "../../images/add-grey.png";
 function TeamRow(props) {
   const dispatch = useDispatch();
   const { person, employmentType, provided, index, acronyms } = props;
+  const [inputList, setInputList] = useState(true);
+
+  const roleOptions = [
+    "General Manager",
+    "Supervisor",
+    "Accounts",
+    "Human Resources",
+  ];
 
   function onChangeHandler(e) {
     const key = e.target.name;
@@ -63,7 +71,11 @@ function TeamRow(props) {
         name="acronym"
         value={person.acronym}
         onChange={onChangeHandler}
-        className={acronyms[person.acronym] > 1 ? "field acronym duplicate" : "field acronym"}
+        className={
+          acronyms[person.acronym] > 1
+            ? "field acronym duplicate"
+            : "field acronym"
+        }
       />
       {index === 0 ? (
         <Tippy delay={250} content="Acronym">
@@ -75,14 +87,38 @@ function TeamRow(props) {
         <div className="info"></div>
       )}
       <input
+        type="text"
         id={person.personId + "role"}
         name="role"
-        value={person.role}
+        placeholder={person.role}
         onChange={onChangeHandler}
         className="field role"
+        list={`${person.personId}roleList`}
       />
+      <datalist id={`${person.personId}roleList`}>
+        {roleOptions.map((role, index) => {
+          return <option key={index} value={role} >{role}</option>;
+        })}
+      </datalist>
+
+      {/* {inputList ? (
+        <select
+          id={person.personId + "role"}
+          name="role"
+          value={person.role}
+          onChange={onChangeHandler}
+          className="field role"
+        >
+          <option hidden>Select role...</option>
+          {roleOptions.map((role, index) => {
+            return <option key={index}>{role}</option>;
+          })}
+          <option >other...</option>
+        </select>
+      ) : null} */}
+
       {index === 0 ? (
-        <Tippy delay={250} content="Role">
+        <Tippy delay={250} content="Delete text to view list">
           <div className="info">
             <img src={add} alt="add" />
           </div>

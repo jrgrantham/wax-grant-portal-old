@@ -22,7 +22,7 @@ function numberOfBars(schedule) {
 
 function EditModal(props) {
   const dispatch = useDispatch();
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  // const [confirmDelete, setConfirmDelete] = useState(false);
   const { task, taskPackTitles } = props;
   const { dayLoading, days, description, workPackageTitle, schedule } = task;
   const barLimit = Math.ceil(schedule.length / 2);

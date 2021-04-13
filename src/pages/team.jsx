@@ -5,7 +5,7 @@ import { appTop, appWidth, tableHeadingHeight } from "../helpers";
 import TeamHeader from "../components/team/teamHeader";
 
 function Team() {
-  const [employmentType, setEmploymentType] = useState("contract");
+  const [employmentType, setEmploymentType] = useState("staff");
   
   return (
     <PageContainer>
