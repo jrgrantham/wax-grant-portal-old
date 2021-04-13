@@ -15,6 +15,18 @@ export const team = {
       dayRate: 85,
     },
     {
+      personId: "person4",
+      projectId: 1,
+      leader: 'lead',
+      name: 'Random Guy',
+      acronym: 'RG',
+      role: 'tbc',
+      salary: 30000,
+      employment: "staff",
+      location: 'UK', // flag if not
+      dayRate: 50,
+    },
+    {
       personId: "person2",
       projectId: 1,
       leader: 'pOne',
@@ -37,18 +49,6 @@ export const team = {
       employment: "contract",
       location: 'UK', // flag if not
       dayRate: 115,
-    },
-    {
-      personId: "person4",
-      projectId: 1,
-      leader: 'lead',
-      name: 'Random Guy',
-      acronym: 'RG',
-      role: 'tbc',
-      salary: 30000,
-      employment: "staff",
-      location: 'UK', // flag if not
-      dayRate: 50,
     },
     {
       personId: "person5",

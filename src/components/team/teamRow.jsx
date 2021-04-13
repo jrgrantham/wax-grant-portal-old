@@ -1,13 +1,14 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { updateTeamMember, deleteTeamMember } from "../store/projectData/team";
-import { isNumberKey } from "../helpers";
-import { removePersonAllocations } from "../store/projectData/allocations";
-import bin from "../images/bin-grey.png";
+import { updateTeamMember, deleteTeamMember } from "../../store/projectData/team";
+import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
+import { isNumberKey } from "../../helpers";
+import { removePersonAllocations } from "../../store/projectData/allocations";
+import bin from "../../images/bin-grey.png";
 
 function TeamRow(props) {
   const dispatch = useDispatch();
-  const { person, employmentType } = props;
+  const { person, employmentType, provided } = props;
 
   function onChangeHandler(e) {
     const key = e.target.name;
@@ -32,6 +33,9 @@ function TeamRow(props) {
 
   return (
     <div className="person">
+      <div {...provided.dragHandleProps} className="hidden menu">
+          <BiMenu />
+        </div>
       <input
         id={person.personId + "name"}
         name="name"
@@ -83,6 +87,7 @@ function TeamRow(props) {
       )}
       <div className="hidden">
         <img
+          className='delete'
           src={bin}
           alt="delete"
           style={{ cursor: "pointer" }}

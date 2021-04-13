@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { appTop, appWidth, tableHeadingHeight } from "../helpers";
-import TeamInfo from "./teamHeader";
+import TeamHeader from "../components/team/teamHeader";
 
 function Team() {
   const [employmentType, setEmploymentType] = useState("staff");
-  console.log(employmentType);
-
+  
   return (
     <PageContainer>
       <div className="displayArea">
@@ -20,14 +19,14 @@ function Team() {
           >
             <h3>Staff</h3>
           </button>
-          <button id="staff" 
+          <button id="contract" 
             className={employmentType === "contract" ? "selected" : null}
           
           onClick={() => setEmploymentType("contract")}>
             <h3>Sub Contract</h3>
           </button>
         </div>
-        <TeamInfo employmentType={employmentType} />
+        <TeamHeader employmentType={employmentType} />
       </div>
     </PageContainer>
   );
@@ -58,7 +57,7 @@ const PageContainer = styled.div`
     }
     button {
       border: none;
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: transparent;
       display: flex;
       padding: 15px 10px;
       color: white;

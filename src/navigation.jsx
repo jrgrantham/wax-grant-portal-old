@@ -6,7 +6,7 @@ import { appWidth, navBackground } from "./helpers";
 function Navigation() {
   function openMenu() {
     setMenu(true);
-    console.log("open");
+    // console.log("open");
   }
   const [menu, setMenu] = useState(false);
   return (
@@ -50,6 +50,9 @@ function Navigation() {
         </button>
         <button onClick={() => console.log("Logout")} className="menuButton">
           Logout
+        </button>
+        <button className="menuButton">
+          <a href="http://intangible-engineering.com">Developer</a>
         </button>
       </div>
     </Container>
