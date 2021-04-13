@@ -14,7 +14,6 @@ function TeamHeader(props) {
   const dispatch = useDispatch();
   const employmentType = props.employmentType;
   const team = useSelector((state) => state.team.data);
-  console.log(team);
 
   const [selectedLeader, setSelectedLeader] = useState("lead");
   const employmentGroup = team.filter(
@@ -45,10 +44,23 @@ function TeamHeader(props) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     const movement = result.destination.index - result.source.index;
-    const person = team[result.source.index];
+    const person = group[result.source.index];
     console.log(person, movement);
     dispatch(reorderTeam({ person, movement }));
   }
+
+  function countAcronyms() {
+    const acronymCount = {}
+    let result = false;
+    for (let i = 0; i < team.length; i++) {
+      if (acronymCount[team[i].acronym]) {
+        acronymCount[team[i].acronym] = acronymCount[team[i].acronym] + 1
+      }
+      else acronymCount[team[i].acronym] = 1
+    }
+    return acronymCount
+  }
+  const acronyms = countAcronyms()
 
   return (
     <PageContainer>
@@ -56,7 +68,7 @@ function TeamHeader(props) {
         <h3
           id="lead"
           className={
-            selectedLeader === "lead" ? "select selectedLeader" : "select"
+            selectedLeader === "lead" ? "leader selectedLeader" : "leader"
           }
           onClick={() => setSelectedLeader("lead")}
         >
@@ -65,7 +77,7 @@ function TeamHeader(props) {
         <h3
           id="pOne"
           className={
-            selectedLeader === "pOne" ? "select selectedLeader" : "select"
+            selectedLeader === "pOne" ? "leader selectedLeader" : "leader"
           }
           onClick={() => setSelectedLeader("pOne")}
         >
@@ -74,7 +86,7 @@ function TeamHeader(props) {
         <h3
           id="pTwo"
           className={
-            selectedLeader === "pTwo" ? "select selectedLeader" : "select"
+            selectedLeader === "pTwo" ? "leader selectedLeader" : "leader"
           }
           onClick={() => setSelectedLeader("pTwo")}
         >
@@ -82,7 +94,7 @@ function TeamHeader(props) {
         </h3>
       </div>
 
-      <div className="titles">
+      {/* <div className="titles">
         <div className="person">
           <div className="menu" />
           <h3 className="field name">Name</h3>
@@ -98,7 +110,7 @@ function TeamHeader(props) {
           )}
           <div className="delete"></div>
         </div>
-      </div>
+      </div> */}
       <div className="people">
         <DragDropContext onDragEnd={handleMovingRow}>
           <Droppable droppableId="team">
@@ -117,19 +129,13 @@ function TeamHeader(props) {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                         >
-                          {/* <GanttTaskRowInfo
-                          packData={packData}
-                          taskPackTitles={props.taskPackTitles}
-                          provided={provided}
-                          key={index}
-                          task={task}
-                          isWP={isWP}
-                        /> */}
                           <TeamInfoRow
                             employmentType={employmentType}
                             provided={provided}
+                            index={index}
                             key={index}
                             person={person}
+                            acronyms={acronyms}
                           />
                         </div>
                       )}
@@ -141,17 +147,8 @@ function TeamHeader(props) {
             )}
           </Droppable>
         </DragDropContext>
-        {/* {group.map((person, index) => {
-          return (
-            <TeamInfoRow
-              employmentType={employmentType}
-              key={index}
-              person={person}
-            />
-          );
-        })} */}
       </div>
-      <button className="evenWidth" onClick={addPerson}>
+      <button className="add" onClick={addPerson}>
         <img src={add} alt="add" />
       </button>
     </PageContainer>
@@ -168,7 +165,7 @@ const PageContainer = styled.div`
     display: flex;
     background-color: #b1b1b1;
   }
-  .select {
+  .leader {
     flex-grow: 1;
     display: flex;
     justify-content: center;
@@ -179,9 +176,8 @@ const PageContainer = styled.div`
     background-color: white;
     border-radius: 5px 5px 0 0;
   }
-  .field {
-    padding: 5px 10px;
-    flex-grow: 1;
+  .people {
+    margin-top: 20px;
   }
   .person {
     display: flex;
@@ -191,6 +187,10 @@ const PageContainer = styled.div`
       opacity: 1;
     }
   }
+  .field {
+    padding: 5px 10px;
+    flex-grow: 1;
+  }
   .menu {
     width: 20px;
     margin-left: 10px;
@@ -199,19 +199,29 @@ const PageContainer = styled.div`
     width: 150px;
   }
   .acronym {
-    width: 150px;
+    width: 50px;
+    flex-grow: 0;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
   }
   .role {
     width: 150px;
   }
   .salary {
     width: 150px;
+    flex-grow: 0;
   }
   .dayRate {
-    width: 150px;
+    width: 100px;
   }
   .location {
-    width: 150px;
+    width: 50px;
+  }
+  .profile {
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
   }
   .hidden {
     opacity: 0;
@@ -221,6 +231,17 @@ const PageContainer = styled.div`
     width: 18px;
     margin-right: 10px;
   }
+  .add {
+    margin-left: 10px
+  }
+  .info {
+    margin: 0;
+    margin-right: 8px;
+    width: 20px;
+  }
+  .duplicate {
+    color: red
+  }
   img {
     height: 18px;
     width: 18px;
@@ -229,6 +250,11 @@ const PageContainer = styled.div`
   button {
     margin: 8px;
     border: none;
+    padding: 0;
+  }
+  input {
+    border-bottom: 1px solid green;
+    margin: 5px;
     padding: 0;
   }
 `;

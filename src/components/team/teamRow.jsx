@@ -1,19 +1,25 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { updateTeamMember, deleteTeamMember } from "../../store/projectData/team";
+import {
+  updateTeamMember,
+  deleteTeamMember,
+} from "../../store/projectData/team";
+import Tippy from "@tippy.js/react";
+import "react-tippy/dist/tippy.css";
 import { BiMenu, BiDotsHorizontalRounded } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
 import { removePersonAllocations } from "../../store/projectData/allocations";
 import bin from "../../images/bin-grey.png";
+import add from "../../images/add-grey.png";
 
 function TeamRow(props) {
   const dispatch = useDispatch();
-  const { person, employmentType, provided } = props;
+  const { person, employmentType, provided, index, acronyms } = props;
 
   function onChangeHandler(e) {
     const key = e.target.name;
     let value = e.target.value;
-    if (key === "salary" || key === 'dayRate') {
+    if (key === "salary" || key === "dayRate") {
       if (!e.target.value) value = 0;
       value = parseInt(value);
     }
@@ -34,8 +40,8 @@ function TeamRow(props) {
   return (
     <div className="person">
       <div {...provided.dragHandleProps} className="hidden menu">
-          <BiMenu />
-        </div>
+        <BiMenu />
+      </div>
       <input
         id={person.personId + "name"}
         name="name"
@@ -43,13 +49,31 @@ function TeamRow(props) {
         onChange={onChangeHandler}
         className="field name"
       />
+      {index === 0 ? (
+        <Tippy delay={250} content="Team member">
+          <div className="info">
+            <img src={add} alt="add" />
+          </div>
+        </Tippy>
+      ) : (
+        <div className="info"></div>
+      )}
       <input
         id={person.personId + "acronym"}
         name="acronym"
         value={person.acronym}
         onChange={onChangeHandler}
-        className="field acronym"
+        className={acronyms[person.acronym] > 1 ? "field acronym duplicate" : "field acronym"}
       />
+      {index === 0 ? (
+        <Tippy delay={250} content="Acronym">
+          <div className="info">
+            <img src={add} alt="add" />
+          </div>
+        </Tippy>
+      ) : (
+        <div className="info"></div>
+      )}
       <input
         id={person.personId + "role"}
         name="role"
@@ -57,15 +81,35 @@ function TeamRow(props) {
         onChange={onChangeHandler}
         className="field role"
       />
+      {index === 0 ? (
+        <Tippy delay={250} content="Role">
+          <div className="info">
+            <img src={add} alt="add" />
+          </div>
+        </Tippy>
+      ) : (
+        <div className="info"></div>
+      )}
       {employmentType === "staff" ? (
-        <input
-          id={person.personId + "salary"}
-          name="salary"
-          value={person.salary}
-          onKeyDown={(e) => isNumberKey(e)}
-          onChange={onChangeHandler}
-          className="field salary"
-        />
+        <>
+          <input
+            id={person.personId + "salary"}
+            name="salary"
+            value={person.salary}
+            onKeyDown={(e) => isNumberKey(e)}
+            onChange={onChangeHandler}
+            className="field salary"
+          />
+          {index === 0 ? (
+            <Tippy delay={250} content="Salary (£)">
+              <div className="info">
+                <img src={add} alt="add" />
+              </div>
+            </Tippy>
+          ) : (
+            <div className="info"></div>
+          )}
+        </>
       ) : (
         <>
           <input
@@ -76,6 +120,15 @@ function TeamRow(props) {
             onChange={onChangeHandler}
             className="field dayRate"
           />
+          {index === 0 ? (
+            <Tippy delay={250} content="Day rate (£)">
+              <div className="info">
+                <img src={add} alt="add" />
+              </div>
+            </Tippy>
+          ) : (
+            <div className="info"></div>
+          )}
           <input
             id={person.personId + "location"}
             name="location"
@@ -83,17 +136,29 @@ function TeamRow(props) {
             onChange={onChangeHandler}
             className="field location"
           />
+          {index === 0 ? (
+            <Tippy delay={250} content="Location">
+              <div className="info">
+                <img src={add} alt="add" />
+              </div>
+            </Tippy>
+          ) : (
+            <div className="info"></div>
+          )}
         </>
       )}
-      <div className="hidden">
-        <img
-          className='delete'
-          src={bin}
-          alt="delete"
-          style={{ cursor: "pointer" }}
-          onClick={deletePerson}
-        />
-      </div>
+      <button className="profile">Profile</button>
+      <Tippy delay={250} content="All data will be lost">
+        <div className="hidden">
+          <img
+            className="delete"
+            src={bin}
+            alt="delete"
+            style={{ cursor: "pointer" }}
+            onClick={deletePerson}
+          />
+        </div>
+      </Tippy>
     </div>
   );
 }
