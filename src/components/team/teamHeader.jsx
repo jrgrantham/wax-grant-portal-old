@@ -174,7 +174,7 @@ const PageContainer = styled.div`
   }
   .selectedLeader {
     background-color: white;
-    border-radius: 5px 5px 0 0;
+    border-radius: 10px 10px 0 0;
   }
   .people {
     margin-top: 20px;
@@ -232,12 +232,14 @@ const PageContainer = styled.div`
     margin-right: 10px;
   }
   .add {
-    margin-left: 10px
+    margin-left: 35px;
+    margin-top: 15px
   }
   .info {
     margin: 0;
     margin-right: 8px;
     width: 20px;
+    height: 20px;
   }
   .duplicate {
     color: red

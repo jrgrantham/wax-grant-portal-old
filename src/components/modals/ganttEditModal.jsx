@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
@@ -79,13 +79,23 @@ function EditModal(props) {
           changes,
         })
       );
-      props.setEditModal(false);
+      closeModal();
     },
     validationSchema,
   });
 
-  function closeModal(e) {
-    if (e.target.id === "background") props.setEditModal(false);
+  window.addEventListener("keydown", checkCloseModal, false);
+
+  function checkCloseModal(e) {
+    console.log("listening");
+    if (e.target.id === "background" || e.key === "Escape" || e.keycode === 27)
+      closeModal();
+  }
+
+  function closeModal() {
+    console.log('closed');
+    window.removeEventListener("keydown", checkCloseModal);
+    props.setEditModal(false);
   }
 
   function resetBars() {
@@ -101,24 +111,23 @@ function EditModal(props) {
         changes,
       })
     );
-    props.setEditModal(false);
+    closeModal();
   }
   function deleteTask(taskId) {
     dispatch(removeTask(taskId));
     dispatch(removeTaskAllocations({ taskId }));
   }
 
-  window.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" || event.keycode === 27)
-      props.setEditModal(false);
-  });
+  // useEffect(() => {
+  //   return window.removeEventListener("keydown", checkCloseModal);
+  // })
 
   return (
-    <Container id="background" onClick={(e) => closeModal(e)}>
+    <Container id="background" onClick={checkCloseModal}>
       <div className="editWindow">
         <div className="color" />
         <div className="topRow">
-          <button onClick={() => props.setEditModal(false)}>
+          <button onClick={() => closeModal()}>
             <img src={close} alt="close" />
           </button>
         </div>
@@ -264,7 +273,7 @@ const Container = styled.div`
       font-weight: 600;
       color: white;
       z-index: 1;
-      margin-left: 10px
+      margin-left: 10px;
     }
   }
   .color {

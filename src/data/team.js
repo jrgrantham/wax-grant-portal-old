@@ -13,6 +13,9 @@ export const team = {
       employment: "staff",
       location: 'UK', // flag if not
       dayRate: 85,
+      website: 'intangible-engineering.com',
+      linkedIn: 'linkedIn.com/me',
+      profile: 'once upon a time...'
     },
     {
       personId: "person4",

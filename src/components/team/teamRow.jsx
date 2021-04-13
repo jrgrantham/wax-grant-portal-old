@@ -11,11 +11,12 @@ import { isNumberKey } from "../../helpers";
 import { removePersonAllocations } from "../../store/projectData/allocations";
 import bin from "../../images/bin-grey.png";
 import add from "../../images/add-grey.png";
+import ProfileModal from "../modals/teamProfileModal";
 
 function TeamRow(props) {
   const dispatch = useDispatch();
   const { person, employmentType, provided, index, acronyms } = props;
-  const [inputList, setInputList] = useState(true);
+  const [showProfile, setShowProfile] = useState(false);
 
   const roleOptions = [
     "General Manager",
@@ -47,6 +48,9 @@ function TeamRow(props) {
 
   return (
     <div className="person">
+      {showProfile ? (
+        <ProfileModal setShowProfile={setShowProfile} person={person} />
+      ) : null}
       <div {...provided.dragHandleProps} className="hidden menu">
         <BiMenu />
       </div>
@@ -97,7 +101,11 @@ function TeamRow(props) {
       />
       <datalist id={`${person.personId}roleList`}>
         {roleOptions.map((role, index) => {
-          return <option key={index} value={role} >{role}</option>;
+          return (
+            <option key={index} value={role}>
+              {role}
+            </option>
+          );
         })}
       </datalist>
 
@@ -183,7 +191,9 @@ function TeamRow(props) {
           )}
         </>
       )}
-      <button className="profile">Profile</button>
+      <button onClick={() => setShowProfile(true)} className="profile">
+        Profile
+      </button>
       <Tippy delay={250} content="All data will be lost">
         <div className="hidden">
           <img
