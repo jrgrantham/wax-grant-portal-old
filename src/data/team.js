@@ -62,7 +62,7 @@ export const team = {
       role: 'tbc',
       salary: 30000,
       employment: "contract",
-      location: 'UK', // flag if not
+      location: 'Other', // flag if not
       dayRate: 50,
     },
   ],

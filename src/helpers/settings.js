@@ -2,11 +2,16 @@
 
 export const appWidth = "1400px";
 export const appTop = "90px";
+export const toastDelay = 2000;
 
 export const navBackground = "rgba(12, 58, 93, 1)";
 export const navSelected = "rgba(12, 58, 93, 1)";
 
-export const toastDelay = 2000;
+export const tabUnselected = 'rgba(88, 88, 88, 1)';
+export const underlineGrey = 'rgba(234, 234, 234, 1)';
+
+export const teamGreen = 'rgba(139, 197, 63, 1)';
+export const teamGreenFont = 'rgba(0, 147, 69, 1)';
 
 // gantt
 

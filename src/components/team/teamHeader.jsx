@@ -3,12 +3,20 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import Tippy from "@tippy.js/react";
+import "react-tippy/dist/tippy.css";
 
 import TeamInfoRow from "./teamRow";
-import { tableHeadingHeight } from "../../helpers";
+import {
+  tableHeadingHeight,
+  tabUnselected,
+  teamGreen,
+  underlineGrey,
+} from "../../helpers";
 import { addTeamMember, reorderTeam } from "../../store/projectData/team";
 import { useSelector } from "react-redux";
 import add from "../../images/add-grey.png";
+import qMark from "../../images/qMark.png";
 
 function TeamHeader(props) {
   const dispatch = useDispatch();
@@ -50,17 +58,16 @@ function TeamHeader(props) {
   }
 
   function countAcronyms() {
-    const acronymCount = {}
+    const acronymCount = {};
     let result = false;
     for (let i = 0; i < team.length; i++) {
       if (acronymCount[team[i].acronym]) {
-        acronymCount[team[i].acronym] = acronymCount[team[i].acronym] + 1
-      }
-      else acronymCount[team[i].acronym] = 1
+        acronymCount[team[i].acronym] = acronymCount[team[i].acronym] + 1;
+      } else acronymCount[team[i].acronym] = 1;
     }
-    return acronymCount
+    return acronymCount;
   }
-  const acronyms = countAcronyms()
+  const acronyms = countAcronyms();
 
   return (
     <PageContainer>
@@ -77,7 +84,9 @@ function TeamHeader(props) {
         <h3
           id="pOne"
           className={
-            selectedLeader === "pOne" ? "leader selectedLeader" : "leader"
+            selectedLeader === "pOne"
+              ? "leader selectedLeader"
+              : "leader middle"
           }
           onClick={() => setSelectedLeader("pOne")}
         >
@@ -94,23 +103,60 @@ function TeamHeader(props) {
         </h3>
       </div>
 
-      {/* <div className="titles">
-        <div className="person">
+      <div className="titles">
+        <div className="header">
           <div className="menu" />
-          <h3 className="field name">Name</h3>
-          <h3 className="field acronym">Acronym</h3>
-          <h3 className="field role">Role</h3>
+          <div className="title name">
+            <h3>Name</h3>
+          </div>
+          <div className="title acronym">
+            <h3>Acronym</h3>
+            <Tippy content="Identifies the team member on the Gantt Chart (red text indicates duplicate)">
+              <div className="info">
+                <img src={qMark} alt="add" />
+              </div>
+            </Tippy>
+          </div>
+          <div className="title role">
+            <h3>Role</h3>
+            <Tippy content="Project role (not necessarily job title)">
+              <div className="info">
+                <img src={qMark} alt="add" />
+              </div>
+            </Tippy>
+          </div>
           {employmentType === "staff" ? (
-            <h3 className="field salary">Salary</h3>
+            <div className="title salary">
+              <h3>Salary</h3>
+              <Tippy content="Gross salary including company NI, company pension contribution and life insurance (£)">
+                <div className="info">
+                  <img src={qMark} alt="add" />
+                </div>
+              </Tippy>
+            </div>
           ) : (
             <>
-              <h3 className="field dayRate">Day rate</h3>
-              <h3 className="field location">Location</h3>
+              <div className="title dayRate">
+                <h3>Day rate</h3>
+                <Tippy content="Day rate (£)">
+                  <div className="info">
+                    <img src={qMark} alt="add" />
+                  </div>
+                </Tippy>
+              </div>
+              <div className="title location">
+                <h3>Location</h3>
+                {/* <Tippy content="Location">
+                  <div className="info">
+                    <img src={qMark} alt="add" />
+                  </div>
+                </Tippy> */}
+              </div>
             </>
           )}
           <div className="delete"></div>
         </div>
-      </div> */}
+      </div>
       <div className="people">
         <DragDropContext onDragEnd={handleMovingRow}>
           <Droppable droppableId="team">
@@ -148,9 +194,11 @@ function TeamHeader(props) {
           </Droppable>
         </DragDropContext>
       </div>
-      <button className="add" onClick={addPerson}>
-        <img src={add} alt="add" />
-      </button>
+      <Tippy content="Add team member">
+        <button className="add" onClick={addPerson}>
+          <img src={add} alt="add" />
+        </button>
+      </Tippy>
     </PageContainer>
   );
 }
@@ -163,20 +211,28 @@ const PageContainer = styled.div`
   .headings {
     height: ${tableHeadingHeight};
     display: flex;
-    background-color: #b1b1b1;
+    background-color: ${tabUnselected};
   }
   .leader {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: transparent;
+    color: white;
     cursor: pointer;
+  }
+  .middle {
+    border-left: 2px solid rgba(0, 0, 0, 0.2);
+    border-right: 2px solid rgba(0, 0, 0, 0.2);
   }
   .selectedLeader {
     background-color: white;
+    color: black;
     border-radius: 6px 6px 0 0;
   }
-  .people {
+  .header {
+    display: flex;
     margin-top: 20px;
   }
   .person {
@@ -187,21 +243,49 @@ const PageContainer = styled.div`
       opacity: 1;
     }
   }
+  .title {
+    display: flex;
+    margin: 5px 20px 5px 0px;
+    padding: 5px 0px;
+  }
+  .info {
+    margin: 0;
+    margin-left: 7px;
+    width: 13px;
+    height: 13px;
+  }
   .field {
-    padding: 5px 10px;
-    flex-grow: 1;
+    margin: 5px 20px 5px 0px;
+    padding: 5px 0px;
+    border-radius: 0;
+    border-bottom: 2px solid ${underlineGrey};
+    /* padding: 0; */
+    &:focus {
+      border: none;
+      border-bottom: 2px solid ${teamGreen};
+    }
+    /* flex-grow: 1; */
   }
   .menu {
     width: 20px;
-    margin-left: 10px;
+    margin: 0px 5px 0px 8px;
+    padding-top: 4px;
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    &:active {
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+    }
   }
   .name {
     width: 150px;
   }
   .acronym {
-    width: 50px;
+    width: 100px;
     flex-grow: 0;
-    text-align: center;
     padding-left: 0;
     padding-right: 0;
   }
@@ -209,17 +293,17 @@ const PageContainer = styled.div`
     width: 150px;
   }
   .salary {
-    width: 150px;
+    width: 75px;
     flex-grow: 0;
   }
   .dayRate {
-    width: 100px;
+    width: 90px;
   }
   .location {
-    width: 50px;
+    width: 75px;
   }
   .profile {
-    background-color: green;
+    background-color: ${teamGreen};
     color: white;
     padding: 5px 10px;
   }
@@ -227,36 +311,25 @@ const PageContainer = styled.div`
     opacity: 0;
   }
   .delete {
-    height: 18px;
     width: 18px;
-    margin-right: 10px;
+    padding-top: 4px;
+    margin-left: 15px;
   }
   .add {
-    margin-left: 35px;
-    margin-top: 15px
-  }
-  .info {
-    margin: 0;
-    margin-right: 8px;
-    width: 20px;
-    height: 20px;
+    height: 25px;
+    width: 25px;
+    margin: 15px 30px 30px 30px;
   }
   .duplicate {
-    color: red
+    color: red;
   }
   img {
-    height: 18px;
-    width: 18px;
+    height: 100%;
+    width: 100%;
     margin: auto;
   }
   button {
-    margin: 8px;
     border: none;
-    padding: 0;
-  }
-  input, select {
-    border-bottom: 1px solid green;
-    margin: 5px;
     padding: 0;
   }
 `;

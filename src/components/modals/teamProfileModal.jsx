@@ -3,26 +3,23 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { updateTeamMember } from "../../store/projectData/team";
 import close from "../../images/close-grey.png";
-import save from "../../images/save-grey.png";
-import bin from "../../images/bin-grey.png";
-import { wpTitleColor } from "../../helpers";
+import { teamGreen, underlineGrey } from "../../helpers";
 
 function ProfileModal(props) {
   const dispatch = useDispatch();
   const { person } = props;
 
-  window.addEventListener("keydown", closeModal, false);
+  window.addEventListener("keydown", checkCloseModal, false);
 
-  function closeModal(e) {
+  function checkCloseModal(e) {
     console.log("listening");
-    if (
-      e.target.id === "background" ||
-      e.key === "Escape" ||
-      e.keycode === 27
-    ) {
-      window.removeEventListener("keydown", closeModal);
-      props.setShowProfile(false);
-    }
+    if (e.target.id === "background" || e.key === "Escape" || e.keycode === 27)
+      closeModal();
+  }
+
+  function closeModal() {
+    window.removeEventListener("keydown", checkCloseModal);
+    props.setShowProfile(false);
   }
 
   function onChangeHandler(e) {
@@ -38,8 +35,11 @@ function ProfileModal(props) {
   }
 
   return (
-    <Container id="background" onClick={closeModal}>
+    <Container id="background" onClick={checkCloseModal}>
       <div className="editWindow">
+        <button onClick={closeModal} className="close">
+          <img src={close} alt="close" />
+        </button>
         <div className="left">
           <div className="title" />
           <label className="label" htmlFor="url">
@@ -100,11 +100,9 @@ const Container = styled.div`
 
   .editWindow {
     position: relative;
-    /* width: 450px; */
     min-height: 200px;
 
     display: flex;
-    /* flex-direction: column; */
     justify-content: space-between;
 
     background-color: white;
@@ -118,24 +116,20 @@ const Container = styled.div`
       display: flex;
       width: 100px;
       height: 100%;
-      /* background-color: green; */
     }
     .left,
     .right {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      /* border: 1px solid red; */
-      /* flex-grow: 1; */
       padding: 15px;
     }
     .left {
       align-items: flex-end;
-      background-color: green;
+      background-color: ${teamGreen};
     }
     .right {
       align-items: center;
-      /* width: 340px; */
     }
     .title {
       height: 30px;
@@ -147,7 +141,7 @@ const Container = styled.div`
       padding: 5px;
       margin: 0;
       margin-top: 5px;
-      border: 1px solid black;
+      border: 2px solid ${underlineGrey};
       min-height: 30px;
     }
     .label {
@@ -155,9 +149,16 @@ const Container = styled.div`
       align-items: center;
       min-height: 30px;
       margin-top: 5px;
-      border: 1px solid green;
+      border: none;
       color: white;
       min-width: 0px;
+    }
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      height: 20px;
+      width: 20px;
     }
     textarea {
       height: 200px;

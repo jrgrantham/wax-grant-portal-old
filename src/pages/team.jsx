@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { appTop, appWidth, tableHeadingHeight } from "../helpers";
+import { appTop, appWidth, tableHeadingHeight, teamGreen, teamGreenFont } from "../helpers";
 import TeamHeader from "../components/team/teamHeader";
 
 function Team() {
@@ -23,7 +23,7 @@ function Team() {
             className={employmentType === "contract" ? "selected" : null}
           
           onClick={() => setEmploymentType("contract")}>
-            <h3>Sub Contract</h3>
+            <h3>Subcontract</h3>
           </button>
         </div>
         <TeamHeader employmentType={employmentType} />
@@ -50,10 +50,10 @@ const PageContainer = styled.div`
     width: 15%;
     display: flex;
     flex-direction: column;
-    background-color: green;
+    background-color: ${teamGreen};
 
     .headings {
-      height: ${tableHeadingHeight};
+      /* height: ${tableHeadingHeight}; */
     }
     button {
       border: none;
@@ -65,7 +65,8 @@ const PageContainer = styled.div`
       border-radius: 0;
     }
     button.selected {
-      background-color: rgba(255, 255, 255, 0.25);
+      background-color: rgba(255, 255, 255, 0.5);
+      color: ${teamGreenFont}
     }
   }
   .displayArea {

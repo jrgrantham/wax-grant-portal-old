@@ -7,6 +7,7 @@ import projectReducer from "./projectData/project";
 import teamReducer from "./projectData/team";
 import userReducer from "./projectData/user";
 import allocationsReducer from "./projectData/allocations";
+import optionsReducer from "./projectData/options";
 
 const rootReducer = combineReducers({
   tasks: taskReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   project: projectReducer,
   team: teamReducer,
   allocations: allocationsReducer,
+  options: optionsReducer
 });
 
 export const store = configureStore({ reducer: rootReducer });
