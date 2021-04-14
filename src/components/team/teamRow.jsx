@@ -62,7 +62,7 @@ function TeamRow(props) {
         className="field name"
       />
       {index === 0 ? (
-        <Tippy delay={250} content="Team member">
+        <Tippy content="Team member">
           <div className="info">
             <img src={add} alt="add" />
           </div>
@@ -82,7 +82,7 @@ function TeamRow(props) {
         }
       />
       {index === 0 ? (
-        <Tippy delay={250} content="Acronym">
+        <Tippy content="Acronym">
           <div className="info">
             <img src={add} alt="add" />
           </div>
@@ -126,7 +126,7 @@ function TeamRow(props) {
       ) : null} */}
 
       {index === 0 ? (
-        <Tippy delay={250} content="Delete text to view list">
+        <Tippy content="Delete text to view list">
           <div className="info">
             <img src={add} alt="add" />
           </div>
@@ -145,7 +145,7 @@ function TeamRow(props) {
             className="field salary"
           />
           {index === 0 ? (
-            <Tippy delay={250} content="Salary (£)">
+            <Tippy content="Salary (£)">
               <div className="info">
                 <img src={add} alt="add" />
               </div>
@@ -165,7 +165,7 @@ function TeamRow(props) {
             className="field dayRate"
           />
           {index === 0 ? (
-            <Tippy delay={250} content="Day rate (£)">
+            <Tippy content="Day rate (£)">
               <div className="info">
                 <img src={add} alt="add" />
               </div>
@@ -181,7 +181,7 @@ function TeamRow(props) {
             className="field location"
           />
           {index === 0 ? (
-            <Tippy delay={250} content="Location">
+            <Tippy content="Location">
               <div className="info">
                 <img src={add} alt="add" />
               </div>
@@ -194,7 +194,7 @@ function TeamRow(props) {
       <button onClick={() => setShowProfile(true)} className="profile">
         Profile
       </button>
-      <Tippy delay={250} content="All data will be lost">
+      <Tippy content="All data will be lost">
         <div className="hidden">
           <img
             className="delete"

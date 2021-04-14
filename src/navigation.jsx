@@ -45,12 +45,14 @@ function Navigation() {
       </div>
 
       <div onClick={() => setMenu(false)} id="menu" className="menu">
-        <button onClick={() => console.log("Export")} className="menuButton">
-          Export
-        </button>
-        <button onClick={() => console.log("Logout")} className="menuButton">
-          Logout
-        </button>
+        <div className="top">
+          <button onClick={() => console.log("Export")} className="menuButton">
+            Export
+          </button>
+          <button onClick={() => console.log("Logout")} className="menuButton">
+            Logout
+          </button>
+        </div>
         <button className="menuButton">
           <a href="http://intangible-engineering.com">Developer</a>
         </button>
@@ -81,8 +83,9 @@ const Container = styled.nav`
   .links {
     display: flex;
   }
-  a, p {
-    width: 170px;
+  a,
+  p {
+    /* width: 170px; */
     display: flex;
     justify-content: center;
     /* width: 170px; */
@@ -106,7 +109,6 @@ const Container = styled.nav`
     &:hover {
       background-size: 0 2px, 100% 2px;
     }
-
   }
   .navButton.small {
     width: 80px;
@@ -128,10 +130,22 @@ const Container = styled.nav`
     padding-top: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    padding-bottom: 20px;
     background-color: rgba(50, 50, 50, 1);
     cursor: pointer;
+    .top {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    a {
+      font-size: 14px;
+      margin: 0;
+      padding: 0;
+      color: #a1a1a1
+    }
   }
   .menuButton {
     margin-top: 20px;

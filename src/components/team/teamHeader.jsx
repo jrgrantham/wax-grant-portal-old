@@ -174,7 +174,7 @@ const PageContainer = styled.div`
   }
   .selectedLeader {
     background-color: white;
-    border-radius: 10px 10px 0 0;
+    border-radius: 6px 6px 0 0;
   }
   .people {
     margin-top: 20px;
