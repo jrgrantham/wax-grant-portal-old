@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { appTop, appWidth, tableHeadingHeight, teamGreen, teamGreenFont } from "../helpers";
-import TeamHeader from "../components/team/teamHeader";
+import {
+  appTop,
+  appWidth,
+  tabHeight,
+  tableLeftHighlight,
+  tableLeftWidth,
+  tableHeadingHeight,
+  tableMinHeight,
+  teamColor,
+  teamFontColor,
+} from "../helpers";
+import TeamInfo from "../components/team/teamInfo";
 
 function Team() {
   const [employmentType, setEmploymentType] = useState("staff");
-  
+
   return (
     <PageContainer>
       <div className="displayArea">
-        <div className="employment">
-          <div className="headings"></div>
+        <div className="left">
+          <div className="spacer"></div>
           <button
             id="staff"
             className={employmentType === "staff" ? "selected" : null}
@@ -19,14 +29,15 @@ function Team() {
           >
             <h3>Staff</h3>
           </button>
-          <button id="contract" 
+          <button
+            id="contract"
             className={employmentType === "contract" ? "selected" : null}
-          
-          onClick={() => setEmploymentType("contract")}>
+            onClick={() => setEmploymentType("contract")}
+          >
             <h3>Subcontract</h3>
           </button>
         </div>
-        <TeamHeader employmentType={employmentType} />
+        <TeamInfo employmentType={employmentType} />
       </div>
     </PageContainer>
   );
@@ -38,7 +49,7 @@ const PageContainer = styled.div`
   top: ${appTop};
   margin: auto;
   padding: 10px;
-  width: 100%;
+  /* width: 100%; */
   max-width: ${appWidth};
   display: flex;
   justify-content: center;
@@ -46,15 +57,11 @@ const PageContainer = styled.div`
   @media screen and (max-width: 750px) {
     padding: 0px;
   }
-  .employment {
-    width: 15%;
+  .left {
+    width: ${tableLeftWidth};
     display: flex;
     flex-direction: column;
-    background-color: ${teamGreen};
-
-    .headings {
-      /* height: ${tableHeadingHeight}; */
-    }
+    background-color: ${teamColor};
     button {
       border: none;
       background-color: transparent;
@@ -65,20 +72,19 @@ const PageContainer = styled.div`
       border-radius: 0;
     }
     button.selected {
-      background-color: rgba(255, 255, 255, 0.5);
-      color: ${teamGreenFont}
+      background-color: ${tableLeftHighlight};
+      color: ${teamFontColor};
     }
   }
   .displayArea {
     margin-bottom: 50px;
     display: flex;
-    max-width: 1000px;
-    width: 100%;
-    min-height: 400px;
+    min-height: ${tableMinHeight};
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 6px;
+    /* border: 1px solid red */
   }
-  .headings {
-    height: 50px;
+  .spacer {
+    height: ${tabHeight};
   }
 `;

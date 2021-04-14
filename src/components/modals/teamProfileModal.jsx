@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { updateTeamMember } from "../../store/projectData/team";
 import close from "../../images/close-grey.png";
-import { teamGreen, underlineGrey } from "../../helpers";
+import { teamColor, tableInputUnderline } from "../../helpers";
 
 function ProfileModal(props) {
   const dispatch = useDispatch();
@@ -126,7 +126,7 @@ const Container = styled.div`
     }
     .left {
       align-items: flex-end;
-      background-color: ${teamGreen};
+      background-color: ${teamColor};
     }
     .right {
       align-items: center;
@@ -141,7 +141,7 @@ const Container = styled.div`
       padding: 5px;
       margin: 0;
       margin-top: 5px;
-      border: 2px solid ${underlineGrey};
+      border: 2px solid ${tableInputUnderline};
       min-height: 30px;
     }
     .label {

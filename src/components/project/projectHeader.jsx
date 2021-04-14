@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 import ProjectRow from "./projectRow";
-import { tableHeadingHeight } from "../../helpers";
+// import { tableHeadingHeight } from "../../helpers";
 import { addTeamMember } from "../../store/projectData/team";
 import { useSelector } from "react-redux";
 import add from "../../images/add-grey.png";
@@ -107,7 +107,6 @@ const PageContainer = styled.div`
   background-color: white;
   color: black;
   .headings {
-    height: ${tableHeadingHeight};
     display: flex;
     background-color: #b1b1b1;
   }

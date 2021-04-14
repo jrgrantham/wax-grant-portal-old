@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { appTop, appWidth, tableHeadingHeight } from "../helpers";
+import { appTop, appWidth } from "../helpers";
 import ProjectInfo from "../components/project/projectHeader";
 
 function Project() {
@@ -60,10 +60,6 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     background-color: blue;
-
-    .headings {
-      height: ${tableHeadingHeight};
-    }
     button {
       border: none;
       background-color: rgba(255, 255, 255, 0.08);

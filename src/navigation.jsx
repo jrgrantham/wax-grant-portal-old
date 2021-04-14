@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { appWidth, navBackground } from "./helpers";
+import navHome from './images/navHome.png';
+import navBurger from './images/navBurger.png';
 
 function Navigation() {
   function openMenu() {
@@ -114,8 +116,7 @@ const Container = styled.nav`
     width: 80px;
   }
   .selected {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.2);
   }
   .selected .navButton:hover {
     background-size: 100% 2px, 100% 2px;

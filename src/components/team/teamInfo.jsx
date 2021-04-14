@@ -8,17 +8,23 @@ import "react-tippy/dist/tippy.css";
 
 import TeamInfoRow from "./teamRow";
 import {
-  tableHeadingHeight,
+  tabHeight,
+  tableRightWidth,
+  // tableHeadingHeight,
   tabUnselected,
-  teamGreen,
-  underlineGrey,
+  teamColor,
+  tableInputUnderline,
+  tableContentTopMargin,
+  tableInputMargin,
+  tableInputPadding,
+  tableContentSideMargin,
 } from "../../helpers";
 import { addTeamMember, reorderTeam } from "../../store/projectData/team";
 import { useSelector } from "react-redux";
 import add from "../../images/add-grey.png";
 import qMark from "../../images/qMark.png";
 
-function TeamHeader(props) {
+function TeamInfo(props) {
   const dispatch = useDispatch();
   const employmentType = props.employmentType;
   const team = useSelector((state) => state.team.data);
@@ -71,7 +77,7 @@ function TeamHeader(props) {
 
   return (
     <PageContainer>
-      <div className="headings">
+      <div className="tabs">
         <h3
           id="lead"
           className={
@@ -103,59 +109,57 @@ function TeamHeader(props) {
         </h3>
       </div>
 
-      <div className="titles">
-        <div className="header">
-          <div className="menu" />
-          <div className="title name">
-            <h3>Name</h3>
-          </div>
-          <div className="title acronym">
-            <h3>Acronym</h3>
-            <Tippy content="Identifies the team member on the Gantt Chart (red text indicates duplicate)">
+      <div className="header">
+        <div className="menu" />
+        <div className="title name">
+          <h3>Name</h3>
+        </div>
+        <div className="title acronym">
+          <h3>Acronym</h3>
+          <Tippy content="Identifies the team member on the Gantt Chart (red text indicates duplicate)">
+            <div className="info">
+              <img src={qMark} alt="add" />
+            </div>
+          </Tippy>
+        </div>
+        <div className="title role">
+          <h3>Role</h3>
+          <Tippy content="Project role (not necessarily job title)">
+            <div className="info">
+              <img src={qMark} alt="add" />
+            </div>
+          </Tippy>
+        </div>
+        {employmentType === "staff" ? (
+          <div className="title salary">
+            <h3>Salary</h3>
+            <Tippy content="Gross salary including company NI, company pension contribution and life insurance (£)">
               <div className="info">
                 <img src={qMark} alt="add" />
               </div>
             </Tippy>
           </div>
-          <div className="title role">
-            <h3>Role</h3>
-            <Tippy content="Project role (not necessarily job title)">
-              <div className="info">
-                <img src={qMark} alt="add" />
-              </div>
-            </Tippy>
-          </div>
-          {employmentType === "staff" ? (
-            <div className="title salary">
-              <h3>Salary</h3>
-              <Tippy content="Gross salary including company NI, company pension contribution and life insurance (£)">
+        ) : (
+          <>
+            <div className="title dayRate">
+              <h3>Day rate</h3>
+              <Tippy content="Day rate (£)">
                 <div className="info">
                   <img src={qMark} alt="add" />
                 </div>
               </Tippy>
             </div>
-          ) : (
-            <>
-              <div className="title dayRate">
-                <h3>Day rate</h3>
-                <Tippy content="Day rate (£)">
-                  <div className="info">
-                    <img src={qMark} alt="add" />
-                  </div>
-                </Tippy>
-              </div>
-              <div className="title location">
-                <h3>Location</h3>
-                {/* <Tippy content="Location">
+            <div className="title location">
+              <h3>Location</h3>
+              {/* <Tippy content="Location">
                   <div className="info">
                     <img src={qMark} alt="add" />
                   </div>
                 </Tippy> */}
-              </div>
-            </>
-          )}
-          <div className="delete"></div>
-        </div>
+            </div>
+          </>
+        )}
+        <div className="delete"></div>
       </div>
       <div className="people">
         <DragDropContext onDragEnd={handleMovingRow}>
@@ -202,14 +206,14 @@ function TeamHeader(props) {
     </PageContainer>
   );
 }
-export default TeamHeader;
+export default TeamInfo;
 
 const PageContainer = styled.div`
-  width: 85%;
+  width: ${tableRightWidth};
   background-color: white;
   color: black;
-  .headings {
-    height: ${tableHeadingHeight};
+  .tabs {
+    height: ${tabHeight};
     display: flex;
     background-color: ${tabUnselected};
   }
@@ -233,7 +237,8 @@ const PageContainer = styled.div`
   }
   .header {
     display: flex;
-    margin-top: 20px;
+    margin-top: ${tableContentTopMargin};
+    margin-bottom: 5px;
   }
   .person {
     display: flex;
@@ -245,7 +250,7 @@ const PageContainer = styled.div`
   }
   .title {
     display: flex;
-    margin: 5px 20px 5px 0px;
+    margin-right: 20px;
     padding: 5px 0px;
   }
   .info {
@@ -255,14 +260,14 @@ const PageContainer = styled.div`
     height: 13px;
   }
   .field {
-    margin: 5px 20px 5px 0px;
-    padding: 5px 0px;
+    margin: ${tableInputMargin};
+    padding: ${tableInputPadding};
     border-radius: 0;
-    border-bottom: 2px solid ${underlineGrey};
+    border-bottom: 2px solid ${tableInputUnderline};
     /* padding: 0; */
     &:focus {
       border: none;
-      border-bottom: 2px solid ${teamGreen};
+      border-bottom: 2px solid ${teamColor};
     }
     /* flex-grow: 1; */
   }
@@ -303,7 +308,7 @@ const PageContainer = styled.div`
     width: 75px;
   }
   .profile {
-    background-color: ${teamGreen};
+    background-color: ${teamColor};
     color: white;
     padding: 5px 10px;
   }
@@ -318,7 +323,7 @@ const PageContainer = styled.div`
   .add {
     height: 25px;
     width: 25px;
-    margin: 15px 30px 30px 30px;
+    margin: 15px ${tableContentSideMargin} 30px ${tableContentSideMargin};
   }
   .duplicate {
     color: red;
