@@ -49,7 +49,7 @@ export const team = {
       acronym: 'CG',
       role: 'tbc',
       salary: 70000,
-      employment: "contract",
+      employment: "subcontract",
       location: 'UK', // flag if not
       dayRate: 115,
     },
@@ -61,7 +61,7 @@ export const team = {
       acronym: 'RG',
       role: 'tbc',
       salary: 30000,
-      employment: "contract",
+      employment: "subcontract",
       location: 'Other', // flag if not
       dayRate: 50,
     },

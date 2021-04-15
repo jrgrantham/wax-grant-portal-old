@@ -9,17 +9,18 @@ import {
   teamColor,
   teamFontColor,
 } from "../helpers";
-import TeamInfo from "../components/team/teamInfo";
-import LeftMenu from "../components/team/leftMenu";
+import TeamInfo from "../components/table/teamInfo";
+import LeftMenu from "../components/table/leftMenu";
+import LeaderTabs from "../components/table/leaderTabs";
 
 function Team() {
   const dispatch = useDispatch();
   const selectedTeamOption = useSelector(
     (state) => state.user.selectedTeamOption
   );
-
+  const menuList = ["Staff", "Subcontract"];
   const menuData = {
-    menuOptions: ["Staff", "Subcontract"],
+    menuList,
     selectedOption: selectedTeamOption,
     color: teamFontColor,
     backgroundColor: teamColor,
@@ -32,7 +33,10 @@ function Team() {
     <PageContainer>
       <div className="displayArea">
         <LeftMenu data={menuData} />
-        <TeamInfo employmentType={selectedTeamOption} />
+        <div className="content">
+          <LeaderTabs viewCombinedTab={false} />
+          <TeamInfo employmentType={selectedTeamOption} />
+        </div>
       </div>
     </PageContainer>
   );
@@ -57,5 +61,9 @@ const PageContainer = styled.div`
     min-height: ${tableMinHeight};
     overflow: hidden;
     border-radius: 6px;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
   }
 `;

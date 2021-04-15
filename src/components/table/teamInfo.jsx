@@ -8,10 +8,7 @@ import "react-tippy/dist/tippy.css";
 
 import TeamInfoRow from "./teamRow";
 import {
-  tabHeight,
   tableRightWidth,
-  // tableHeadingHeight,
-  tabUnselected,
   teamColor,
   tableInputUnderline,
   tableContentTopMargin,
@@ -26,15 +23,15 @@ import qMark from "../../images/qMark.png";
 
 function TeamInfo(props) {
   const dispatch = useDispatch();
-  const employmentType = props.employmentType;
+  const employmentType = useSelector((state) => state.user.selectedTeamOption);
   const team = useSelector((state) => state.team.data);
+  const leader = useSelector((state) => state.user.selectedLeader);
 
-  const [selectedLeader, setSelectedLeader] = useState("lead");
   const employmentGroup = team.filter(
     (person) => person.employment === employmentType
   );
   const group = employmentGroup.filter(
-    (person) => person.leader === selectedLeader
+    (person) => person.leader === leader
   );
 
   function addPerson() {
@@ -47,7 +44,7 @@ function TeamInfo(props) {
       name: `Team Member ${number}`,
       role: "tbc",
       salary: 0,
-      leader: selectedLeader,
+      leader: leader,
       acronym: `TM${number}`,
       employment: employmentType,
     };
@@ -65,7 +62,6 @@ function TeamInfo(props) {
 
   function countAcronyms() {
     const acronymCount = {};
-    let result = false;
     for (let i = 0; i < team.length; i++) {
       if (acronymCount[team[i].acronym]) {
         acronymCount[team[i].acronym] = acronymCount[team[i].acronym] + 1;
@@ -77,38 +73,6 @@ function TeamInfo(props) {
 
   return (
     <PageContainer>
-      <div className="tabs">
-        <h3
-          id="lead"
-          className={
-            selectedLeader === "lead" ? "leader selectedLeader" : "leader"
-          }
-          onClick={() => setSelectedLeader("lead")}
-        >
-          Lead Applicant
-        </h3>
-        <h3
-          id="pOne"
-          className={
-            selectedLeader === "pOne"
-              ? "leader selectedLeader"
-              : "leader middle"
-          }
-          onClick={() => setSelectedLeader("pOne")}
-        >
-          Partner One
-        </h3>
-        <h3
-          id="pTwo"
-          className={
-            selectedLeader === "pTwo" ? "leader selectedLeader" : "leader"
-          }
-          onClick={() => setSelectedLeader("pTwo")}
-        >
-          Partner Two
-        </h3>
-      </div>
-
       <div className="header">
         <div className="menu" />
         <div className="title name">
@@ -151,11 +115,6 @@ function TeamInfo(props) {
             </div>
             <div className="title location">
               <h3>Location</h3>
-              {/* <Tippy content="Location">
-                  <div className="info">
-                    <img src={qMark} alt="add" />
-                  </div>
-                </Tippy> */}
             </div>
           </>
         )}
@@ -212,29 +171,7 @@ const PageContainer = styled.div`
   width: ${tableRightWidth};
   background-color: white;
   color: black;
-  .tabs {
-    height: ${tabHeight};
-    display: flex;
-    background-color: ${tabUnselected};
-  }
-  .leader {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    color: white;
-    cursor: pointer;
-  }
-  .middle {
-    border-left: 2px solid rgba(0, 0, 0, 0.2);
-    border-right: 2px solid rgba(0, 0, 0, 0.2);
-  }
-  .selectedLeader {
-    background-color: white;
-    color: black;
-    border-radius: 6px 6px 0 0;
-  }
+  height: 100%;
   .header {
     display: flex;
     margin-top: ${tableContentTopMargin};

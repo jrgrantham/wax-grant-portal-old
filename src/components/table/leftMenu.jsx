@@ -7,12 +7,12 @@ import {
 import Button from "./leftMenuButton";
 
 function LeftMenu(props) {
-  const { menuOptions, backgroundColor } = props.data;
+  const { menuList, backgroundColor } = props.data;
 
   return (
     <MenuContainer backgroundColor={backgroundColor}>
       <div className="spacer"></div>
-      {menuOptions.map((option, index) => {
+      {menuList.map((option, index) => {
         return <Button option={option} key={index} data={props.data} />;
       })}
     </MenuContainer>
