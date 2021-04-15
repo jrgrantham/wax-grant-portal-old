@@ -10,19 +10,18 @@ import {
   updateTaskPackTitle,
   removeTaskPack,
 } from "../../store/projectData/tasks";
-import { dAndMReorderRows } from "../../store/projectData/deadlines";
+// import { dAndMReorderRows } from "../../store/projectData/deadlines";
 import GanttTaskRowInfo from "./ganttTaskRowInfo";
 import EditModal from "../modals/ganttEditModal";
 import tick from "../../images/tick-white.png";
 import add from "../../images/add-grey.png";
 import bin from "../../images/bin-grey.png";
-import { removeTaskAllocations } from "../../store/projectData/allocations";
+import { deleteTaskAllocations } from "../../store/projectData/allocations";
 
 function GanttPackWork(props) {
   const dispatch = useDispatch();
 
   const { title, index, packData } = props;
-  const isWP = !(title === "Deliverables" || title === "Milestones");
   const wpNumber = index + 1;
 
   const [edit, setEdit] = useState(false);
@@ -48,8 +47,7 @@ function GanttPackWork(props) {
       return;
     const movement = result.destination.index - result.source.index;
     const task = packData[result.source.index];
-    if (isWP) dispatch(reorderTasks({ task, movement }));
-    else dispatch(dAndMReorderRows({ taskId: task.taskId, movement }));
+    dispatch(reorderTasks({ task, movement }));
   }
 
   function handleEditTitle(value) {
@@ -66,7 +64,7 @@ function GanttPackWork(props) {
   function handleRemovePack() {
     const taskList = [...new Set(packData.map((task) => task.taskId))];
     taskList.forEach((taskId) => {
-      dispatch(removeTaskAllocations({ taskId }));
+      dispatch(deleteTaskAllocations({ taskId }));
     });
     dispatch(removeTaskPack({ workPackageTitle: title }));
     // setConfirmDelete(false);
@@ -123,7 +121,6 @@ function GanttPackWork(props) {
                           provided={provided}
                           key={index}
                           task={task}
-                          isWP={isWP}
                         />
                       </div>
                     )}

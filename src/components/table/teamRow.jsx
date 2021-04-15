@@ -8,7 +8,7 @@ import Tippy from "@tippy.js/react";
 import "react-tippy/dist/tippy.css";
 import { BiMenu } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
-import { removePersonAllocations } from "../../store/projectData/allocations";
+import { deletePersonAllocations } from "../../store/projectData/allocations";
 import bin from "../../images/bin-grey.png";
 import ProfileModal from "../modals/teamProfileModal";
 
@@ -40,7 +40,7 @@ function TeamRow(props) {
 
   function deletePerson() {
     dispatch(deleteTeamMember({ personId: person.personId }));
-    dispatch(removePersonAllocations({ personId: person.personId }));
+    dispatch(deletePersonAllocations({ personId: person.personId }));
   }
 
   return (

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { removeTask, updateTaskPack } from "../../store/projectData/tasks";
-import { removeTaskAllocations } from "../../store/projectData/allocations";
+import { deleteTaskAllocations } from "../../store/projectData/allocations";
 import close from "../../images/close-grey.png";
 import save from "../../images/save-grey.png";
 import bin from "../../images/bin-grey.png";
@@ -115,7 +115,7 @@ function EditModal(props) {
   }
   function deleteTask(taskId) {
     dispatch(removeTask(taskId));
-    dispatch(removeTaskAllocations({ taskId }));
+    dispatch(deleteTaskAllocations({ taskId }));
   }
 
   // useEffect(() => {

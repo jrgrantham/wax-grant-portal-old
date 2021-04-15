@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { getResources } from "../../helpers";
 import {
   addAllocation,
-  removeAllocation,
+  deleteAllocation,
   updateAllocation,
 } from "../../store/projectData/allocations";
 
@@ -23,7 +23,7 @@ function ResourcesRow(props) {
 
   function onChangeHandler(value, personId, allocationId) {
     console.log(value, personId, allocationId);
-    if (value === 0) dispatch(removeAllocation({ allocationId }));
+    if (value === 0) dispatch(deleteAllocation({ allocationId }));
     else if (allocationId === "new")
       dispatch(addAllocation({ taskId, personId, value }));
     else dispatch(updateAllocation({ allocationId, value }));
