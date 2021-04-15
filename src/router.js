@@ -7,7 +7,7 @@ import GanttChart from "./pages/ganttChart";
 import Project from "./pages/project";
 import HomePage from "./pages/homePage";
 import NoResult from "./pages/noResult";
-import Team from "./pages/team";
+import Team from "./pages/teamTable";
 import Costs from "./pages/costs";
 import Revenue from "./pages/revenue";
 

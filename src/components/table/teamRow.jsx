@@ -19,6 +19,7 @@ function TeamRow(props) {
   );
   const { person, employmentType, provided, acronyms } = props;
   const [showProfile, setShowProfile] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   function onChangeHandler(e) {
     const key = e.target.name;
@@ -43,11 +44,11 @@ function TeamRow(props) {
   }
 
   return (
-    <div className="person">
+    <div className="row">
       {showProfile ? (
         <ProfileModal setShowProfile={setShowProfile} person={person} />
       ) : null}
-      <div {...provided.dragHandleProps} className="hidden menu">
+      <div {...provided.dragHandleProps} className="hidden grabHandle">
         <BiMenu />
       </div>
       <input
@@ -130,20 +131,26 @@ function TeamRow(props) {
           </select>
         </>
       )}
-      <button onClick={() => setShowProfile(true)} className="profile">
+      <button onClick={() => setShowProfile(true)} className="profileButton">
         Profile
       </button>
-      <Tippy content="Associated data will be lost">
-        <div className="hidden">
+      {/* <Tippy content="Associated data will be lost"> */}
+      {confirmDelete ? (
+        <div className='confirmDelete'>
+          <button onClick={() => setConfirmDelete(false)} className="cancel">Cancel</button>
+          <button onClick={deletePerson} className="confirm">All associated data will be lost</button>
+        </div>
+      ) : (
+        <div className="hidden deleteIcon">
           <img
-            className="delete"
+            // className="delete"
             src={bin}
             alt="delete"
             style={{ cursor: "pointer" }}
-            onClick={deletePerson}
+            onClick={() => setConfirmDelete(true)}
           />
         </div>
-      </Tippy>
+      )}
     </div>
   );
 }

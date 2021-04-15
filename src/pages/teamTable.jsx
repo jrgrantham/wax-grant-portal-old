@@ -1,17 +1,15 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
 import { updateUserOption } from "../store/projectData/user";
 import {
-  appTop,
-  appWidth,
-  tableMinHeight,
   teamColor,
   teamFontColor,
 } from "../helpers";
-import TeamInfo from "../components/table/teamInfo";
+import TeamData from "../components/table/teamData";
 import LeftMenu from "../components/table/leftMenu";
 import LeaderTabs from "../components/table/leaderTabs";
+import TeamTitles from "../components/table/teamTitles";
+import { TableContainer } from "../components/table/tableContainer";
 
 function Team() {
   const dispatch = useDispatch();
@@ -30,40 +28,18 @@ function Team() {
   };
 
   return (
-    <PageContainer>
+    <TableContainer>
       <div className="displayArea">
         <LeftMenu data={menuData} />
         <div className="content">
           <LeaderTabs viewCombinedTab={false} />
-          <TeamInfo employmentType={selectedTeamOption} />
+          <TeamTitles />
+          <TeamData />
         </div>
       </div>
-    </PageContainer>
+    </TableContainer>
   );
 }
 export default Team;
 
-const PageContainer = styled.div`
-  position: relative;
-  top: ${appTop};
-  margin: auto;
-  padding: 10px;
-  max-width: ${appWidth};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media screen and (max-width: 750px) {
-    padding: 0px;
-  }
-  .displayArea {
-    margin-bottom: 50px;
-    display: flex;
-    min-height: ${tableMinHeight};
-    overflow: hidden;
-    border-radius: 6px;
-  }
-  .content {
-    display: flex;
-    flex-direction: column;
-  }
-`;
+

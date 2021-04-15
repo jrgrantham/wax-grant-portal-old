@@ -57,13 +57,13 @@ export default LeaderTabs;
 const PageContainer = styled.div`
   height: ${tabHeight};
   display: flex;
+  background-color: ${tabUnselected};
 
   .leader {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${tabUnselected};
     color: white;
     border-left: 2px solid ${tabBorderLeft};
     border-right: 2px solid ${tabBorderRight};
