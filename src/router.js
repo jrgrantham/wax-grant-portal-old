@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 
 // import HomePage from "./pages/HomePage";
 import GanttChart from "./pages/ganttChart";
-import Project from "./pages/project";
+import Project from "./pages/projectTable";
 import HomePage from "./pages/homePage";
 import NoResult from "./pages/noResult";
 import Team from "./pages/teamTable";
