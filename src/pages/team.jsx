@@ -1,43 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-
+import { updateUserOption } from "../store/projectData/user";
 import {
   appTop,
   appWidth,
-  tabHeight,
-  tableLeftHighlight,
-  tableLeftWidth,
-  tableHeadingHeight,
   tableMinHeight,
   teamColor,
   teamFontColor,
 } from "../helpers";
 import TeamInfo from "../components/team/teamInfo";
+import LeftMenu from "../components/team/leftMenu";
 
 function Team() {
-  const [employmentType, setEmploymentType] = useState("staff");
+  const dispatch = useDispatch();
+  const selectedTeamOption = useSelector(
+    (state) => state.user.selectedTeamOption
+  );
+
+  const menuData = {
+    menuOptions: ["Staff", "Subcontract"],
+    selectedOption: selectedTeamOption,
+    color: teamFontColor,
+    backgroundColor: teamColor,
+    updateOption: function (value) {
+      dispatch(updateUserOption({ key: "selectedTeamOption", value }));
+    },
+  };
 
   return (
     <PageContainer>
       <div className="displayArea">
-        <div className="left">
-          <div className="spacer"></div>
-          <button
-            id="staff"
-            className={employmentType === "staff" ? "selected" : null}
-            onClick={() => setEmploymentType("staff")}
-          >
-            <h3>Staff</h3>
-          </button>
-          <button
-            id="contract"
-            className={employmentType === "contract" ? "selected" : null}
-            onClick={() => setEmploymentType("contract")}
-          >
-            <h3>Subcontract</h3>
-          </button>
-        </div>
-        <TeamInfo employmentType={employmentType} />
+        <LeftMenu data={menuData} />
+        <TeamInfo employmentType={selectedTeamOption} />
       </div>
     </PageContainer>
   );
@@ -49,7 +44,6 @@ const PageContainer = styled.div`
   top: ${appTop};
   margin: auto;
   padding: 10px;
-  /* width: 100%; */
   max-width: ${appWidth};
   display: flex;
   justify-content: center;
@@ -57,34 +51,11 @@ const PageContainer = styled.div`
   @media screen and (max-width: 750px) {
     padding: 0px;
   }
-  .left {
-    width: ${tableLeftWidth};
-    display: flex;
-    flex-direction: column;
-    background-color: ${teamColor};
-    button {
-      border: none;
-      background-color: transparent;
-      display: flex;
-      padding: 15px 10px;
-      color: white;
-      margin-bottom: 10px;
-      border-radius: 0;
-    }
-    button.selected {
-      background-color: ${tableLeftHighlight};
-      color: ${teamFontColor};
-    }
-  }
   .displayArea {
     margin-bottom: 50px;
     display: flex;
     min-height: ${tableMinHeight};
     overflow: hidden;
     border-radius: 6px;
-    /* border: 1px solid red */
-  }
-  .spacer {
-    height: ${tabHeight};
   }
 `;

@@ -1,38 +1,40 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { appTop, appWidth } from "../helpers";
-import ProjectInfo from "../components/project/projectHeader";
+import {
+  appTop,
+  appWidth,
+  tabHeight,
+  tableLeftHighlight,
+  tableLeftWidth,
+  tableHeadingHeight,
+  tableMinHeight,
+  teamColor,
+  teamFontColor,
+} from "../helpers";
+import ProjectInfo from "../components/project/projectInfo";
 
-function Project() {
+function Team() {
   const [employmentType, setEmploymentType] = useState("staff");
-  console.log(employmentType);
 
   return (
     <PageContainer>
       <div className="displayArea">
-        <div className="employment">
-          <div className="headings"></div>
+        <div className="left">
+          <div className="spacer"></div>
           <button
-            id="company"
-            className={employmentType === "company" ? "selected" : null}
-            onClick={() => setEmploymentType("company")}
+            id="staff"
+            className={employmentType === "staff" ? "selected" : null}
+            onClick={() => setEmploymentType("staff")}
           >
-            <h3>Company</h3>
+            <h3>Staff</h3>
           </button>
           <button
-            id="project"
-            className={employmentType === "project" ? "selected" : null}
-            onClick={() => setEmploymentType("project")}
+            id="contract"
+            className={employmentType === "contract" ? "selected" : null}
+            onClick={() => setEmploymentType("contract")}
           >
-            <h3>Project</h3>
-          </button>
-          <button
-            id="options"
-            className={employmentType === "options" ? "selected" : null}
-            onClick={() => setEmploymentType("options")}
-          >
-            <h3>Options</h3>
+            <h3>Subcontract</h3>
           </button>
         </div>
         <ProjectInfo employmentType={employmentType} />
@@ -40,14 +42,14 @@ function Project() {
     </PageContainer>
   );
 }
-export default Project;
+export default Team;
 
 const PageContainer = styled.div`
   position: relative;
   top: ${appTop};
   margin: auto;
   padding: 10px;
-  width: 100%;
+  /* width: 100%; */
   max-width: ${appWidth};
   display: flex;
   justify-content: center;
@@ -55,14 +57,14 @@ const PageContainer = styled.div`
   @media screen and (max-width: 750px) {
     padding: 0px;
   }
-  .employment {
-    width: 15%;
+  .left {
+    width: ${tableLeftWidth};
     display: flex;
     flex-direction: column;
-    background-color: blue;
+    background-color: ${teamColor};
     button {
       border: none;
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: transparent;
       display: flex;
       padding: 15px 10px;
       color: white;
@@ -70,19 +72,19 @@ const PageContainer = styled.div`
       border-radius: 0;
     }
     button.selected {
-      background-color: rgba(255, 255, 255, 0.25);
+      background-color: ${tableLeftHighlight};
+      color: ${teamFontColor};
     }
   }
   .displayArea {
     margin-bottom: 50px;
     display: flex;
-    max-width: 1000px;
-    width: 100%;
-    min-height: 400px;
+    min-height: ${tableMinHeight};
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 6px;
+    /* border: 1px solid red */
   }
-  .headings {
-    height: 50px;
+  .spacer {
+    height: ${tabHeight};
   }
 `;

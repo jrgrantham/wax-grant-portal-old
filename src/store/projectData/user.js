@@ -1,21 +1,22 @@
-export default function userReducer(state = { names: "james" }, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+// import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
-// export const fetchUser = () => {
-//   return function (dispatch) {
-//     dispatch(fetchWorkPackageRequest());
-//     axios
-//       .get("url")
-//       .then((response) => {
-//         // const gantt = response.data
-//         // dispatch(fetchtasksuccess(gantt))
-//       })
-//       .catch((error) => {
-//         //error.message
-//       });
-//   };
-// };
+const slice = createSlice({
+  name: "user",
+  initialState: {
+    selectedLeader: "lead",
+    selectedAdminOption: "project",
+    selectedProjectOption: "company",
+    selectedTeamOption: "staff",
+    selectedCostsOption: "labour",
+    selectedRevenueOption: "targetMarket",
+  },
+  reducers: {
+    updateUserOption: (user, action) => {
+      user[action.payload.key] = action.payload.value;
+    },
+  },
+});
+
+export const { updateUserOption } = slice.actions;
+export default slice.reducer;
