@@ -50,6 +50,12 @@ export function checkZero(value) {
   }
 }
 
+export function nextIndexOfGroup(group, array) {
+  const lastEntry = group.slice(-1)[0];
+  const lastEntryIndex = array.indexOf(lastEntry);
+  const position = lastEntryIndex + 1;
+  return position
+}
 
 
 

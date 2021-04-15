@@ -13,39 +13,39 @@ export const deadlineData = {
   loading: false,
   data: [
     {
-      taskId: "mil1",
-      sortPosition: 0,
-      type: "milestone",
-      description: "Description of milestone 1",
-      scheduled: 5,
-    },
-    {
-      taskId: "mil2",
-      sortPosition: 1,
-      type: "milestone",
-      description: "Description of milestone 2",
-      scheduled: 8,
-    },
-    {
-      taskId: "del3",
+      deadlineId: "del3",
       sortPosition: 2,
       type: "deliverable",
       description: "Description of deliverable 3",
       scheduled: 6,
     },
     {
-      taskId: "del4",
+      deadlineId: "del4",
       sortPosition: 3,
       type: "deliverable",
       description: "Description of deliverable 4",
       scheduled: 2,
+    },
+    {
+      deadlineId: "mil1",
+      sortPosition: 0,
+      type: "milestone",
+      description: "Description of milestone 1",
+      scheduled: 5,
+    },
+    {
+      deadlineId: "mil2",
+      sortPosition: 1,
+      type: "milestone",
+      description: "Description of milestone 2",
+      scheduled: 8,
     },
   ],
   error: "",
 };
 
 export const singleMilOne = {
-  taskId: "mil3",
+  deadlineId: "mil3",
   sortPosition: 0,
   type: "milestone",
   description: "Description of milestone 3",
@@ -53,7 +53,7 @@ export const singleMilOne = {
 };
 
 export const singleMilTwo = {
-  taskId: "mil4",
+  deadlineId: "mil4",
   sortPosition: 0,
   type: "milestone",
   description: "Description of milestone 4",

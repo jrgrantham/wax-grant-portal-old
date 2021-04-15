@@ -4,33 +4,31 @@ import { useDispatch, useSelector } from "react-redux";
 
 import GanttRowdeadlines from "./ganttDeadlineRowInfo";
 import {
-  dAndMReorderRows,
-  dAndMRowAdded,
+  reorderDeadline,
+  addDeadline,
 } from "../../store/projectData/deadlines";
 import add from "../../images/add-grey.png";
-
+import { nextIndexOfGroup } from "../../helpers";
 import { Container } from "./ganttPackStyling";
 
 function GanttPackdeadlines(props) {
   const title = props.title;
   const packData = props.workPackData;
   const dispatch = useDispatch();
-  const isWP = !(title === "Deliverables" || title === "Milestones");
+  const deadlines = useSelector((state) => state.deadlines.data);
 
-  const { projectLength } = useSelector((state) => state.project.data); // needed for new task
-
-  function handleAddNewRow() {
+  function addNewRow() {
+    const newPosition = nextIndexOfGroup(packData, deadlines);
     const type = title.toLowerCase().slice(0, -1);
-    dispatch(dAndMRowAdded({ projectLength, type }));
-    // need add task function for dels and mils
+    dispatch(addDeadline({ type, newPosition }));
   }
 
   function handleMovingRow(result) {
     if (!result.destination || result.destination.index === result.source.index)
       return;
     const movement = result.destination.index - result.source.index;
-    const task = packData[result.source.index];
-    dispatch(dAndMReorderRows({ taskId: task.taskId, movement }));
+    const deadlineId = packData[result.source.index].deadlineId;
+    dispatch(reorderDeadline({ deadlineId, movement }));
   }
 
   return (
@@ -42,11 +40,11 @@ function GanttPackdeadlines(props) {
         <Droppable droppableId={title}>
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {packData.map((task, index) => {
+              {packData.map((deadline, index) => {
                 return (
                   <Draggable
-                    key={task.taskId}
-                    draggableId={task.taskId}
+                    key={deadline.deadlineId}
+                    draggableId={deadline.deadlineId}
                     index={index}
                   >
                     {(provided) => (
@@ -58,8 +56,7 @@ function GanttPackdeadlines(props) {
                         <GanttRowdeadlines
                           provided={provided}
                           key={index}
-                          task={task}
-                          isWP={isWP}
+                          deadline={deadline}
                         />
                       </div>
                     )}
@@ -68,7 +65,7 @@ function GanttPackdeadlines(props) {
               })}
               {provided.placeholder}
               <div className="bottom packBackground">
-                <button className='evenWidth' onClick={handleAddNewRow}>
+                <button className='evenWidth' onClick={addNewRow}>
                   <img src={add} alt="add" />
                 </button>
               </div>

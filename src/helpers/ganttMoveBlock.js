@@ -1,13 +1,13 @@
 import { store } from "../store";
-import { dAndMChangeKeyValue } from "../store/projectData/deadlines";
+import { updateDeadline } from "../store/projectData/deadlines";
 
 export function moveBlock(data, e, blockDiv) {
   document.addEventListener("mouseup", dropBlock, false);
   document.addEventListener("mousemove", handleMouseMove, false);
 
-  const { scheduleLength, blockWidth, position, taskId } = data;
+  const { blockWidth, position, deadlineId } = data;
   const leftObstruction = 0;
-  const rightObstruction = scheduleLength - 1;
+  const rightObstruction = store.getState().project.data.projectLength - 1;
 
   let offset = blockDiv.offsetLeft - e.clientX;
   let mousePosition;
@@ -28,9 +28,8 @@ export function moveBlock(data, e, blockDiv) {
     document.removeEventListener("mouseup", dropBlock);
     const newIndex = Math.floor(newPosition / blockWidth + 0.5);
     if (mousePosition !== undefined && newIndex !== originalIndex) {
-      // blockDiv.style.left = `${newIndex * 40}px`;
       store.dispatch(
-        dAndMChangeKeyValue({ taskId, key: "scheduled", value: newIndex })
+        updateDeadline({ deadlineId, key: "scheduled", value: newIndex })
       );
     }
     blockDiv.style.left = null;

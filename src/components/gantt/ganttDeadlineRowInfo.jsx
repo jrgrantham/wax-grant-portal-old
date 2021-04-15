@@ -1,38 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BiMenu } from "react-icons/bi";
 import { Container } from "./ganttRowStyling";
 import bin from "../../images/bin-grey.png";
 
 import {
-  dAndMRowRemoved,
-  // dAndMChangedDate,
-  dAndMChangeKeyValue,
+  deleteDeadline,
+  updateDeadline,
 } from "../../store/projectData/deadlines";
 
 function GanttRowDetails(props) {
   const dispatch = useDispatch();
   const projectDates = useSelector((state) => state.project.data.dates);
-  const [confirmDelete, setConfirmDelete] = useState(false);
-  const { task, provided } = props;
-  const { description, scheduled } = task;
+  const { deadline, provided } = props;
+  const { description, scheduled, deadlineId } = deadline;
 
-  const dateIndex = scheduled;
-
-  function handleDescriptionChange(value) {
+  function handleChange(key, value) {
     dispatch(
-      dAndMChangeKeyValue({
-        taskId: task.taskId,
-        key: "description",
-        value,
-      })
-    );
-  }
-  function handleDateChange(value) {
-    dispatch(
-      dAndMChangeKeyValue({
-        taskId: task.taskId,
-        key: "scheduled",
+      updateDeadline({
+        deadlineId,
+        key,
         value,
       })
     );
@@ -45,52 +32,37 @@ function GanttRowDetails(props) {
           <BiMenu />
         </div>
         <input
+          name="description"
           className="highlight description packBackground"
           value={description}
           type="text"
-          onChange={(e) => handleDescriptionChange(e.target.value)}
+          onChange={(e) => handleChange("description", e.target.value)}
           onBlur={(e) => {
             console.log("remember to send to the server");
           }}
         />
       </div>
       <div className="rowData">
-        {confirmDelete ? (
-          <div className="confirmDelete">
-            <button className="cancel" onClick={() => setConfirmDelete(false)}>
-              Cancel
-            </button>
-            <button onClick={() => dispatch(dAndMRowRemoved(task.taskId))}>
-              Confirm
-            </button>
-          </div>
-        ) : (
-          <>
-            <select
-              className="highlight"
-              value={dateIndex}
-              onChange={(e) => handleDateChange(parseInt(e.target.value))}
-            >
-              {projectDates.map((date, index) => (
-                <option value={index} key={index} className="date">
-                  {date}
-                </option>
-              ))}
-            </select>
-            <div className="hidden">
-              <img
-                src={bin}
-                alt="delete"
-                style={{ cursor: "pointer" }}
-                onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
-              />
-              {/* <BiTrash
-                style={{ cursor: "pointer" }}
-                onClick={() => dispatch(dAndMRowRemoved(task.taskId))}
-              /> */}
-            </div>
-          </>
-        )}
+        <select
+          name="scheduled"
+          className="highlight"
+          value={scheduled}
+          onChange={(e) => handleChange("scheduled", parseInt(e.target.value))}
+        >
+          {projectDates.map((date, index) => (
+            <option value={index} key={index} className="date">
+              {date}
+            </option>
+          ))}
+        </select>
+        <div className="hidden">
+          <img
+            src={bin}
+            alt="delete"
+            style={{ cursor: "pointer" }}
+            onClick={() => dispatch(deleteDeadline({ deadlineId }))}
+          />
+        </div>
       </div>
     </Container>
   );

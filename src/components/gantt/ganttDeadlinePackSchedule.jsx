@@ -16,11 +16,11 @@ function GanttDMPackSchedule(props) {
   return (
     <Container scheduleWidth={scheduleWidth}>
       <div className="title" />
-      {props.workPackData.map((task, index) => {
+      {props.workPackData.map((deadline, index) => {
         return (
           <GanttDMRowSchedule
             key={index}
-            task={task}
+            deadline={deadline}
             prefix={prefix}
             taskIndex={index}
           />

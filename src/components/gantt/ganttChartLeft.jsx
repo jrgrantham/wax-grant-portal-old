@@ -23,8 +23,6 @@ function GanttChartLeft(props) {
     totalDays,
   } = props.data;
 
-  console.log(taskPackTitles.length);
-
   const projectLength = useSelector(
     (state) => state.project.data.projectLength
   );

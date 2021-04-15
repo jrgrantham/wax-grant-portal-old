@@ -1,10 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserOption } from "../store/projectData/user";
-import {
-  teamColor,
-  teamFontColor,
-} from "../helpers";
+import { updateUserSelection } from "../store/projectData/user";
+import { teamColor, teamFontColor } from "../helpers";
 import TeamData from "../components/table/teamData";
 import LeftMenu from "../components/table/leftMenu";
 import LeaderTabs from "../components/table/leaderTabs";
@@ -13,9 +10,7 @@ import { TableContainer } from "../components/table/tableContainer";
 
 function Team() {
   const dispatch = useDispatch();
-  const selectedOption = useSelector(
-    (state) => state.user.selectedTeamOption
-  );
+  const selectedOption = useSelector((state) => state.user.selectedTeamOption);
   const menuList = ["Staff", "Subcontract"];
 
   const menuData = {
@@ -24,7 +19,7 @@ function Team() {
     color: teamFontColor,
     backgroundColor: teamColor,
     updateOption: function (value) {
-      dispatch(updateUserOption({ key: "selectedTeamOption", value }));
+      dispatch(updateUserSelection({ key: "selectedTeamOption", value }));
     },
   };
 
@@ -42,5 +37,3 @@ function Team() {
   );
 }
 export default Team;
-
-

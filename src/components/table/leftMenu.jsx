@@ -15,6 +15,7 @@ function LeftMenu(props) {
       {menuList.map((option, index) => {
         return <Button option={option} key={index} data={props.data} />;
       })}
+      <div className="spacer"></div>
     </MenuContainer>
   );
 }

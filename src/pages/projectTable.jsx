@@ -1,10 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserOption } from "../store/projectData/user";
-import {
-  projectColor,
-  projectFontColor,
-} from "../helpers";
+import { updateUserSelection } from "../store/projectData/user";
+import { projectColor, projectFontColor } from "../helpers";
 import TeamData from "../components/table/teamData";
 import LeftMenu from "../components/table/leftMenu";
 import LeaderTabs from "../components/table/leaderTabs";
@@ -23,7 +20,7 @@ function Team() {
     color: projectFontColor,
     backgroundColor: projectColor,
     updateOption: function (value) {
-      dispatch(updateUserOption({ key: "selectedProjectOption", value }));
+      dispatch(updateUserSelection({ key: "selectedProjectOption", value }));
     },
   };
 
@@ -33,12 +30,9 @@ function Team() {
         <LeftMenu data={menuData} />
         <div className="content">
           <LeaderTabs viewCombinedTab={false} />
-          
         </div>
       </div>
     </TableContainer>
   );
 }
 export default Team;
-
-

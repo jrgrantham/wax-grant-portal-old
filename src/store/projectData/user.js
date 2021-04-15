@@ -12,11 +12,11 @@ const slice = createSlice({
     selectedRevenueOption: "targetMarket",
   },
   reducers: {
-    updateUserOption: (user, action) => {
+    updateUserSelection: (user, action) => {
       user[action.payload.key] = action.payload.value;
     },
   },
 });
 
-export const { updateUserOption } = slice.actions;
+export const { updateUserSelection } = slice.actions;
 export default slice.reducer;

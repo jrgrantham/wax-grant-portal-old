@@ -1,14 +1,16 @@
 // import axios from "axios";
-import { createAction } from "@reduxjs/toolkit";
-
+import { createSlice } from "@reduxjs/toolkit";
 import { projectData } from "../../data";
 
-// export const setTaskBars = createAction("setTaskBars");
-export const reorderTasks = createAction("reorderTasks");
+const slice = createSlice({
+  name: "project",
+  initialState: projectData,
+  reducers: {
+    updateUserSelection: (user, action) => {
+      user[action.payload.key] = action.payload.value;
+    },
+  },
+});
 
-export default function project(state = projectData, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+export const { updateUserSelection } = slice.actions;
+export default slice.reducer;

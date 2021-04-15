@@ -1,9 +1,9 @@
 // import axios from "axios";
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, createSlice } from "@reduxjs/toolkit";
 
 import { deadlineData } from "../../data";
-import { reorderArrayByIndex, dAndMCreateNewRow } from "../../helpers";
 
+import { v4 as uuidv4 } from "uuid";
 // actions
 
 export const dAndMFetchRequest = createAction("dAndMFetchRequest");
@@ -14,76 +14,72 @@ export const dAndMRowRemoved = createAction("dAndMRowRemoved");
 export const dAndMReorderRows = createAction("dAndMReorderRows");
 export const dAndMChangeKeyValue = createAction("dAndMChangeKeyValue");
 
-// const initialState = {
-//   loading: false,
-//   data: [],
-//   error: "",
-// };
+// export default function deadlinesReducer(state = deadlineData, action) {
+//   // export default function deadlinesReducer(state = initialState, action) {
+//   switch (action.type) {
+//     // case dAndMFetchRequest.type:
+//     //   return {
+//     //     ...state,
+//     //     loading: true,
+//     //   };
+//     // case dAndMFetchSuccess.type:
+//     //   return {
+//     //     ...state,
+//     //     loading: false,
+//     //     data: action.payload,
+//     //     error: "",
+//     //   };
+//     // case dAndMFetchFailure.type:
+//     //   return {
+//     //     data: [],
+//     //     loading: false,
+//     //     error: "failed to fetch gantt",
+//     //   };
+//     default:
+//       return state;
+//   }
+// }
 
-export default function deadlinesReducer(state = deadlineData, action) {
-  // export default function deadlinesReducer(state = initialState, action) {
-  switch (action.type) {
-    case dAndMFetchRequest.type:
-      return {
-        ...state,
-        loading: true,
+const slice = createSlice({
+  name: "deadlines",
+  initialState: deadlineData,
+  reducers: {
+    addDeadline: (deadlines, action) => {
+      const { type, position } = action.payload;
+      const newDeadline = {
+        deadlineId: uuidv4(),
+        type,
+        description: "Description...",
+        scheduled: 0,
       };
-    case dAndMFetchSuccess.type:
-      return {
-        ...state,
-        loading: false,
-        data: action.payload,
-        error: "",
-      };
-    case dAndMFetchFailure.type:
-      return {
-        data: [],
-        loading: false,
-        error: "failed to fetch gantt",
-      };
-    case dAndMReorderRows.type:
-      const originalIndex = state.data
-        .map(function (obj) {
-          return obj.taskId;
-        })
-        .indexOf(action.payload.taskId);
-      const newIndex = originalIndex + action.payload.movement;
-      const reordered = reorderArrayByIndex(
-        state.data,
-        originalIndex,
-        newIndex
+      deadlines.data.splice(position, 0, newDeadline);
+    },
+    deleteDeadline: (deadlines, action) => {
+      const { deadlineId } = action.payload;
+      const index = deadlines.data.findIndex(
+        (deadline) => deadline.deadlineId === deadlineId
       );
-      return {
-        ...state,
-        data: reordered,
-      };
-    case dAndMRowAdded.type:
-      const { projectLength, type } = action.payload;
-      const newRow = dAndMCreateNewRow(type, projectLength);
-      return {
-        ...state,
-        data: [...state.data, newRow],
-      };
-    case dAndMRowRemoved.type:
-      return {
-        ...state,
-        data: state.data.filter((task) => task.taskId !== action.payload),
-      };
-    case dAndMChangeKeyValue.type:
-      return {
-        ...state,
-        data: state.data.map((task) => {
-          if (task.taskId === action.payload.taskId) {
-            const updatedRow = {
-              ...task,
-              [action.payload.key]: action.payload.value,
-            };
-            return updatedRow;
-          }
-          return task;
-        }),
-      };
-    default:
-      return state;
-  }
-}
+      deadlines.data.splice(index, 1);
+    },
+    updateDeadline: (deadlines, action) => {
+      console.log(action.payload);
+      const { deadlineId, key, value } = action.payload;
+      const index = deadlines.data.findIndex(
+        (deadline) => deadline.deadlineId === deadlineId
+      );
+      deadlines.data[index][key] = value
+    },
+    reorderDeadline: (deadlines, action) => {
+      const { deadlineId, movement } = action.payload;
+      const originalIndex = deadlines.data.findIndex(
+        (deadline) => deadline.deadlineId === deadlineId
+      );
+      const newIndex = originalIndex + movement;
+      const [deadline] = deadlines.data.splice(originalIndex, 1);
+      deadlines.data.splice(newIndex, 0, deadline);
+    },
+  },
+});
+
+export const { reorderDeadline, addDeadline, deleteDeadline, updateDeadline } = slice.actions;
+export default slice.reducer;

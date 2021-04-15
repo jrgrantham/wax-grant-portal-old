@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-import { updateUserOption } from "../../store/projectData/user";
+import { updateUserSelection } from "../../store/projectData/user";
 import {
   tabHeight,
   tabUnselected,
@@ -32,7 +32,7 @@ function LeaderTabs(props) {
   }
 
   function selectLeader(value) {
-    dispatch(updateUserOption({ key: "selectedLeader", value }));
+    dispatch(updateUserSelection({ key: "selectedLeader", value }));
   }
 
   return (

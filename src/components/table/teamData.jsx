@@ -10,6 +10,7 @@ import { addTeamMember, reorderTeam } from "../../store/projectData/team";
 import { useSelector } from "react-redux";
 import add from "../../images/add-grey.png";
 import { Container } from "./teamStyling";
+import { nextIndexOfGroup } from "../../helpers";
 
 function TeamInfo() {
   const dispatch = useDispatch();
@@ -23,9 +24,7 @@ function TeamInfo() {
   const group = employmentGroup.filter((person) => person.leader === leader);
 
   function addPerson() {
-    const lastPerson = group.slice(-1)[0];
-    const lastPersonIndex = team.indexOf(lastPerson);
-    const position = lastPersonIndex + 1;
+    const position = nextIndexOfGroup(group, team);
     const number = team.length + 1;
     const newPerson = {
       personId: uuidv4(),

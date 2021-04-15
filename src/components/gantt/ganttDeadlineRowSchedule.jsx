@@ -11,19 +11,19 @@ import {
 } from "../../helpers";
 
 function GanttDMRowSchedule(props) {
-  const { task, prefix, taskIndex } = props;
-  const scheduled = props.task.scheduled;
+  const { prefix, taskIndex } = props;
+  const { scheduled, deadlineId } = props.deadline;
+
   const reference = prefix + (taskIndex + 1);
   const blockId = "Block-" + prefix + "-" + leadingZero(taskIndex + 1);
   const blockColor = prefix === "D" ? delTitleColor : milTitleColor;
-  const blockWidth = monthWidth.slice(0, 2);
+  const blockWidth = monthWidth.slice(0, 2); // remove "px"
   const position = blockWidth * scheduled + "px";
 
   const data = {
-    scheduleLength: 20,
     blockWidth,
     position,
-    taskId: task.taskId,
+    deadlineId,
   };
 
   useEffect(() => {

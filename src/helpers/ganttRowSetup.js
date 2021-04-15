@@ -159,7 +159,6 @@ export function dAndMCreateNewRow(type, scheduleLength) {
     sortPosition: 0,
     type,
     description: "Deadline description",
-    schedule: [],
   };
   for (let i = 0; i < scheduleLength; i++) {
     const emptyBlock = {

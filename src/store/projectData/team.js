@@ -17,22 +17,21 @@ const slice = createSlice({
       team.data.splice(index, 1);
     },
     updateTeamMember: (team, action) => {
-      console.log(action.payload);
+      const {key, value, personId} = action.payload;
       const index = team.data.findIndex(
-        (person) => person.personId === action.payload.personId
+        (person) => person.personId === personId
       );
-      if (action.payload.key === "name") {
-        const matches = action.payload.value.match(/\b(\w)/g) || [];
+      if (key === "name") {
+        const matches = value.match(/\b(\w)/g) || [];
         const acronym = matches.join("").slice(0, 2);
-        team.data[index].name = action.payload.value;
+        team.data[index].name = value;
         team.data[index].acronym = acronym;
-      } else if (action.payload.key === "acronym") {
-        const acronym = action.payload.value.slice(-2);
+      } else if (key === "acronym") {
+        const acronym = value.slice(-2);
         team.data[index].acronym = acronym;
-      } else team.data[index][action.payload.key] = action.payload.value;
+      } else team.data[index][key] = value;
     },
     reorderTeam: (team, action) => {
-      console.log(action.payload);
       const originalIndex = team.data.findIndex(
         (person) => person.personId === action.payload.person.personId
       );
