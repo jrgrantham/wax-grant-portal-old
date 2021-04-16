@@ -1,30 +1,11 @@
 import styled from "styled-components";
 import {
-  teamColor,
-  tableInputUnderline,
-  tableContentTopMargin,
-  tableInputMargin,
-  tableInputPadding,
   tableContentSideMargin,
+  teamColor,
 } from "../../helpers";
 
 export const Container = styled.div`
   display: flex;
-  margin-left: ${tableContentSideMargin};
-  margin-top: ${tableContentTopMargin};
-
-  .rows {
-    margin-top: -15px;
-  }
-  .row {
-    position: relative;
-    display: flex;
-    align-items: center;
-    &:hover .hidden {
-      transition: opacity 0.3s;
-      opacity: 1;
-    }
-  }
   .title {
     display: flex;
     margin-right: 20px;
@@ -35,19 +16,6 @@ export const Container = styled.div`
     margin-left: 7px;
     width: 13px;
     height: 13px;
-  }
-  .field {
-    margin: ${tableInputMargin};
-    padding: ${tableInputPadding};
-    border-radius: 0;
-    border-bottom: 2px solid ${tableInputUnderline};
-    &:focus {
-      border: none;
-      border-bottom: 2px solid ${teamColor};
-    }
-  }
-  .hidden {
-    opacity: 0; 
   }
   .grabHandle {
     position: absolute;
@@ -109,6 +77,8 @@ export const Container = styled.div`
     height: 25px;
     width: 25px;
     margin-top: 15px;
+    /* margin-bottom: 20px; */
+    margin-left: ${tableContentSideMargin}
   }
   img {
     height: 100%;

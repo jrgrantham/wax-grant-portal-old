@@ -2,11 +2,11 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserSelection } from "../store/projectData/user";
 import { teamColor, teamFontColor } from "../helpers";
-import TeamData from "../components/table/teamData";
+import TeamData from "../components/team/teamData";
 import LeftMenu from "../components/table/leftMenu";
 import LeaderTabs from "../components/table/leaderTabs";
-import TeamTitles from "../components/table/teamTitles";
-import { TableContainer } from "../components/table/tableContainer";
+import TeamTitles from "../components/team/teamTitles";
+import { TableContainer } from "../components/table/tableStyling";
 
 function Team() {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function Team() {
   };
 
   return (
-    <TableContainer>
+    <TableContainer underline={menuData.backgroundColor}>
       <div className="displayArea">
         <LeftMenu data={menuData} />
         <div className="content">

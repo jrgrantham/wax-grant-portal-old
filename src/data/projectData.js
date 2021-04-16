@@ -3,9 +3,18 @@ import moment from "moment";
 export const projectData = {
   loading: false,
   data: {
-    projectTitle: "first Project",
+    productPlatformName: 'productPlatformName',
+    applicationNumber: '123445',
+    nature: 'nature',
+    protection: 'protection',
+    projectName: "first Project",
     projectLength: 20,
-    startDate: "Feb 2021",
+    ProjectStart: "Feb 2021",
+    projectManager: 'projectManager',
+    software: 'software',
+    funding: 'funding',
+    ganttRef: 'ganttRef',
+    competitor:'competitor',
     dates: [], // array of sequential months
   },
   error: "",

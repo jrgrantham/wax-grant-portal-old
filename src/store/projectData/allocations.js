@@ -78,7 +78,7 @@ const slice = createSlice({
         allocationId: uuidv4(),
         taskId,
         personId,
-        value,
+        percent: value,
       };
       allocations.data.push(allocation);
     },

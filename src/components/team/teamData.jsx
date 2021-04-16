@@ -3,7 +3,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import Tippy from "@tippy.js/react";
-import "react-tippy/dist/tippy.css";
+// import "tippy.js/dist/tippy.css";
+// import "react-tippy/dist/tippy.css";
 
 import TeamInfoRow from "./teamRow";
 import { addTeamMember, reorderTeam } from "../../store/projectData/team";
@@ -96,11 +97,11 @@ function TeamInfo() {
             )}
           </Droppable>
         </DragDropContext>
-      <Tippy content="Add team member">
-        <button className="addIcon" onClick={addPerson}>
-          <img src={add} alt="add" />
-        </button>
-      </Tippy>
+        <Tippy content="Add team member">
+          <button className="addIcon" onClick={addPerson}>
+            <img src={add} alt="add" />
+          </button>
+        </Tippy>
       </div>
     </Container>
   );

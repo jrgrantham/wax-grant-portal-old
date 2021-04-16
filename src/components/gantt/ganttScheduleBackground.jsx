@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Tippy from "@tippy.js/react";
-import "react-tippy/dist/tippy.css";
+// import "react-tippy/dist/tippy.css";
 // import "tippy.js/dist/tippy.css";
 import {monthWidth, schedColor, schedGapColor, wpMarginBottom} from '../../helpers'
 

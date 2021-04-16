@@ -1,6 +1,7 @@
 import React from "react";
 import Tippy from "@tippy.js/react";
-import "react-tippy/dist/tippy.css";
+// import "tippy.js/dist/tippy.css";
+// import "react-tippy/dist/tippy.css";
 import { useSelector } from "react-redux";
 
 import qMark from "../../images/qMark.png";
@@ -10,7 +11,7 @@ function Titles() {
   const employmentType = useSelector((state) => state.user.selectedTeamOption);
   return (
     <Container>
-      {/* <div className="header"> */}
+      <div className="row titles">
         <div className="title name">
           <h3>Name</h3>
         </div>
@@ -55,7 +56,7 @@ function Titles() {
           </>
         )}
         <div className="delete"></div>
-      {/* </div> */}
+      </div>
     </Container>
   );
 }

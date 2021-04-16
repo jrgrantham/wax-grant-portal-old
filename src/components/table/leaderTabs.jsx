@@ -5,11 +5,8 @@ import { useSelector } from "react-redux";
 
 import { updateUserSelection } from "../../store/projectData/user";
 import {
+  tabBottomMargin,
   tabHeight,
-  tabUnselected,
-  tableContentTopMargin,
-  tabBorderLeft,
-  tabBorderRight,
 } from "../../helpers";
 
 function LeaderTabs(props) {
@@ -57,7 +54,8 @@ export default LeaderTabs;
 const PageContainer = styled.div`
   height: ${tabHeight};
   display: flex;
-  background-color: ${tabUnselected};
+  background-color: rgba(88, 88, 88, 1);
+  margin-bottom: ${tabBottomMargin};
 
   .leader {
     flex-grow: 1;
@@ -65,8 +63,8 @@ const PageContainer = styled.div`
     justify-content: center;
     align-items: center;
     color: white;
-    border-left: 2px solid ${tabBorderLeft};
-    border-right: 2px solid ${tabBorderRight};
+    border-left: 2px solid rgba(64, 64, 64, 1);
+    border-right: 2px solid rgba(110, 110, 110, 1);
     cursor: pointer;
   }
   .selectedLeader {

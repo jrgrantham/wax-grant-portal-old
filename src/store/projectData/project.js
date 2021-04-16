@@ -6,11 +6,11 @@ const slice = createSlice({
   name: "project",
   initialState: projectData,
   reducers: {
-    updateUserSelection: (user, action) => {
-      user[action.payload.key] = action.payload.value;
+    updateProjectInfo: (project, action) => {
+      project.data[action.payload.key] = action.payload.value;
     },
   },
 });
 
-export const { updateUserSelection } = slice.actions;
+export const { updateProjectInfo } = slice.actions;
 export default slice.reducer;

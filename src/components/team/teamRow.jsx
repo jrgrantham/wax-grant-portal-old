@@ -4,8 +4,6 @@ import {
   updateTeamMember,
   deleteTeamMember,
 } from "../../store/projectData/team";
-import Tippy from "@tippy.js/react";
-import "react-tippy/dist/tippy.css";
 import { BiMenu } from "react-icons/bi";
 import { isNumberKey } from "../../helpers";
 import { deletePersonAllocations } from "../../store/projectData/allocations";

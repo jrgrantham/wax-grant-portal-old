@@ -22,14 +22,10 @@ export const tableLeftWidth = "120px";
 export const tableRightWidth = "850px";
 export const tableLeftHighlight = "rgba(255, 255, 255, 0.5)";
 export const tableMinHeight = "400px";
-export const tabHeight = "45px";
-export const tableContentTopMargin = "20px";
 export const tableContentSideMargin = "30px";
-export const tabUnselected = "rgba(88, 88, 88, 1)";
-export const tabBorderLeft = "rgba(64, 64, 64, 1)";
-export const tabBorderRight = "rgba(110, 110, 110, 1)";
+export const tabHeight = "45px";
+export const tabBottomMargin = "20px";
 export const tableInputMargin = "5px 20px 5px 0px";
-export const tableInputPadding = "5px 0px";
 export const tableInputUnderline = "rgba(234, 234, 234, 1)";
 
 // gantt
